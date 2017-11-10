@@ -294,15 +294,6 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         val widgetInfoOnView = this.widgetView.tag as LauncherAppWidgetInfo
         val idp = getIDP(cellLayout.context)
 
-        // Only show resize handles for the directions in which resizing is possible.
-        updateResizeHandlesForGrid(
-            currentSpanX = widgetInfoOnView.spanX,
-            currentSpanY = widgetInfoOnView.spanY,
-            info = info,
-            numRows = idp.numRows,
-            numColumns = idp.numColumns,
-        )
-
         if (!Flags.homeScreenEditImprovements() && info.isReconfigurable) {
             initializeReconfigureButton()
         }
@@ -330,12 +321,10 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
      * Additionally, evaluates & saves the resize bounds / ranges necessary for the active resize.
      */
     private fun beginResizeIfPointInRegion(x: Int, y: Int): Boolean {
-        isLeftBorderActive = (x < touchTargetWidth) && horizontalResizeActive
-        isRightBorderActive = (x > width - touchTargetWidth) && horizontalResizeActive
-        isTopBorderActive =
-            (y < touchTargetWidth + topTouchRegionAdjustment) && verticalResizeActive
-        isBottomBorderActive =
-            (y > height - touchTargetWidth + bottomTouchRegionAdjustment) && verticalResizeActive
+        isLeftBorderActive = x < touchTargetWidth
+        isRightBorderActive = x > width - touchTargetWidth
+        isTopBorderActive = y < touchTargetWidth + topTouchRegionAdjustment
+        isBottomBorderActive = y > height - touchTargetWidth + bottomTouchRegionAdjustment
 
         val anyBordersActive =
             isLeftBorderActive || isRightBorderActive || isTopBorderActive || isBottomBorderActive
