@@ -34,4 +34,16 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/interface_category_title">
+
+        <SwitchPreferenceCompat
+            android:key="pref_enable_minus_one"
+            android:title="@string/title_show_google_app"
+            android:summary="@string/pref_show_google_now_summary"
+            android:defaultValue="true"
+            launcher:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
 </androidx.preference.PreferenceScreen>

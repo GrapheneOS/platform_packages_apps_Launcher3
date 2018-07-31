@@ -222,6 +222,7 @@ import com.android.quickstep.views.TaskView;
 import com.android.quickstep.window.RecentsWindowFlags;
 import com.android.quickstep.window.RecentsWindowManager;
 import com.android.systemui.animation.back.FlingOnBackAnimationCallback;
+import com.android.systemui.plugins.shared.LauncherOverlayManager;
 import com.android.systemui.shared.recents.model.Task;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
 import com.android.systemui.unfold.RemoteUnfoldSharedComponent;
@@ -321,6 +322,11 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer,
                     getStateManager().setCurrentUserControlledAnimation(animController);
                 }
             };
+
+    @Override
+    protected LauncherOverlayManager getDefaultOverlay() {
+        return new OverlayCallbackImpl(this);
+    }
 
     @Override
     protected void setupViews() {
