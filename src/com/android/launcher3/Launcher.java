@@ -2148,6 +2148,12 @@ public class Launcher extends StatefulActivity<LauncherState>
         return result;
     }
 
+    public void startActivitySafelyAuth(View v, Intent intent, ItemInfo item) {
+        Utilities.showLockScreen(this, getString(R.string.trust_apps_manager_name), () -> {
+            startActivitySafely(v, intent, item);
+        });
+    }
+
     boolean isHotseatLayout(View layout) {
         // TODO: Remove this method
         return mHotseat != null && (layout == mHotseat);

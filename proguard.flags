@@ -52,3 +52,7 @@
 # platform version.  We know about them, and they are safe.
 -dontwarn android.support.**
 -dontwarn org.apache.http.**
+
+-keep class com.android.launcher3.lineage.trust.** {
+  *;
+}
