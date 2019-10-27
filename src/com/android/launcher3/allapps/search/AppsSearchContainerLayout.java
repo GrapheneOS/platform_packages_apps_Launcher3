@@ -88,10 +88,12 @@ public class AppsSearchContainerLayout extends ExtendedEditText
         mSearchQueryBuilder = new SpannableStringBuilder();
         Selection.setSelection(mSearchQueryBuilder, 0);
 
-        mFixedTranslationY = getTranslationY();
+        mFixedTranslationY = Math.round(getTranslationY());
         mMarginTopAdjusting = mFixedTranslationY - getPaddingTop();
 
         setHint(prefixTextWithIcon(getContext(), R.drawable.ic_allapps_search, getHint()));
+        
+        setTranslationY(0);
     }
 
     @Override
@@ -133,6 +135,7 @@ public class AppsSearchContainerLayout extends ExtendedEditText
         int expectedLeft = parent.getPaddingLeft() + (availableWidth - myWidth) / 2;
         int shift = expectedLeft - left;
         setTranslationX(shift);
+        offsetTopAndBottom((int) mFixedTranslationY);
     }
 
     @Override
