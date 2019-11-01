@@ -136,7 +136,9 @@
             android:name="com.android.launcher3.graphics.LauncherCustomizationProvider"
             android:authorities="${applicationId}.grid_control"
             android:permission="android.permission.BIND_WALLPAPER"
-            android:exported="true" />
+            android:exported="true"
+            android:writePermission="${applicationId}.permission.WRITE_SETTINGS"
+            android:readPermission="${applicationId}.permission.READ_SETTINGS" />
 
         <!--
         The settings activity. To extend point settings_fragment_name to appropriate fragment class
