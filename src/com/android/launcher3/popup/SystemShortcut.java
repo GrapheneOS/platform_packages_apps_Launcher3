@@ -30,6 +30,7 @@ import android.os.Process;
 import android.os.RemoteException;
 import android.os.UserHandle;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
@@ -52,6 +53,7 @@ import com.android.launcher3.SecondaryDropTarget;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.accessibility.LauncherAccessibilityDelegate;
 import com.android.launcher3.allapps.PrivateProfileManager;
+import com.android.launcher3.customization.InfoBottomSheet;
 import com.android.launcher3.logging.StatsLogManager;
 import com.android.launcher3.model.data.ItemInfo;
 import com.android.launcher3.model.data.ItemInfoWithIcon;
@@ -250,12 +252,21 @@ public abstract class SystemShortcut<T extends ActivityContext> extends ItemInfo
 
         @Override
         public void onClick(View view) {
+            InfoBottomSheet cbs;
+            dismissTaskMenuView();
             Rect sourceBounds = Utilities.getViewBounds(view);
             ActivityOptionsWrapper options = mTarget.getActivityLaunchOptions(view, mItemInfo);
-            // Dismiss the taskMenu when the app launch animation is complete
-            options.onEndCallback.add(this::dismissTaskMenuView);
-            PackageManagerHelper.startDetailsActivityForInfo(view.getContext(), mItemInfo,
-                    sourceBounds, options.toBundle());
+            try {
+                cbs = (InfoBottomSheet) mTarget.getLayoutInflater().inflate(
+                        R.layout.app_info_bottom_sheet,
+                        mTarget.getDragLayer(),
+                        false);
+                cbs.configureBottomSheet(sourceBounds, view.getContext());
+                cbs.populateAndShow(mItemInfo);
+            } catch (InflateException e) {
+                PackageManagerHelper.startDetailsActivityForInfo(view.getContext(), mItemInfo,
+                        sourceBounds, options.toBundle());
+            }
             mTarget.getStatsLogManager().logger().withItemInfo(mItemInfo)
                     .log(LAUNCHER_SYSTEM_SHORTCUT_APP_INFO_TAP);
         }
