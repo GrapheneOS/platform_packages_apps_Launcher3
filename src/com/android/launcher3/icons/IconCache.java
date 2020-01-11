@@ -117,7 +117,7 @@ public class IconCache extends BaseIconCache {
             InvariantDeviceProfile idp,
             @Nullable @Named("ICONS_DB") String dbFileName,
             UserCache userCache,
-            LauncherIconProvider iconProvider,
+            ThirdPartyIconProvider iconProvider,
             InstallSessionHelper installSessionHelper,
             LauncherIcons.IconPool iconPool,
             InstantAppResolver instantAppResolver,

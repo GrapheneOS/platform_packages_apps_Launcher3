@@ -128,7 +128,7 @@ public class RecentsModel implements RecentTasksDataSource, TaskStackChangeListe
             ) {
         // Lazily inject the ThemeManager and access themeManager once the device is
         // unlocked. See b/393248495 for details.
-        this(context, new IconProvider(context), systemUiProxy, topTaskTracker,
+        this(context, IconProvider.INSTANCE.get(context), systemUiProxy, topTaskTracker,
                 displayController, lockedUserState, themeManagerLazy, tracker, dispatcherProvider,
                 uiExecutor, iconChangeTracker);
     }

@@ -61,6 +61,7 @@ import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.R;
 import com.android.launcher3.icons.FastBitmapDrawable;
+import com.android.launcher3.graphics.DrawableFactory;
 import com.android.launcher3.icons.IconCache.ItemInfoUpdateReceiver;
 import com.android.launcher3.model.data.ItemInfoWithIcon;
 import com.android.launcher3.model.data.LauncherAppWidgetInfo;
@@ -295,6 +296,7 @@ public class PendingAppWidgetHostView extends LauncherAppWidgetHostView
 
     @Override
     public void reapplyItemInfo(ItemInfoWithIcon info) {
+        DrawableFactory drawableFactory = DrawableFactory.INSTANCE.get(getContext());
         if (mCenterDrawable != null) {
             mCenterDrawable.setCallback(null);
             mCenterDrawable = null;
@@ -306,12 +308,12 @@ public class PendingAppWidgetHostView extends LauncherAppWidgetHostView
         //   2) Preload icon in the center
         //   3) App icon in the center with a setup icon on the top left corner.
         if (mDisabledForSafeMode) {
-            FastBitmapDrawable disabledIcon = info.newIcon(getContext());
+            FastBitmapDrawable disabledIcon = drawableFactory.newIcon(getContext(), info);
             disabledIcon.setDisabled(true);
             mCenterDrawable = disabledIcon;
             mSettingIconDrawable = null;
         } else if (isReadyForClickSetup()) {
-            mCenterDrawable = info.newIcon(getContext());
+            mCenterDrawable = drawableFactory.newIcon(getContext(), info);
             mSettingIconDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_setting).mutate();
             updateSettingColor(info.bitmap.color);
 

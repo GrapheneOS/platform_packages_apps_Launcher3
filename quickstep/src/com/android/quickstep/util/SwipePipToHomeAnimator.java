@@ -177,7 +177,7 @@ public class SwipePipToHomeAnimator extends RectFSpringAnim {
                     getEnterPipWithOverlaySrcRectHint(appBounds, aspectRatio.floatValue()));
             mPipContentOverlay = new PipContentOverlay.PipAppIconOverlay(view.getContext(),
                     mAppBounds, mDestinationBounds,
-                    new IconProvider(context).getIcon(mActivityInfo), appIconSizePx);
+                    IconProvider.INSTANCE.get(context).getIcon(mActivityInfo), appIconSizePx);
             final SurfaceControl.Transaction tx = new SurfaceControl.Transaction();
             mPipContentOverlay.attach(tx, mLeash);
             Log.d(TAG, getContentOverlay() + " is created: " + reasonForCreateOverlay);

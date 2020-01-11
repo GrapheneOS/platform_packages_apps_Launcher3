@@ -19,7 +19,7 @@ import android.content.Context
 import android.widget.Toast;
 import com.android.launcher3.dagger.ApplicationContext
 import com.android.launcher3.icons.IconCache
-import com.android.launcher3.icons.LauncherIconProvider
+import com.android.launcher3.icons.ThirdPartyIconProvider
 import com.android.launcher3.util.DaggerSingletonObject
 import javax.inject.Inject
 import javax.inject.Named
@@ -30,7 +30,7 @@ data class LauncherAppState
 @Inject
 constructor(
     @ApplicationContext val context: Context,
-    val iconProvider: LauncherIconProvider,
+    val iconProvider: ThirdPartyIconProvider,
     val iconCache: IconCache,
     val model: LauncherModel,
     val invariantDeviceProfile: InvariantDeviceProfile,
