@@ -43,6 +43,7 @@ import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.CellLayout;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Launcher;
+import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.Workspace;
 import com.android.launcher3.dragndrop.DragLayer;
 import com.android.launcher3.logger.LauncherAtom;
@@ -229,7 +230,8 @@ public class WorkspaceTouchListener extends GestureDetector.SimpleOnGestureListe
 
     @Override
     public boolean onDoubleTap(MotionEvent event) {
-        mPm.goToSleep(event.getEventTime());
+        if (LauncherPrefs.SLEEP_GESTURE.get(mWorkspace.getContext()))
+            mPm.goToSleep(event.getEventTime());
         return true;
     }
 }

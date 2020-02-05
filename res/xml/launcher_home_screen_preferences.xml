@@ -32,6 +32,14 @@
             launcher:logIdOff="614"
             launcher:iconSpaceReserved="false" />
 
+        <SwitchPreferenceCompat
+            android:key="pref_sleep_gesture"
+            android:title="@string/pref_sleep_gesture_title"
+            android:summary="@string/pref_sleep_gesture_summary"
+            android:defaultValue="true"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -59,4 +59,8 @@
     <string name="restarting_launcher">Restarting launcher...</string>
     <string name="restarting_launcher_changes">Restarting launcher to apply changes...</string>
     <string name="updating_launcher_components">Restarting launcher to update launcher components...</string>
+
+    <!-- DT2S -->
+    <string name="pref_sleep_gesture_title">Double tap to sleep</string>
+    <string name="pref_sleep_gesture_summary">Double tap on empty space for screen off</string>
 </resources>
