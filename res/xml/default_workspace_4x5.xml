@@ -16,65 +16,71 @@
 
 <favorites xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3">
 
-    <!-- Hotseat (We use the screen as the position of the item in the hotseat) -->
-    <!-- Dialer, Messaging, Browser, Camera -->
-    <resolve
-        launcher:container="-101"
+    <!-- Hotseat -->
+    <include launcher:workspace="@xml/dw_hotseat_4" />
+
+    <!-- Screen 0 -->
+    <appwidget
+        launcher:packageName="com.google.android.googlequicksearchbox"
+        launcher:className="com.google.android.apps.gsa.staticplugins.smartspace.widget.SmartspaceWidgetProvider"
         launcher:screen="0"
         launcher:x="0"
-        launcher:y="0" >
-        <favorite launcher:uri="#Intent;action=android.intent.action.DIAL;end" />
-        <favorite launcher:uri="tel:123" />
-        <favorite launcher:uri="#Intent;action=android.intent.action.CALL_BUTTON;end" />
-    </resolve>
+        launcher:y="0"
+        launcher:spanX="4"
+        launcher:spanY="1" />
 
-    <resolve
-        launcher:container="-101"
-        launcher:screen="1"
-        launcher:x="1"
-        launcher:y="0" >
-        <favorite launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_MESSAGING;end" />
-        <favorite launcher:uri="sms:" />
-        <favorite launcher:uri="smsto:" />
-        <favorite launcher:uri="mms:" />
-        <favorite launcher:uri="mmsto:" />
-    </resolve>
-
-    <resolve
-        launcher:container="-101"
-        launcher:screen="2"
-        launcher:x="2"
-        launcher:y="0" >
+    <!-- Google folder -->
+    <folder
+        launcher:title="@string/google_folder_title"
+        launcher:screen="0"
+        launcher:x="0"
+        launcher:y="-1">
         <favorite
-            launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_BROWSER;end" />
-        <favorite launcher:uri="http://www.example.com/" />
-    </resolve>
-
-    <resolve
-        launcher:container="-101"
-        launcher:screen="3"
-        launcher:x="3"
-        launcher:y="0" >
-        <favorite launcher:uri="#Intent;action=android.media.action.STILL_IMAGE_CAMERA;end" />
-        <favorite launcher:uri="#Intent;action=android.intent.action.CAMERA_BUTTON;end" />
-    </resolve>
-
-    <!-- Bottom row -->
-    <resolve
-        launcher:screen="0"
-        launcher:x="0"
-        launcher:y="-1" >
-        <favorite launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_EMAIL;end" />
-        <favorite launcher:uri="mailto:" />
-    </resolve>
-
-    <resolve
-        launcher:screen="0"
-        launcher:x="1"
-        launcher:y="-1" >
-        <favorite launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_GALLERY;end" />
-        <favorite launcher:uri="#Intent;type=images/*;end" />
-    </resolve>
+            launcher:packageName="com.google.android.googlequicksearchbox"
+            launcher:className="com.google.android.googlequicksearchbox.SearchActivity"/>
+        <favorite
+            launcher:packageName="com.google.android.gm"
+            launcher:className="com.google.android.gm.ConversationListActivityGmail"/>
+        <favorite
+            launcher:packageName="com.google.android.apps.maps"
+            launcher:className="com.google.android.maps.MapsActivity"/>
+        <favorite
+            launcher:packageName="com.google.android.youtube"
+            launcher:className="com.google.android.youtube.app.honeycomb.Shell$HomeActivity"/>
+        <favorite
+            launcher:packageName="com.google.android.apps.docs"
+            launcher:className="com.google.android.apps.docs.app.NewMainProxyActivity"/>
+        <favorite
+            launcher:packageName="com.google.android.apps.youtube.music"
+            launcher:className="com.google.android.apps.youtube.music.activities.MusicActivity"/>
+        <favorite
+            launcher:packageName="com.google.android.videos"
+            launcher:className="com.google.android.youtube.videos.EntryPoint"/>
+        <favorite
+            launcher:packageName="com.google.android.apps.tachyon"
+            launcher:className="com.google.android.apps.tachyon.MainActivity"/>
+        <favorite
+            launcher:packageName="com.google.android.apps.photos"
+            launcher:className="com.google.android.apps.photos.home.HomeActivity"/>
+        <favorite
+            launcher:packageName="com.android.chrome"
+            launcher:className="com.google.android.apps.chrome.Main" />
+        <favorite
+            launcher:packageName="com.google.android.calendar"
+            launcher:className="com.android.calendar.AllInOneActivity" />
+        <favorite
+            launcher:packageName="com.google.android.apps.plus"
+            launcher:className="com.google.android.apps.plus.phone.HomeActivity" />
+        <favorite
+            launcher:packageName="com.google.android.play.games"
+            launcher:className="com.google.android.gms.games.ui.destination.main.MainActivity" />
+        <favorite
+            launcher:packageName="com.google.android.apps.books"
+            launcher:className="com.google.android.apps.books.app.BooksActivity" />
+        <favorite
+            launcher:packageName="com.google.android.apps.magazines"
+            launcher:className="com.google.apps.dots.android.app.activity.CurrentsStartActivity" />
+    </folder>
 
     <resolve
         launcher:screen="0"
@@ -83,5 +89,67 @@
         <favorite launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_MARKET;end" />
         <favorite launcher:uri="market://details?id=com.android.launcher" />
     </resolve>
+
+    <!-- Screen 1 -->
+    <appwidget
+        launcher:packageName="org.lineageos.twelve"
+        launcher:className="org.lineageos.twelve.ui.widgets.NowPlayingAppWidgetProvider"
+        launcher:screen="1"
+        launcher:x="0"
+        launcher:y="0"
+        launcher:spanX="4"
+        launcher:spanY="1" />
+
+    <resolve
+        launcher:screen="1"
+        launcher:x="0"
+        launcher:y="-1" >
+        <favorite
+            launcher:packageName="com.google.android.GoogleCamera"
+            launcher:className="com.android.camera.CameraLauncher" />
+        <favorite
+            launcher:packageName="org.lineageos.aperture"
+            launcher:className="org.lineageos.aperture.CameraLauncher" />
+        <favorite
+            launcher:packageName="com.android.camera2"
+            launcher:className="com.android.camera.CameraActivity" />
+        <favorite
+            launcher:packageName="com.android.camera"
+            launcher:className="com.android.camera.Camera" />
+        <favorite
+            launcher:packageName="com.oneplus.camera"
+            launcher:className="com.oneplus.camera.OPCameraActivity" />
+        <favorite
+            launcher:packageName="com.oplus.camera"
+            launcher:className="com.oplus.camera.Camera" />
+        <favorite
+            launcher:packageName="com.motorola.camera2"
+            launcher:className="com.motorola.camera.Camera" />
+        <favorite
+            launcher:packageName="com.motorola.camera3"
+            launcher:className="com.motorola.camera.Camera" />
+    </resolve>
+
+    <resolve
+        launcher:screen="1"
+        launcher:x="1"
+        launcher:y="-1" >
+        <favorite launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_GALLERY;end" />
+        <favorite launcher:uri="#Intent;type=images/*;end" />
+    </resolve>
+
+    <favorite
+        launcher:packageName="org.lineageos.twelve"
+        launcher:className="org.lineageos.twelve.MainActivity"
+        launcher:screen="1"
+        launcher:x="2"
+        launcher:y="-1" />
+
+    <favorite
+        launcher:packageName="com.android.settings"
+        launcher:className="com.android.settings.Settings"
+        launcher:screen="1"
+        launcher:x="3"
+        launcher:y="-1" />
 
 </favorites>
