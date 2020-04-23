@@ -96,7 +96,7 @@
         <item name="folderTextColor">@android:color/white</item>
         <item name="isMainColorDark">true</item>
 	<item name="loadingIconColor">#99FFFFFF</item>
-        <item name="workspaceStatusBarScrim">@android:color/transparent</item>	
+	<item name="workspaceStatusBarScrim">@android:color/transparent</item>	
     </style>
 
     <style name="LauncherTheme.Dark.DarkMainColor" parent="@style/LauncherTheme.Dark">
