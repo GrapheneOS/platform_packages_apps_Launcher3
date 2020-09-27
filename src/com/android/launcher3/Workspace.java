@@ -3526,8 +3526,12 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
      */
     public void moveToDefaultScreen() {
         int page = DEFAULT_PAGE;
-        if (!workspaceInModalState() && getNextPage() != page) {
-            snapToPage(page);
+        if (!workspaceInModalState()) {
+            if (getNextPage() != page) {
+                snapToPage(page);
+            } else {
+                mLauncher.getStateManager().goToState(ALL_APPS);
+            }
         }
         View child = getChildAt(page);
         if (child != null) {
