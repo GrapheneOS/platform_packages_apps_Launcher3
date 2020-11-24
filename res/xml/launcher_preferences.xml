@@ -18,36 +18,64 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto">
 
-    <com.android.launcher3.settings.NotificationDotsPreference
-        android:key="pref_icon_badging"
-        android:title="@string/notification_dots_title"
-        android:persistent="false"
-        android:widgetLayout="@layout/notification_pref_warning" />
+    <Preference
+        android:key="icons"
+        android:title="@string/icons_category_title"
+        android:summary="@string/icons_category_summary"
+        android:icon="@drawable/ic_settings_icons"
+        android:layout="@layout/settings_layout">
+    <intent
+            android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
+            android:targetPackage="com.android.launcher3"
+            android:targetClass="com.android.launcher3.settings.SettingsIcons" />
+    </Preference>
 
-    <!--
-      LAUNCHER_ADD_NEW_APPS_TO_HOME_SCREEN_ENABLED(613)
-      LAUNCHER_ADD_NEW_APPS_TO_HOME_SCREEN_DISABLED(614)
-    -->
-    <SwitchPreference
-        android:key="pref_add_icon_to_home"
-        android:title="@string/auto_add_shortcuts_label"
-        android:summary="@string/auto_add_shortcuts_description"
-        android:defaultValue="true"
-        android:persistent="true"
-        launcher:logIdOn="613"
-        launcher:logIdOff="614" />
+    <Preference
+        android:key="home_screen"
+        android:title="@string/home_category_title"
+        android:summary="@string/home_category_summary"
+        android:icon="@drawable/ic_settings_homescreen"
+        android:layout="@layout/settings_layout">
+    <intent
+            android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
+            android:targetPackage="com.android.launcher3"
+            android:targetClass="com.android.launcher3.settings.SettingsHomescreen" />
+    </Preference>
 
-    <!--
-      LAUNCHER_HOME_SCREEN_ROTATION_ENABLED(615)
-      LAUNCHER_HOME_SCREEN_ROTATION_DISABLED(616)
-    -->
-    <SwitchPreference
-        android:key="pref_allowRotation"
-        android:title="@string/allow_rotation_title"
-        android:summary="@string/allow_rotation_desc"
-        android:defaultValue="false"
-        android:persistent="true"
-        launcher:logIdOn="615"
-        launcher:logIdOff="616" />
+    <Preference
+        android:key="app_drawer"
+        android:title="@string/app_drawer_category_title"
+        android:summary="@string/app_drawer_category_summary"
+        android:icon="@drawable/ic_settings_appdrawer"
+        android:layout="@layout/settings_layout">
+    <intent
+            android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
+            android:targetPackage="com.android.launcher3"
+            android:targetClass="com.android.launcher3.settings.SettingsAppDrawer" />
+    </Preference>
+
+    <Preference
+        android:key="recents"
+        android:title="@string/recents_category_title"
+        android:summary="@string/recents_category_summary"
+        android:icon="@drawable/ic_settings_recents"
+        android:layout="@layout/settings_layout">
+    <intent
+            android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
+            android:targetPackage="com.android.launcher3"
+            android:targetClass="com.android.launcher3.settings.SettingsRecents" />
+    </Preference>
+
+    <Preference
+        android:key="miscellaneous"
+        android:title="@string/misc_category_title"
+        android:summary="@string/misc_category_summary"
+        android:icon="@drawable/ic_settings_misc"
+        android:layout="@layout/settings_layout">
+    <intent
+            android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
+            android:targetPackage="com.android.launcher3"
+            android:targetClass="com.android.launcher3.settings.SettingsMisc" />
+    </Preference>
 
 </androidx.preference.PreferenceScreen>

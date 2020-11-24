@@ -135,7 +135,7 @@
         -->
         <activity
             android:name="com.android.launcher3.settings.SettingsActivity"
-            android:label="@string/settings_button_text"
+            android:label="@string/settings_title"
             android:theme="@style/HomeSettings.Theme"
             android:exported="true"
             android:autoRemoveFromRecents="true">
@@ -144,6 +144,46 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- Icons -->
+        <activity
+            android:name="com.android.launcher3.settings.SettingsIcons"
+            android:label="@string/icons_category_title"
+            android:theme="@style/HomeSettings.Theme"
+            android:exported="true"
+            android:autoRemoveFromRecents="true" />
+
+        <!-- App drawer -->
+        <activity
+            android:name="com.android.launcher3.settings.SettingsAppDrawer"
+            android:label="@string/app_drawer_category_title"
+            android:theme="@style/HomeSettings.Theme"
+            android:exported="true"
+            android:autoRemoveFromRecents="true" />
+
+        <!-- Homescreen -->
+        <activity
+            android:name="com.android.launcher3.settings.SettingsHomescreen"
+            android:label="@string/home_category_title"
+            android:theme="@style/HomeSettings.Theme"
+            android:exported="true"
+            android:autoRemoveFromRecents="true" />
+
+        <!-- Misc settings -->
+        <activity
+            android:name="com.android.launcher3.settings.SettingsMisc"
+            android:label="@string/misc_category_title"
+            android:theme="@style/HomeSettings.Theme"
+            android:exported="true"
+            android:autoRemoveFromRecents="true" />
+
+        <!-- Recents -->
+        <activity
+            android:name="com.android.launcher3.settings.SettingsRecents"
+            android:label="@string/recents_category_title"
+            android:theme="@style/HomeSettings.Theme"
+            android:exported="true"
+            android:autoRemoveFromRecents="true" />
 
         <provider
             android:name="com.android.launcher3.testing.TestInformationProvider"
