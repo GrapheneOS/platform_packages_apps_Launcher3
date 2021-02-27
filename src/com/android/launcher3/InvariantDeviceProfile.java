@@ -24,7 +24,9 @@ import static com.android.launcher3.LauncherPrefs.ALLAPPS_THEMED_ICONS;
 import static com.android.launcher3.LauncherPrefs.DB_FILE;
 import static com.android.launcher3.LauncherPrefs.ENABLE_TWOLINE_ALLAPPS_TOGGLE;
 import static com.android.launcher3.LauncherPrefs.FIXED_LANDSCAPE_MODE;
+import static com.android.launcher3.LauncherPrefs.FONT_SIZE;
 import static com.android.launcher3.LauncherPrefs.GRID_NAME;
+import static com.android.launcher3.LauncherPrefs.ICON_SIZE;
 import static com.android.launcher3.LauncherPrefs.NON_FIXED_LANDSCAPE_GRID_NAME;
 import static com.android.launcher3.LauncherPrefs.SHOW_DESKTOP_LABELS;
 import static com.android.launcher3.LauncherPrefs.SHOW_DRAWER_LABELS;
@@ -324,7 +326,9 @@ public class InvariantDeviceProfile {
                 onConfigChanged();
             } else if (ALLAPPS_THEMED_ICONS.getSharedPrefKey().equals(key) ||
                     SHOW_DESKTOP_LABELS.getSharedPrefKey().equals(key) ||
-                    SHOW_DRAWER_LABELS.getSharedPrefKey().equals(key)) {
+                    SHOW_DRAWER_LABELS.getSharedPrefKey().equals(key) ||
+                    ICON_SIZE.getSharedPrefKey().equals(key) ||
+                    FONT_SIZE.getSharedPrefKey().equals(key)) {
                 onConfigChanged();
             }
         };
@@ -1472,6 +1476,11 @@ public class InvariantDeviceProfile {
 
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ProfileDisplayOption);
 
+            float iconSizeModifier =
+                    (float) LauncherPrefs.ICON_SIZE.get(context) / 100F;
+            float fontSizeModifier =
+                    (float) LauncherPrefs.FONT_SIZE.get(context) / 100F;
+
             minWidthDps = a.getFloat(R.styleable.ProfileDisplayOption_minWidthDps, 0);
             minHeightDps = a.getFloat(R.styleable.ProfileDisplayOption_minHeightDps, 0);
 
@@ -1601,7 +1610,7 @@ public class InvariantDeviceProfile {
             allAppsBorderSpaces[INDEX_TWO_PANEL_LANDSCAPE] = new PointF(x, y);
 
             iconSizes[INDEX_DEFAULT] =
-                    a.getFloat(R.styleable.ProfileDisplayOption_iconImageSize, 0);
+                    a.getFloat(R.styleable.ProfileDisplayOption_iconImageSize, 0) * iconSizeModifier;
             iconSizes[INDEX_LANDSCAPE] =
                     a.getFloat(R.styleable.ProfileDisplayOption_iconSizeLandscape,
                             iconSizes[INDEX_DEFAULT]);
@@ -1625,7 +1634,7 @@ public class InvariantDeviceProfile {
                     allAppsIconSizes[INDEX_DEFAULT]);
 
             textSizes[INDEX_DEFAULT] =
-                    a.getFloat(R.styleable.ProfileDisplayOption_iconTextSize, 0);
+                    a.getFloat(R.styleable.ProfileDisplayOption_iconTextSize, 0) * fontSizeModifier;
             textSizes[INDEX_LANDSCAPE] =
                     a.getFloat(R.styleable.ProfileDisplayOption_iconTextSizeLandscape,
                             textSizes[INDEX_DEFAULT]);
