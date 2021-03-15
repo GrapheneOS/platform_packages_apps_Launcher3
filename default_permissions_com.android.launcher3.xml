@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<exceptions>
+    <exception package="com.android.launcher3">
+        <permission name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" fixed="false" />
+    </exception>
+</exceptions>
