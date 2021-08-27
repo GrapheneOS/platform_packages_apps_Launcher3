@@ -20,6 +20,11 @@
     <!-- Folder titles -->
     <string name="google_folder_title" translatable="false">Google</string>
 
+    <!-- Lock -->
+    <string name="action_lock">Lock/Unlock app</string>
+    <string name="unlock_app">Unlocked app in recents</string>
+    <string name="lock_app">Locked app in recents</string>
+
     <!-- General -->
     <string name="settings_title">Home settings</string>
 
