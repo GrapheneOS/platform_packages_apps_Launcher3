@@ -37,4 +37,7 @@
     <color name="homepage_red_bg">@color/m3_ref_palette_red90</color>
     <color name="homepage_purple_fg">@color/m3_ref_palette_purple30</color>
     <color name="homepage_purple_bg">@color/m3_ref_palette_purple90</color>
+
+    <!-- Appseat -->
+    <color name="appseat_color">#50181c1f</color>
 </resources>

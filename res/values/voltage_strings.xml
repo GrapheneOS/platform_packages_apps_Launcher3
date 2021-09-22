@@ -113,4 +113,8 @@
 
     <!-- Row Height -->
     <string name="row_height_title">Row height</string>
+
+    <!-- Hotseat Background -->
+    <string name="hotseat_bg_title">Hotseat background</string>
+    <string name="hotseat_bg_summary">Add translucent background to the app dock</string>
 </resources>

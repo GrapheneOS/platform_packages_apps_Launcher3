@@ -77,6 +77,13 @@
             android:defaultValue="true"
             launcher:iconSpaceReserved="false" />
 
+        <SwitchPreferenceCompat
+            android:key="pref_show_hotseat_bg"
+            android:title="@string/hotseat_bg_title"
+            android:summary="@string/hotseat_bg_summary"
+            android:defaultValue="false"
+            launcher:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
 </androidx.preference.PreferenceScreen>
