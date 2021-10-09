@@ -61,7 +61,7 @@
     <integer name="config_caretAnimationDuration">200</integer>
 
     <!-- Default packages -->
-    <string name="wallpaper_picker_package" translatable="false"></string>
+    <string name="wallpaper_picker_package" translatable="false">com.android.wallpaper</string>
 
     <!-- Scalable Grid configuration -->
     <!-- This is a float because it is converted to dp later in DeviceProfile -->
