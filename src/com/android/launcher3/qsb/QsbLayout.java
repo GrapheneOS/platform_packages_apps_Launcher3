@@ -3,6 +3,9 @@ package com.android.launcher3.qsb;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.PaintDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -16,15 +19,17 @@ import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.qsb.QsbContainerView;
+import com.android.launcher3.util.Themes;
 import com.android.launcher3.views.ActivityContext;
 import android.view.View;
 
 public class QsbLayout extends FrameLayout {
 
-    ImageView assistantIcon;
-    ImageView gIcon;
-    ImageView lensIcon;
-    Context mContext;
+    private ImageView micIcon;
+    private ImageView gIcon;
+    private ImageView lensIcon;
+    private Context mContext;
+    private FrameLayout inner;
 
     public QsbLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,31 +40,50 @@ public class QsbLayout extends FrameLayout {
         super(context, attrs, defStyle);
         mContext = context;
     }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        assistantIcon = findViewById(R.id.mic_icon);
+        micIcon = findViewById(R.id.mic_icon);
         gIcon = findViewById(R.id.g_icon);
         lensIcon = findViewById(R.id.lens_icon);
+        inner = findViewById(R.id.inner);
+
+        setUpMainSearch();
+        setUpBackground();
+        clipIconRipples();
 
         if (LauncherPrefs.DOCK_THEME.get(mContext)) {
-            assistantIcon.setImageResource(R.drawable.ic_mic_themed);
+            micIcon.setImageResource(R.drawable.ic_mic_themed);
             gIcon.setImageResource(R.drawable.ic_super_g_themed);
             lensIcon.setImageResource(R.drawable.ic_lens_themed);
         } else {
-            assistantIcon.setImageResource(R.drawable.ic_mic_color);
+            micIcon.setImageResource(R.drawable.ic_mic_color);
             gIcon.setImageResource(R.drawable.ic_super_g_color);
             lensIcon.setImageResource(R.drawable.ic_lens_color);
         }
+        setupLensIcon();
+    }
 
-        String searchPackage = QsbContainerView.getSearchWidgetPackageName(mContext);
-        setOnClickListener(view -> {
-            mContext.startActivity(new Intent("android.search.action.GLOBAL_SEARCH").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_CLEAR_TASK).setPackage(searchPackage));
-        });
-        if (Utilities.isGSAEnabled(mContext)) {
-            setupLensIcon();
-        }
+    private void clipIconRipples() {
+        float cornerRadius = getCornerRadius();
+        PaintDrawable pd = new PaintDrawable(Color.TRANSPARENT);
+        pd.setCornerRadius(cornerRadius);
+        micIcon.setClipToOutline(cornerRadius > 0);
+        micIcon.setBackground(pd);
+        lensIcon.setClipToOutline(cornerRadius > 0);
+        lensIcon.setBackground(pd);
+    }
+
+    private void setUpBackground() {
+        float cornerRadius = getCornerRadius();
+        int color = Themes.getAttrColor(mContext, R.attr.qsbFillColor);
+        if (LauncherPrefs.DOCK_THEME.get(mContext))
+            color = Themes.getColorBackgroundFloating(mContext);
+        PaintDrawable pd = new PaintDrawable(color);
+        pd.setCornerRadius(cornerRadius);
+        inner.setClipToOutline(cornerRadius > 0);
+        inner.setBackground(pd);
     }
 
     @Override
@@ -70,7 +94,7 @@ public class QsbLayout extends FrameLayout {
         DeviceProfile dp = ActivityContext.lookupContext(mContext).getDeviceProfile();
         int cellWidth = DeviceProfile.calculateCellWidth(requestedWidth, dp.getWorkspaceIconProfile().getCellLayoutBorderSpacePx().x, dp.numShownHotseatIcons);
         int iconSize = (int)(Math.round((dp.getWorkspaceIconProfile().getIconSizePx() * 0.92f)));
-        int width = requestedWidth - (cellWidth - iconSize);
+        int width = requestedWidth;
         setMeasuredDimension(width, height);
 
         for (int i = 0; i < getChildCount(); i++) {
@@ -81,8 +105,15 @@ public class QsbLayout extends FrameLayout {
         }
     }
 
+    private void setUpMainSearch() {
+        String searchPackage = QsbContainerView.getSearchWidgetPackageName(mContext);
+        setOnClickListener(view -> {
+            mContext.startActivity(new Intent("android.search.action.GLOBAL_SEARCH").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK).setPackage(searchPackage));
+        });
+    }
+
     private void setupLensIcon() {
-        lensIcon.setVisibility(View.VISIBLE);
         try {
             lensIcon.setOnClickListener(view -> {
                 Intent lensIntent = new Intent();
@@ -98,4 +129,11 @@ public class QsbLayout extends FrameLayout {
         }
     }
 
+    private float getCornerRadius() {
+        Resources res = mContext.getResources();
+        float qsbWidgetHeight = res.getDimension(R.dimen.qsb_widget_height);
+        float qsbWidgetPadding = res.getDimension(R.dimen.qsb_widget_vertical_padding);
+        float innerHeight = qsbWidgetHeight - 2 * qsbWidgetPadding;
+        return (innerHeight / 2) * ((float)LauncherPrefs.SEARCH_RADIUS_SIZE.get(mContext) / 100f);
+    }
 }
