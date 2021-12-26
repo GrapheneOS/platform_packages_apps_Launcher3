@@ -16,7 +16,7 @@
 
 <resources>
     <!-- For screens without rounded corners -->
-    <dimen name="task_corner_radius_small">2dp</dimen>
+    <dimen name="task_corner_radius_small">16dp</dimen>
     <!-- For Launchers that want to override the default dialog corner radius -->
     <dimen name="task_corner_radius_override">-1dp</dimen>
 
