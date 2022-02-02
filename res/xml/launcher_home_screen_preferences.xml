@@ -78,6 +78,13 @@
             launcher:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
+            android:key="pref_dock_search"
+            android:title="@string/dock_search_title"
+            android:summary="@string/dock_search_summary"
+            android:defaultValue="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
             android:key="pref_show_hotseat_bg"
             android:title="@string/hotseat_bg_title"
             android:summary="@string/hotseat_bg_summary"

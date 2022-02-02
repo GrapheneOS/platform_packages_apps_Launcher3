@@ -260,6 +260,7 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
         val ENABLE_TWOLINE_ALLAPPS_TOGGLE = backedUpItem("pref_enable_two_line_toggle", false)
         @JvmField val WORKSPACE_LOCK = backedUpItem("pref_workspace_lock", false)
         @JvmField val ALLAPPS_THEMED_ICONS = backedUpItem("pref_allapps_themed_icons", false)
+        @JvmField val DOCK_SEARCH = backedUpItem("pref_dock_search", true)
         @JvmField val FONT_SIZE = backedUpItem("pref_custom_font_size", 100)
         @JvmField val HOTSEAT_OPACITY = backedUpItem("pref_hotseat_opacity", 40)
         @JvmField val ICON_SIZE = backedUpItem("pref_custom_icon_size", 100)

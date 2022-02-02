@@ -1156,4 +1156,12 @@ public final class Utilities {
         final KeyguardManager keyguardManager = context.getSystemService(KeyguardManager.class);
         return keyguardManager != null && keyguardManager.isKeyguardSecure();
     }
+
+    public static boolean showQSB(Context context) {
+        return isGSAEnabled(context) && isQSBEnabled(context);
+    }
+
+    private static boolean isQSBEnabled(Context context) {
+        return LauncherPrefs.DOCK_SEARCH.get(context);
+    }
 }
