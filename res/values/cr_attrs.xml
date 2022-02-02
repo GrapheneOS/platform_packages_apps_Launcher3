@@ -29,4 +29,11 @@
         <attr name="units" format="string|reference" />
         <attr name="continuousUpdates" format="boolean" />
     </declare-styleable>
+
+    <!-- Hotseat searchbar -->
+    <attr name="qsbFillColor" format="color" />
+    <attr name="qsbIconTintPrimary" format="color" />
+    <attr name="qsbIconTintQuaternary" format="color" />
+    <attr name="qsbIconTintSecondary" format="color" />
+    <attr name="qsbIconTintTertiary" format="color" />
 </resources>

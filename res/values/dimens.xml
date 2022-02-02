@@ -40,6 +40,14 @@
 
     <dimen name="dynamic_grid_hotseat_side_padding">0dp</dimen>
 
+    <dimen name="qsb_g_icon_marginStart">16dp</dimen>
+    <dimen name="qsb_lens_padding">8dp</dimen>
+    <dimen name="qsb_min_width_with_mic">124dp</dimen>
+    <dimen name="qsb_shadow_margin">6dp</dimen>
+    <dimen name="qsb_widget_height">64dp</dimen>
+    <dimen name="qsb_icon_width">56dp</dimen>
+    <dimen name="qsb_icon_padding">10dp</dimen>
+
     <!-- Scalable Grid -->
     <dimen name="min_qsb_margin">8dp</dimen>
 
@@ -461,7 +469,6 @@
         @*android:dimen/rounded_corner_content_padding
     </dimen>
     <dimen name="taskbar_stashed_size">0dp</dimen>
-    <dimen name="qsb_widget_height">0dp</dimen>
     <dimen name="qsb_shadow_height">0dp</dimen>
     <dimen name="min_hotseat_icon_space">18dp</dimen>
     <dimen name="max_hotseat_icon_space">50dp</dimen>

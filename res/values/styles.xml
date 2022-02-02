@@ -174,13 +174,52 @@
 
     <!-- A derivative project can extend these themes to customize the application theme without
          affecting the base theme -->
-    <style name="AppTheme" parent="@style/LauncherTheme" />
-    <style name="AppTheme.DarkMainColor" parent="@style/LauncherTheme.DarkMainColor" />
-    <style name="AppTheme.DarkText" parent="@style/LauncherTheme.DarkText" />
+    <style name="AppTheme" parent="@style/LauncherTheme">
+        <item name="qsbFillColor">@*android:color/background_device_default_light</item>
+        <item name="qsbIconTintPrimary">@color/qsb_primary</item>
+        <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
+        <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
+        <item name="qsbIconTintTertiary">@color/qsb_tertiary</item>
+    </style>
 
-    <style name="AppTheme.Dark" parent="@style/LauncherTheme.Dark" />
-    <style name="AppTheme.Dark.DarkMainColor" parent="@style/LauncherTheme.Dark.DarkMainColor" />
-    <style name="AppTheme.Dark.DarkText" parent="@style/LauncherTheme.Dark.DarkText" />
+    <style name="AppTheme.DarkMainColor" parent="@style/LauncherTheme.DarkMainColor">
+        <item name="qsbFillColor">@*android:color/background_device_default_light</item>
+        <item name="qsbIconTintPrimary">@color/qsb_primary</item>
+        <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
+        <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
+        <item name="qsbIconTintTertiary">@color/qsb_tertiary</item>
+    </style>
+
+    <style name="AppTheme.DarkText" parent="@style/LauncherTheme.DarkText">
+        <item name="qsbFillColor">@*android:color/background_device_default_light</item>
+        <item name="qsbIconTintPrimary">@color/qsb_primary</item>
+        <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
+        <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
+        <item name="qsbIconTintTertiary">@color/qsb_tertiary</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="@style/LauncherTheme.Dark">
+        <item name="qsbFillColor">@*android:color/background_device_default_dark</item>
+        <item name="qsbIconTintPrimary">@color/qsb_primary</item>
+        <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
+        <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
+        <item name="qsbIconTintTertiary">@color/qsb_tertiary</item>
+    </style>
+
+    <style name="AppTheme.Dark.DarkMainColor" parent="@style/LauncherTheme.Dark.DarkMainColor">
+        <item name="qsbFillColor">@*android:color/background_device_default_dark</item>
+        <item name="qsbIconTintPrimary">@color/qsb_primary</item>
+        <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
+        <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
+        <item name="qsbIconTintTertiary">@color/qsb_tertiary</item>
+    </style>
+    <style name="AppTheme.Dark.DarkText" parent="@style/LauncherTheme.Dark.DarkText">
+        <item name="qsbFillColor">@*android:color/background_device_default_dark</item>
+        <item name="qsbIconTintPrimary">@color/qsb_primary</item>
+        <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
+        <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
+        <item name="qsbIconTintTertiary">@color/qsb_tertiary</item>
+    </style>
 
     <!-- Theme overrides in All Apps when blur is enabled. -->
     <style name="AllAppsBlurStyle" />
@@ -655,4 +694,12 @@
         <item name="widgetsTheme">@style/WidgetContainerTheme</item>
         <item name="pageIndicatorDotColor">@color/page_indicator_dot_color_light</item>
     </style>
+
+    <style name="QsbIconTint">
+        <item name="qsbIconTintPrimary">@color/qsb_primary</item>
+        <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
+        <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
+        <item name="qsbIconTintTertiary">@color/qsb_tertiary</item>
+    </style>
+
 </resources>
