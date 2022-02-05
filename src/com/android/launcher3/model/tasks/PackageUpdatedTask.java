@@ -36,6 +36,7 @@ import androidx.annotation.NonNull;
 import com.android.launcher3.Flags;
 import com.android.launcher3.LauncherModel.ModelUpdateTask;
 import com.android.launcher3.LauncherSettings.Favorites;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.icons.IconCache;
 import com.android.launcher3.logging.FileLog;
 import com.android.launcher3.model.AllAppsList;
@@ -97,12 +98,15 @@ public class PackageUpdatedTask implements ModelUpdateTask {
         final FlagOp flagOp = FlagOp.NO_OP.removeFlag(FLAG_DISABLED_NOT_AVAILABLE);
         final HashSet<ComponentName> removedComponents = new HashSet<>();
         final HashMap<String, List<LauncherActivityInfo>> activitiesLists = new HashMap<>();
+        boolean needsRestart = false;
         for (String packageName : mPackages) {
             iconCache.updateIconsForPkg(packageName, mUser);
             activitiesLists.put(
                     packageName,
                     appsList.updatePackage(context, packageName, mUser, removedComponents));
         }
+
+        needsRestart = mPackages.stream().anyMatch(this::isTargetPackage);
 
         taskController.bindApplicationsIfNeeded();
 
@@ -306,6 +310,10 @@ public class PackageUpdatedTask implements ModelUpdateTask {
             }
             taskController.bindUpdatedWidgets(dataModel);
         }
+
+        if (needsRestart) {
+            Utilities.restart(context);
+        }
     }
 
     /**
@@ -337,5 +345,9 @@ public class PackageUpdatedTask implements ModelUpdateTask {
         return Flags.restoreArchivedShortcuts()
                 && !itemInfo.isArchived()
                 && itemInfo.itemType == ITEM_TYPE_DEEP_SHORTCUT;
+    }
+
+    private boolean isTargetPackage(String packageName) {
+        return packageName.equals(Utilities.GSA_PACKAGE);
     }
 }
