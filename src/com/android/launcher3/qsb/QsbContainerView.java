@@ -48,6 +48,7 @@ import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.dagger.LauncherComponentProvider;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.graphics.FragmentWithPreview;
 
 /**
@@ -79,6 +80,9 @@ public class QsbContainerView extends FrameLayout {
                     providerPkg = componentName.getPackageName();
                 }
             } catch (IllegalStateException e) {
+            }
+            if (providerPkg == null && Utilities.isGSAEnabled(context)) {
+                providerPkg = Utilities.GSA_PACKAGE;
             }
         }
         return providerPkg;
