@@ -36,6 +36,7 @@
     <string name="misc_category_summary">Other options</string>
     <string name="general_category_title">General</string>
     <string name="interface_category_title">Interface</string>
+    <string name="search_bar_category_title">Search bar</string>
 
     <!-- Developer options -->
     <string name="dev_options_title">Developer options</string>

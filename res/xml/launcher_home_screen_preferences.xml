@@ -70,6 +70,11 @@
             android:persistent="true"
             launcher:iconSpaceReserved="false" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/search_bar_category_title">
+
         <SwitchPreferenceCompat
             android:key="pref_enable_minus_one"
             android:title="@string/title_show_google_app"
