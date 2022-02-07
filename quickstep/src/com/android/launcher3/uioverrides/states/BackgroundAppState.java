@@ -79,6 +79,7 @@ public class BackgroundAppState extends OverviewState {
     public int getVisibleElements(LauncherUiState launcherUiState) {
         return super.getVisibleElements(launcherUiState)
                 & ~OVERVIEW_ACTIONS
+                & ~MEMINFO
                 & ~VERTICAL_SWIPE_INDICATOR
                 & ~ADD_DESK_BUTTON;
     }

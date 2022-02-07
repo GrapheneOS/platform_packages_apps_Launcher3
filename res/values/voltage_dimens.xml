@@ -21,4 +21,8 @@
     <dimen name="dashboard_tile_foreground_image_size">24dp</dimen>
     <dimen name="dashboard_tile_foreground_image_inset">8dp</dimen>
     <dimen name="preference_icon_foreground_image_inset">12dp</dimen>
+
+    <!-- Meminfo in overview -->
+    <dimen name="meminfo_bottom_margin_gesture">15dp</dimen>
+    <dimen name="meminfo_bottom_margin_three_button">15dp</dimen>
 </resources>

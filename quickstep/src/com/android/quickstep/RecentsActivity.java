@@ -74,6 +74,7 @@ import com.android.launcher3.taskbar.TaskbarInteractor;
 import com.android.launcher3.taskbar.TaskbarManager;
 import com.android.launcher3.util.ActivityOptionsWrapper;
 import com.android.launcher3.util.ContextTracker;
+import com.android.launcher3.util.DisplayController;
 import com.android.launcher3.util.RunnableList;
 import com.android.launcher3.util.SystemUiController;
 import com.android.launcher3.util.Themes;
@@ -86,6 +87,7 @@ import com.android.quickstep.fallback.RecentsState;
 import com.android.quickstep.util.RecentsAtomicAnimationFactory;
 import com.android.quickstep.util.SplitSelectStateController;
 import com.android.quickstep.util.TISBindHelper;
+import com.android.quickstep.views.MemInfoView;
 import com.android.quickstep.views.OverviewActionsView;
 import com.android.quickstep.views.RecentsView;
 import com.android.quickstep.views.RecentsViewContainer;
@@ -119,6 +121,7 @@ public final class RecentsActivity extends StatefulActivity<RecentsState> implem
     private OverviewActionsView<?> mActionsView;
     private TISBindHelper mTISBindHelper;
     private @Nullable TaskbarInteractor mTaskbarInteractor;
+    private MemInfoView mMemInfoView;
 
     private StateManager<RecentsState, RecentsActivity> mStateManager;
 
@@ -149,6 +152,7 @@ public final class RecentsActivity extends StatefulActivity<RecentsState> implem
         mScrimView = rootView.findViewById(R.id.scrim_view);
         mFallbackRecentsView = rootView.findViewById(R.id.overview_panel);
         mActionsView = rootView.findViewById(R.id.overview_actions_view);
+        mMemInfoView = rootView.findViewById(R.id.meminfo);
 
         if (DesktopModeStatus.canEnterDesktopMode(this)) {
             mDesktopRecentsTransitionController = new DesktopRecentsTransitionController(
@@ -157,7 +161,10 @@ public final class RecentsActivity extends StatefulActivity<RecentsState> implem
             );
         }
         mFallbackRecentsView.init(mActionsView, mSplitSelectStateController,
-                mDesktopRecentsTransitionController);
+                mDesktopRecentsTransitionController, mMemInfoView);
+
+        mMemInfoView.setDp(mDeviceProfile);
+        mMemInfoView.updateVerticalMargin(DisplayController.getNavigationMode(this));
 
         setContentView(rootView);
         rootView.getSysUiScrim().getSysUIProgress().updateValue(0);
@@ -252,6 +259,11 @@ public final class RecentsActivity extends StatefulActivity<RecentsState> implem
     @Override
     public OverviewActionsView<?> getActionsView() {
         return mActionsView;
+    }
+
+    @Override
+    public MemInfoView getMemInfoView() {
+        return mMemInfoView;
     }
 
     @Override

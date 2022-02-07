@@ -45,7 +45,7 @@ public class OverviewModalTaskState extends OverviewState {
 
     @Override
     public int getVisibleElements(LauncherUiState launcherUiState) {
-        return OVERVIEW_ACTIONS;
+        return OVERVIEW_ACTIONS | MEMINFO;
     }
 
     @Override

@@ -45,6 +45,7 @@ import com.android.quickstep.RemoteTargetGluer.RemoteTargetHandle;
 import com.android.quickstep.util.GroupTask;
 import com.android.quickstep.util.SingleTask;
 import com.android.quickstep.util.SplitSelectStateController;
+import com.android.quickstep.views.MemInfoView;
 import com.android.quickstep.views.OverviewActionsView;
 import com.android.quickstep.views.RecentsView;
 import com.android.quickstep.views.RecentsViewContainer;
@@ -78,8 +79,9 @@ public class FallbackRecentsView<CONTAINER_TYPE extends Context & RecentsViewCon
 
     @Override
     public void init(OverviewActionsView actionsView, SplitSelectStateController splitController,
-            @Nullable DesktopRecentsTransitionController desktopRecentsTransitionController) {
-        super.init(actionsView, splitController, desktopRecentsTransitionController);
+            @Nullable DesktopRecentsTransitionController desktopRecentsTransitionController,
+            MemInfoView memInfoView) {
+        super.init(actionsView, splitController, desktopRecentsTransitionController, memInfoView);
         if (mContainer instanceof RecentsWindowManager) {
             // These will be set during the state transition to DEFAULT
             return;
