@@ -19,10 +19,6 @@ public class AssistantIconView extends ImageView {
         });
     }
 
-    public void setIcon() {
-        setImageResource(R.drawable.ic_mic_color);
-    }
-
     public AssistantIconView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setScaleType(ScaleType.CENTER);

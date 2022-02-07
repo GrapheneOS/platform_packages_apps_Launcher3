@@ -261,6 +261,7 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
         @JvmField val WORKSPACE_LOCK = backedUpItem("pref_workspace_lock", false)
         @JvmField val ALLAPPS_THEMED_ICONS = backedUpItem("pref_allapps_themed_icons", false)
         @JvmField val DOCK_SEARCH = backedUpItem("pref_dock_search", true)
+        @JvmField val DOCK_THEME = backedUpItem("pref_dock_theme", false)
         @JvmField val FONT_SIZE = backedUpItem("pref_custom_font_size", 100)
         @JvmField val HOTSEAT_OPACITY = backedUpItem("pref_hotseat_opacity", 40)
         @JvmField val ICON_SIZE = backedUpItem("pref_custom_icon_size", 100)
