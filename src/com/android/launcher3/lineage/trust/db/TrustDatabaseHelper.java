@@ -181,6 +181,24 @@ public class TrustDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public int getTotalPackageHidden() {
+        String query = String.format("SELECT * FROM %s WHERE %s = ?", TABLE_NAME, KEY_HIDDEN);
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[]{ });
+        int result = 0;
+        try {
+            result = cursor.getCount();
+        } catch (Exception e) {
+            // Ignored
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
+        return result;
+    }
+
     public boolean isPackageProtected(@NonNull String packageName) {
         String query = String.format("SELECT * FROM %s WHERE %s = ? AND %s = ?", TABLE_NAME,
                 KEY_PKGNAME, KEY_PROTECTED);

@@ -30,6 +30,7 @@ import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.dagger.ApplicationContext;
 import com.android.launcher3.icons.IconCache;
 import com.android.launcher3.icons.cache.CachedObject;
+import com.android.launcher3.lineage.trust.db.TrustDatabaseHelper;
 import com.android.launcher3.model.data.PackageItemInfo;
 import com.android.launcher3.pm.ShortcutConfigActivityInfo;
 import com.android.launcher3.util.ComponentKey;
@@ -75,6 +76,7 @@ public class WidgetsModel {
     private final InvariantDeviceProfile mIdp;
     private final IconCache mIconCache;
     private final AppFilter mAppFilter;
+    private final TrustDatabaseHelper mTrustData;
 
     @Inject
     public WidgetsModel(
@@ -86,6 +88,7 @@ public class WidgetsModel {
         mIdp = idp;
         mIconCache = iconCache;
         mAppFilter = appFilter;
+        mTrustData = TrustDatabaseHelper.getInstance(context);
     }
 
     public WidgetsModel(Context context) {
@@ -202,7 +205,7 @@ public class WidgetsModel {
         }
 
         // Refresh the validity checker with latest app state.
-        mWidgetValidityCheckForPicker = new WidgetValidityCheckForPicker(mIdp, mAppFilter);
+        mWidgetValidityCheckForPicker = new WidgetValidityCheckForPicker(mIdp, mAppFilter, mTrustData);
 
         // Temporary cache for {@link PackageItemInfos} to avoid having to go through
         // {@link mPackageItemInfos} to locate the key to be used for {@link #mWidgetsList}
@@ -296,14 +299,21 @@ public class WidgetsModel {
 
         private final InvariantDeviceProfile mIdp;
         private final AppFilter mAppFilter;
+        private final TrustDatabaseHelper mTrustData;
 
-        WidgetValidityCheckForPicker(InvariantDeviceProfile idp, AppFilter appFilter) {
+        WidgetValidityCheckForPicker(InvariantDeviceProfile idp, AppFilter appFilter,
+                TrustDatabaseHelper trustData) {
             mIdp = idp;
             mAppFilter = appFilter;
+            mTrustData = trustData;
         }
 
         @Override
         public boolean test(WidgetItem item) {
+            if (mTrustData != null && mTrustData.isPackageHidden(
+                    item.componentName.getPackageName())) {
+                return false;
+            }
             if (item.widgetInfo != null) {
                 if ((item.widgetInfo.getWidgetFeatures() & WIDGET_FEATURE_HIDE_FROM_PICKER) != 0) {
                     // Widget is hidden from picker

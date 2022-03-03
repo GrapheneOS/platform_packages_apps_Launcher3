@@ -47,6 +47,7 @@ import com.android.launcher3.Flags;
 import com.android.launcher3.InvariantDeviceProfile;
 import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.dagger.ApplicationContext;
+import com.android.launcher3.lineage.trust.db.TrustDatabaseHelper;
 import com.android.launcher3.logger.LauncherAtom;
 import com.android.launcher3.logging.InstanceId;
 import com.android.launcher3.logging.InstanceIdSequence;
@@ -294,14 +295,16 @@ public class QuickstepModelDelegate extends ModelDelegate {
             return;
         }
 
+        TrustDatabaseHelper trustData = TrustDatabaseHelper.getInstance(mContext);
+        int totalPackageHidden = trustData != null ? trustData.getTotalPackageHidden() : 0;
+
         mAllPredictionAppsState.registerPredictor(mContext,
                 new AppPredictionContext.Builder(mContext)
                     .setUiSurface("home")
-                    .setPredictedTargetCount(mIDP.numDatabaseAllAppsColumns)
+                    .setPredictedTargetCount(mIDP.numDatabaseAllAppsColumns + totalPackageHidden)
                     .build(),
                 mModel,
                 PredictionUpdateTask::new);
-
 
         // TODO: get bundle
         registerHotseatPredictor(mContext);
@@ -327,10 +330,12 @@ public class QuickstepModelDelegate extends ModelDelegate {
     }
 
     private void registerHotseatPredictor(Context context) {
+        TrustDatabaseHelper trustData = TrustDatabaseHelper.getInstance(context);
+        int totalPackageHidden = trustData != null ? trustData.getTotalPackageHidden() : 0;
         mHotseatPredictionState.registerPredictor(context,
                 new AppPredictionContext.Builder(context)
                     .setUiSurface("hotseat")
-                    .setPredictedTargetCount(mIDP.numDatabaseHotseatIcons)
+                    .setPredictedTargetCount(mIDP.numDatabaseHotseatIcons + totalPackageHidden)
                     .setExtras(getBundleForHotseatPredictions(context, mDataModel))
                     .build(),
                 mModel, PredictionUpdateTask::new);
