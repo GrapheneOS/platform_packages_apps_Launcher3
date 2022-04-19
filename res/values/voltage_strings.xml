@@ -52,4 +52,8 @@
     <!-- Suggestions -->
     <string name="suggestion_pref_screen_title">Suggestions</string>
     <string name="suggestion_pref_screen_desc">For All Apps &amp; Home screen suggestions</string>
+
+    <!-- Restart launcher -->
+    <string name="pref_restart_title">Restart</string>
+    <string name="pref_restart_summary">Restart the launcher manually to apply any pending settings</string>
 </resources>
