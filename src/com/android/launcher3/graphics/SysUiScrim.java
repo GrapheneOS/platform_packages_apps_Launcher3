@@ -19,6 +19,7 @@ import static android.graphics.Paint.DITHER_FLAG;
 import static android.graphics.Paint.FILTER_BITMAP_FLAG;
 
 import android.animation.ObjectAnimator;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
@@ -33,6 +34,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.VisibleForTesting;
 
 import com.android.launcher3.DeviceProfile;
+import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.anim.AnimatedFloat;
 import com.android.launcher3.statemanager.StatefulContainer;
@@ -45,7 +47,8 @@ import com.android.launcher3.views.ActivityContext;
 /**
  * View scrim which draws behind hotseat and workspace
  */
-public class SysUiScrim implements View.OnAttachStateChangeListener {
+public class SysUiScrim implements View.OnAttachStateChangeListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     /**
      * Receiver used to get a signal that the user unlocked their device.
@@ -76,17 +79,17 @@ public class SysUiScrim implements View.OnAttachStateChangeListener {
 
     private final RectF mTopMaskRect = new RectF();
     private final Paint mTopMaskPaint = new Paint(FILTER_BITMAP_FLAG | DITHER_FLAG);
-    private final Bitmap mTopMaskBitmap;
+    private Bitmap mTopMaskBitmap;
     private final int mTopMaskHeight;
 
     private final RectF mBottomMaskRect = new RectF();
     private final Paint mBottomMaskPaint = new Paint(FILTER_BITMAP_FLAG | DITHER_FLAG);
-    private final Bitmap mBottomMaskBitmap;
+    private Bitmap mBottomMaskBitmap;
     private final int mBottomMaskHeight;
 
     private final View mRoot;
     private final StatefulContainer mContainer;
-    private final boolean mHideSysUiScrim;
+    private boolean mShowSysUiScrim;
     private boolean mSkipScrimAnimationForTest = false;
 
     private boolean mAnimateScrimOnNextDraw = false;
@@ -100,26 +103,21 @@ public class SysUiScrim implements View.OnAttachStateChangeListener {
 
         mTopMaskHeight = ResourceUtils.pxFromDp(TOP_MASK_HEIGHT_DP, dm);
         mBottomMaskHeight = ResourceUtils.pxFromDp(BOTTOM_MASK_HEIGHT_DP, dm);
-        mHideSysUiScrim = Themes.getAttrBoolean(view.getContext(), R.attr.isWorkspaceDarkText);
+        mShowSysUiScrim = LauncherPrefs.SHOW_TOP_SHADOW.get(view.getContext());
+        createMaskBitmaps();
 
-        mTopMaskBitmap = mHideSysUiScrim ? null : createDitheredAlphaMask(mTopMaskHeight,
-                new int[]{0x3DFFFFFF, 0x0AFFFFFF, 0x00FFFFFF},
-                new float[]{0f, 0.7f, 1f});
-        mTopMaskPaint.setColor(0xFF222222);
-        mBottomMaskBitmap = mHideSysUiScrim ? null : createDitheredAlphaMask(mBottomMaskHeight,
-                new int[]{0x00FFFFFF, 0x2FFFFFFF},
-                new float[]{0f, 1f});
-
-        if (!mHideSysUiScrim) {
+        if (mShowSysUiScrim) {
             view.addOnAttachStateChangeListener(this);
         }
+        SharedPreferences prefs = LauncherPrefs.getPrefs(view.getContext());
+        prefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
      * Draw the top and bottom scrims
      */
     public void draw(Canvas canvas) {
-        if (!mHideSysUiScrim) {
+        if (mShowSysUiScrim) {
             if (mSysUiProgress.value <= 0) {
                 mAnimateScrimOnNextDraw = false;
                 return;
@@ -181,6 +179,25 @@ public class SysUiScrim implements View.OnAttachStateChangeListener {
         ScreenOnTracker.INSTANCE.get(mContainer.asContext()).removeListener(mScreenOnListener);
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+        if (LauncherPrefs.SHOW_TOP_SHADOW.getSharedPrefKey().equals(key)) {
+            mShowSysUiScrim = prefs.getBoolean(key, true);
+            createMaskBitmaps();
+            mRoot.invalidate();
+        }
+    }
+
+    private void createMaskBitmaps() {
+        mTopMaskBitmap = mShowSysUiScrim ? createDitheredAlphaMask(mTopMaskHeight,
+                new int[]{0x3DFFFFFF, 0x0AFFFFFF, 0x00FFFFFF},
+                new float[]{0f, 0.7f, 1f}) : null;
+        mTopMaskPaint.setColor(0xFF222222);
+        mBottomMaskBitmap = mShowSysUiScrim ? createDitheredAlphaMask(mBottomMaskHeight,
+                new int[]{0x00FFFFFF, 0x2FFFFFFF},
+                new float[]{0f, 1f}) : null;
+    }
+
     /**
      * Set the width and height of the view being scrimmed
      */
@@ -200,7 +217,7 @@ public class SysUiScrim implements View.OnAttachStateChangeListener {
 
     private void reapplySysUiAlpha() {
         reapplySysUiAlphaNoInvalidate();
-        if (!mHideSysUiScrim) {
+        if (mShowSysUiScrim) {
             mRoot.invalidate();
         }
     }
