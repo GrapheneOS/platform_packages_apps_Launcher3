@@ -78,6 +78,15 @@
             launcher:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
+            android:key="pref_dark_status_bar"
+            android:title="@string/perf_dark_status_bar_title"
+            android:summary="@string/perf_dark_status_bar_summary"
+            android:defaultValue="false"
+            android:persistent="true"
+            android:dependency="pref_show_statusbar"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
             android:key="pref_show_top_shadow"
             android:title="@string/show_top_shadow"
             android:defaultValue="true"
