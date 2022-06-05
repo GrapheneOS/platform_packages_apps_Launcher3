@@ -110,4 +110,7 @@
     <!-- Kill App recents action shortcut -->
     <string name="recent_task_option_kill_app">Kill</string>
     <string name="recents_app_killed">App killed</string>
+
+    <!-- Row Height -->
+    <string name="row_height_title">Row height</string>
 </resources>
