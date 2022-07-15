@@ -21,10 +21,13 @@ import static com.android.launcher3.logging.StatsLogManager.LAUNCHER_STATE_ALLAP
 import android.content.Context;
 import android.graphics.Color;
 
+import androidx.core.graphics.ColorUtils;
+
 import com.android.internal.jank.Cuj;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Flags;
 import com.android.launcher3.Launcher;
+import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.LauncherState;
 import com.android.launcher3.LauncherUiState;
 import com.android.launcher3.R;
@@ -203,6 +206,7 @@ public class AllAppsState extends LauncherState {
     @Override
     public ScrimColors getWorkspaceScrimColor(Launcher launcher) {
         int backgroundColor;
+        int scrimColor;
         if (!launcher.getDeviceProfile().shouldShowAllAppsOnSheet()) {
             // Always use an opaque scrim if there's no sheet.
             backgroundColor = launcher.getResources().getColor(R.color.materialColorSurfaceDim);
@@ -212,6 +216,8 @@ public class AllAppsState extends LauncherState {
         } else {
             backgroundColor = Themes.getAttrColor(launcher, R.attr.allAppsScrimColor);
         }
-        return new ScrimColors(backgroundColor, /* foregroundColor */ Color.TRANSPARENT);
+        scrimColor = ColorUtils.setAlphaComponent(
+                backgroundColor, LauncherPrefs.APP_DRAWER_OPACITY.get(launcher) * 255 / 100);
+        return new ScrimColors(scrimColor, /* foregroundColor */ Color.TRANSPARENT);
     }
 }

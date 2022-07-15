@@ -128,13 +128,13 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
     private static final boolean DEBUG_HEADER_PROTECTION = false;
     /** Context of an activity or window that is inflating this container. */
 
+    protected final Context mContext;
     protected final T mActivityContext;
     protected final List<AdapterHolder> mAH;
     protected final Predicate<ItemInfo> mPersonalMatcher;
     protected WorkProfileManager mWorkManager;
     protected final PrivateProfileManager mPrivateProfileManager;
     protected final Point mFastScrollerOffset = new Point();
-    protected final int mScrimColor;
     protected final float mHeaderThreshold;
     protected final AllAppsSearchUiDelegate mSearchUiDelegate;
 
@@ -199,12 +199,12 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
 
     public ActivityAllAppsContainerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context;
         mActivityContext = ActivityContext.lookupContext(context);
         mAllAppsStore = mActivityContext.getActivityComponent().getAppsStore();
         UserManager userManager = mActivityContext.getSystemService(UserManager.class);
         mPersonalMatcher = ItemInfoMatcher.ofCurrentOrDualUser(userManager, Process.myUserHandle());
 
-        mScrimColor = Themes.getAttrColor(context, R.attr.allAppsScrimColor);
         mHeaderThreshold = getResources().getDimensionPixelSize(
                 R.dimen.dynamic_grid_cell_border_spacing);
         mHeaderProtectionColor = Themes.getAttrColor(context, R.attr.allappsHeaderProtectionColor);
@@ -847,28 +847,41 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
     protected int getHeaderColor(float blendRatio) {
         if (!mActivityContext.getDeviceProfile().shouldShowAllAppsOnSheet()) {
             return ColorUtils.setAlphaComponent(
-                    ColorUtils.blendARGB(mScrimColor, mHeaderProtectionColor, blendRatio),
-                    (int) (mSearchContainer.getAlpha() * 255));
+                    ColorUtils.blendARGB(getScrimColor(), mHeaderProtectionColor, blendRatio),
+                    (int) (mSearchContainer.getAlpha() *
+                    LauncherPrefs.APP_DRAWER_OPACITY.get(mContext) * 255 / 100));
         }
         return isBackgroundBlurEnabled()
-                ? ColorUtils.setAlphaComponent(mHeaderProtectionColor, (int) (blendRatio * 255))
-                : ColorUtils.blendARGB(getBackgroundColor(), mHeaderProtectionColor, blendRatio);
+                ? ColorUtils.setAlphaComponent(mHeaderProtectionColor,
+                (int) (blendRatio * LauncherPrefs.APP_DRAWER_OPACITY.get(mContext) * 255 / 100))
+                : ColorUtils.setAlphaComponent(
+                ColorUtils.blendARGB(getBackgroundColor(), mHeaderProtectionColor, blendRatio),
+                LauncherPrefs.APP_DRAWER_OPACITY.get(mContext) * 255 / 100);
     }
 
     private int getBackgroundColor() {
         return mActivityContext.getDeviceProfile().shouldShowAllAppsOnSheet()
-                ? getBottomSheetBackgroundColor() : mScrimColor;
+                ? getBottomSheetBackgroundColor() : getScrimColor();
+    }
+
+    private int getScrimColor() {
+        return ColorUtils.setAlphaComponent(
+                Themes.getAttrColor(mContext, R.attr.allAppsScrimColor),
+                LauncherPrefs.APP_DRAWER_OPACITY.get(mContext) * 255 / 100);
     }
 
     int getBottomSheetBackgroundColor() {
+        int bgColor;
         if (!Flags.allAppsBlur()) {
-            return mBottomSheetBackgroundColorLegacy;
-        }
-        if (!mActivityContext.isAllAppsBackgroundBlurEnabled()) {
+            bgColor = mBottomSheetBackgroundColorLegacy;
+        } else if (!mActivityContext.isAllAppsBackgroundBlurEnabled()) {
             // Don't apply any alpha if the blur is disabled.
-            return mBottomSheetBackgroundColorBlurFallback;
+            bgColor = mBottomSheetBackgroundColorBlurFallback;
+        } else {
+            bgColor = mBottomSheetBackgroundColorOverBlur;
         }
-        return mBottomSheetBackgroundColorOverBlur;
+        return ColorUtils.setAlphaComponent(
+                bgColor, LauncherPrefs.APP_DRAWER_OPACITY.get(mContext) * 255 / 100);
     }
 
     boolean isBackgroundBlurEnabled() {

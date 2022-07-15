@@ -22,6 +22,15 @@
     <PreferenceCategory
         android:title="@string/general_category_title">
 
+        <com.android.launcher3.settings.preferences.CustomSeekBarPreference
+            android:key="pref_recents_opacity"
+            android:title="@string/background_opacity_title"
+            android:persistent="true"
+            android:max="100"
+            android:min="0"
+            settings:units="%"
+            android:defaultValue="40" />
+
         <SwitchPreferenceCompat
             android:key="pref_recents_meminfo"
             android:title="@string/recents_meminfo_title"
