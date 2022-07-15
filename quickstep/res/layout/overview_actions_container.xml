@@ -35,7 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_screenshot"
-            android:text="@string/action_screenshot" />
+            android:text="@string/recents_screenshot_title"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/action_split"
@@ -59,7 +60,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_clear_all"
-            android:text="@string/recents_clear_all" />
+            android:text="@string/recents_clear_all_title"
+            android:visibility="gone" />
 
     </LinearLayout>
 

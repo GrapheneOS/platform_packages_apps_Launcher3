@@ -37,6 +37,7 @@
     <string name="general_category_title">General</string>
     <string name="interface_category_title">Interface</string>
     <string name="search_bar_category_title">Search bar</string>
+    <string name="actions_category_title">Quick actions</string>
 
     <!-- Developer options -->
     <string name="dev_options_title">Developer options</string>
@@ -161,5 +162,7 @@
     <string name="recents_meminfo_zram_title">ZRAM info</string>
 
     <!-- Recents icons -->
+    <string name="recents_screenshot_title">Screenshot</string>
+    <string name="recents_clear_all_title">Clear all</string>
     <string name="recents_lens_title">Lens</string>
 </resources>

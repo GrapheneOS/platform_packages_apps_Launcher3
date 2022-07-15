@@ -36,6 +36,30 @@
             android:persistent="true"
             android:dependency="pref_recents_meminfo"
             launcher:iconSpaceReserved="false" />
-   </PreferenceCategory>
+    </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/actions_category_title">
+
+        <SwitchPreferenceCompat
+            android:key="pref_recents_screenshot"
+            android:title="@string/recents_screenshot_title"
+            android:defaultValue="true"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_recents_lens"
+            android:title="@string/recents_lens_title"
+            android:defaultValue="false"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_recents_clear_all"
+            android:title="@string/recents_clear_all_title"
+            android:defaultValue="true"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>
