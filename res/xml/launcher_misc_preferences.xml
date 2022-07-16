@@ -41,6 +41,16 @@
         <intent android:action="android.settings.ACTION_CONTENT_SUGGESTIONS_SETTINGS" />
     </androidx.preference.PreferenceScreen>
 
+     <com.android.launcher3.settings.preferences.CustomSeekBarPreference
+        android:key="pref_blur_depth"
+        android:title="@string/background_blur_title"
+        android:summary="@string/background_blur_summary"
+        android:persistent="true"
+        android:max="175"
+        settings:min="0"
+        settings:units="px"
+        android:defaultValue="30" />
+
     <com.android.launcher3.settings.preference.RestartPreference
         android:key="pref_restart"
         android:title="@string/pref_restart_title"

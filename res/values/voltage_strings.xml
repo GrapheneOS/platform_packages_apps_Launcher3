@@ -179,4 +179,8 @@
     <!-- Dark Status Bar -->
     <string name="perf_dark_status_bar_title">Dark status bar</string>
     <string name="perf_dark_status_bar_summary">Always use dark status bar on home screen</string>
+
+    <!-- Background blur -->
+    <string name="background_blur_title">Background blur depth</string>
+    <string name="background_blur_summary">Set blur depth level for recents and app drawer</string>
 </resources>

@@ -133,11 +133,8 @@ public class BaseDepthController {
         if (Flags.allAppsBlur() || enableOverviewBackgroundWallpaperBlur()) {
             mCrossWindowBlursEnabled =
                     CrossWindowBlurListeners.getInstance().isCrossWindowBlurEnabled();
-            mMaxBlurRadius = activity.getResources().getDimensionPixelSize(
-                    R.dimen.max_depth_blur_radius_enhanced);
-        } else {
-            mMaxBlurRadius = activity.getResources().getInteger(R.integer.max_depth_blur_radius);
         }
+        mMaxBlurRadius = LauncherPrefs.BLUR_DEPTH.get(mLauncher);
         mWallpaperManager = activity.getSystemService(WallpaperManager.class);
 
         MultiPropertyFactory<BaseDepthController> depthProperty =
