@@ -22,6 +22,7 @@ import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherUiState;
 import com.android.launcher3.uioverrides.QuickstepLauncher;
+import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.views.ActivityContext;
 import com.android.quickstep.fallback.RecentsState;
 
@@ -45,7 +46,7 @@ public class OverviewModalTaskState extends OverviewState {
 
     @Override
     public int getVisibleElements(LauncherUiState launcherUiState) {
-        return OVERVIEW_ACTIONS | MEMINFO;
+    return OVERVIEW_ACTIONS | MEMINFO;
     }
 
     @Override

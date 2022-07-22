@@ -31,6 +31,7 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.android.launcher3.DeviceProfile;
+import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.util.MultiValueAlpha;
 import com.android.launcher3.util.NavigationMode;
@@ -87,6 +88,11 @@ public class MemInfoView extends TextView {
      * influenced by more factors, leading to unstable behavior. */
     @Override
     public void setVisibility(int visibility) {
+        if (visibility == VISIBLE) {
+            boolean showMeminfo = LauncherPrefs.RECENTS_MEMINFO.get(getContext());
+            if (!showMeminfo) visibility = GONE;
+        }
+
         super.setVisibility(visibility);
 
         if (visibility == VISIBLE)
