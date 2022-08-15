@@ -175,7 +175,7 @@
     <!-- A derivative project can extend these themes to customize the application theme without
          affecting the base theme -->
     <style name="AppTheme" parent="@style/LauncherTheme">
-        <item name="qsbFillColor">@*android:color/background_device_default_light</item>
+        <item name="qsbFillColor">@*android:color/system_neutral1_0</item>
         <item name="qsbIconTintPrimary">@color/qsb_primary</item>
         <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
         <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
@@ -183,7 +183,7 @@
     </style>
 
     <style name="AppTheme.DarkMainColor" parent="@style/LauncherTheme.DarkMainColor">
-        <item name="qsbFillColor">@*android:color/background_device_default_light</item>
+        <item name="qsbFillColor">@*android:color/system_neutral1_0</item>
         <item name="qsbIconTintPrimary">@color/qsb_primary</item>
         <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
         <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
@@ -191,7 +191,7 @@
     </style>
 
     <style name="AppTheme.DarkText" parent="@style/LauncherTheme.DarkText">
-        <item name="qsbFillColor">@*android:color/background_device_default_light</item>
+        <item name="qsbFillColor">@*android:color/system_neutral1_0</item>
         <item name="qsbIconTintPrimary">@color/qsb_primary</item>
         <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
         <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
@@ -199,7 +199,7 @@
     </style>
 
     <style name="AppTheme.Dark" parent="@style/LauncherTheme.Dark">
-        <item name="qsbFillColor">@*android:color/background_device_default_dark</item>
+        <item name="qsbFillColor">@color/surface</item>
         <item name="qsbIconTintPrimary">@color/qsb_primary</item>
         <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
         <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
@@ -207,14 +207,14 @@
     </style>
 
     <style name="AppTheme.Dark.DarkMainColor" parent="@style/LauncherTheme.Dark.DarkMainColor">
-        <item name="qsbFillColor">@*android:color/background_device_default_dark</item>
+        <item name="qsbFillColor">@color/surface</item>
         <item name="qsbIconTintPrimary">@color/qsb_primary</item>
         <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
         <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
         <item name="qsbIconTintTertiary">@color/qsb_tertiary</item>
     </style>
     <style name="AppTheme.Dark.DarkText" parent="@style/LauncherTheme.Dark.DarkText">
-        <item name="qsbFillColor">@*android:color/background_device_default_dark</item>
+        <item name="qsbFillColor">@color/surface</item>
         <item name="qsbIconTintPrimary">@color/qsb_primary</item>
         <item name="qsbIconTintQuaternary">@color/qsb_quaternary</item>
         <item name="qsbIconTintSecondary">@color/qsb_secondary</item>
