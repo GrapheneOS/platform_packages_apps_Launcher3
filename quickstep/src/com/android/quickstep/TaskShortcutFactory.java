@@ -105,6 +105,21 @@ public interface TaskShortcutFactory {
         }
     };
 
+    TaskShortcutFactory STORAGE_SCOPES = new TaskShortcutFactory() {
+        @Override
+        public List<SystemShortcut> getShortcuts(BaseDraggingActivity activity,
+                TaskIdAttributeContainer taskContainer) {
+            TaskView taskView = taskContainer.getTaskView();
+
+            return Collections.singletonList(SystemShortcut.StorageScopes.maybeGet(activity, taskContainer.getItemInfo(), taskView));
+        }
+
+        @Override
+        public boolean showForSplitscreen() {
+            return true;
+        }
+    };
+
     class SplitSelectSystemShortcut extends SystemShortcut {
         private final TaskView mTaskView;
         private final SplitPositionOption mSplitPositionOption;
