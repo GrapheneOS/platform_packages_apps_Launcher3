@@ -4,13 +4,16 @@ import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCH
 import static com.android.launcher3.logging.StatsLogManager.LauncherEvent.LAUNCHER_SYSTEM_SHORTCUT_WIDGETS_TAP;
 
 import android.app.ActivityOptions;
+import android.app.StorageScope;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.GosPackageState;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.window.SplashScreen;
 
 import androidx.annotation.Nullable;
 
@@ -207,6 +210,48 @@ public abstract class SystemShortcut<T extends Context & ActivityContext> extend
                 this.taskTitle = taskTitle;
                 this.nodeId = nodeId;
             }
+        }
+    }
+
+    public static final Factory<BaseDraggingActivity> STORAGE_SCOPES = StorageScopes::maybeGet;
+
+    public static class StorageScopes<T extends Context & ActivityContext> extends SystemShortcut<T> {
+
+        private String targetPackage;
+
+        private StorageScopes(T target, ItemInfo itemInfo, View originalView) {
+            super(R.drawable.ic_sscopes_add_file, R.string.storage_scopes_drop_target_label, target,
+                    itemInfo, originalView);
+        }
+
+        @Nullable
+        public static <T extends Context & ActivityContext> StorageScopes<T> maybeGet(T target, ItemInfo itemInfo, View originalView) {
+            String pkg = itemInfo.getTargetPackage();
+            if (pkg == null) {
+                return null;
+            }
+
+            GosPackageState ps = GosPackageState.get(pkg, itemInfo.user.getIdentifier());
+
+            if (ps != null && ps.hasFlag(GosPackageState.FLAG_STORAGE_SCOPES_ENABLED)) {
+                var res = new StorageScopes<T>(target, itemInfo, originalView);
+                res.targetPackage = pkg;
+                return res;
+            }
+
+            return null;
+        }
+
+        @Override
+        public void onClick(View v) {
+            dismissTaskMenuView(mTarget);
+
+            var intent = StorageScope.createConfigActivityIntent(targetPackage);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            var opts = ActivityOptions.makeBasic()
+                    .setSplashScreenStyle(SplashScreen.SPLASH_SCREEN_STYLE_SOLID_COLOR)
+                    .toBundle();
+            mTarget.startActivityAsUser(intent, opts, mItemInfo.user);
         }
     }
 
