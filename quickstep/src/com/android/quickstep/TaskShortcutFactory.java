@@ -86,6 +86,21 @@ public interface TaskShortcutFactory {
         }
     };
 
+    TaskShortcutFactory STORAGE_SCOPES = new TaskShortcutFactory() {
+        @Override
+        public SystemShortcut getShortcut(BaseDraggingActivity activity,
+                TaskIdAttributeContainer taskContainer) {
+            TaskView taskView = taskContainer.getTaskView();
+
+            return SystemShortcut.StorageScopes.maybeGet(activity, taskContainer.getItemInfo(), taskView);
+        }
+
+        @Override
+        public boolean showForSplitscreen() {
+            return true;
+        }
+    };
+
     abstract class MultiWindowFactory implements TaskShortcutFactory {
 
         private final int mIconRes;
