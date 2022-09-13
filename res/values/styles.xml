@@ -50,7 +50,7 @@
         <item name="workspaceShadowColor">#B0000000</item>
         <item name="workspaceAmbientShadowColor">#40000000</item>
         <item name="workspaceKeyShadowColor">#89000000</item>
-        <item name="workspaceStatusBarScrim">@drawable/workspace_bg</item>
+        <item name="workspaceStatusBarScrim">@android:color/transparent</item>
         <item name="widgetsTheme">@style/WidgetContainerTheme</item>
         <item name="folderPaginationColor">@color/folder_pagination_color_light</item>
         <item name="folderPreviewColor">@color/folder_preview_light</item>
