@@ -21,7 +21,6 @@ import static android.view.View.VISIBLE;
 
 import static com.android.launcher3.Hotseat.ALPHA_CHANNEL_PREVIEW_RENDERER;
 import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_HOTSEAT_PREDICTION;
-import static com.android.launcher3.Utilities.qsbOnFirstScreen;
 import static com.android.launcher3.model.ModelUtils.currentScreenContentFilter;
 
 import static java.util.Comparator.comparingDouble;
@@ -49,6 +48,7 @@ import androidx.annotation.UiThread;
 import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.android.launcher3.BuildConfig;
 import com.android.launcher3.CellLayout;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Hotseat;
@@ -341,7 +341,7 @@ public class LauncherPreviewRenderer extends BaseContext
         populateHotseatPredictions(itemIdMap);
 
         // Add first page QSB
-        if (qsbOnFirstScreen()) {
+        if (BuildConfig.USE_QUICKSPACE_VIEW) {
             CellLayout firstScreen = mWorkspaceScreens.get(FIRST_SCREEN_ID);
             if (firstScreen != null) {
                 View qsb = mHomeElementInflater.inflate(R.layout.qsb_preview, firstScreen, false);
@@ -350,7 +350,7 @@ public class LauncherPreviewRenderer extends BaseContext
                 CellLayoutLayoutParams lp = new CellLayoutLayoutParams(
                         0, 0, firstScreen.getCountX(), 1);
                 lp.canReorder = false;
-                firstScreen.addViewToCellLayout(qsb, 0, R.id.search_container_workspace, lp, true);
+                firstScreen.addViewToCellLayout(qsb, 0, R.id.reserved_container_workspace, lp, true);
             }
         }
         measureAndLayoutRootView();

@@ -131,6 +131,73 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/quickspace_category_title">
+
+        <SwitchPreferenceCompat
+            android:key="pref_quickspace"
+            android:title="@string/show_quickspace_title"
+            android:summary="@string/show_quickspace_summary"
+            android:defaultValue="true"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_quickspace_alt"
+            android:title="@string/quickspace_alternate_style_title"
+            android:summary="@string/quickspace_alternate_style_summary"
+            android:dependency="pref_quickspace"
+            android:defaultValue="false"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_quickspace_psonality"
+            android:title="@string/quickspace_psa_title"
+            android:summary="@string/quickspace_psa_summary"
+            android:dependency="pref_quickspace"
+            android:defaultValue="true"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_quickspace_np"
+            android:title="@string/quickspace_now_playing_title"
+            android:summary="@string/quickspace_now_playing_summary"
+            android:dependency="pref_quickspace"
+            android:defaultValue="true"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_quickspace_weather"
+            android:title="@string/quick_event_ambient_weather_title"
+            android:summary="@string/quick_event_ambient_weather_summary"
+            android:dependency="pref_quickspace"
+            android:defaultValue="true"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_quickspace_weather_city"
+            android:title="@string/quick_event_weather_city_title"
+            android:summary="@string/quick_event_weather_city_summary"
+            android:dependency="pref_quickspace_weather"
+            android:defaultValue="false"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_quickspace_weather_text"
+            android:title="@string/quick_event_weather_text_title"
+            android:summary="@string/quick_event_weather_text_summary"
+            android:dependency="pref_quickspace_weather"
+            android:defaultValue="true"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/search_bar_category_title">
 
         <SwitchPreferenceCompat

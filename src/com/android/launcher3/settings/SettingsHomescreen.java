@@ -122,7 +122,14 @@ public class SettingsHomescreen extends CollapsingToolbarBaseActivity
                 LauncherPrefs.SHOW_STATUS_BAR.getSharedPrefKey().equals(key) ||
                 LauncherPrefs.SHORT_PARALLAX.getSharedPrefKey().equals(key) ||
                 LauncherPrefs.SINGLE_PAGE_CENTER.getSharedPrefKey().equals(key) ||
-                LauncherPrefs.DARK_STATUS_BAR.getSharedPrefKey().equals(key)) {
+                LauncherPrefs.DARK_STATUS_BAR.getSharedPrefKey().equals(key) ||
+                LauncherPrefs.SHOW_QUICKSPACE.getSharedPrefKey().equals(key) ||
+                LauncherPrefs.SHOW_QUICKSPACE_ALT.getSharedPrefKey().equals(key) ||
+                LauncherPrefs.SHOW_QUICKSPACE_PSONALITY.getSharedPrefKey().equals(key) ||
+                LauncherPrefs.SHOW_QUICKSPACE_NOWPLAYING.getSharedPrefKey().equals(key) ||
+                LauncherPrefs.SHOW_QUICKSPACE_WEATHER.getSharedPrefKey().equals(key) ||
+                LauncherPrefs.SHOW_QUICKSPACE_WEATHER_CITY.getSharedPrefKey().equals(key) ||
+                LauncherPrefs.SHOW_QUICKSPACE_WEATHER_TEXT.getSharedPrefKey().equals(key)) {
             LauncherAppState.INSTANCE.executeIfCreated(app -> app.setNeedsRestart());
         }
     }
