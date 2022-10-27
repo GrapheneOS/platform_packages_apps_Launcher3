@@ -30,7 +30,7 @@ import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.dagger.ApplicationContext;
 import com.android.launcher3.icons.IconCache;
 import com.android.launcher3.icons.cache.CachedObject;
-import com.android.launcher3.lineage.trust.db.TrustDatabaseHelper;
+import com.android.launcher3.lineage.trust.AppLockHelper;
 import com.android.launcher3.model.data.PackageItemInfo;
 import com.android.launcher3.pm.ShortcutConfigActivityInfo;
 import com.android.launcher3.util.ComponentKey;
@@ -76,7 +76,7 @@ public class WidgetsModel {
     private final InvariantDeviceProfile mIdp;
     private final IconCache mIconCache;
     private final AppFilter mAppFilter;
-    private final TrustDatabaseHelper mTrustData;
+    private final AppLockHelper mAppLockHelper;
 
     @Inject
     public WidgetsModel(
@@ -88,7 +88,7 @@ public class WidgetsModel {
         mIdp = idp;
         mIconCache = iconCache;
         mAppFilter = appFilter;
-        mTrustData = TrustDatabaseHelper.getInstance(context);
+        mAppLockHelper = AppLockHelper.getInstance(context);
     }
 
     public WidgetsModel(Context context) {
@@ -205,7 +205,7 @@ public class WidgetsModel {
         }
 
         // Refresh the validity checker with latest app state.
-        mWidgetValidityCheckForPicker = new WidgetValidityCheckForPicker(mIdp, mAppFilter, mTrustData);
+        mWidgetValidityCheckForPicker = new WidgetValidityCheckForPicker(mIdp, mAppFilter, mAppLockHelper);
 
         // Temporary cache for {@link PackageItemInfos} to avoid having to go through
         // {@link mPackageItemInfos} to locate the key to be used for {@link #mWidgetsList}
@@ -299,18 +299,18 @@ public class WidgetsModel {
 
         private final InvariantDeviceProfile mIdp;
         private final AppFilter mAppFilter;
-        private final TrustDatabaseHelper mTrustData;
+        private final AppLockHelper mAppLockHelper;
 
         WidgetValidityCheckForPicker(InvariantDeviceProfile idp, AppFilter appFilter,
-                TrustDatabaseHelper trustData) {
+                AppLockHelper appLockHelper) {
             mIdp = idp;
             mAppFilter = appFilter;
-            mTrustData = trustData;
+            mAppLockHelper = appLockHelper;
         }
 
         @Override
         public boolean test(WidgetItem item) {
-            if (mTrustData != null && mTrustData.isPackageHidden(
+            if (mAppLockHelper != null && mAppLockHelper.isPackageHidden(
                     item.componentName.getPackageName())) {
                 return false;
             }

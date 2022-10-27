@@ -45,7 +45,6 @@ import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.lineage.trust.db.TrustComponent;
-import com.android.launcher3.lineage.trust.db.TrustDatabaseHelper;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 
@@ -62,8 +61,8 @@ public class TrustAppsActivity extends CollapsingToolbarBaseActivity implements
     private LinearLayout mLoadingView;
     private ProgressBar mProgressBar;
 
-    private TrustDatabaseHelper mDbHelper;
     private TrustAppsAdapter mAdapter;
+    private AppLockHelper mAppLockHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstance) {
@@ -88,8 +87,8 @@ public class TrustAppsActivity extends CollapsingToolbarBaseActivity implements
         });
 
         final boolean hasSecureKeyguard = Utilities.hasSecureKeyguard(this);
-        mAdapter = new TrustAppsAdapter(this, hasSecureKeyguard);
-        mDbHelper = TrustDatabaseHelper.getInstance(this);
+        mAdapter = new TrustAppsAdapter(this, this, hasSecureKeyguard);
+        mAppLockHelper = AppLockHelper.getInstance(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -97,7 +96,7 @@ public class TrustAppsActivity extends CollapsingToolbarBaseActivity implements
 
         showOnBoarding(false);
 
-        new LoadTrustComponentsTask(mDbHelper, getPackageManager(), this).execute();
+        new LoadTrustComponentsTask(mAppLockHelper, getPackageManager(), this, this).execute();
     }
 
     @Override
@@ -123,12 +122,12 @@ public class TrustAppsActivity extends CollapsingToolbarBaseActivity implements
 
     @Override
     public void onHiddenItemChanged(@NonNull TrustComponent component) {
-        new UpdateItemTask(mDbHelper, this, HIDDEN).execute(component);
+        new UpdateItemTask(mAppLockHelper, this, HIDDEN).execute(component);
     }
 
     @Override
     public void onProtectedItemChanged(@NonNull TrustComponent component) {
-        new UpdateItemTask(mDbHelper, this, PROTECTED).execute(component);
+        new UpdateItemTask(mAppLockHelper, this, PROTECTED).execute(component);
     }
 
     @Override

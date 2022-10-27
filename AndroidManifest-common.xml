@@ -48,6 +48,9 @@
     <uses-permission android:name="android.permission.DEVICE_POWER" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
+    <!-- AppLock -->
+    <uses-permission android:name="android.permission.MANAGE_APP_LOCK" />
+
     <permission
         android:name="${applicationId}.permission.GRID_CONTROL"
         android:knownCerts="@array/grid_control_known_signers"
@@ -224,6 +227,7 @@
         <activity
             android:name="com.android.launcher3.lineage.trust.TrustAppsActivity"
             android:label="@string/trust_apps_manager_name"
+            android:permission="android.permission.MANAGE_APP_LOCK"
             android:theme="@style/Theme.SubSettingsBase.Expressive"
             android:autoRemoveFromRecents="true" />
     </application>
