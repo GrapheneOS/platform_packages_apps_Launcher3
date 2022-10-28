@@ -18,6 +18,7 @@ package com.android.launcher3.icons;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -69,7 +70,8 @@ public class LauncherIconProvider extends IconProvider {
     @Override
     public void updateSystemState() {
         super.updateSystemState();
-        mSystemState += "," + mThemeManager.getIconState().toUniqueId();
+        mSystemState += "," + mThemeManager.getIconState().toUniqueId()
+            + Build.VERSION.INCREMENTAL;
     }
 
     private Map<String, ThemeData> getThemedIconMap() {
