@@ -49,7 +49,7 @@ public class IconPackPrefSetter implements ReloadingListPreference.OnReloadListe
         int i = 0;
 
         // First value, system default, or the current icon pack if that has no icon yet.
-        keys[i] = mContext.getResources().getString(R.string.pref_value_default);
+        keys[i] = mContext.getResources().getString(R.string.icon_pack_default_label);
         values[i++] = packList.containsKey(globalPack) ? "" : globalPack;
 
         // List of available icon packs

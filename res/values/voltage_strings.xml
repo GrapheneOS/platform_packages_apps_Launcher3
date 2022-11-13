@@ -538,6 +538,9 @@
     <string name="app_info_version">Version</string>
     <string name="app_info_more">More</string>
 
-    <!-- Preference default value -->
-    <string name="pref_value_default">Default</string>
+    <!-- Icon pack -->
+    <string name="icon_pack_title">Icon pack</string>
+    <string name="icon_pack_default_label">Default</string>
+    <string name="icon_pack_add">Install more</string>
+    <string name="icon_pack_no_market">There\'s no available app store</string>
 </resources>
