@@ -75,6 +75,7 @@ import com.android.launcher3.DropTarget.DragObject;
 import com.android.launcher3.Flags;
 import com.android.launcher3.Insettable;
 import com.android.launcher3.InsettableFrameLayout;
+import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.allapps.BaseAllAppsAdapter.AdapterItem;
@@ -297,6 +298,12 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+
+        if (LauncherPrefs.DRAWER_SEARCH.get(getContext())) {
+            mSearchContainer.setVisibility(View.VISIBLE);
+        } else {
+            mSearchContainer.setVisibility(View.GONE);
+        }
 
         mAH.get(SEARCH).setup(mSearchRecyclerView,
                 /* Filter out A-Z apps */ itemInfo -> false);

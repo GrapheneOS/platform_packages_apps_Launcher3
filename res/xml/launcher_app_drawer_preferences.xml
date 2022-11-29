@@ -33,6 +33,13 @@
         android:persistent="true" />
 
     <SwitchPreferenceCompat
+        android:key="pref_drawer_search"
+        android:title="@string/drawer_search_title"
+        android:summary="@string/drawer_search_summary"
+        android:defaultValue="true"
+        launcher:iconSpaceReserved="false" />
+
+    <SwitchPreferenceCompat
         android:key="pref_enable_two_line_toggle"
         android:title="@string/icon_two_lines_title"
         android:defaultValue="false"

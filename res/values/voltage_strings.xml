@@ -131,4 +131,8 @@
     <string name="dock_theme_title">Themed icons</string>
     <string name="dock_theme_summary">Use themed icons for search bar</string>
     <string name="search_radius_title">Corner radius</string>
+
+    <!-- App drawer searchbar -->
+    <string name="drawer_search_title">App search bar</string>
+    <string name="drawer_search_summary">Search bar on top of the app drawer</string>
 </resources>
