@@ -223,6 +223,7 @@ public abstract class SystemShortcut<T extends Context & ActivityContext> extend
                     itemInfo, originalView);
         }
 
+        @Nullable
         public static <T extends Context & ActivityContext> StorageScopes<T> maybeGet(T target, ItemInfo itemInfo, View originalView) {
             String pkg = itemInfo.getTargetPackage();
             if (pkg == null) {
