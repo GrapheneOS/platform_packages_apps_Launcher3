@@ -106,12 +106,17 @@ public interface TaskShortcutFactory {
     };
 
     TaskShortcutFactory STORAGE_SCOPES = new TaskShortcutFactory() {
+        @Nullable
         @Override
         public List<SystemShortcut> getShortcuts(BaseDraggingActivity activity,
                 TaskIdAttributeContainer taskContainer) {
             TaskView taskView = taskContainer.getTaskView();
 
-            return Collections.singletonList(SystemShortcut.StorageScopes.maybeGet(activity, taskContainer.getItemInfo(), taskView));
+            var s = SystemShortcut.StorageScopes.maybeGet(activity, taskContainer.getItemInfo(), taskView);
+            if (s == null) {
+                return null;
+            }
+            return Collections.singletonList(s);
         }
 
         @Override
