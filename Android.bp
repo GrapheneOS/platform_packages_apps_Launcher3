@@ -449,6 +449,7 @@ android_library {
         "launcher-dagger-qualifiers",
         "launcher-executor-qualifiers",
         "launcher-executors-module",
+        "SettingsLib",
     ],
     manifest: "AndroidManifest-common.xml",
     sdk_version: "current",
