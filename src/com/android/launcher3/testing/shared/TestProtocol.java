@@ -34,7 +34,6 @@ public final class TestProtocol {
     public static final int ALL_APPS_STATE_ORDINAL = 5;
     public static final int BACKGROUND_APP_STATE_ORDINAL = 6;
     public static final int HINT_STATE_ORDINAL = 7;
-    public static final int HINT_STATE_TWO_BUTTON_ORDINAL = 8;
     public static final int OVERVIEW_SPLIT_SELECT_ORDINAL = 9;
     public static final String TAPL_EVENTS_TAG = "TaplEvents";
     public static final String SEQUENCE_MAIN = "Main";
@@ -59,8 +58,6 @@ public final class TestProtocol {
                 return "Background";
             case HINT_STATE_ORDINAL:
                 return "Hint";
-            case HINT_STATE_TWO_BUTTON_ORDINAL:
-                return "Hint2Button";
             case OVERVIEW_SPLIT_SELECT_ORDINAL:
                 return "OverviewSplitSelect";
             default:

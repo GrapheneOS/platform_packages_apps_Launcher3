@@ -175,7 +175,7 @@ class OrientationTouchTransformer {
      * @param info The current displayInfo which will be the start of the quickswitch gesture
      */
     void enableMultipleRegions(boolean enableMultipleRegions, Info info) {
-        mEnableMultipleRegions = enableMultipleRegions && mMode != NavigationMode.TWO_BUTTONS;
+        mEnableMultipleRegions = enableMultipleRegions;
         if (mEnableMultipleRegions) {
             mQuickStepStartingRotation = info.rotation;
         } else {

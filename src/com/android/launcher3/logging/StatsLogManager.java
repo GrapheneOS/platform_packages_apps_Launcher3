@@ -331,9 +331,6 @@ public class StatsLogManager implements ResourceBasedOverride {
         @UiEvent(doc = "System navigation is 3 button mode.")
         LAUNCHER_NAVIGATION_MODE_3_BUTTON(623),
 
-        @UiEvent(doc = "System navigation mode is 2 button mode.")
-        LAUNCHER_NAVIGATION_MODE_2_BUTTON(624),
-
         @UiEvent(doc = "System navigation mode is 0 button mode/gesture navigation mode .")
         LAUNCHER_NAVIGATION_MODE_GESTURE_BUTTON(625),
 

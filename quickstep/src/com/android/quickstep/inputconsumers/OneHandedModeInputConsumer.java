@@ -40,7 +40,7 @@ import com.android.systemui.shared.system.InputMonitorCompat;
 
 /**
  * Touch consumer for handling gesture event to launch one handed
- * One handed gestural in quickstep only active on NO_BUTTON, TWO_BUTTONS, and portrait mode
+ * One handed gestural in quickstep only active on NO_BUTTON and portrait mode
  */
 public class OneHandedModeInputConsumer extends DelegateInputConsumer {
 

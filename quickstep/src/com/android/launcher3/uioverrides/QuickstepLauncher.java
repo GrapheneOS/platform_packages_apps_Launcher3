@@ -39,7 +39,6 @@ import static com.android.launcher3.taskbar.LauncherTaskbarUIController.ALL_APPS
 import static com.android.launcher3.taskbar.LauncherTaskbarUIController.MINUS_ONE_PAGE_PROGRESS_INDEX;
 import static com.android.launcher3.taskbar.LauncherTaskbarUIController.WIDGETS_PAGE_PROGRESS_INDEX;
 import static com.android.launcher3.testing.shared.TestProtocol.HINT_STATE_ORDINAL;
-import static com.android.launcher3.testing.shared.TestProtocol.HINT_STATE_TWO_BUTTON_ORDINAL;
 import static com.android.launcher3.testing.shared.TestProtocol.OVERVIEW_STATE_ORDINAL;
 import static com.android.launcher3.testing.shared.TestProtocol.QUICK_SWITCH_STATE_ORDINAL;
 import static com.android.launcher3.util.DisplayController.CHANGE_ACTIVE_SCREEN;
@@ -109,7 +108,6 @@ import com.android.launcher3.uioverrides.touchcontrollers.QuickSwitchTouchContro
 import com.android.launcher3.uioverrides.touchcontrollers.StatusBarTouchController;
 import com.android.launcher3.uioverrides.touchcontrollers.TaskViewTouchController;
 import com.android.launcher3.uioverrides.touchcontrollers.TransposedQuickSwitchTouchController;
-import com.android.launcher3.uioverrides.touchcontrollers.TwoButtonNavbarTouchController;
 import com.android.launcher3.util.ActivityOptionsWrapper;
 import com.android.launcher3.util.DisplayController;
 import com.android.launcher3.util.IntSet;
@@ -409,11 +407,6 @@ public class QuickstepLauncher extends Launcher {
                 }
                 break;
             }
-            case HINT_STATE_TWO_BUTTON_ORDINAL: {
-                getStateManager().goToState(OVERVIEW);
-                getDragLayer().performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                break;
-            }
             case OVERVIEW_STATE_ORDINAL: {
                 RecentsView rv = getOverviewPanel();
                 sendCustomAccessibilityEvent(
@@ -451,13 +444,6 @@ public class QuickstepLauncher extends Launcher {
                 list.add(new NoButtonQuickSwitchTouchController(this));
                 list.add(new NavBarToHomeTouchController(this));
                 list.add(new NoButtonNavbarToOverviewTouchController(this));
-                break;
-            case TWO_BUTTONS:
-                list.add(new TwoButtonNavbarTouchController(this));
-                list.add(getDeviceProfile().isVerticalBarLayout()
-                        ? new TransposedQuickSwitchTouchController(this)
-                        : new QuickSwitchTouchController(this));
-                list.add(new PortraitStatesTouchController(this));
                 break;
             case THREE_BUTTONS:
             default:

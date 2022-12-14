@@ -25,7 +25,6 @@ import static com.android.launcher3.util.DisplayController.CHANGE_NAVIGATION_MOD
 import static com.android.launcher3.util.DisplayController.CHANGE_ROTATION;
 import static com.android.launcher3.util.NavigationMode.NO_BUTTON;
 import static com.android.launcher3.util.NavigationMode.THREE_BUTTONS;
-import static com.android.launcher3.util.NavigationMode.TWO_BUTTONS;
 import static com.android.launcher3.util.SettingsCache.ONE_HANDED_ENABLED;
 import static com.android.launcher3.util.SettingsCache.ONE_HANDED_SWIPE_BOTTOM_TO_NOTIFICATION_ENABLED;
 import static com.android.systemui.shared.system.QuickStepContract.SYSUI_STATE_A11Y_BUTTON_CLICKABLE;
@@ -296,13 +295,6 @@ public class RecentsAnimationDeviceState implements DisplayInfoChangeListener {
     }
 
     /**
-     * @return whether the current nav mode is 2-button-based.
-     */
-    public boolean isTwoButtonNavMode() {
-        return mMode == TWO_BUTTONS;
-    }
-
-    /**
      * @return whether the current nav mode is button-based.
      */
     public boolean isButtonNavMode() {
@@ -540,7 +532,7 @@ public class RecentsAnimationDeviceState implements DisplayInfoChangeListener {
     }
 
     /**
-     * One handed gestural in quickstep only active on NO_BUTTON, TWO_BUTTONS, and portrait mode
+     * One handed gestural in quickstep only active on NO_BUTTON and portrait mode
      *
      * @param ev The touch screen motion event.
      * @return whether the given motion event can trigger the one handed mode.

@@ -19,7 +19,6 @@ import static android.view.View.VISIBLE;
 
 import static com.android.launcher3.LauncherState.ALL_APPS;
 import static com.android.launcher3.LauncherState.HINT_STATE;
-import static com.android.launcher3.LauncherState.HINT_STATE_TWO_BUTTON;
 import static com.android.launcher3.LauncherState.NORMAL;
 import static com.android.launcher3.LauncherState.OVERVIEW;
 import static com.android.launcher3.LauncherState.OVERVIEW_SPLIT_SELECT;
@@ -145,8 +144,8 @@ public class QuickstepAtomicAnimationFactory extends
                 hotseat.setScaleX(WORKSPACE_PREPARE_SCALE);
                 hotseat.setScaleY(WORKSPACE_PREPARE_SCALE);
             }
-        } else if ((fromState == NORMAL || fromState == HINT_STATE
-                || fromState == HINT_STATE_TWO_BUTTON) && toState == OVERVIEW) {
+        } else if ((fromState == NORMAL || fromState == HINT_STATE)
+                && toState == OVERVIEW) {
             if (DisplayController.getNavigationMode(mActivity).hasGestures) {
                 config.setInterpolator(ANIM_WORKSPACE_SCALE,
                         fromState == NORMAL ? ACCEL : OVERSHOOT_1_2);
