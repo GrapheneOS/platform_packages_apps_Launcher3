@@ -452,13 +452,6 @@ public class QuickstepLauncher extends Launcher {
                 list.add(new NavBarToHomeTouchController(this));
                 list.add(new NoButtonNavbarToOverviewTouchController(this));
                 break;
-            case TWO_BUTTONS:
-                list.add(new TwoButtonNavbarTouchController(this));
-                list.add(getDeviceProfile().isVerticalBarLayout()
-                        ? new TransposedQuickSwitchTouchController(this)
-                        : new QuickSwitchTouchController(this));
-                list.add(new PortraitStatesTouchController(this));
-                break;
             case THREE_BUTTONS:
             default:
                 list.add(new PortraitStatesTouchController(this));
