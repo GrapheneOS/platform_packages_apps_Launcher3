@@ -93,7 +93,6 @@
             android:key="pref_dock_theme"
             android:title="@string/dock_theme_title"
             android:summary="@string/dock_theme_summary"
-            android:dependency="pref_dock_search"
             launcher:iconSpaceReserved="false" />
 
         <com.android.launcher3.settings.preferences.CustomSeekBarPreference
@@ -104,8 +103,7 @@
             android:min="0"
             settings:interval="5"
             settings:units="%"
-            android:defaultValue="100"
-            android:dependency="pref_dock_search" />
+            android:defaultValue="100" />
 
         <SwitchPreferenceCompat
             android:key="pref_show_hotseat_bg"
