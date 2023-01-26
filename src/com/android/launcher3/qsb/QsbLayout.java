@@ -50,15 +50,16 @@ public class QsbLayout extends FrameLayout {
         setUpBackground();
         clipIconRipples();
 
-        if (LauncherPrefs.DOCK_THEME.get(mContext)) {
-            micIcon.setImageResource(R.drawable.ic_mic_themed);
-            gIcon.setImageResource(R.drawable.ic_super_g_themed);
-            lensIcon.setImageResource(R.drawable.ic_lens_themed);
+        boolean isThemed = LauncherPrefs.DOCK_THEME.get(mContext);
+
+        if (Utilities.isMusicSearchEnabled(mContext)) {
+            micIcon.setImageResource(isThemed ? R.drawable.ic_music_themed : R.drawable.ic_music_color);
         } else {
-            micIcon.setImageResource(R.drawable.ic_mic_color);
-            gIcon.setImageResource(R.drawable.ic_super_g_color);
-            lensIcon.setImageResource(R.drawable.ic_lens_color);
+            micIcon.setImageResource(isThemed ? R.drawable.ic_mic_themed : R.drawable.ic_mic_color);
         }
+        gIcon.setImageResource(isThemed ? R.drawable.ic_super_g_themed : R.drawable.ic_super_g_color);
+        lensIcon.setImageResource(isThemed ? R.drawable.ic_lens_themed : R.drawable.ic_lens_color);
+
         setupGIcon();
         setupLensIcon();
     }

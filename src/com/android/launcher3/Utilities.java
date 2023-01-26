@@ -1166,4 +1166,8 @@ public final class Utilities {
     private static boolean isQSBEnabled(Context context) {
         return LauncherPrefs.DOCK_SEARCH.get(context);
     }
+
+    public static boolean isMusicSearchEnabled(Context context) {
+        return isGSAEnabled(context) && LauncherPrefs.DOCK_MUSIC_SEARCH.get(context);
+    }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import com.android.launcher3.qsb.QsbContainerView;
+import com.android.launcher3.Utilities;
 
 public class AssistantIconView extends ImageView {
 
@@ -23,10 +24,13 @@ public class AssistantIconView extends ImageView {
     public void setListener(Context context) {
         try {
             setOnClickListener(view -> {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
+                boolean isMusicSearch = Utilities.isMusicSearchEnabled(context);
+                Intent intent = isMusicSearch ? new Intent(Intent.ACTION_MAIN) : new Intent(Intent.ACTION_VOICE_COMMAND);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.setAction("android.intent.action.VOICE_COMMAND");
-                intent.setPackage(QsbContainerView.getSearchWidgetPackageName(context));
+                intent.setAction(isMusicSearch ? "com.google.android.googlequicksearchbox.MUSIC_SEARCH" : "android.intent.action.VOICE_COMMAND");
+                if (isMusicSearch) {
+                    intent.setPackage(QsbContainerView.getSearchWidgetPackageName(context));
+                }
                 context.startActivity(intent);
             });
         } catch (Exception e) {
