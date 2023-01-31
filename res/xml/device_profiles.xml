@@ -43,6 +43,43 @@
             launcher:iconTextSize="12.0"
             launcher:canBeDefault="true" />
 
+        <display-option
+            launcher:name="Pixel/Android 12+ (Small)"
+            launcher:minHeightDps="496"
+            launcher:minWidthDps="296"
+            launcher:iconImageSize="120"
+            launcher:iconSizeLandscape="120"
+            launcher:iconTextSize="18"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:allAppsIconSize="60"
+            launcher:allAppsIconTextSize="14" />
+
+        <display-option
+            launcher:name="Pixel/Android 12+"
+            launcher:minHeightDps="659"
+            launcher:minWidthDps="387"
+            launcher:iconImageSize="132"
+            launcher:iconSizeLandscape="100"
+            launcher:iconTextSize="20"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:allAppsIconSize="60"
+            launcher:allAppsIconTextSize="14"
+            launcher:canBeDefault="true" />
+
+        <display-option
+            launcher:name="Pixel/Android 12+ (Largest)"
+            launcher:minHeightDps="754"
+            launcher:minWidthDps="449"
+            launcher:iconImageSize="156"
+            launcher:iconSizeLandscape="120"
+            launcher:iconTextSize="22"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:allAppsIconSize="60"
+            launcher:allAppsIconTextSize="14" />
+
     </grid-option>
 
     <grid-option
@@ -75,6 +112,40 @@
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
             launcher:canBeDefault="true" />
+
+        <display-option
+            launcher:minHeightDps="496"
+            launcher:minWidthDps="296"
+            launcher:iconImageSize="68"
+            launcher:iconSizeLandscape="68"
+            launcher:iconTextSize="12"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:allAppsIconSize="60"
+            launcher:name="Pixel/Android 12+ (Small)" />
+
+        <display-option
+            launcher:minHeightDps="659"
+            launcher:minWidthDps="387"
+            launcher:iconImageSize="76"
+            launcher:iconSizeLandscape="76"
+            launcher:iconTextSize="14"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:allAppsIconSize="60"
+            launcher:name="Pixel/Android 12+" />
+
+        <display-option
+            launcher:minHeightDps="754"
+            launcher:minWidthDps="449"
+            launcher:iconImageSize="88"
+            launcher:iconSizeLandscape="88"
+            launcher:iconTextSize="16"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:allAppsIconSize="60"
+            launcher:allAppsIconTextSize="14"
+            launcher:name="Pixel/Android 12+ (Largest)" />
 
     </grid-option>
 
@@ -138,6 +209,72 @@
             launcher:iconTextSize="12.0"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
+            launcher:canBeDefault="true" />
+
+        <display-option
+            launcher:name="Pixel/Android 12+ (Small)"
+            launcher:minWidthDps="296"
+            launcher:minHeightDps="496"
+            launcher:iconImageSize="52"
+            launcher:iconSizeLandscape="52"
+            launcher:iconTextSize="11"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:horizontalMargin="21.5" />
+
+        <display-option
+            launcher:name="Pixel/Android 12+"
+            launcher:minWidthDps="387"
+            launcher:minHeightDps="659"
+            launcher:iconImageSize="60"
+            launcher:iconSizeLandscape="60"
+            launcher:iconTextSize="12"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:horizontalMargin="21"
+            launcher:canBeDefault="true" />
+
+        <display-option
+            launcher:name="Pixel/Android 12+ (Largest)"
+            launcher:minWidthDps="449"
+            launcher:minHeightDps="754"
+            launcher:iconImageSize="72"
+            launcher:iconSizeLandscape="72"
+            launcher:iconTextSize="14"
+            launcher:allAppsIconSize="54"
+            launcher:allAppsIconTextSize="13"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:horizontalMargin="21.5" />
+
+    </grid-option>
+
+    <grid-option
+        launcher:name="4_by_5"
+        launcher:numRows="5"
+        launcher:numColumns="4"
+        launcher:numFolderRows="3"
+        launcher:numFolderColumns="3"
+        launcher:numHotseatIcons="4"
+        launcher:numAllAppsColumns="4"
+        launcher:isScalable="true"
+        launcher:dbFile="launcher_4_by_5.db"
+        launcher:defaultLayoutId="@xml/default_workspace_4x5"
+        launcher:deviceCategory="phone" >
+
+        <display-option
+            launcher:name="Pixel/Android 12+"
+            launcher:minWidthDps="367"
+            launcher:minHeightDps="838"
+            launcher:minCellHeight="104"
+            launcher:minCellWidth="80"
+            launcher:iconImageSize="66"
+            launcher:iconSizeLandscape="54"
+            launcher:iconTextSize="14"
+            launcher:borderSpace="16"
+            launcher:horizontalMargin="22"
+            launcher:allAppsCellHeight="104"
+            launcher:allAppsBorderSpace="16"
             launcher:canBeDefault="true" />
 
     </grid-option>
