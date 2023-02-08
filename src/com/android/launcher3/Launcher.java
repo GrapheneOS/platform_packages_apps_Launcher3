@@ -1291,7 +1291,10 @@ public class Launcher extends StatefulActivity<LauncherState>
         mHotseat = findViewById(R.id.hotseat);
         mHotseat.setWorkspace(mWorkspace);
 
-        mHotseat.setBackgroundResource(LauncherPrefs.SHOW_HOTSEAT_BG.get(this) ? R.drawable.bkg_appseat : 0);
+        if (LauncherPrefs.SHOW_HOTSEAT_BG.get(this)) {
+            mHotseat.setBackgroundResource(R.drawable.bkg_appseat);
+            mHotseat.getBackground().setAlpha(LauncherPrefs.HOTSEAT_OPACITY.get(this) * 255 / 100);
+        }
 
         // Set up pagination arrows for workspace
         mLeftArrow = findViewById(R.id.left_indicator_arrow);
