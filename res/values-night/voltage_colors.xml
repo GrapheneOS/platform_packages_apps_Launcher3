@@ -17,5 +17,5 @@
 <resources>
 
     <!-- Appseat -->
-    <color name="appseat_color">#50181c1f</color>
+    <color name="appseat_color">@*android:color/system_neutral2_900</color>
 </resources>

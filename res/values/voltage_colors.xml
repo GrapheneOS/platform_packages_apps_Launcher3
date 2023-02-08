@@ -39,5 +39,5 @@
     <color name="homepage_purple_bg">@color/m3_ref_palette_purple90</color>
 
     <!-- Appseat -->
-    <color name="appseat_color">#50D9DADB</color>
+    <color name="appseat_color">@*android:color/system_neutral2_50</color>
 </resources>
