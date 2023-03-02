@@ -44,6 +44,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -92,9 +94,11 @@ public class FolderNameProvider {
             Log.d(TAG, "getSuggestedFolderName:" + nameInfos.toString());
         }
 
+        // A shallow copy tring to avoid ConcurrentModificationException
+        final ArrayList<WorkspaceItemInfo> candidates = new ArrayList<>(workspaceItemInfos);
         // If all the icons are from work profile,
         // Then, suggest "Work" as the folder name
-        Set<UserHandle> users = workspaceItemInfos.stream().map(w -> w.user)
+        Set<UserHandle> users = candidates.stream().map(w -> w.user)
                 .collect(Collectors.toSet());
         if (users.size() == 1 && !users.contains(Process.myUserHandle())) {
             setAsLastSuggestion(nameInfos, getWorkFolderName(context));
@@ -102,10 +106,9 @@ public class FolderNameProvider {
 
         // If all the icons are from same package (e.g., main icon, shortcut, shortcut)
         // Then, suggest the package's title as the folder name
-        Set<String> packageNames = workspaceItemInfos.stream()
-                .map(WorkspaceItemInfo::getTargetComponent)
-                .filter(Objects::nonNull)
-                .map(ComponentName::getPackageName)
+        Set<String> packageNames = candidates.stream()
+                .filter(workspaceItemInfo -> workspaceItemInfo.getTargetComponent() != null)
+                .map(workspaceItemInfo -> workspaceItemInfo.getTargetComponent().getPackageName())
                 .collect(Collectors.toSet());
 
         if (packageNames.size() == 1) {
