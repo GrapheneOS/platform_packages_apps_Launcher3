@@ -231,7 +231,7 @@ public abstract class SystemShortcut<T extends Context & ActivityContext> extend
                 return null;
             }
 
-            GosPackageState ps = GosPackageState.get(pkg);
+            GosPackageState ps = GosPackageState.get(pkg, itemInfo.user.getIdentifier());
 
             if (ps != null && ps.hasFlag(GosPackageState.FLAG_STORAGE_SCOPES_ENABLED)) {
                 var res = new StorageScopes<T>(target, itemInfo, originalView);
@@ -251,7 +251,7 @@ public abstract class SystemShortcut<T extends Context & ActivityContext> extend
             var opts = ActivityOptions.makeBasic()
                     .setSplashScreenStyle(SplashScreen.SPLASH_SCREEN_STYLE_SOLID_COLOR)
                     .toBundle();
-            mTarget.startActivity(intent, opts);
+            mTarget.startActivityAsUser(intent, opts, mItemInfo.user);
         }
     }
 
