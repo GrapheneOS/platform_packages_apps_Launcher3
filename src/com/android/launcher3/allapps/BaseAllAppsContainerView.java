@@ -877,8 +877,7 @@ public abstract class BaseAllAppsContainerView<T extends Context & ActivityConte
     }
 
     protected void updateHeaderScroll(int scrolledOffset) {
-        float prog = Utilities.boundToRange((float) scrolledOffset / mHeaderThreshold, 0f, 1f);
-        int headerColor = getHeaderColor(prog);
+        int headerColor = getHeaderColor(0f);
         int tabsAlpha = mHeader.getPeripheralProtectionHeight() == 0 ? 0
                 : (int) (Utilities.boundToRange(
                         (scrolledOffset + mHeader.mSnappedScrolledY) / mHeaderThreshold, 0f, 1f)
