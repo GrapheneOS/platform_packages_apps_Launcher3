@@ -40,6 +40,15 @@
             android:persistent="true"
             launcher:iconSpaceReserved="false" />
 
+        <SwitchPreferenceCompat
+            android:key="pref_sleep_gesture_haptic"
+            android:title="@string/pref_sleep_gesture_haptic_title"
+            android:summary="@string/pref_sleep_gesture_haptic_summary"
+            android:defaultValue="true"
+            android:persistent="true"
+            android:dependency="pref_sleep_gesture"
+            launcher:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
