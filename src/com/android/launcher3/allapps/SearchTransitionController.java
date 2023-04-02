@@ -16,6 +16,7 @@
 
 package com.android.launcher3.allapps;
 
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import static androidx.recyclerview.widget.RecyclerView.NO_POSITION;
@@ -124,8 +125,8 @@ public class SearchTransitionController {
         mSearchToAzAnimator.addListener(forSuccessCallback(onEndRunnable));
 
         mAllAppsContainerView.getFloatingHeaderView().setFloatingRowsCollapsed(true);
-        mAllAppsContainerView.getFloatingHeaderView().setVisibility(VISIBLE);
-        mAllAppsContainerView.getAppsRecyclerViewContainer().setVisibility(VISIBLE);
+        mAllAppsContainerView.getFloatingHeaderView().setVisibility(GONE);
+        mAllAppsContainerView.getAppsRecyclerViewContainer().setVisibility(GONE);
         getSearchRecyclerView().setVisibility(VISIBLE);
         getSearchRecyclerView().setChildAttachedConsumer(this::onSearchChildAttached);
         mSearchToAzAnimator.start();
