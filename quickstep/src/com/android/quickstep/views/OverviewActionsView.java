@@ -44,6 +44,7 @@ import com.android.launcher3.anim.AnimatedFloat;
 import com.android.launcher3.util.DisplayController;
 import com.android.launcher3.util.MultiValueAlpha;
 import com.android.launcher3.util.NavigationMode;
+import com.android.launcher3.util.VibratorWrapper;
 import com.android.quickstep.TaskOverlayFactory.OverlayUICallbacks;
 import com.android.quickstep.util.LayoutUtils;
 import com.android.wm.shell.shared.TypefaceUtils;
@@ -260,14 +261,19 @@ public class OverviewActionsView<T extends OverlayUICallbacks> extends FrameLayo
         }
         final int id = view.getId();
         if (id == R.id.action_screenshot) {
+            VibratorWrapper.INSTANCE.get(getContext()).vibrate(VibratorWrapper.EFFECT_CLICK);
             mCallbacks.onScreenshot();
         } else if (id == R.id.action_split) {
+            VibratorWrapper.INSTANCE.get(getContext()).vibrate(VibratorWrapper.EFFECT_CLICK);
             mCallbacks.onSplit();
         } else if (id == R.id.action_save_app_pair) {
+            VibratorWrapper.INSTANCE.get(getContext()).vibrate(VibratorWrapper.EFFECT_CLICK);
             mCallbacks.onSaveAppPair();
         } else if (id == R.id.action_clear_all) {
+            VibratorWrapper.INSTANCE.get(getContext()).vibrate(VibratorWrapper.EFFECT_CLICK);
             mCallbacks.onClearAllTasksRequested();
         } else if (id == R.id.action_lens) {
+            VibratorWrapper.INSTANCE.get(getContext()).vibrate(VibratorWrapper.EFFECT_CLICK);
             mCallbacks.onLens();
         }
     }
