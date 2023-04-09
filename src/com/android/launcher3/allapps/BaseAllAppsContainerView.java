@@ -905,7 +905,13 @@ public abstract class BaseAllAppsContainerView<T extends Context & ActivityConte
             }
             return bottom;
         }
-        return bottom + mHeader.getTop();
+        float bottomPaddingPixel = 16f;
+        float bottomPadding = !isWorkTabVisible()? TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                bottomPaddingPixel,
+                getResources().getDisplayMetrics()
+        ): 0;
+        return bottom + (int) bottomPadding + mHeader.getTop();
     }
 
     /**
