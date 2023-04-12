@@ -13,14 +13,11 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import androidx.core.view.ViewCompat;
-import com.android.launcher3.BaseActivity;
-import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.qsb.QsbContainerView;
 import com.android.launcher3.util.Themes;
-import com.android.launcher3.views.ActivityContext;
 import android.view.View;
 
 public class QsbLayout extends FrameLayout {
@@ -91,13 +88,9 @@ public class QsbLayout extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int requestedWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
-        DeviceProfile dp = ActivityContext.lookupContext(mContext).getDeviceProfile();
-        int cellWidth = DeviceProfile.calculateCellWidth(requestedWidth, dp.getWorkspaceIconProfile().getCellLayoutBorderSpacePx().x, dp.numShownHotseatIcons);
-        int iconSize = (int)(Math.round((dp.getWorkspaceIconProfile().getIconSizePx() * 0.92f)));
-        int width = requestedWidth;
         setMeasuredDimension(width, height);
 
         for (int i = 0; i < getChildCount(); i++) {
