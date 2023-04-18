@@ -56,4 +56,7 @@
     <!-- Restart launcher -->
     <string name="pref_restart_title">Restart</string>
     <string name="pref_restart_summary">Restart the launcher manually to apply any pending settings</string>
+    <string name="restarting_launcher">Restarting launcher...</string>
+    <string name="restarting_launcher_changes">Restarting launcher to apply changes...</string>
+    <string name="updating_launcher_components">Restarting launcher to update launcher components...</string>
 </resources>

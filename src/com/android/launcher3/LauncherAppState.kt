@@ -16,6 +16,7 @@
 package com.android.launcher3
 
 import android.content.Context
+import android.widget.Toast;
 import com.android.launcher3.dagger.ApplicationContext
 import com.android.launcher3.icons.IconCache
 import com.android.launcher3.icons.LauncherIconProvider
@@ -44,6 +45,7 @@ constructor(
         // we destroyed Settings activity with the back button
         // so we force a restart now if needed without waiting for home button press
         if (needsRestart) {
+            Toast.makeText(context, R.string.restarting_launcher_changes, Toast.LENGTH_SHORT).show();
             Utilities.restart(context)
         }
     }
