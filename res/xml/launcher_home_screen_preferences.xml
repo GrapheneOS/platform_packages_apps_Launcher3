@@ -105,6 +105,20 @@
             android:defaultValue="true"
             launcher:iconSpaceReserved="false" />
 
+        <SwitchPreferenceCompat
+            android:key="pref_short_parallax"
+            android:title="@string/short_parallax_title"
+            android:summary="@string/short_parallax_summary"
+            android:defaultValue="false"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
+            android:key="pref_single_page_center"
+            android:title="@string/single_page_center_title"
+            android:summary="@string/single_page_center_summary"
+            android:defaultValue="false"
+            launcher:iconSpaceReserved="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

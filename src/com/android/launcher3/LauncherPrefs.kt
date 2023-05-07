@@ -277,6 +277,7 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
         @JvmField val RECENTS_SCREENSHOT = backedUpItem("pref_recents_screenshot", true)
         @JvmField val ROW_HEIGHT = backedUpItem("pref_row_height", 100)
         @JvmField val SEARCH_RADIUS_SIZE = backedUpItem("pref_search_radius_size", 100)
+        @JvmField val SHORT_PARALLAX = backedUpItem("pref_short_parallax", false)
         @JvmField val SHOW_DESKTOP_LABELS = backedUpItem("pref_desktop_show_labels", true)
         @JvmField val SHOW_DRAWER_LABELS = backedUpItem("pref_drawer_show_labels", true)
         @JvmField
@@ -285,6 +286,7 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
         @JvmField val SHOW_HOTSEAT_BG = backedUpItem("pref_show_hotseat_bg", false)
         @JvmField val SHOW_STATUS_BAR = backedUpItem("pref_show_statusbar", true)
         @JvmField val SHOW_TOP_SHADOW = backedUpItem("pref_show_top_shadow", true)
+        @JvmField val SINGLE_PAGE_CENTER = backedUpItem("pref_single_page_center", false)
         @JvmField val SLEEP_GESTURE = backedUpItem("pref_sleep_gesture", true)
         @JvmField val SLEEP_GESTURE_HAPTIC = backedUpItem("pref_sleep_gesture_haptic", true)
         @JvmField val WALLPAPER_SCROLLING = backedUpItem("pref_allow_wallpaper_scrolling", true)
