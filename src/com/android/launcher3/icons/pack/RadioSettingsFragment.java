@@ -24,14 +24,16 @@ import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 
+import com.android.settingslib.widget.SelectorWithWidgetPreference;
+
 import java.util.List;
 
 public abstract class RadioSettingsFragment extends PreferenceFragment implements
         Preference.OnPreferenceClickListener {
-    private RadioPreference selectedPreference = null;
+    private SelectorWithWidgetPreference selectedPreference = null;
     private RadioHeaderPreference headerPref = null;
 
-    protected abstract List<RadioPreference> getRadioPreferences(Context context);
+    protected abstract List<SelectorWithWidgetPreference> getPreferences(Context context);
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -44,19 +46,19 @@ public abstract class RadioSettingsFragment extends PreferenceFragment implement
             screen.addPreference(headerPref);
         }
 
-        loadRadioPreferences(context, screen, null);
+        loadPreferences(context, screen, null);
         setPreferenceScreen(screen);
     }
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        if (preference instanceof RadioPreference) {
+        if (preference instanceof SelectorWithWidgetPreference) {
             onSelected(preference.getKey());
 
             if (selectedPreference != null) {
                 selectedPreference.setChecked(false);
             }
-            selectedPreference = (RadioPreference) preference;
+            selectedPreference = (SelectorWithWidgetPreference) preference;
             selectedPreference.setChecked(true);
             return true;
         } else {
@@ -75,7 +77,7 @@ public abstract class RadioSettingsFragment extends PreferenceFragment implement
         return null;
     }
 
-    protected final void setSelectedPreference(RadioPreference preference) {
+    protected final void setSelectedPreference(SelectorWithWidgetPreference preference) {
         selectedPreference = preference;
     }
 
@@ -105,7 +107,7 @@ public abstract class RadioSettingsFragment extends PreferenceFragment implement
         final int numPreferences = screen.getPreferenceCount();
         for (int i = numPreferences - 1; i >= 0; i--) {
             final Preference p = screen.getPreference(i);
-            if (p instanceof RadioPreference) {
+            if (p instanceof SelectorWithWidgetPreference) {
                 screen.removePreference(p);
             }
         }
@@ -113,15 +115,15 @@ public abstract class RadioSettingsFragment extends PreferenceFragment implement
         // Add radio preferences
         final PreferenceManager prefManager = getPreferenceManager();
         final Context context = prefManager.getContext();
-        loadRadioPreferences(context, screen, currentKey);
+        loadPreferences(context, screen, currentKey);
     }
 
-    private void loadRadioPreferences(Context context, PreferenceScreen screen,
+    private void loadPreferences(Context context, PreferenceScreen screen,
             String currentKey) {
         boolean hasSetNewCurrent = false;
 
-        final List<RadioPreference> prefs = getRadioPreferences(context);
-        for (final RadioPreference p : prefs) {
+        final List<SelectorWithWidgetPreference> prefs = getPreferences(context);
+        for (final SelectorWithWidgetPreference p : prefs) {
             if (currentKey != null && currentKey.equals(p.getKey())) {
                 p.setChecked(true);
                 selectedPreference = p;

@@ -33,6 +33,8 @@ import com.android.launcher3.R;
 
 import com.android.launcher3.customization.IconDatabase;
 
+import com.android.settingslib.widget.SelectorWithWidgetPreference;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -89,14 +91,14 @@ public final class IconPackSettingsFragment extends RadioSettingsFragment {
     }
 
     @Override
-    protected List<RadioPreference> getRadioPreferences(Context context) {
+    protected List<SelectorWithWidgetPreference> getPreferences(Context context) {
         final String currentIconPack = IconDatabase.getGlobal(context);
-        final List<RadioPreference> prefsList = new ArrayList<>();
+        final List<SelectorWithWidgetPreference> prefsList = new ArrayList<>();
         final Set<IconPackInfo> iconPacks = getAvailableIconPacks(context);
 
         for (final IconPackInfo entry : iconPacks) {
             final boolean isCurrent = currentIconPack.equals(entry.pkgName);
-            final RadioPreference pref = buildPreference(context,
+            final SelectorWithWidgetPreference pref = buildPreference(context,
                     entry.pkgName, entry.label, isCurrent);
             prefsList.add(pref);
 
@@ -138,9 +140,9 @@ public final class IconPackSettingsFragment extends RadioSettingsFragment {
         return availablePacks;
     }
 
-    private RadioPreference buildPreference(Context context, String pkgName,
+    private SelectorWithWidgetPreference buildPreference(Context context, String pkgName,
             String label, boolean isChecked) {
-        final RadioPreference pref = new RadioPreference(context);
+        final SelectorWithWidgetPreference pref = new SelectorWithWidgetPreference(context);
         pref.setKey(pkgName);
         pref.setTitle(label);
         pref.setPersistent(false);
