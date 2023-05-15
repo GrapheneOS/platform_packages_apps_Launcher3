@@ -69,6 +69,7 @@ import static com.android.launcher3.logging.StatsLogManager.StatsLatencyLogger.L
 import static com.android.launcher3.model.ItemInstallQueue.FLAG_ACTIVITY_PAUSED;
 import static com.android.launcher3.model.ItemInstallQueue.FLAG_DRAG_AND_DROP;
 import static com.android.launcher3.popup.SystemShortcut.APP_INFO;
+import static com.android.launcher3.popup.SystemShortcut.CONTACT_SCOPES;
 import static com.android.launcher3.popup.SystemShortcut.INSTALL;
 import static com.android.launcher3.popup.SystemShortcut.STORAGE_SCOPES;
 import static com.android.launcher3.popup.SystemShortcut.WIDGETS;
@@ -3275,7 +3276,7 @@ public class Launcher extends StatefulActivity<LauncherState>
     }
 
     public Stream<SystemShortcut.Factory> getSupportedShortcuts() {
-        return Stream.of(APP_INFO, WIDGETS, INSTALL, STORAGE_SCOPES);
+        return Stream.of(APP_INFO, WIDGETS, INSTALL, STORAGE_SCOPES, CONTACT_SCOPES);
     }
 
     protected LauncherAccessibilityDelegate createAccessibilityDelegate() {
