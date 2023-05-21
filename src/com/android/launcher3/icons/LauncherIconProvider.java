@@ -92,7 +92,7 @@ public class LauncherIconProvider extends IconProvider {
                 if (TAG_ICON.equals(parser.getName())) {
                     String pkg = parser.getAttributeValue(null, ATTR_PACKAGE);
                     int iconId = parser.getAttributeResourceValue(null, ATTR_DRAWABLE, 0);
-                    if (iconId != 0 && !TextUtils.isEmpty(pkg)) {
+                    if (iconId != 0 && pkg != null && !pkg.isEmpty()) {
                         map.put(pkg, new ThemeData(res, iconId));
                     }
                 }
