@@ -38,7 +38,8 @@ class MetadataExtractor {
             if (!TextUtils.isEmpty(mSourcePkg)) {
                 mMarketIntent = new Intent(Intent.ACTION_VIEW)
                         .setData(Uri.parse("market://details?id=" + pkg))
-                        .setPackage(mSourcePkg);
+                        .setPackage(mSourcePkg)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
