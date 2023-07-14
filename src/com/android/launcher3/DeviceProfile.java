@@ -197,6 +197,7 @@ public class DeviceProfile {
 
     // Meminfo in overview
     public int memInfoMarginGesturePx;
+    public int memInfoMarginTransientTaskbarPx;
     public int memInfoMarginThreeButtonPx;
 
     /** Used only as an alternative to mocking when null values cannot be used. */
@@ -500,6 +501,8 @@ public class DeviceProfile {
 
         memInfoMarginGesturePx = res.getDimensionPixelSize(
                 R.dimen.meminfo_bottom_margin_gesture);
+        memInfoMarginTransientTaskbarPx = res.getDimensionPixelSize(
+                R.dimen.meminfo_bottom_margin_transient_taskbar);
         memInfoMarginThreeButtonPx = res.getDimensionPixelSize(
                 R.dimen.meminfo_bottom_margin_three_button);
 
