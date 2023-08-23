@@ -72,7 +72,7 @@ open class RecentsState(@JvmField val ordinal: Int, private val mFlags: Int) :
     fun isFullScreen() = hasFlag(FLAG_FULL_SCREEN)
 
     /** For this state, whether clear all button should be shown. */
-    fun hasClearAllButton() = false
+    fun hasClearAllButton() = hasFlag(FLAG_CLEAR_ALL_BUTTON);
 
     /** For this state, whether add desk button should be shown. */
     fun hasAddDeskButton() = hasFlag(FLAG_ADD_DESK_BUTTON)
