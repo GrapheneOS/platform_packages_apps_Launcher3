@@ -122,10 +122,6 @@ public class LauncherDbUtils {
                 deletedShortcuts.add(lc.id);
                 continue;
             }
-            if (TextUtils.isEmpty(lc.getTitle())) {
-                deletedShortcuts.add(lc.id);
-                continue;
-            }
             PersistableBundle extras = new PersistableBundle();
             extras.putString(EXTRA_SHORTCUT_BADGE_OVERRIDE_PACKAGE, ri.activityInfo.packageName);
             ShortcutInfo.Builder infoBuilder = new ShortcutInfo.Builder(
