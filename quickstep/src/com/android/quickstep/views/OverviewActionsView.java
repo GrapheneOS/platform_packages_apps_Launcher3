@@ -18,6 +18,7 @@ package com.android.quickstep.views;
 
 import static com.android.launcher3.util.OverviewReleaseFlags.enableGridOnlyOverview;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Rect;
@@ -303,7 +304,9 @@ public class OverviewActionsView<T extends OverlayUICallbacks> extends FrameLayo
     private void updateForIsTablet() {
         assert mDp != null;
         // Update flags to see if split button should be hidden.
-        updateSplitButtonHiddenFlags(FLAG_SMALL_SCREEN_HIDE_SPLIT, !mDp.getDeviceProperties().isTablet());
+        updateSplitButtonHiddenFlags(FLAG_SMALL_SCREEN_HIDE_SPLIT,
+                !mDp.getDeviceProperties().isTablet() ||
+                getContext().getSystemService(ActivityManager.class).isLowRamDevice());
         updateActionButtonsVisibility();
     }
 
@@ -312,7 +315,9 @@ public class OverviewActionsView<T extends OverlayUICallbacks> extends FrameLayo
             return;
         }
         boolean showSingleTaskActions = !mIsGroupedTask;
-        boolean showGroupActions = mIsGroupedTask && mDp.getDeviceProperties().isTablet() && mCanSaveAppPair;
+        boolean showGroupActions = mIsGroupedTask && mDp.getDeviceProperties().isTablet() &&
+                mCanSaveAppPair &&
+                !getContext().getSystemService(ActivityManager.class).isLowRamDevice();
         Log.d(TAG, "updateActionButtonsVisibility() called: showSingleTaskActions = ["
                 + showSingleTaskActions + "], showGroupActions = [" + showGroupActions + "]");
         getActionsAlphas().get(INDEX_GROUPED_ALPHA).setValue(showSingleTaskActions ? 1 : 0);
