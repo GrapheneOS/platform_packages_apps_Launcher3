@@ -277,6 +277,15 @@ public class TaskOverlayFactory {
             recentsView.dismissAllTasks();
         }
 
+        private void launchLens() {
+            final RecentsView recentsView =
+                    mTaskContainer.getTaskView().getRecentsView();
+            if (recentsView != null) {
+                recentsView.startHome();
+                mImageApi.startLensActivity();
+            }
+        }
+
         /**
          * Called when the overlay is no longer used.
          */
@@ -454,7 +463,7 @@ public class TaskOverlayFactory {
             @Override
             public void onLens() {
                 if (mIsAllowedByPolicy) {
-                    endLiveTileMode(() -> mImageApi.startLensActivity());
+                    endLiveTileMode(TaskOverlay.this::launchLens);
                 } else {
                     showBlockedByPolicyMessage();
                 }
