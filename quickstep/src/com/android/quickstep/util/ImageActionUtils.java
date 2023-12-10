@@ -179,6 +179,7 @@ public class ImageActionUtils {
                     .setComponent(
                             new ComponentName(Utilities.GSA_PACKAGE, Utilities.LENS_SHARE_ACTIVITY))
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
                     .addFlags(FLAG_GRANT_READ_URI_PERMISSION)
                     .setType("image/png")
                     .putExtra(Intent.EXTRA_STREAM, uri)
