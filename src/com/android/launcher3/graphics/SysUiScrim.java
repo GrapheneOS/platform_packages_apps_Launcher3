@@ -137,9 +137,6 @@ public class SysUiScrim implements View.OnAttachStateChangeListener {
                 mAnimateScrimOnNextDraw = false;
             }
 
-            if (mDrawTopScrim) {
-                canvas.drawBitmap(mTopMaskBitmap, null, mTopMaskRect, mTopMaskPaint);
-            }
             if (mDrawBottomScrim) {
                 canvas.drawBitmap(mBottomMaskBitmap, null, mBottomMaskRect, mBottomMaskPaint);
             }
