@@ -21,7 +21,13 @@ import com.android.launcher3.dagger.LauncherComponentProvider.appComponent
 import javax.inject.Inject
 
 /** Creates [TaskbarModelCallbacks] instances. */
+// We must have constructors with and without context for Overrides.getObject
 open class TaskbarModelCallbacksFactory @Inject constructor() {
+    var ctx: Context? = null
+
+    constructor(context: Context?) : this() {
+        this.ctx = context;
+    }
 
     open fun create(
         activityContext: TaskbarActivityContext,

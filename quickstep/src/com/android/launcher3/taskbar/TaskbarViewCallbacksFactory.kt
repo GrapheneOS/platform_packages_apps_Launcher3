@@ -27,7 +27,13 @@ import com.android.quickstep.util.ContextualSearchInvoker
 import javax.inject.Inject
 
 /** Creates [TaskbarViewCallbacks] instances. */
+// We must have constructors with and without context for Overrides.getObject
 open class TaskbarViewCallbacksFactory @Inject constructor() {
+    var ctx: Context? = null
+
+    constructor(context: Context?) : this() {
+        this.ctx = context;
+    }
 
     open fun create(
         activity: TaskbarActivityContext,
