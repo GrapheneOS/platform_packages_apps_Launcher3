@@ -40,6 +40,13 @@
         launcher:iconSpaceReserved="false" />
 
     <SwitchPreferenceCompat
+        android:key="pref_drawer_scrollbar"
+        android:title="@string/drawer_scrollbar_title"
+        android:summary="@string/drawer_scrollbar_summary"
+        android:defaultValue="true"
+        launcher:iconSpaceReserved="false" />
+
+    <SwitchPreferenceCompat
         android:key="pref_enable_two_line_toggle"
         android:title="@string/icon_two_lines_title"
         android:defaultValue="false"
