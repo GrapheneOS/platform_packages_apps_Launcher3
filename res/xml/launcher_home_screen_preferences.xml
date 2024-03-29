@@ -22,14 +22,15 @@
     <PreferenceCategory
         android:title="@string/general_category_title">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:key="pref_add_icon_to_home"
             android:title="@string/auto_add_shortcuts_label"
             android:summary="@string/auto_add_shortcuts_description"
             android:defaultValue="true"
             android:persistent="true"
             launcher:logIdOn="613"
-            launcher:logIdOff="614" />
+            launcher:logIdOff="614"
+            launcher:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
