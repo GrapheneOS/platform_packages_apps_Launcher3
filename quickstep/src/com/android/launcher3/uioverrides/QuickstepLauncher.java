@@ -58,6 +58,7 @@ import static com.android.launcher3.popup.SystemShortcut.APP_INFO;
 import static com.android.launcher3.popup.SystemShortcut.BUBBLE_SHORTCUT;
 import static com.android.launcher3.popup.SystemShortcut.DONT_SUGGEST_APP;
 import static com.android.launcher3.popup.SystemShortcut.INSTALL;
+import static com.android.launcher3.popup.SystemShortcut.KILL_APP;
 import static com.android.launcher3.popup.SystemShortcut.PRIVATE_PROFILE_INSTALL;
 import static com.android.launcher3.popup.SystemShortcut.REMOVE;
 import static com.android.launcher3.popup.SystemShortcut.UNINSTALL;
@@ -569,6 +570,7 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer,
         shortcuts.add(UNINSTALL);
         shortcuts.add(WellbeingModel.PAUSE_APPS);
         shortcuts.add(WIDGETS);
+        shortcuts.add(KILL_APP);
         shortcuts.add(INSTALL);
         // TODO(b/444744861): Update private space apps to have its own container.
         boolean isPinnable = itemInfo instanceof ItemInfoWithIcon info
