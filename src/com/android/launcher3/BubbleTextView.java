@@ -605,7 +605,7 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver,
         // whether the BubbleTextView height needs to be increased to accommodate an extra line of
         // text.
         if (mDisplay == DISPLAY_ALL_APPS || mDisplay == DISPLAY_PREDICTION_ROW) {
-            return mDeviceProfile.inv.enableTwoLinesInAllApps;
+            return LauncherPrefs.ENABLE_TWOLINE_ALLAPPS_TOGGLE.get(getContext());
         }
 
         // Otherwise, show two lines if the cell declares it can fit two line label.

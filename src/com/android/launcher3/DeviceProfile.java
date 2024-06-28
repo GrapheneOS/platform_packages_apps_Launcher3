@@ -861,7 +861,7 @@ public class DeviceProfile {
             hideWorkspaceLabelsIfNotEnoughSpace();
         }
 
-        if (inv.enableTwoLinesInAllApps
+        if (LauncherPrefs.ENABLE_TWOLINE_ALLAPPS_TOGGLE.get(context)
                 && !(mIsResponsiveGrid && getAllAppsProfile().getMaxAllAppsTextLineCount() == 2)) {
             // Add extra textHeight to the existing allAppsCellHeight.
             mAllAppsProfile = getAllAppsProfile().copyWithCellHeightPx(

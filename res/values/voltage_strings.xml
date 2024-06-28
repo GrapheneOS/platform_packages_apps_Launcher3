@@ -103,4 +103,7 @@
     <string name="paused_apps_dialog_title">App paused</string>
     <string name="paused_apps_dialog_message">%1$s was directly paused from the launcher</string>
     <string name="paused_apps_drop_target_label">Pause app</string>
+
+    <!-- App label -->
+    <string name="icon_two_lines_title">Use two lines for app label</string>
 </resources>

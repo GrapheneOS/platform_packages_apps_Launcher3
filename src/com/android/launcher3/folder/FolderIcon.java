@@ -54,6 +54,7 @@ import com.android.launcher3.CheckLongPressHelper;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.DropTarget.DragObject;
 import com.android.launcher3.Launcher;
+import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.LauncherSettings;
 import com.android.launcher3.OnAlarmListener;
 import com.android.launcher3.R;
@@ -210,6 +211,13 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
         icon.mFolderName = icon.findViewById(R.id.folder_icon_name);
         if (icon.mFolderName.shouldShowLabel()) {
             icon.mFolderName.applyLabel(folderInfo.title);
+            if (group != null && LauncherPrefs.ENABLE_TWOLINE_ALLAPPS_TOGGLE.get(group.getContext())) {
+                icon.mFolderName.setSingleLine(false);
+                icon.mFolderName.setMaxLines(2);
+            } else {
+                icon.mFolderName.setSingleLine(true);
+                icon.mFolderName.setMaxLines(1);
+            }
         }
         icon.mFolderName.setCompoundDrawablePadding(0);
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) icon.mFolderName.getLayoutParams();
