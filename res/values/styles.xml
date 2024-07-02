@@ -38,9 +38,9 @@
     </style>
 
     <style name="LauncherTheme" parent="@style/DynamicColorsBaseLauncherTheme">
-        <item name="android:textColorSecondary">#DE000000</item>
+        <item name="android:textColorSecondary">@*android:color/system_neutral2_800</item>
         <item name="groupHighlight">@color/materialColorSurfaceContainerHigh</item>
-        <item name="allAppsScrimColor">@color/materialColorSurfaceDim</item>
+        <item name="allAppsScrimColor">@*android:color/system_neutral1_100</item>
         <item name="allappsHeaderProtectionColor">@color/materialColorSurfaceContainerHighest</item>
         <item name="allAppsNavBarScrimColor">#66FFFFFF</item>
         <item name="allAppsSurfaceLow">@color/materialColorSurfaceContainerLow</item>
@@ -119,12 +119,12 @@
 
     <style name="LauncherTheme.Dark" parent="@style/LauncherTheme">
         <item name="android:textColorPrimary">@color/text_color_primary_dark</item>
-        <item name="android:textColorSecondary">@color/text_color_secondary_dark</item>
+        <item name="android:textColorSecondary">@*android:color/system_neutral1_100</item>
         <item name="android:textColorTertiary">@color/text_color_tertiary_dark</item>
         <item name="android:textColorHint">#A0FFFFFF</item>
         <item name="android:colorControlHighlight">#19FFFFFF</item>
         <item name="android:colorPrimary">#FF212121</item>
-        <item name="allAppsScrimColor">@color/materialColorSurfaceDim</item>
+        <item name="allAppsScrimColor">@*android:color/system_neutral1_800</item>
         <item name="allappsHeaderProtectionColor">@color/materialColorSurfaceContainerLow</item>
         <item name="allAppsNavBarScrimColor">#80000000</item>
         <item name="popupColorPrimary">@color/popup_color_primary_dark</item>
