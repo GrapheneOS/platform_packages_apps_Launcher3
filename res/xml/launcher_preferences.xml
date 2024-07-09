@@ -50,4 +50,21 @@
         launcher:logIdOn="615"
         launcher:logIdOff="616" />
 
+    <com.android.launcher3.settings.preferences.CustomSeekBarPreference
+      android:key="pref_custom_icon_size"
+      android:title="@string/icon_size_title"
+      android:persistent="true"
+      android:max="150"
+      android:min="50"
+      settings:units="%"
+      android:defaultValue="100" />
+
+    <com.android.launcher3.settings.preferences.CustomSeekBarPreference
+      android:key="pref_custom_font_size"
+      android:title="@string/font_size_title"
+      android:persistent="true"
+      android:max="150"
+      android:min="50"
+      settings:units="%"
+      android:defaultValue="100" />
 </androidx.preference.PreferenceScreen>
