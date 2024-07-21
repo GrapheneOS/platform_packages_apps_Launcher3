@@ -15,6 +15,8 @@
  */
 package com.android.launcher3.allapps.search;
 
+import android.app.SearchManager;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +61,17 @@ public class DefaultSearchAdapterProvider extends SearchAdapterProvider<Activity
             ItemInfo itemInfo = (ItemInfo) mHighlightedView.getTag();
             return mLauncher.startActivitySafely(
                     mHighlightedView, itemInfo.getIntent(), itemInfo) != null;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean performGoogleSearch(View view, String query) {
+        if (view instanceof View) {
+            Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+            intent.setPackage("com.google.android.googlequicksearchbox");
+            intent.putExtra(SearchManager.QUERY, query);
+            return mLauncher.startActivitySafely(view, intent, null) != null;
         }
         return false;
     }

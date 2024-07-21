@@ -81,4 +81,9 @@ public abstract class SearchAdapterProvider<T extends ActivityContext> {
     public int getItemsPerRow(int viewType, int appsPerRow) {
         return appsPerRow;
     }
+
+    /**
+     * Performs a Google search using the given query.
+     */
+    public abstract boolean performGoogleSearch(View view, String query);
 }
