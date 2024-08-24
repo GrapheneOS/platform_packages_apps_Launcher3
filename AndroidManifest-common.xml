@@ -56,6 +56,9 @@
     <uses-permission android:name="android.permission.ACCESS_CONTEXTUAL_SEARCH"/>
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
 
+    <!-- Floating window -->
+    <uses-permission android:name="com.libremobileos.permission.START_FREEFORM" />
+
     <permission
         android:name="${applicationId}.permission.GRID_CONTROL"
         android:knownCerts="@array/grid_control_known_signers"

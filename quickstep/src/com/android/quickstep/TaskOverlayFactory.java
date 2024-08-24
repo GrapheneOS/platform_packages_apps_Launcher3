@@ -128,6 +128,7 @@ public class TaskOverlayFactory {
             TaskShortcutFactory.UNINSTALL,
             TaskShortcutFactory.PIN,
             TaskShortcutFactory.INSTALL,
+            TaskShortcutFactory.FLOATING,
             TaskShortcutFactory.FREE_FORM,
             DesktopSystemShortcut.Companion.createFactory(),
             ExternalDisplaySystemShortcut.Companion.createFactory(),
