@@ -99,6 +99,16 @@
             android:dependency="pref_dock_search"
             android:defaultValue="100" />
 
+        <com.android.launcher3.settings.preferences.CustomSeekBarPreference
+            android:key="pref_hotseat_qsb_stroke_width"
+            android:title="@string/stroke_width_title"
+            android:persistent="true"
+            android:max="10"
+            android:min="0"
+            settings:units="vw"
+            android:dependency="pref_dock_search"
+            android:defaultValue="0" />
+
         <SwitchPreferenceCompat
             android:key="pref_dock_music_search"
             android:title="@string/dock_music_search_title"

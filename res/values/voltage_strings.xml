@@ -122,6 +122,9 @@
     <!-- Background opacity -->
     <string name="background_opacity_title">Background opacity</string>
 
+    <!-- Stroke -->
+    <string name="stroke_width_title">Stroke</string>
+
     <!-- Hotseat searchbar -->
     <string name="label_search">Search</string>
     <string name="label_lens">Google Lens</string>
