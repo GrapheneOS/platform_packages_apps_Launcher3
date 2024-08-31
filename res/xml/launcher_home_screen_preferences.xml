@@ -89,6 +89,16 @@
             android:defaultValue="true"
             launcher:iconSpaceReserved="false" />
 
+        <com.android.launcher3.settings.preferences.CustomSeekBarPreference
+            android:key="pref_hotseat_qsb_opacity"
+            android:title="@string/background_opacity_title"
+            android:persistent="true"
+            android:max="100"
+            android:min="0"
+            settings:units="%"
+            android:dependency="pref_dock_search"
+            android:defaultValue="100" />
+
         <SwitchPreferenceCompat
             android:key="pref_dock_music_search"
             android:title="@string/dock_music_search_title"
