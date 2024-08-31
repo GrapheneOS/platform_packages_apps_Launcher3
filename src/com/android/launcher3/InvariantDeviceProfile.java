@@ -1605,20 +1605,23 @@ public class InvariantDeviceProfile {
                     allAppsBorderSpaceTwoPanelLandscape);
             allAppsBorderSpaces[INDEX_TWO_PANEL_LANDSCAPE] = new PointF(x, y);
 
-            iconSizes[INDEX_DEFAULT] =
-                    a.getFloat(R.styleable.ProfileDisplayOption_iconImageSize, 0) * iconSizeModifier;
-            iconSizes[INDEX_LANDSCAPE] =
-                    a.getFloat(R.styleable.ProfileDisplayOption_iconSizeLandscape,
-                            iconSizes[INDEX_DEFAULT]);
-            iconSizes[INDEX_TWO_PANEL_PORTRAIT] =
-                    a.getFloat(R.styleable.ProfileDisplayOption_iconSizeTwoPanelPortrait,
-                            iconSizes[INDEX_DEFAULT]);
-            iconSizes[INDEX_TWO_PANEL_LANDSCAPE] =
-                    a.getFloat(R.styleable.ProfileDisplayOption_iconSizeTwoPanelLandscape,
-                            iconSizes[INDEX_DEFAULT]);
+            float baseIconSize = a.getFloat(R.styleable.ProfileDisplayOption_iconImageSize, 0);
 
-            allAppsIconSizes[INDEX_DEFAULT] = a.getFloat(
-                    R.styleable.ProfileDisplayOption_allAppsIconSize, iconSizes[INDEX_DEFAULT]);
+            iconSizes[INDEX_DEFAULT] = baseIconSize * iconSizeModifier;
+            iconSizes[INDEX_LANDSCAPE] = a.getFloat(
+                    R.styleable.ProfileDisplayOption_iconSizeLandscape,
+                    iconSizes[INDEX_DEFAULT]);
+            iconSizes[INDEX_TWO_PANEL_PORTRAIT] = a.getFloat(
+                    R.styleable.ProfileDisplayOption_iconSizeTwoPanelPortrait,
+                    iconSizes[INDEX_DEFAULT]);
+            iconSizes[INDEX_TWO_PANEL_LANDSCAPE] = a.getFloat(
+                    R.styleable.ProfileDisplayOption_iconSizeTwoPanelLandscape,
+                    iconSizes[INDEX_DEFAULT]);
+
+            float baseAllAppsIconSize = a.getFloat(R.styleable.ProfileDisplayOption_allAppsIconSize, 0);
+
+            allAppsIconSizes[INDEX_DEFAULT] = baseAllAppsIconSize == 0 ? 
+                iconSizes[INDEX_DEFAULT] : baseAllAppsIconSize * iconSizeModifier;
             allAppsIconSizes[INDEX_LANDSCAPE] = a.getFloat(
                     R.styleable.ProfileDisplayOption_allAppsIconSizeLandscape,
                     allAppsIconSizes[INDEX_DEFAULT]);
