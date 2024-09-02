@@ -270,6 +270,30 @@ public abstract class SystemShortcut<T extends ActivityContext> extends ItemInfo
         }
     }
 
+    public static final Factory<BaseActivity> CONTACT_SCOPES = ContactScopes::maybeGet;
+
+    public static class ContactScopes<T extends ActivityContext> extends ScopesShortcut<T> {
+
+        private ContactScopes(T target, ItemInfo itemInfo, View originalView) {
+            super(R.drawable.ic_cscopes, R.string.contact_scopes_label, target,
+                    itemInfo, originalView);
+        }
+
+        @Nullable
+        public static <T extends ActivityContext> ContactScopes<T> maybeGet(T target, ItemInfo itemInfo, View originalView) {
+            if (hasGosPackageStateFlag(itemInfo, GosPackageStateFlag.CONTACT_SCOPES_ENABLED)) {
+                return new ContactScopes<>(target, itemInfo, originalView);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected Intent getIntent(String targetPkg) {
+            return android.ext.cscopes.ContactScopesApi.createConfigActivityIntent(targetPackage);
+        }
+    }
+
     public static final Factory<ActivityContext> PRIVATE_PROFILE_INSTALL =
             (context, itemInfo, originalView) -> {
                 if (originalView == null) {
