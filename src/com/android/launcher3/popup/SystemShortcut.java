@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.LauncherActivityInfo;
 import android.content.pm.LauncherApps;
+import android.content.pm.GosPackageState;
 import android.content.pm.ShortcutInfo;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -34,12 +35,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.UserHandle;
+import android.window.SplashScreen;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.AbstractFloatingViewHelper;
+import com.android.launcher3.BaseActivity;
 import com.android.launcher3.DropTargetHandler;
 import com.android.launcher3.Flags;
 import com.android.launcher3.LauncherSettings;
@@ -319,6 +322,38 @@ public abstract class SystemShortcut<T extends ActivityContext> extends ItemInfo
                                         .LAUNCHER_TAP_TO_ADD_TO_HOME_SCREEN_FROM_ALL_APPS);
                     });
         }
+    }
+
+    abstract static class ScopesShortcut<T extends ActivityContext> extends SystemShortcut<T> {
+
+        protected String targetPackage;
+
+        protected ScopesShortcut(int icon, int label, T target, ItemInfo itemInfo, View originalView) {
+            super(icon, label, target, itemInfo, originalView);
+            targetPackage = itemInfo.getTargetPackage();
+        }
+
+        protected static boolean hasGosPackageStateFlag(ItemInfo itemInfo, int flag) {
+            String pkg = itemInfo.getTargetPackage();
+            if (pkg == null) {
+                return false;
+            }
+            return GosPackageState.get(pkg, itemInfo.user).hasFlag(flag);
+        }
+
+        @Override
+        public void onClick(View v) {
+            dismissTaskMenuView();
+
+            Intent intent = getIntent(targetPackage);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            var opts = android.app.ActivityOptions.makeBasic()
+                    .setSplashScreenStyle(SplashScreen.SPLASH_SCREEN_STYLE_SOLID_COLOR)
+                    .toBundle();
+            v.getContext().startActivityAsUser(intent, opts, mItemInfo.user);
+        }
+
+        protected abstract Intent getIntent(String targetPkg);
     }
 
     public static final Factory<ActivityContext> PRIVATE_PROFILE_INSTALL =
