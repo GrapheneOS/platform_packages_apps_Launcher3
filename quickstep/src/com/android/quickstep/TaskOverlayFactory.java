@@ -135,6 +135,7 @@ public class TaskOverlayFactory {
             TaskShortcutFactory.SCREENSHOT,
             TaskShortcutFactory.MODAL,
             TaskShortcutFactory.STORAGE_SCOPES,
+            TaskShortcutFactory.CONTACT_SCOPES,
     };
 
     /**
