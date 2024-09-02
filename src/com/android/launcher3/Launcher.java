@@ -2877,7 +2877,9 @@ public class Launcher extends StatefulActivity<LauncherState>
                 && (container == CONTAINER_DESKTOP || container == CONTAINER_HOTSEAT)) {
             return Stream.of(APP_INFO, WIDGETS, INSTALL, REMOVE);
         }
-        return Stream.of(APP_INFO, WIDGETS, INSTALL);
+        return Stream.of(APP_INFO, WIDGETS, INSTALL
+                , com.android.launcher3.popup.SystemShortcut.STORAGE_SCOPES
+        );
     }
 
     /**
