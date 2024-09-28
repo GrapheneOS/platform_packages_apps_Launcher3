@@ -97,7 +97,7 @@ public class SettingsChangeLogger implements
             new DaggerSingletonObject<>(QuickstepBaseAppComponent::getSettingsChangeLogger);
 
     private static final String TAG = "SettingsChangeLogger";
-    private static final String BOOLEAN_PREF = "SwitchPreference";
+    private static final String BOOLEAN_PREF = "SwitchPreferenceCompat";
 
     private final Context mContext;
     private final ArrayMap<String, LoggablePref> mLoggablePrefs;
