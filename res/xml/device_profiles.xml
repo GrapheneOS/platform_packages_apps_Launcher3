@@ -25,7 +25,8 @@
         launcher:numFolderColumns="2"
         launcher:numHotseatIcons="2"
         launcher:dbFile="launcher_2_by_2.db"
-        launcher:defaultLayoutId="@xml/default_workspace_2x2" >
+        launcher:defaultLayoutId="@xml/default_workspace_2x2"
+        launcher:deviceCategory="phone" >
 
         <display-option
             launcher:name="Super Short Stubby"
