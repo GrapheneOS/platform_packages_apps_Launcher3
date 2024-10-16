@@ -484,9 +484,6 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer,
         shortcuts.add(STORAGE_SCOPES);
         shortcuts.add(CONTACT_SCOPES);
         shortcuts.add(INSTALL);
-        if (Flags.enablePrivateSpaceInstallShortcut()) {
-            shortcuts.add(PRIVATE_PROFILE_INSTALL);
-        }
         if (Flags.enableShortcutDontSuggestApp()) {
             shortcuts.add(DONT_SUGGEST_APP);
         }
