@@ -23,7 +23,9 @@ import static com.android.launcher3.util.NavigationMode.THREE_BUTTONS;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Debug;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.text.format.Formatter;
 import android.util.AttributeSet;
@@ -32,6 +34,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
+
+import com.android.internal.util.MemInfoReader;
+import com.android.internal.os.BackgroundThread;
+
+import com.android.settingslib.utils.ThreadUtils;
 
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.LauncherPrefs;
@@ -42,6 +49,9 @@ import com.android.launcher3.util.NavigationMode;
 import java.lang.Runnable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
+
+import com.google.common.util.concurrent.ListenableFuture;
 
 public class MemInfoView extends TextView {
 
@@ -71,13 +81,16 @@ public class MemInfoView extends TextView {
     private ActivityManager mActivityManager;
 
     private Handler mHandler;
-    private MemInfoWorker mWorker;
 
     private String mMemInfoText;
 
     private ActivityManager.MemoryInfo memInfo;
+    private MemInfoReader mMemInfoReader;
+    private ListenableFuture<?> mFuture;
 
     private Context mContext;
+
+    String mTotalResult;
 
     public MemInfoView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -87,8 +100,8 @@ public class MemInfoView extends TextView {
         mAlpha.setUpdateVisibility(true);
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         memInfo = new ActivityManager.MemoryInfo();
-        mHandler = MODEL_EXECUTOR.getHandler();
-        mWorker = new MemInfoWorker();
+        mMemInfoReader = new MemInfoReader();
+        mTotalResult = formatTotalMemory();
 
         mMemInfoText = context.getResources().getString(R.string.meminfo_text);
         setListener(context);
@@ -107,9 +120,9 @@ public class MemInfoView extends TextView {
         super.setVisibility(visibility);
 
         if (visibility == VISIBLE)
-            mHandler.post(mWorker);
+            startMemoryMonitoring();
         else
-            mHandler.removeCallbacks(mWorker);
+            stopMemoryMonitoring();
     }
 
     public void setDp(DeviceProfile dp) {
@@ -139,6 +152,22 @@ public class MemInfoView extends TextView {
         lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
     }
 
+    private String formatTotalMemory() {
+        mActivityManager.getMemoryInfo(memInfo);
+        double totalMemoryGB = memInfo.totalMem / (1024.0 * 1024.0 * 1024.0);
+        int roundedMemoryGB = roundToNearestKnownRamSize(totalMemoryGB);
+        return roundedMemoryGB + " GB";
+    }
+
+    private int roundToNearestKnownRamSize(double memoryGB) {
+        int[] knownSizes = {1, 2, 3, 4, 6, 8, 10, 12, 16, 32, 48, 64};
+        if (memoryGB <= 0) return 1;
+        for (int size : knownSizes) {
+            if (memoryGB <= size) return size;
+        }
+        return knownSizes[knownSizes.length - 1];
+    }
+
     public void setListener(Context context) {
         setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -148,17 +177,62 @@ public class MemInfoView extends TextView {
         });
     }
 
-    private class MemInfoWorker implements Runnable {
+    private long getTotalBackgroundMemory() {
+        long totalBackgroundMemory = 0;
+        List<ActivityManager.RunningAppProcessInfo> runningProcesses = mActivityManager.getRunningAppProcesses();
+        if (runningProcesses != null) {
+            int[] pids = new int[runningProcesses.size()];
+            for (int i = 0; i < runningProcesses.size(); i++) {
+                pids[i] = runningProcesses.get(i).pid;
+            }
+            Debug.MemoryInfo[] memoryInfos = mActivityManager.getProcessMemoryInfo(pids);
+            for (int i = 0; i < memoryInfos.length; i++) {
+                ActivityManager.RunningAppProcessInfo info = runningProcesses.get(i);
+                if (info.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
+                    long memorySize = memoryInfos[i].getTotalPss() * 1024L;
+                    totalBackgroundMemory += memorySize;
+                }
+            }
+        }
+        return totalBackgroundMemory;
+    }
+
+    private void startMemoryMonitoring() {
+        stopMemoryMonitoring();
+        if (mHandler == null) {
+            mHandler = MODEL_EXECUTOR.getHandler();
+        }
+        mFuture = ThreadUtils.postOnBackgroundThread(mWorker);
+    }
+
+    private void stopMemoryMonitoring() {
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
+        if (mFuture != null && !mFuture.isCancelled()) {
+            mFuture.cancel(true);
+        }
+        mFuture = null;
+    }
+
+    private final Runnable mWorker = new Runnable() {
         @Override
         public void run() {
-            mActivityManager.getMemoryInfo(memInfo);
-            String availResult = Formatter.formatShortFileSize(mContext,
-                    (long) memInfo.availMem);
-            String totalResult = Formatter.formatShortFileSize(mContext,
-                    (long) memInfo.totalMem);
-            String text = String.format(mMemInfoText, availResult, totalResult);
-            setText(text);
-            mHandler.postDelayed(this, 1000);
+            mMemInfoReader.readMemInfo();
+            long freeMemory = mMemInfoReader.getFreeSize() + mMemInfoReader.getCachedSize() + getTotalBackgroundMemory();
+            String availResult = Formatter.formatShortFileSize(mContext, freeMemory);
+            String text = String.format(mMemInfoText, availResult, mTotalResult);
+            ThreadUtils.postOnMainThread(() -> setText(text));
+            if (mHandler != null) {
+                mHandler.postDelayed(this, 1000);
+            }
         }
+    };
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopMemoryMonitoring();
     }
 }
