@@ -224,7 +224,7 @@
         <activity
             android:name="com.android.launcher3.lineage.trust.TrustAppsActivity"
             android:label="@string/trust_apps_manager_name"
-            android:theme="@android:style/Theme.DeviceDefault.Settings"
+            android:theme="@style/Theme.SubSettingsBase"
             android:autoRemoveFromRecents="true" />
     </application>
 </manifest>
