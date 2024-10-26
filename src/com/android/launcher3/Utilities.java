@@ -701,8 +701,12 @@ public final class Utilities {
                     ((PendingAddShortcutInfo) info).getActivityInfo(context);
             mainIcon = activityInfo.getFullResIcon(appState.getIconCache());
         } else if (info.itemType == LauncherSettings.Favorites.ITEM_TYPE_APPLICATION) {
+            android.content.Intent intent = info.getIntent();
+            if (intent == null) {
+                return null;
+            }
             LauncherActivityInfo activityInfo = context.getSystemService(LauncherApps.class)
-                    .resolveActivity(info.getIntent(), info.user);
+                    .resolveActivity(intent, info.user);
             if (activityInfo == null) {
                 return null;
             }
