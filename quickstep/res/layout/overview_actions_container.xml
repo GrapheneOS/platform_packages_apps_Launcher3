@@ -30,6 +30,13 @@
         android:layout_gravity="bottom|center_horizontal"
         android:orientation="horizontal">
 
+        <Space
+            android:id="@+id/action_screenshot_space"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/action_screenshot"
             android:layout_width="wrap_content"
@@ -38,12 +45,25 @@
             android:text="@string/recents_screenshot_title"
             android:visibility="gone" />
 
+        <Space
+            android:id="@+id/action_split_space"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/action_split"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/overview_actions_button_spacing"
             android:text="@string/action_split"
+            android:visibility="gone" />
+
+        <Space
+            android:id="@+id/action_lens_space"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
             android:visibility="gone" />
 
         <Button
@@ -55,6 +75,13 @@
             android:text="@string/recents_lens_title"
             android:visibility="gone" />
 
+        <Space
+            android:id="@+id/action_clear_all_space"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/action_clear_all"
             android:layout_width="wrap_content"
@@ -62,6 +89,12 @@
             android:drawableStart="@drawable/ic_clear_all"
             android:text="@string/recents_clear_all_title"
             android:visibility="gone" />
+
+        <Space
+            android:id="@+id/end_space"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
 

@@ -260,20 +260,26 @@ public class OverviewActionsView<T extends OverlayUICallbacks> extends FrameLayo
         // an ImageButton in go launcher (does not share a common class with Button). Take care when
         // casting this.
         View screenshotButton = findViewById(R.id.action_screenshot);
+        View screenshotButtonSpace = findViewById(R.id.action_screenshot_space);
         screenshotButton.setOnClickListener(this);
         screenshotButton.setVisibility(mScreenshot ? VISIBLE : GONE);
+        screenshotButtonSpace.setVisibility(mScreenshot ? VISIBLE : GONE);
 
         mSplitButton = findViewById(R.id.action_split);
         mSplitButton.setOnClickListener(this);
         mSaveAppPairButton.setOnClickListener(this);
 
         View clearallButton = findViewById(R.id.action_clear_all);
+        View clearallButtonSpace = findViewById(R.id.action_clear_all_space);
         clearallButton.setOnClickListener(this);
         clearallButton.setVisibility(mClearAll ? VISIBLE : GONE);
+        clearallButtonSpace.setVisibility(mClearAll ? VISIBLE : GONE);
 
         View lensButton = findViewById(R.id.action_lens);
+        View lensButtonSpace = findViewById(R.id.action_lens_space);
         lensButton.setOnClickListener(this);
         lensButton.setVisibility(mLens && Utilities.isGSAEnabled(getContext()) ? VISIBLE : GONE);
+        lensButtonSpace.setVisibility(mLens && Utilities.isGSAEnabled(getContext()) ? VISIBLE : GONE);
     }
 
     /**
@@ -434,7 +440,9 @@ public class OverviewActionsView<T extends OverlayUICallbacks> extends FrameLayo
         }
         int desiredVisibility = mSplitButtonHiddenFlags == 0 ? VISIBLE : GONE;
         if (mSplitButton.getVisibility() != desiredVisibility) {
+            View splitButtonSpace = findViewById(R.id.action_split_space);
             mSplitButton.setVisibility(desiredVisibility);
+            splitButtonSpace.setVisibility(desiredVisibility);
             mActionButtons.requestLayout();
         }
     }
