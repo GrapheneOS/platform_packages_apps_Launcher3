@@ -162,14 +162,13 @@ public class SysUiScrim implements View.OnAttachStateChangeListener {
     /**
      * Determines whether to draw the top and/or bottom scrim based on new insets.
      *
-     * In order for the bottom scrim to be drawn this 3 condition should be meet at the same time:
-     * the device is in 3 button navigation, the taskbar is not present and the Hotseat is
-     * horizontal
+     * In order for the bottom scrim to be drawn these 2 conditions should be met:
+     * the taskbar is not present and the Hotseat is horizontal
      */
     public void onInsetsChanged(Rect insets) {
         DeviceProfile dp = mContainer.getDeviceProfile();
         mDrawTopScrim = insets.top > 0;
-        mDrawBottomScrim = !dp.isVerticalBarLayout() && !dp.getDeviceProperties().isGestureMode() && !dp.isTaskbarPresent;
+        mDrawBottomScrim = !dp.isVerticalBarLayout() && !dp.isTaskbarPresent;
     }
 
     @Override
