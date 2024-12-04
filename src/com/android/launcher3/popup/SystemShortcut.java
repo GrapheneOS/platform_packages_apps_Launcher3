@@ -589,6 +589,33 @@ public abstract class SystemShortcut<T extends ActivityContext> extends ItemInfo
         }
     }
 
+    public static final Factory<ActivityContext> FLOATING = (activity, itemInfo, originalView) -> {
+        if (!Utilities.isResizeableActivity(originalView.getContext(),
+                itemInfo.getTargetComponent())) {
+            return null;
+        }
+        return new FloatingSystemShortcut(activity, itemInfo, originalView);
+    };
+
+    public static class FloatingSystemShortcut<T extends ActivityContext> extends SystemShortcut<T> { 
+        private final ComponentName mComponentName;
+
+        public FloatingSystemShortcut(T target, ItemInfo itemInfo, View originalView) {
+            super(R.drawable.picture_in_picture_mobile_24px, R.string.recent_task_option_freeform,
+                    target, itemInfo, originalView);
+            mComponentName = itemInfo.getTargetComponent();
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mComponentName != null) {
+                Utilities.startLmoFreeform(view.getContext(), mComponentName,
+                        mItemInfo.user.getIdentifier());
+                AbstractFloatingView.closeAllOpenViews(((ActivityContext) mTarget));
+            }
+        }
+    }
+
     protected void dismissTaskMenuView() {
         mAbstractFloatingViewHelper.closeOpenViews(mTarget, true,
                 AbstractFloatingView.TYPE_ALL & ~AbstractFloatingView.TYPE_REBIND_SAFE);
