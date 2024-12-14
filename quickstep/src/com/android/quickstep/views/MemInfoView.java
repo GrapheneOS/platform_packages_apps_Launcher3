@@ -46,6 +46,9 @@ import com.android.launcher3.R;
 import com.android.launcher3.util.MultiValueAlpha;
 import com.android.launcher3.util.NavigationMode;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.Runnable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -168,6 +171,35 @@ public class MemInfoView extends TextView {
         return knownSizes[knownSizes.length - 1];
     }
 
+    private long getZramSize() {
+        long zramSize = 0;
+
+        // Try to read default location
+        try (BufferedReader reader = new BufferedReader(new FileReader("/sys/block/zram0/disksize"))) {
+            zramSize = Long.parseLong(reader.readLine().trim());
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        // Fallback location
+        if (zramSize == 0) {
+            try (BufferedReader reader = new BufferedReader(new FileReader("/proc/swaps"))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.contains("zram0")) {
+                        String[] parts = line.split("\\s+");
+                       zramSize = Long.parseLong(parts[2]) * 1024;
+                        break;
+                    }
+                }
+            } catch (IOException | NumberFormatException e) {
+                e.printStackTrace();
+          }
+        }
+
+        return zramSize;
+    }
+
     public void setListener(Context context) {
         setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -221,8 +253,17 @@ public class MemInfoView extends TextView {
         public void run() {
             mMemInfoReader.readMemInfo();
             long freeMemory = mMemInfoReader.getFreeSize() + mMemInfoReader.getCachedSize() + getTotalBackgroundMemory();
+            long zramSize = getZramSize();
             String availResult = Formatter.formatShortFileSize(mContext, freeMemory);
-            String text = String.format(mMemInfoText, availResult, mTotalResult);
+            String text;
+
+            if (zramSize > 0) {
+                String zramResult = Formatter.formatShortFileSize(mContext, zramSize);
+                text = String.format(mMemInfoText, availResult, mTotalResult + " + " + zramResult + " ZRAM");
+            } else {
+                text = String.format(mMemInfoText, availResult, mTotalResult);
+            }
+
             ThreadUtils.postOnMainThread(() -> setText(text));
             if (mHandler != null) {
                 mHandler.postDelayed(this, 1000);
