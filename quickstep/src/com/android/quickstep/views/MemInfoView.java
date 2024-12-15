@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2022 Project Kaleidoscope
+ *               2024-2025 crDroid Android Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,17 +27,16 @@ import android.content.Intent;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Looper;
 import android.text.format.Formatter;
 import android.util.AttributeSet;
 import android.util.FloatProperty;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.android.internal.util.MemInfoReader;
-import com.android.internal.os.BackgroundThread;
 
 import com.android.settingslib.utils.ThreadUtils;
 
@@ -50,21 +50,20 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.Runnable;
+import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
-
-import com.google.common.util.concurrent.ListenableFuture;
+import java.util.Locale;
 
 public class MemInfoView extends TextView {
 
-    // When to show GB instead of MB
     private static final int UNIT_CONVERT_THRESHOLD = 1024; /* MiB */
-
     private static final BigDecimal GB2MB = new BigDecimal(1024);
 
     private static final int ALPHA_STATE_CTRL = 0;
     public static final int ALPHA_FS_PROGRESS = 1;
+
+    private static final String TAG = "MemInfoView";
 
     public static final FloatProperty<MemInfoView> STATE_CTRL_ALPHA =
             new FloatProperty<MemInfoView>("state control alpha") {
@@ -89,7 +88,6 @@ public class MemInfoView extends TextView {
 
     private ActivityManager.MemoryInfo memInfo;
     private MemInfoReader mMemInfoReader;
-    private ListenableFuture<?> mFuture;
 
     private Context mContext;
 
@@ -110,9 +108,6 @@ public class MemInfoView extends TextView {
         setListener(context);
     }
 
-    /* Hijack this method to detect visibility rather than
-     * onVisibilityChanged() because the the latter one can be
-     * influenced by more factors, leading to unstable behavior. */
     @Override
     public void setVisibility(int visibility) {
         if (visibility == VISIBLE) {
@@ -122,10 +117,11 @@ public class MemInfoView extends TextView {
 
         super.setVisibility(visibility);
 
-        if (visibility == VISIBLE)
+        if (visibility == VISIBLE) {
             startMemoryMonitoring();
-        else
+        } else {
             stopMemoryMonitoring();
+        }
     }
 
     public void setDp(DeviceProfile dp) {
@@ -141,15 +137,16 @@ public class MemInfoView extends TextView {
     }
 
     public void updateVerticalMargin(NavigationMode mode) {
-        LayoutParams lp = (LayoutParams)getLayoutParams();
+        LayoutParams lp = (LayoutParams) getLayoutParams();
         int bottomMargin;
 
-        if (!mDp.isTaskbarPresent && ((mode == THREE_BUTTONS) || (mode == TWO_BUTTONS)))
+        if (!mDp.isTaskbarPresent && ((mode == THREE_BUTTONS) || (mode == TWO_BUTTONS))) {
             bottomMargin = mDp.memInfoMarginThreeButtonPx;
-        else if (mDp.isTaskbarPresent && !((mode == THREE_BUTTONS) || (mode == TWO_BUTTONS)))
+        } else if (mDp.isTaskbarPresent && !((mode == THREE_BUTTONS) || (mode == TWO_BUTTONS))) {
             bottomMargin = mDp.memInfoMarginTransientTaskbarPx;
-        else
+        } else {
             bottomMargin = mDp.memInfoMarginGesturePx;
+        }
 
         lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin, bottomMargin);
         lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
@@ -174,27 +171,27 @@ public class MemInfoView extends TextView {
     private long getZramSize() {
         long zramSize = 0;
 
-        // Try to read default location
         try (BufferedReader reader = new BufferedReader(new FileReader("/sys/block/zram0/disksize"))) {
             zramSize = Long.parseLong(reader.readLine().trim());
         } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
+            Log.w(TAG, "Primary ZRAM location failed, trying fallback", e);
         }
 
-        // Fallback location
         if (zramSize == 0) {
             try (BufferedReader reader = new BufferedReader(new FileReader("/proc/swaps"))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     if (line.contains("zram0")) {
                         String[] parts = line.split("\\s+");
-                       zramSize = Long.parseLong(parts[2]) * 1024;
+                        if (parts.length > 2) {
+                            zramSize = Long.parseLong(parts[2]) * 1024; // KB to bytes
+                        }
                         break;
                     }
                 }
             } catch (IOException | NumberFormatException e) {
-                e.printStackTrace();
-          }
+                Log.w(TAG, "Fallback ZRAM location not available", e);
+            }
         }
 
         return zramSize;
@@ -234,46 +231,60 @@ public class MemInfoView extends TextView {
         if (mHandler == null) {
             mHandler = MODEL_EXECUTOR.getHandler();
         }
-        mFuture = ThreadUtils.postOnBackgroundThread(mWorker);
+        mHandler.post(mWorker);
     }
 
     private void stopMemoryMonitoring() {
-        if (mHandler != null) {
-            mHandler.removeCallbacksAndMessages(null);
-            mHandler = null;
+        synchronized (this) {
+            if (mHandler != null) {
+                mHandler.removeCallbacksAndMessages(null);
+                mHandler = null;
+            }
         }
-        if (mFuture != null && !mFuture.isCancelled()) {
-            mFuture.cancel(true);
-        }
-        mFuture = null;
     }
 
-    private final Runnable mWorker = new Runnable() {
+    private static class MemoryWorker implements Runnable {
+        private final WeakReference<MemInfoView> viewRef;
+
+        MemoryWorker(MemInfoView view) {
+            viewRef = new WeakReference<>(view);
+        }
+
         @Override
         public void run() {
-            mMemInfoReader.readMemInfo();
-            long freeMemory = mMemInfoReader.getFreeSize() + mMemInfoReader.getCachedSize() + getTotalBackgroundMemory();
-            long zramSize = getZramSize();
-            String availResult = Formatter.formatShortFileSize(mContext, freeMemory);
-            String text;
-
-            if (zramSize > 0) {
-                String zramResult = Formatter.formatShortFileSize(mContext, zramSize);
-                text = String.format(mMemInfoText, availResult, mTotalResult + " + " + zramResult + " ZRAM");
-            } else {
-                text = String.format(mMemInfoText, availResult, mTotalResult);
+            MemInfoView view = viewRef.get();
+            if (view == null || view.mHandler == null) {
+                return;
             }
 
-            ThreadUtils.postOnMainThread(() -> setText(text));
-            if (mHandler != null) {
-                mHandler.postDelayed(this, 1000);
+            view.mMemInfoReader.readMemInfo();
+            long freeMemory = view.mMemInfoReader.getFreeSize() +
+                              view.mMemInfoReader.getCachedSize() +
+                              view.getTotalBackgroundMemory();
+            long zramSize = view.getZramSize();
+
+            String availResult = Formatter.formatShortFileSize(view.mContext, freeMemory);
+            String text;
+            if (zramSize > 0) {
+                String zramResult = Formatter.formatShortFileSize(view.mContext, zramSize);
+                text = String.format(Locale.getDefault(), view.mMemInfoText, availResult, view.mTotalResult + " + " + zramResult + " ZRAM");
+            } else {
+                text = String.format(Locale.getDefault(), view.mMemInfoText, availResult, view.mTotalResult);
+            }
+
+            ThreadUtils.postOnMainThread(() -> view.setText(text));
+
+            if (view.mHandler != null) {
+                view.mHandler.postDelayed(this, 1000);
             }
         }
-    };
+    }
+
+    private final MemoryWorker mWorker = new MemoryWorker(this);
 
     @Override
     protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
         stopMemoryMonitoring();
+        super.onDetachedFromWindow();
     }
 }
