@@ -292,7 +292,7 @@ public class MemInfoView extends TextView implements Insettable {
             String text;
             if (zramSize > 0) {
                 String zramResult = Formatter.formatShortFileSize(view.mContext, zramSize);
-                text = String.format(Locale.getDefault(), view.mMemInfoText, availResult, view.mTotalResult + " + " + zramResult + " ZRAM");
+                text = String.format(Locale.getDefault(), view.mMemInfoText, availResult, view.mTotalResult + " + " + zramResult);
             } else {
                 text = String.format(Locale.getDefault(), view.mMemInfoText, availResult, view.mTotalResult);
             }
