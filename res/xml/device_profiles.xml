@@ -149,6 +149,27 @@
     </grid-option>
 
     <grid-option
+        launcher:name="4_by_5"
+        launcher:numRows="5"
+        launcher:numColumns="4"
+        launcher:numFolderRows="3"
+        launcher:numFolderColumns="3"
+        launcher:numHotseatIcons="4"
+        launcher:dbFile="launcher_4_by_5.db"
+        launcher:defaultLayoutId="@xml/default_workspace_4x5" >
+
+        <display-option
+            launcher:name="Pixel 2021"
+            launcher:minWidthDps="367"
+            launcher:minHeightDps="838"
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:iconImageSize="66"
+            launcher:iconTextSize="14.0"
+            launcher:canBeDefault="true" />
+    </grid-option>
+
+    <grid-option
         launcher:name="5_by_5"
         launcher:numRows="5"
         launcher:numColumns="5"
