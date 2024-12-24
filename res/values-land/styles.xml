@@ -15,7 +15,25 @@
   -->
 
 <resources>
+    <style name="AllAppsStyle6x5" parent="@style/AllAppsStyleDefault">
+        <item name="horizontalPadding">32dp</item>
+    </style>
+    <style name="CellStyle6x5">
+        <item name="iconDrawablePadding">8dp</item>
+    </style>
     <style name="CellStyleDefault">
         <item name="iconDrawablePadding">4dp</item>
+    </style>
+    <style name="Folder6x5Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">74dp</item>
+        <item name="folderCellWidth">74dp</item>
+        <item name="folderFooterHeight">64dp</item>
+    </style>
+    <style name="FolderStyleDefault">
+        <item name="folderTopPadding">20dp</item>
+        <item name="folderCellHeight">94dp</item>
+        <item name="folderCellWidth">80dp</item>
+        <item name="folderBorderSpace">16dp</item>
+        <item name="folderFooterHeight">56dp</item>
     </style>
 </resources>

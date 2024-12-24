@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Folder6x5Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">104dp</item>
+        <item name="folderCellWidth">102dp</item>
+        <item name="folderFooterHeight">64dp</item>
+    </style>
+</resources>
