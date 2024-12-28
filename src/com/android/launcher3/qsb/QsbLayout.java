@@ -18,18 +18,23 @@ import android.widget.ImageView;
 import androidx.core.view.ViewCompat;
 import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
+import com.android.launcher3.Reorderable;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.qsb.QsbContainerView;
+import com.android.launcher3.util.MultiTranslateDelegate;
 import com.android.launcher3.util.Themes;
 import android.view.View;
 
-public class QsbLayout extends FrameLayout {
+public class QsbLayout extends FrameLayout implements Reorderable {
 
     private ImageView micIcon;
     private ImageView gIcon;
     private ImageView lensIcon;
     private Context mContext;
     private FrameLayout inner;
+
+    private final MultiTranslateDelegate mTranslateDelegate = new MultiTranslateDelegate(this);
+    private float mScaleForReorderBounce = 1f;
 
     public QsbLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -163,5 +168,22 @@ public class QsbLayout extends FrameLayout {
         float qsbWidgetPadding = res.getDimension(R.dimen.qsb_widget_vertical_padding);
         float innerHeight = qsbWidgetHeight - 2 * qsbWidgetPadding;
         return (innerHeight / 2) * ((float)LauncherPrefs.SEARCH_RADIUS_SIZE.get(mContext) / 100f);
+    }
+
+    @Override
+    public MultiTranslateDelegate getTranslateDelegate() {
+        return mTranslateDelegate;
+    }
+
+    @Override
+    public void setReorderBounceScale(float scale) {
+        mScaleForReorderBounce = scale;
+        super.setScaleX(scale);
+        super.setScaleY(scale);
+    }
+
+    @Override
+    public float getReorderBounceScale() {
+        return mScaleForReorderBounce;
     }
 }
