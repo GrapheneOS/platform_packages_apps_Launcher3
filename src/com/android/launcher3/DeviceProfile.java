@@ -300,9 +300,11 @@ public class DeviceProfile {
         mInfo = info;
         boolean enableTaskbar = SettingsCache.INSTANCE.get(context).getIntValue(
                         ENABLE_TASKBAR_URI, mDeviceProperties.isTablet() ? 1 : 0) != 0;
-        boolean taskbarOrBubbleBarOnPhones = enableBubbleBar() && enableBubbleBarOnPhones();
-        isTaskbarPresent =
-                (enableTaskbar || (taskbarOrBubbleBarOnPhones && isGestureMode))
+        boolean allowTaskbar =
+                mDeviceProperties.isPhone() ? enableTaskbar && isGestureMode : enableTaskbar;
+        boolean taskbarOrBubbleBarOnPhones = enableBubbleBar()
+                        && enableBubbleBarOnPhones() && isGestureMode;
+        isTaskbarPresent = (allowTaskbar || taskbarOrBubbleBarOnPhones)
                         && wmProxy.isTaskbarDrawnInProcess();
 
         // Some more constants.
