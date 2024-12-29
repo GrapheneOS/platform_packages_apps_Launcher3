@@ -51,7 +51,9 @@ public class InfoBottomSheet extends WidgetsBottomSheet {
     public void populateAndShow(ItemInfo itemInfo) {
         super.populateAndShow(itemInfo);
         TextView title = findViewById(R.id.title);
-        title.setText(itemInfo.title);
+        title.setText((itemInfo.title == null || itemInfo.title.isEmpty()) 
+            ? getContext().getResources().getString(R.string.app_info_title) 
+            : itemInfo.title);
 
         PrefsFragment fragment =
                 (PrefsFragment) mFragmentManager.findFragmentById(R.id.sheet_prefs);
