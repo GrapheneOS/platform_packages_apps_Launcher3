@@ -504,7 +504,7 @@
     <dimen name="enforced_rounded_corner_max_radius">16dp</dimen>
 
     <!-- Size of the radius for the rounded corners of Persistent Taskbar. -->
-    <dimen name="persistent_taskbar_corner_radius">16dp</dimen>
+    <dimen name="persistent_taskbar_corner_radius">@*android:dimen/rounded_corner_radius</dimen>
 
     <!-- Base Swipe Detector, speed in dp/s -->
     <dimen name="base_swift_detector_fling_release_velocity">1dp</dimen>
