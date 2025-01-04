@@ -87,6 +87,11 @@ public abstract class UserProfileManager {
      */
     private void setQuietModeSafely(boolean enable, UserHandle userHandle, Context context) {
         try {
+            if (this instanceof PrivateProfileManager) {
+                mUserManager.requestQuietModeEnabled(enable, userHandle,
+                        null, UserManager.QUIET_MODE_ENABLE_STOP_WITHOUT_DELAYED_LOCKING);
+                return;
+            }
             mUserManager.requestQuietModeEnabled(enable, userHandle);
         } catch (SecurityException ex) {
             ApiWrapper.INSTANCE.get(context).assignDefaultHomeRole(context);
