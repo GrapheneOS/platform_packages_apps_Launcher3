@@ -309,7 +309,8 @@ public class PrivateProfileManager extends UserProfileManager {
      */
     private void setQuietModeSafely(boolean enable, UserHandle userHandle) {
         try {
-            mUserManager.requestQuietModeEnabled(enable, userHandle);
+            mUserManager.requestQuietModeEnabled(enable, userHandle,
+                    null, UserManager.QUIET_MODE_ENABLE_STOP_WITHOUT_DELAYED_LOCKING);
         } catch (SecurityException ex) {
             ApiWrapper.INSTANCE.get(mAllApps.mActivityContext)
                     .assignDefaultHomeRole(mAllApps.mActivityContext);
