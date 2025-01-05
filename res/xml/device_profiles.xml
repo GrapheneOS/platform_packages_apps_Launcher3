@@ -279,7 +279,6 @@
         launcher:dbFile="launcher_6_by_5.db"
         launcher:defaultLayoutId="@xml/default_workspace_6x5"
         launcher:deviceCategory="tablet"
-        launcher:devicePaddingId="@xml/paddings_6x5"
         launcher:folderStyle="@style/Folder6x5Style"
         launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_6_5"
         launcher:inlineQsb="landscape"
