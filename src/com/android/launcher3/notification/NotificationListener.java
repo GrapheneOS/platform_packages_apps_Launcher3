@@ -185,6 +185,9 @@ public class NotificationListener extends NotificationListenerService {
             result = getActiveNotifications(keys);
         } catch (SecurityException e) {
             Log.e(TAG, "SecurityException: failed to fetch notifications");
+        } catch (RuntimeException e) {
+            // This is an upstream bug in the Android framework
+            Log.e(TAG, "RuntimeException: failed to fetch notifications");
         }
         return result == null ? new StatusBarNotification[0] : result;
     }
