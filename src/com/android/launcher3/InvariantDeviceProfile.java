@@ -22,6 +22,7 @@ import static com.android.launcher3.GridType.GRID_TYPE_NON_ONE_GRID;
 import static com.android.launcher3.GridType.GRID_TYPE_ONE_GRID;
 import static com.android.launcher3.LauncherPrefs.ALLAPPS_THEMED_ICONS;
 import static com.android.launcher3.LauncherPrefs.DB_FILE;
+import static com.android.launcher3.LauncherPrefs.DRAWER_OPEN_KEYBOARD;
 import static com.android.launcher3.LauncherPrefs.ENABLE_TWOLINE_ALLAPPS_TOGGLE;
 import static com.android.launcher3.LauncherPrefs.FIXED_LANDSCAPE_MODE;
 import static com.android.launcher3.LauncherPrefs.FONT_SIZE;
@@ -327,7 +328,8 @@ public class InvariantDeviceProfile {
                     ICON_SIZE.getSharedPrefKey().equals(key) ||
                     FONT_SIZE.getSharedPrefKey().equals(key) ||
                     ENABLE_TWOLINE_ALLAPPS_TOGGLE.getSharedPrefKey().equals(key) ||
-                    ROW_HEIGHT.getSharedPrefKey().equals(key)) {
+                    ROW_HEIGHT.getSharedPrefKey().equals(key) ||
+                    DRAWER_OPEN_KEYBOARD.getSharedPrefKey().equals(key)) {
                 onConfigChanged();
             }
         };

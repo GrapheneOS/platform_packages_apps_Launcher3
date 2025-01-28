@@ -47,6 +47,15 @@
         launcher:iconSpaceReserved="false" />
 
     <SwitchPreferenceCompat
+        android:key="pref_drawer_open_keyboard"
+        android:title="@string/drawer_open_keyboard_title"
+        android:summary="@string/drawer_open_keyboard_summary"
+        android:defaultValue="false"
+        android:persistent="true"
+        android:dependency="pref_drawer_search"
+        launcher:iconSpaceReserved="false" />
+
+    <SwitchPreferenceCompat
         android:key="pref_enable_two_line_toggle"
         android:title="@string/icon_two_lines_title"
         android:defaultValue="false"
