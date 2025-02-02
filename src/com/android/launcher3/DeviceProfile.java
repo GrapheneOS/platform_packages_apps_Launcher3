@@ -1480,11 +1480,13 @@ public class DeviceProfile {
     }
 
     public static int calculateCellWidth(int width, int borderSpacing, int countX) {
-        return (width - ((countX - 1) * borderSpacing)) / countX;
+        int adjustedCountX = countX <= 0 ? 1 : countX;
+        return (width - ((adjustedCountX - 1) * borderSpacing)) / adjustedCountX;
     }
 
     public static int calculateCellHeight(int height, int borderSpacing, int countY) {
-        return (height - ((countY - 1) * borderSpacing)) / countY;
+        int adjustedCountY = countY <= 0 ? 1 : countY;
+        return (height - ((adjustedCountY - 1) * borderSpacing)) / adjustedCountY;
     }
 
     /**
