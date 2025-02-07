@@ -158,4 +158,5 @@
     <!-- Memory info -->
     <string name="meminfo_text">%1$s available | %2$s</string>
     <string name="recents_meminfo_title">Memory info</string>
+    <string name="recents_meminfo_zram_title">ZRAM info</string>
 </resources>
