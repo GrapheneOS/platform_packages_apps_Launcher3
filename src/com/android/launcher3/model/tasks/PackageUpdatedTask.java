@@ -315,7 +315,7 @@ public class PackageUpdatedTask implements ModelUpdateTask {
 
         if (needsRestart) {
             Toast.makeText(context, R.string.updating_launcher_components, Toast.LENGTH_SHORT).show();
-            Utilities.restart(context);
+            Utilities.restart();
         }
     }
 

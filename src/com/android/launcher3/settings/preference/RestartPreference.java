@@ -33,6 +33,6 @@ public class RestartPreference extends Preference {
     protected void onClick() {
         super.onClick();
         Toast.makeText(getContext(), R.string.restarting_launcher, Toast.LENGTH_SHORT).show();
-        Utilities.restart(getContext());
+        Utilities.restart();
     }
 }

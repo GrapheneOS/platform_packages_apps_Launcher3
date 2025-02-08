@@ -46,7 +46,7 @@ constructor(
         // so we force a restart now if needed without waiting for home button press
         if (needsRestart) {
             Toast.makeText(context, R.string.restarting_launcher_changes, Toast.LENGTH_SHORT).show();
-            Utilities.restart(context)
+            Utilities.restart()
         }
     }
 
