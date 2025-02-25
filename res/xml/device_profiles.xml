@@ -141,25 +141,42 @@
     </grid-option>
 
     <grid-option
-        launcher:name="4_by_5"
-        launcher:numRows="5"
-        launcher:numColumns="4"
-        launcher:numFolderRows="3"
-        launcher:numFolderColumns="3"
-        launcher:numHotseatIcons="4"
+        launcher:allAppsCellSpecsId="@xml/spec_all_apps_cell_match_workspace"
+        launcher:allAppsSpecsId="@xml/spec_handheld_all_apps"
         launcher:dbFile="launcher_4_by_5.db"
         launcher:defaultLayoutId="@xml/default_workspace_4x5"
-        launcher:deviceCategory="phone|multi_display" >
+        launcher:deviceCategory="phone"
+        launcher:devicePaddingId="@xml/paddings_4x5"
+        launcher:folderSpecsId="@xml/spec_handheld_folder_4x5"
+        launcher:folderStyle="@style/Folder4x5Style"
+        launcher:hotseatSpecsId="@xml/spec_handheld_hotseat_4x5"
+        launcher:isScalable="true"
+        launcher:name="4_by_5"
+        launcher:numAllAppsColumns="4"
+        launcher:numColumns="4"
+        launcher:numExtendedAllAppsColumns="6"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:numFolderColumns="3"
+        launcher:numFolderRows="3"
+        launcher:numHotseatIcons="4"
+        launcher:numRows="5"
+        launcher:workspaceCellSpecsId="@xml/spec_handheld_workspace_cell_4x5"
+        launcher:workspaceSpecsId="@xml/spec_handheld_workspace_4x5">
 
         <display-option
             launcher:name="Pixel 2021"
-            launcher:minWidthDps="367"
-            launcher:minHeightDps="838"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
+            launcher:borderSpace="16"
+            launcher:canBeDefault="true"
+            launcher:horizontalMargin="22"
             launcher:iconImageSize="66"
-            launcher:iconTextSize="14.0"
-            launcher:canBeDefault="true" />
+            launcher:iconSizeLandscape="54"
+            launcher:iconTextSize="14"
+            launcher:minCellHeight="104"
+            launcher:minCellWidth="80"
+            launcher:minHeightDps="838"
+            launcher:minWidthDps="367"/>
     </grid-option>
 
     <grid-option
