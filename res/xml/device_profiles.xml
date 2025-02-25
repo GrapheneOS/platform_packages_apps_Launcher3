@@ -118,46 +118,6 @@
         launcher:deviceCategory="phone|multi_display" >
 
         <display-option
-            launcher:name="Short Stubby"
-            launcher:minWidthDps="275"
-            launcher:minHeightDps="420"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
-            launcher:name="Stubby"
-            launcher:minWidthDps="255"
-            launcher:minHeightDps="450"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
-            launcher:name="Nexus S"
-            launcher:minWidthDps="296"
-            launcher:minHeightDps="491.33"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
-            launcher:name="Nexus 4"
-            launcher:minWidthDps="359"
-            launcher:minHeightDps="567"
-            launcher:iconImageSize="54"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
             launcher:name="Nexus 5"
             launcher:minWidthDps="335"
             launcher:minHeightDps="567"
