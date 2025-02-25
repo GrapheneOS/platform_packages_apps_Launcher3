@@ -1,0 +1,8 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <style name="Folder2x2Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">199dp</item>
+        <item name="folderCellWidth">176dp</item>
+    </style>
+    
+</resources>    

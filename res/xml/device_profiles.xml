@@ -19,24 +19,45 @@
 
     <grid-option
         launcher:name="2_by_2"
-        launcher:numRows="2"
-        launcher:numColumns="2"
-        launcher:numFolderRows="2"
-        launcher:numFolderColumns="2"
-        launcher:numHotseatIcons="2"
+        launcher:allAppsCellSpecsId="@xml/spec_handheld_all_apps_cell_2x2"
+        launcher:allAppsSpecsId="@xml/spec_handheld_all_apps_2x2"
         launcher:dbFile="launcher_2_by_2.db"
         launcher:defaultLayoutId="@xml/default_workspace_2x2"
-        launcher:deviceCategory="phone" >
+        launcher:deviceCategory="phone"
+        launcher:devicePaddingId="@xml/paddings_2x2"
+        launcher:folderSpecsId="@xml/spec_handheld_folder_2x2"
+        launcher:folderStyle="@style/Folder2x2Style"
+        launcher:hotseatSpecsId="@xml/spec_handheld_hotseat_2x2"
+        launcher:isScalable="true"
+        launcher:numAllAppsColumns="4"
+        launcher:numAllAppsRowsForCellHeightCalculation="4"
+        launcher:numColumns="2"
+        launcher:numExtendedAllAppsColumns="6"
+        launcher:numFolderColumns="2"
+        launcher:numFolderColumnsLandscape="3"
+        launcher:numFolderRows="2"
+        launcher:numFolderRowsLandscape="3"
+        launcher:numHotseatIcons="2"
+        launcher:numRows="2"
+        launcher:workspaceCellSpecsId="@xml/spec_handheld_workspace_cell_2x2"
+        launcher:workspaceSpecsId="@xml/spec_handheld_workspace_2x2">
 
         <display-option
             launcher:name="Shorter Stubby"
-            launcher:minWidthDps="200"
-            launcher:minHeightDps="300"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
+            launcher:allAppsIconSize="66"
+            launcher:allAppsIconTextSize="14"
+            launcher:borderSpace="16"
+            launcher:horizontalMargin="22"
+            launcher:hotseatQsbSpace="36"
+            launcher:iconImageSize="157"
+            launcher:iconSizeLandscape="113"
+            launcher:iconTextSize="24"
+            launcher:minCellHeight="221"
+            launcher:minCellWidth="176"
+            launcher:minHeightDps="838"
+            launcher:minWidthDps="367"/>
 
     </grid-option>
 
