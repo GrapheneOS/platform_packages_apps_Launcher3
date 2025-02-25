@@ -220,20 +220,31 @@
     </grid-option>
 
     <grid-option
-        launcher:name="6_by_5"
-        launcher:numRows="5"
-        launcher:numColumns="6"
-        launcher:numSearchContainerColumns="3"
-        launcher:numFolderRows="3"
-        launcher:numFolderColumns="3"
-        launcher:numHotseatIcons="6"
-        launcher:numAllAppsColumns="6"
-        launcher:isScalable="true"
-        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_6_5"
-        launcher:devicePaddingId="@xml/paddings_6x5"
+
+        launcher:allAppsCellSpecsId="@xml/spec_all_apps_cell_match_workspace"
+        launcher:allAppsSpecsId="@xml/spec_tablet_all_apps_6x5"
+        launcher:allAppsStyle="@style/AllAppsStyle6x5"
+        launcher:cellStyle="@style/CellStyle6x5"
         launcher:dbFile="launcher_6_by_5.db"
         launcher:defaultLayoutId="@xml/default_workspace_6x5"
-        launcher:deviceCategory="tablet" >
+        launcher:deviceCategory="tablet"
+        launcher:devicePaddingId="@xml/paddings_6x5"
+        launcher:folderSpecsId="@xml/spec_tablet_folder_6x5"
+        launcher:folderStyle="@style/Folder6x5Style"
+        launcher:hotseatSpecsId="@xml/spec_tablet_hotseat_6x5"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_6_5"
+        launcher:inlineQsb="landscape"
+        launcher:isScalable="true"
+        launcher:name="6_by_5"
+        launcher:numAllAppsColumns="6"
+        launcher:numColumns="6"
+        launcher:numFolderColumns="3"
+        launcher:numFolderRows="3"
+        launcher:numHotseatIcons="6"
+        launcher:numRows="5"
+        launcher:numSearchContainerColumns="3"
+        launcher:workspaceCellSpecsId="@xml/spec_tablet_workspace_cell_6x5"
+        launcher:workspaceSpecsId="@xml/spec_tablet_workspace_6x5">
 
         <display-option
             launcher:name="Tablet"
