@@ -21,4 +21,9 @@
         <item name="folderCellWidth">80dp</item>
     </style>
 
+    <style name="Folder5x5Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">79dp</item>
+        <item name="folderCellWidth">61dp</item>
+    </style>
+
 </resources>    

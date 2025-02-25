@@ -180,27 +180,43 @@
     </grid-option>
 
     <grid-option
-        launcher:name="5_by_5"
-        launcher:numRows="5"
-        launcher:numColumns="5"
-        launcher:numFolderRows="4"
-        launcher:numFolderColumns="4"
-        launcher:numHotseatIcons="5"
-        launcher:numExtendedHotseatIcons="6"
+        launcher:allAppsCellSpecsId="@xml/spec_all_apps_cell_match_workspace"
+        launcher:allAppsSpecsId="@xml/spec_handheld_all_apps"
         launcher:dbFile="launcher.db"
-        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
         launcher:defaultLayoutId="@xml/default_workspace_5x5"
-        launcher:deviceCategory="phone|multi_display" >
-
+        launcher:deviceCategory="phone"
+        launcher:devicePaddingId="@xml/paddings_5x5"
+        launcher:folderSpecsId="@xml/spec_handheld_folder_5x5"
+        launcher:folderStyle="@style/Folder5x5Style"
+        launcher:hotseatSpecsId="@xml/spec_handheld_hotseat_5x5"
+        launcher:isScalable="true"
+        launcher:name="5_by_5"
+        launcher:numAllAppsColumns="5"
+        launcher:numColumns="5"
+        launcher:numExtendedAllAppsColumns="7"
+        launcher:numExtendedHotseatIcons="7"
+        launcher:numFolderColumns="4"
+        launcher:numFolderColumnsLandscape="3"
+        launcher:numFolderRows="4"
+        launcher:numFolderRowsLandscape="3"
+        launcher:numHotseatIcons="5"
+        launcher:numRows="5"
+        launcher:workspaceCellSpecsId="@xml/spec_handheld_workspace_cell_5x5"
+        launcher:workspaceSpecsId="@xml/spec_handheld_workspace_5x5">
         <display-option
-            launcher:name="Large Phone"
-            launcher:minWidthDps="406"
-            launcher:minHeightDps="694"
-            launcher:iconImageSize="56"
-            launcher:iconTextSize="12.0"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
+            launcher:borderSpace="16"
+            launcher:canBeDefault="true"
+            launcher:horizontalMargin="22"
+            launcher:iconImageSize="57"
+            launcher:iconSizeLandscape="59"
+            launcher:iconTextSize="12"
+            launcher:minCellHeight="108"
+            launcher:minCellWidth="61"
+            launcher:minHeightDps="750"
+            launcher:minWidthDps="387"
+            launcher:name="Large Phone"/>
     </grid-option>
 
     <grid-option
