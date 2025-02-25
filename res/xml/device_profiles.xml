@@ -105,28 +105,39 @@
     </grid-option>
 
     <grid-option
-        launcher:name="4_by_4"
-        launcher:numRows="4"
-        launcher:numColumns="4"
-        launcher:numFolderRows="3"
-        launcher:numFolderColumns="4"
-        launcher:numHotseatIcons="4"
-        launcher:numExtendedHotseatIcons="6"
+        launcher:allAppsCellSpecsId="@xml/spec_all_apps_cell_match_workspace"
+        launcher:allAppsSpecsId="@xml/spec_handheld_all_apps"
         launcher:dbFile="launcher_4_by_4.db"
-        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
         launcher:defaultLayoutId="@xml/default_workspace_4x4"
-        launcher:deviceCategory="phone|multi_display" >
-
+        launcher:deviceCategory="phone"
+        launcher:devicePaddingId="@xml/paddings_4x4"
+        launcher:folderSpecsId="@xml/spec_handheld_folder_4x4"
+        launcher:folderStyle="@style/Folder4x4Style"
+        launcher:hotseatSpecsId="@xml/spec_handheld_hotseat_4x4"
+        launcher:isScalable="true"
+        launcher:name="4_by_4"
+        launcher:numAllAppsColumns="4"
+        launcher:numColumns="4"
+        launcher:numExtendedAllAppsColumns="6"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:numFolderColumns="3"
+        launcher:numFolderRows="3"
+        launcher:numHotseatIcons="4"
+        launcher:numRows="4"
+        launcher:workspaceCellSpecsId="@xml/spec_handheld_workspace_cell_4x4"
+        launcher:workspaceSpecsId="@xml/spec_handheld_workspace_4x4">
         <display-option
-            launcher:name="Nexus 5"
-            launcher:minWidthDps="335"
-            launcher:minHeightDps="567"
-            launcher:iconImageSize="54"
-            launcher:iconTextSize="12.0"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
+            launcher:borderSpace="16"
+            launcher:horizontalMargin="21.5"
+            launcher:iconImageSize="66"
+            launcher:iconTextSize="14"
+            launcher:minCellHeight="130"
+            launcher:minCellWidth="80"
+            launcher:minHeightDps="838"
+            launcher:minWidthDps="367"
+            launcher:name="Nexus 5"/>
     </grid-option>
 
     <grid-option
