@@ -4,5 +4,11 @@
         <item name="folderCellHeight">199dp</item>
         <item name="folderCellWidth">176dp</item>
     </style>
-    
+
+    <style name="Folder3x3Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">128dp</item>
+        <item name="folderCellWidth">112dp</item>
+        <item name="folderFooterHeight">64dp</item>
+    </style>    
+
 </resources>    
