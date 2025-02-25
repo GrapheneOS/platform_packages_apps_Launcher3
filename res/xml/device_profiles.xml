@@ -29,16 +29,6 @@
         launcher:deviceCategory="phone" >
 
         <display-option
-            launcher:name="Super Short Stubby"
-            launcher:minWidthDps="200"
-            launcher:minHeightDps="200"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
             launcher:name="Shorter Stubby"
             launcher:minWidthDps="200"
             launcher:minHeightDps="300"
