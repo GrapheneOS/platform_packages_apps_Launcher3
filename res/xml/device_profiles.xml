@@ -19,217 +19,232 @@
 
     <grid-option
         launcher:name="2_by_2"
-        launcher:numRows="2"
-        launcher:numColumns="2"
-        launcher:numFolderRows="2"
-        launcher:numFolderColumns="2"
-        launcher:numHotseatIcons="2"
+        launcher:allAppsCellSpecsId="@xml/spec_handheld_all_apps_cell_2x2"
+        launcher:allAppsSpecsId="@xml/spec_handheld_all_apps_2x2"
         launcher:dbFile="launcher_2_by_2.db"
         launcher:defaultLayoutId="@xml/default_workspace_2x2"
-        launcher:deviceCategory="phone" >
-
-        <display-option
-            launcher:name="Super Short Stubby"
-            launcher:minWidthDps="200"
-            launcher:minHeightDps="200"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
+        launcher:deviceCategory="phone"
+        launcher:devicePaddingId="@xml/paddings_2x2"
+        launcher:folderSpecsId="@xml/spec_handheld_folder_2x2"
+        launcher:folderStyle="@style/Folder2x2Style"
+        launcher:hotseatSpecsId="@xml/spec_handheld_hotseat_2x2"
+        launcher:isScalable="true"
+        launcher:numAllAppsColumns="4"
+        launcher:numAllAppsRowsForCellHeightCalculation="4"
+        launcher:numColumns="2"
+        launcher:numExtendedAllAppsColumns="6"
+        launcher:numFolderColumns="2"
+        launcher:numFolderColumnsLandscape="3"
+        launcher:numFolderRows="2"
+        launcher:numFolderRowsLandscape="3"
+        launcher:numHotseatIcons="2"
+        launcher:numRows="2"
+        launcher:workspaceCellSpecsId="@xml/spec_handheld_workspace_cell_2x2"
+        launcher:workspaceSpecsId="@xml/spec_handheld_workspace_2x2">
 
         <display-option
             launcher:name="Shorter Stubby"
-            launcher:minWidthDps="200"
-            launcher:minHeightDps="300"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
+            launcher:allAppsIconSize="66"
+            launcher:allAppsIconTextSize="14"
+            launcher:borderSpace="16"
+            launcher:horizontalMargin="22"
+            launcher:hotseatQsbSpace="36"
+            launcher:iconImageSize="157"
+            launcher:iconSizeLandscape="113"
+            launcher:iconTextSize="24"
+            launcher:minCellHeight="221"
+            launcher:minCellWidth="176"
+            launcher:minHeightDps="838"
+            launcher:minWidthDps="367"/>
 
     </grid-option>
 
     <grid-option
         launcher:name="3_by_3"
-        launcher:numRows="3"
-        launcher:numColumns="3"
-        launcher:numFolderRows="2"
-        launcher:numFolderColumns="3"
-        launcher:numHotseatIcons="3"
+        launcher:allAppsCellSpecsId="@xml/spec_handheld_all_apps_cell_3x3"
+        launcher:allAppsSpecsId="@xml/spec_handheld_all_apps_3x3"
         launcher:dbFile="launcher_3_by_3.db"
         launcher:defaultLayoutId="@xml/default_workspace_3x3"
-        launcher:deviceCategory="phone" >
-
-        <display-option
-            launcher:name="Super Short Stubby"
-            launcher:minWidthDps="255"
-            launcher:minHeightDps="300"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
+        launcher:deviceCategory="phone"
+        launcher:devicePaddingId="@xml/paddings_3x3"
+        launcher:folderSpecsId="@xml/spec_handheld_folder_3x3"
+        launcher:folderStyle="@style/Folder3x3Style"
+        launcher:hotseatSpecsId="@xml/spec_handheld_hotseat_3x3"
+        launcher:isScalable="true"
+        launcher:numAllAppsColumns="4"
+        launcher:numAllAppsRowsForCellHeightCalculation="4"
+        launcher:numColumns="3"
+        launcher:numExtendedAllAppsColumns="6"
+        launcher:numFolderColumns="2"
+        launcher:numFolderColumnsLandscape="3"
+        launcher:numFolderRows="2"
+        launcher:numFolderRowsLandscape="3"
+        launcher:numHotseatIcons="3"
+        launcher:numRows="3"
+        launcher:workspaceCellSpecsId="@xml/spec_handheld_workspace_cell_3x3"
+        launcher:workspaceSpecsId="@xml/spec_handheld_workspace_3x3">
 
         <display-option
             launcher:name="Shorter Stubby"
-            launcher:minWidthDps="255"
-            launcher:minHeightDps="400"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
+            launcher:allAppsIconSize="66"
+            launcher:allAppsIconTextSize="14"
+            launcher:borderSpace="16"
+            launcher:horizontalMargin="22"
+            launcher:hotseatQsbSpace="36"
+            launcher:iconImageSize="89"
+            launcher:iconTextSize="16"
+            launcher:minCellHeight="165"
+            launcher:minCellWidth="112"
+            launcher:minHeightDps="838"
+            launcher:minWidthDps="367" />
 
     </grid-option>
 
     <grid-option
-        launcher:name="4_by_4"
-        launcher:numRows="4"
-        launcher:numColumns="4"
-        launcher:numFolderRows="3"
-        launcher:numFolderColumns="4"
-        launcher:numHotseatIcons="4"
-        launcher:numExtendedHotseatIcons="6"
+        launcher:allAppsCellSpecsId="@xml/spec_all_apps_cell_match_workspace"
+        launcher:allAppsSpecsId="@xml/spec_handheld_all_apps"
         launcher:dbFile="launcher_4_by_4.db"
-        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
         launcher:defaultLayoutId="@xml/default_workspace_4x4"
-        launcher:deviceCategory="phone|multi_display" >
-
+        launcher:deviceCategory="phone"
+        launcher:devicePaddingId="@xml/paddings_4x4"
+        launcher:folderSpecsId="@xml/spec_handheld_folder_4x4"
+        launcher:folderStyle="@style/Folder4x4Style"
+        launcher:hotseatSpecsId="@xml/spec_handheld_hotseat_4x4"
+        launcher:isScalable="true"
+        launcher:name="4_by_4"
+        launcher:numAllAppsColumns="4"
+        launcher:numColumns="4"
+        launcher:numExtendedAllAppsColumns="6"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:numFolderColumns="3"
+        launcher:numFolderRows="3"
+        launcher:numHotseatIcons="4"
+        launcher:numRows="4"
+        launcher:workspaceCellSpecsId="@xml/spec_handheld_workspace_cell_4x4"
+        launcher:workspaceSpecsId="@xml/spec_handheld_workspace_4x4">
         <display-option
-            launcher:name="Short Stubby"
-            launcher:minWidthDps="275"
-            launcher:minHeightDps="420"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
-            launcher:name="Stubby"
-            launcher:minWidthDps="255"
-            launcher:minHeightDps="450"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
-            launcher:name="Nexus S"
-            launcher:minWidthDps="296"
-            launcher:minHeightDps="491.33"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
-            launcher:name="Nexus 4"
-            launcher:minWidthDps="359"
-            launcher:minHeightDps="567"
-            launcher:iconImageSize="54"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
-            launcher:name="Nexus 5"
-            launcher:minWidthDps="335"
-            launcher:minHeightDps="567"
-            launcher:iconImageSize="54"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
+            launcher:borderSpace="16"
+            launcher:horizontalMargin="21.5"
+            launcher:iconImageSize="66"
+            launcher:iconTextSize="14"
+            launcher:minCellHeight="130"
+            launcher:minCellWidth="80"
+            launcher:minHeightDps="838"
+            launcher:minWidthDps="367"
+            launcher:name="Nexus 5"/>
     </grid-option>
 
     <grid-option
-        launcher:name="4_by_5"
-        launcher:numRows="5"
-        launcher:numColumns="4"
-        launcher:numFolderRows="3"
-        launcher:numFolderColumns="3"
-        launcher:numHotseatIcons="4"
+        launcher:allAppsCellSpecsId="@xml/spec_all_apps_cell_match_workspace"
+        launcher:allAppsSpecsId="@xml/spec_handheld_all_apps"
         launcher:dbFile="launcher_4_by_5.db"
         launcher:defaultLayoutId="@xml/default_workspace_4x5"
-        launcher:deviceCategory="phone|multi_display" >
+        launcher:deviceCategory="phone"
+        launcher:devicePaddingId="@xml/paddings_4x5"
+        launcher:folderSpecsId="@xml/spec_handheld_folder_4x5"
+        launcher:folderStyle="@style/Folder4x5Style"
+        launcher:hotseatSpecsId="@xml/spec_handheld_hotseat_4x5"
+        launcher:isScalable="true"
+        launcher:name="4_by_5"
+        launcher:numAllAppsColumns="4"
+        launcher:numColumns="4"
+        launcher:numExtendedAllAppsColumns="6"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:numFolderColumns="3"
+        launcher:numFolderRows="3"
+        launcher:numHotseatIcons="4"
+        launcher:numRows="5"
+        launcher:workspaceCellSpecsId="@xml/spec_handheld_workspace_cell_4x5"
+        launcher:workspaceSpecsId="@xml/spec_handheld_workspace_4x5">
 
         <display-option
             launcher:name="Pixel 2021"
-            launcher:minWidthDps="367"
-            launcher:minHeightDps="838"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
+            launcher:borderSpace="16"
+            launcher:canBeDefault="true"
+            launcher:horizontalMargin="22"
             launcher:iconImageSize="66"
-            launcher:iconTextSize="14.0"
-            launcher:canBeDefault="true" />
+            launcher:iconSizeLandscape="54"
+            launcher:iconTextSize="14"
+            launcher:minCellHeight="104"
+            launcher:minCellWidth="80"
+            launcher:minHeightDps="838"
+            launcher:minWidthDps="367"/>
     </grid-option>
 
     <grid-option
-        launcher:name="5_by_5"
-        launcher:numRows="5"
-        launcher:numColumns="5"
-        launcher:numFolderRows="4"
-        launcher:numFolderColumns="4"
-        launcher:numHotseatIcons="5"
-        launcher:numExtendedHotseatIcons="6"
+        launcher:allAppsCellSpecsId="@xml/spec_all_apps_cell_match_workspace"
+        launcher:allAppsSpecsId="@xml/spec_handheld_all_apps"
         launcher:dbFile="launcher.db"
-        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
         launcher:defaultLayoutId="@xml/default_workspace_5x5"
-        launcher:deviceCategory="phone|multi_display" >
-
+        launcher:deviceCategory="phone"
+        launcher:devicePaddingId="@xml/paddings_5x5"
+        launcher:folderSpecsId="@xml/spec_handheld_folder_5x5"
+        launcher:folderStyle="@style/Folder5x5Style"
+        launcher:hotseatSpecsId="@xml/spec_handheld_hotseat_5x5"
+        launcher:isScalable="true"
+        launcher:name="5_by_5"
+        launcher:numAllAppsColumns="5"
+        launcher:numColumns="5"
+        launcher:numExtendedAllAppsColumns="7"
+        launcher:numExtendedHotseatIcons="7"
+        launcher:numFolderColumns="4"
+        launcher:numFolderColumnsLandscape="3"
+        launcher:numFolderRows="4"
+        launcher:numFolderRowsLandscape="3"
+        launcher:numHotseatIcons="5"
+        launcher:numRows="5"
+        launcher:workspaceCellSpecsId="@xml/spec_handheld_workspace_cell_5x5"
+        launcher:workspaceSpecsId="@xml/spec_handheld_workspace_5x5">
         <display-option
-            launcher:name="Large Phone"
-            launcher:minWidthDps="406"
-            launcher:minHeightDps="694"
-            launcher:iconImageSize="56"
-            launcher:iconTextSize="12.0"
             launcher:allAppsBorderSpace="16"
             launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
-            launcher:name="Large Phone Split Display"
-            launcher:minWidthDps="406"
-            launcher:minHeightDps="694"
-            launcher:iconImageSize="56"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
-        <display-option
-            launcher:name="Shorter Stubby"
-            launcher:minWidthDps="255"
-            launcher:minHeightDps="400"
-            launcher:iconImageSize="48"
-            launcher:iconTextSize="12.0"
-            launcher:allAppsBorderSpace="16"
-            launcher:allAppsCellHeight="104"
-            launcher:canBeDefault="true" />
-
+            launcher:borderSpace="16"
+            launcher:canBeDefault="true"
+            launcher:horizontalMargin="22"
+            launcher:iconImageSize="57"
+            launcher:iconSizeLandscape="59"
+            launcher:iconTextSize="12"
+            launcher:minCellHeight="108"
+            launcher:minCellWidth="61"
+            launcher:minHeightDps="750"
+            launcher:minWidthDps="387"
+            launcher:name="Large Phone"/>
     </grid-option>
 
     <grid-option
-        launcher:name="6_by_5"
-        launcher:numRows="5"
-        launcher:numColumns="6"
-        launcher:numSearchContainerColumns="3"
-        launcher:numFolderRows="3"
-        launcher:numFolderColumns="3"
-        launcher:numHotseatIcons="6"
-        launcher:numAllAppsColumns="6"
-        launcher:isScalable="true"
-        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_6_5"
-        launcher:devicePaddingId="@xml/paddings_6x5"
+
+        launcher:allAppsCellSpecsId="@xml/spec_all_apps_cell_match_workspace"
+        launcher:allAppsSpecsId="@xml/spec_tablet_all_apps_6x5"
+        launcher:allAppsStyle="@style/AllAppsStyle6x5"
+        launcher:cellStyle="@style/CellStyle6x5"
         launcher:dbFile="launcher_6_by_5.db"
         launcher:defaultLayoutId="@xml/default_workspace_6x5"
-        launcher:deviceCategory="tablet" >
+        launcher:deviceCategory="tablet"
+        launcher:devicePaddingId="@xml/paddings_6x5"
+        launcher:folderSpecsId="@xml/spec_tablet_folder_6x5"
+        launcher:folderStyle="@style/Folder6x5Style"
+        launcher:hotseatSpecsId="@xml/spec_tablet_hotseat_6x5"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_6_5"
+        launcher:inlineQsb="landscape"
+        launcher:isScalable="true"
+        launcher:name="6_by_5"
+        launcher:numAllAppsColumns="6"
+        launcher:numColumns="6"
+        launcher:numFolderColumns="3"
+        launcher:numFolderRows="3"
+        launcher:numHotseatIcons="6"
+        launcher:numRows="5"
+        launcher:numSearchContainerColumns="3"
+        launcher:workspaceCellSpecsId="@xml/spec_tablet_workspace_cell_6x5"
+        launcher:workspaceSpecsId="@xml/spec_tablet_workspace_6x5">
 
         <display-option
             launcher:name="Tablet"

@@ -1,0 +1,4 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <dimen name="aspect_ratio_landscape">10</dimen>
+    <dimen name="aspect_ratio_portrait">1</dimen>
+</resources>
