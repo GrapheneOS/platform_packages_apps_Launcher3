@@ -17,7 +17,7 @@ package {
     default_applicable_licenses: ["Android-Apache-2.0"],
 }
 
-min_launcher3_sdk_version = "31"
+min_launcher3_sdk_version = "36"
 
 // Targets that don't inherit framework aconfig libs (i.e., those that don't set
 // `platform_apis: true`) must manually link them.
