@@ -21,6 +21,7 @@ import static android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BA
 import static com.android.launcher3.EncryptionType.ENCRYPTED;
 import static com.android.launcher3.LauncherPrefs.nonRestorableItem;
 import static com.android.launcher3.taskbar.TaskbarDesktopExperienceFlags.enableAutoStashConnectedDisplayTaskbar;
+import static com.android.launcher3.taskbar.TaskbarManagerImpl.NAVIGATION_BAR_HINT_URI;
 import static com.android.launcher3.taskbar.Utilities.getShapedTaskbarRadius;
 import static com.android.systemui.shared.system.QuickStepContract.SYSUI_STATE_NAV_BAR_HIDDEN;
 
@@ -47,6 +48,7 @@ import com.android.launcher3.anim.RevealOutlineAnimation;
 import com.android.launcher3.anim.RoundedRectRevealOutlineProvider;
 import com.android.launcher3.util.Executors;
 import com.android.launcher3.util.MultiValueAlpha;
+import com.android.launcher3.util.SettingsCache;
 import com.android.quickstep.NavHandle;
 import com.android.quickstep.TopTaskTracker;
 import com.android.systemui.shared.system.QuickStepContract.SystemUiStateFlags;
@@ -146,7 +148,9 @@ public class StashedHandleViewController implements TaskbarControllers.LoggableT
                     .getDimensionPixelSize(R.dimen.taskbar_stashed_handle_width);
         }
         int taskbarBottomMargin = deviceProfile.getTaskbarProfile().getBottomMargin();
-        mStashedHandleView.getLayoutParams().height = mTaskbarSize + taskbarBottomMargin;
+        mStashedHandleView.getLayoutParams().height =
+                SettingsCache.INSTANCE.get(mActivity).getValue(NAVIGATION_BAR_HINT_URI)
+                ? mTaskbarSize + taskbarBottomMargin : 0;
 
         mTaskbarStashedHandleAlpha.get(ALPHA_INDEX_STASHED).setValue(
                 mActivity.isPhoneGestureNavMode() ? 1 : 0);
