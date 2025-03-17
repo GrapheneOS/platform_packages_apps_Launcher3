@@ -21,4 +21,10 @@
     <dimen name="taskbar_stashed_small_screen_long">140dp</dimen>
     <dimen name="taskbar_stashed_handle_width_short">108dp</dimen>
     <dimen name="taskbar_stashed_handle_width_long">300dp</dimen>
+
+    <!-- Additional gesture navbar heights -->
+    <dimen name="taskbar_stashed_handle_height_smallest">1dp</dimen>
+    <dimen name="taskbar_stashed_handle_height_smaller">2dp</dimen>
+    <dimen name="taskbar_stashed_handle_height_small">3dp</dimen>
+    <dimen name="taskbar_stashed_handle_height_tall">5dp</dimen>
 </resources>
