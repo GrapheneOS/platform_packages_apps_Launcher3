@@ -31,7 +31,6 @@ import static com.android.launcher3.testing.shared.ResourceUtils.pxFromDp;
 import static com.android.launcher3.util.OverviewReleaseFlags.enableGridOnlyOverview;
 import static com.android.wm.shell.Flags.enableBubbleBar;
 import static com.android.wm.shell.Flags.enableBubbleBarOnPhones;
-import static com.android.wm.shell.Flags.enableTinyTaskbar;
 
 import static java.lang.Math.max;
 
@@ -280,6 +279,11 @@ public class DeviceProfile {
                 isGestureMode
         );
 
+        Context context = getContext(info, isLandscapeOrientation()
+                        ? Configuration.ORIENTATION_LANDSCAPE
+                        : Configuration.ORIENTATION_PORTRAIT,
+                windowBounds);
+
         mInsets.set(windowBounds.insets);
         this.mDisplayOptionSpec = displayOptionSpec;
 
@@ -294,17 +298,15 @@ public class DeviceProfile {
         mIsScalableGrid = inv.isScalable && !isVerticalBarLayout() && !isExternalDisplay;
         // Determine device posture.
         mInfo = info;
-        boolean taskbarOrBubbleBarOnPhones = enableTinyTaskbar()
+        boolean enableTaskbar = SettingsCache.INSTANCE.get(context).getIntValue(
+                        ENABLE_TASKBAR_URI, mDeviceProperties.isTablet() ? 1 : 0) != 0;
+        boolean taskbarOrBubbleBarOnPhones = enableTaskbar
                 || (enableBubbleBar() && enableBubbleBarOnPhones());
         isTaskbarPresent =
                 (mDeviceProperties.isTablet() || (taskbarOrBubbleBarOnPhones && isGestureMode))
                         && wmProxy.isTaskbarDrawnInProcess();
 
         // Some more constants.
-        Context context = getContext(info, isLandscapeOrientation()
-                        ? Configuration.ORIENTATION_LANDSCAPE
-                        : Configuration.ORIENTATION_PORTRAIT,
-                windowBounds);
         final Resources res = context.getResources();
 
         overviewProfile = OverviewProfile.Factory.createOverviewProfile(res);
@@ -1211,7 +1213,8 @@ public class DeviceProfile {
      */
     public Rect getHotseatLayoutPadding(Context context) {
         boolean isTaskbarPresent = this.isTaskbarPresent &&
-                SettingsCache.INSTANCE.get(context).getValue(ENABLE_TASKBAR_URI);
+                SettingsCache.INSTANCE.get(context)
+                .getIntValue(ENABLE_TASKBAR_URI, mDeviceProperties.isTablet() ? 1 : 0) != 0;
         Rect hotseatBarPadding = new Rect();
         int iconSizePx = getWorkspaceIconProfile().getIconSizePx();
         int iconExtraSpacePx = iconSizePx - getIconVisibleSizePx(iconSizePx);
