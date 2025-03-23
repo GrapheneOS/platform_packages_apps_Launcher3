@@ -51,6 +51,8 @@
     <!-- AppLock -->
     <uses-permission android:name="android.permission.MANAGE_APP_LOCK" />
 
+    <uses-permission android:name="android.permission.ACCESS_CONTEXTUAL_SEARCH"/>
+
     <permission
         android:name="${applicationId}.permission.GRID_CONTROL"
         android:knownCerts="@array/grid_control_known_signers"
