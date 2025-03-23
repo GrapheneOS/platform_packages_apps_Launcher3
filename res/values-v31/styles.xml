@@ -28,7 +28,8 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="preferenceTheme">@style/HomeSettings.PreferenceTheme</item>
-        <item name="android:fontFamily">google-sans-flex</item>
+        <item name="alertDialogTheme">@style/HomeSettings.AlertDialog</item>
+        <item name="android:fontFamily">@*android:string/config_bodyFontFamily</item>
     </style>
 
     <style name="HomeSettings.PreferenceTheme" parent="@style/PreferenceThemeOverlay">
@@ -38,8 +39,27 @@
         <item name="preferenceScreenStyle">@style/HomeSettings.PreferenceScreenStyle</item>
         <item name="preferenceStyle">@style/HomeSettings.PreferenceStyle</item>
         <item name="switchPreferenceCompatStyle">@style/HomeSettings.SwitchPreferenceStyle</item>
-        <item name="android:fontFamily">google-sans-text</item>
+        <item name="android:fontFamily">@*android:string/config_bodyFontFamily</item>
+        <item name="alertDialogTheme">@style/HomeSettings.AlertDialog</item>
     </style>
+
+    <style name="HomeSettings.AlertDialog.Base" parent="@style/Theme.AppCompat.DayNight.Dialog.Alert">
+         <item name="colorAccent">@android:color/system_primary_light</item>
+         <item name="android:colorBackground">@android:color/system_surface_container_high_light</item>
+     </style>
+ 
+     <style name="HomeSettings.AlertDialog" parent="@style/HomeSettings.AlertDialog.Base">
+         <item name="android:windowSoftInputMode">adjustResize</item>
+         <item name="android:clipToPadding">true</item>
+         <item name="android:clipChildren">true</item>
+         <item name="android:textDirection">locale</item>
+         <item name="android:layoutDirection">locale</item>
+ 
+         <!-- copied from Theme.DeviceDefault.Dialog.Alert -->
+         <item name="dialogCornerRadius">@*android:dimen/config_dialogCornerRadius</item>
+         <item name="android:windowTitleStyle">@*android:style/DialogWindowTitle.DeviceDefault</item>
+         <item name="buttonBarButtonStyle">@*android:style/Widget.DeviceDefault.Button.ButtonBar.AlertDialog</item>
+     </style>
 
     <style name="HomeSettings.CategoryStyle" parent="@style/Preference.Category.Material">
         <item name="allowDividerAbove">@bool/home_settings_allow_divider</item>

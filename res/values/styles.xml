@@ -236,14 +236,35 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="preferenceTheme">@style/HomeSettings.PreferenceTheme</item>
+        <item name="alertDialogTheme">@style/HomeSettings.AlertDialog</item>
     </style>
 
     <style name="HomeSettings.PreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
         <item name="preferenceFragmentCompatStyle">@style/HomeSettings.FragmentCompatStyle</item>
+        <item name="alertDialogTheme">@style/HomeSettings.AlertDialog</item>
     </style>
 
     <style name="HomeSettings.FragmentCompatStyle" parent="@style/PreferenceFragment.Material">
         <item name="android:layout">@layout/home_settings</item>
+        <item name="alertDialogTheme">@style/HomeSettings.AlertDialog</item>
+     </style>
+ 
+     <style name="HomeSettings.AlertDialog.Base" parent="@style/Theme.AppCompat.DayNight.Dialog.Alert">
+         <item name="colorAccent">@android:color/system_primary_light</item>
+         <item name="android:colorBackground">@android:color/system_surface_container_high_light</item>
+     </style>
+ 
+     <style name="HomeSettings.AlertDialog" parent="@style/HomeSettings.AlertDialog.Base">
+         <item name="android:windowSoftInputMode">adjustResize</item>
+         <item name="android:clipToPadding">true</item>
+         <item name="android:clipChildren">true</item>
+         <item name="android:textDirection">locale</item>
+         <item name="android:layoutDirection">locale</item>
+ 
+         <!-- copied from Theme.DeviceDefault.Dialog.Alert -->
+         <item name="dialogCornerRadius">@*android:dimen/config_dialogCornerRadius</item>
+         <item name="android:windowTitleStyle">@*android:style/DialogWindowTitle.DeviceDefault</item>
+         <item name="buttonBarButtonStyle">@*android:style/Widget.DeviceDefault.Button.ButtonBar.AlertDialog</item>
     </style>
 
     <!--
