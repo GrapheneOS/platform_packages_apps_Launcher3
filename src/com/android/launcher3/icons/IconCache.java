@@ -521,9 +521,9 @@ public class IconCache extends BaseIconCache {
                     || icon == BitmapInfo.LOW_RES_INFO;
 
             if (loadFallbackTitle || loadFallbackIcon) {
-                Log.i(TAG,
-                        "Database bulk icon loading failed, using fallback bulk icon loading "
-                                + "for: " + cn);
+                //Log.i(TAG,
+                //        "Database bulk icon loading failed, using fallback bulk icon loading "
+                //                + "for: " + cn);
                 CacheEntry entry = new CacheEntry();
                 LauncherActivityInfo lai = iconRequestInfo.launcherActivityInfo;
 
