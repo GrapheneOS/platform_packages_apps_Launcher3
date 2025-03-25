@@ -95,9 +95,6 @@ abstract class AbstractNavButtonLayoutter(
         val phoneOrPortraitSetupMargin =
             resources.getDimensionPixelSize(R.dimen.taskbar_contextual_button_suw_margin)
         nearestTouchFrameLayoutParams.marginStart = phoneOrPortraitSetupMargin
-        nearestTouchFrameLayoutParams.bottomMargin = 0
-        nearestTouchFrameLayoutParams.height =
-            resources.getDimensionPixelSize(R.dimen.taskbar_contextual_button_suw_height)
     }
 
     open fun repositionContextualContainer(

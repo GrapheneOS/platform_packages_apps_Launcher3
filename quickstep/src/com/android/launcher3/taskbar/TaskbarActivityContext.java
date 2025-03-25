@@ -871,9 +871,6 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
 
     public void onConfigurationChanged(@Config int configChanges) {
         mControllers.onConfigurationChanged(configChanges);
-        if (!mIsUserSetupComplete) {
-            setTaskbarWindowSize(getSetupWindowSize());
-        }
     }
 
     public boolean isThreeButtonNav() {
@@ -1470,10 +1467,6 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
                     resources.getDimensionPixelSize(R.dimen.taskbar_stashed_size);
         }
 
-        if (!isUserSetupComplete()) {
-            return getSetupWindowSize();
-        }
-
         int bubbleBarTop = mControllers.bubbleControllers.map(bubbleControllers ->
                 bubbleControllers.bubbleBarViewController.getBubbleBarWithFlyoutMaximumHeight()
         ).orElse(0);
@@ -1512,10 +1505,6 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
                 + getCornerRadius()
                 + extraHeightForTaskbarTooltips;
         return Math.max(taskbarWindowSize, bubbleBarTop);
-    }
-
-    public int getSetupWindowSize() {
-        return getResources().getDimensionPixelSize(R.dimen.taskbar_suw_frame);
     }
 
     public TaskbarProfile getTransientTaskbarProfile() {
