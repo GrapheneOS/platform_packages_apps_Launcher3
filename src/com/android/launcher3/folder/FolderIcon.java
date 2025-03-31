@@ -636,13 +636,14 @@ public class FolderIcon extends FrameLayout implements FloatingIconViewCompanion
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        boolean shouldShowLabel = mFolderName.shouldShowLabel();
         boolean shouldCenterIcon = mActivity.getDeviceProfile().getWorkspaceIconProfile()
                 .getIconCenterVertically();
-        if (shouldCenterIcon) {
+        if (shouldCenterIcon || !shouldShowLabel) {
             int iconSize = mActivity.getDeviceProfile().getWorkspaceIconProfile().getIconSizePx();
             Paint.FontMetrics fm = mFolderName.getPaint().getFontMetrics();
-            int cellHeightPx = iconSize + mFolderName.getCompoundDrawablePadding()
-                    + (int) Math.ceil(fm.bottom - fm.top);
+            int textHeight = shouldShowLabel ? (int) Math.ceil(fm.bottom - fm.top) : 0;
+            int cellHeightPx = iconSize + mFolderName.getCompoundDrawablePadding() + textHeight;
             setPadding(getPaddingLeft(), (MeasureSpec.getSize(heightMeasureSpec)
                     - cellHeightPx) / 2, getPaddingRight(), getPaddingBottom());
         }

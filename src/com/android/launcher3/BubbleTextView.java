@@ -1000,10 +1000,10 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver,
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        if (mCenterVertically) {
+        if (mCenterVertically || !mShouldShowLabel) {
             Paint.FontMetrics fm = getPaint().getFontMetrics();
-            int cellHeightPx = mIconSize + getCompoundDrawablePadding() +
-                    (int) Math.ceil(fm.bottom - fm.top) * getCellSpecMaxTextLineCount();
+            int textHeight = mShouldShowLabel ? (int) Math.ceil(fm.bottom - fm.top) * getCellSpecMaxTextLineCount(): 0;
+            int cellHeightPx = mIconSize + getCompoundDrawablePadding() + textHeight;
             setPadding(getPaddingLeft(), (height - cellHeightPx) / 2, getPaddingRight(),
                     getPaddingBottom());
         }
