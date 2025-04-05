@@ -26,6 +26,8 @@ import android.widget.LinearLayout
 import android.widget.Space
 import com.android.launcher3.R
 import com.android.launcher3.taskbar.TaskbarActivityContext
+import com.android.launcher3.taskbar.TaskbarManagerImpl.NAV_BAR_LAYOUT_URI
+import com.android.launcher3.util.SettingsCache
 
 /** Layoutter for rendering task bar in large screen, both in 3-button and gesture nav mode. */
 class TaskbarNavLayoutter(
@@ -48,6 +50,8 @@ class TaskbarNavLayoutter(
     ) {
 
     override fun layoutButtons(context: TaskbarActivityContext, isA11yButtonPersistent: Boolean) {
+        val layoutMode = SettingsCache.INSTANCE.get(homeButton!!.context).getIntValue(NAV_BAR_LAYOUT_URI, 0)
+
         // Add spacing after the end of the last nav button
         var navMarginEnd =
             resources.getDimension(context.deviceProfile.inv.inlineNavButtonsEndSpacing).toInt()
@@ -66,6 +70,11 @@ class TaskbarNavLayoutter(
             navMarginEnd += resources.getDimensionPixelSize(R.dimen.taskbar_hotseat_nav_spacing) / 2
         }
 
+        val endFactor = when (layoutMode) {
+            2 -> 0.4f  // left
+            3 -> 1.6f  // right
+            else -> 1f // normal & compact
+        }
         val navButtonParams =
             FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -73,13 +82,14 @@ class TaskbarNavLayoutter(
             )
         navButtonParams.apply {
             gravity = Gravity.END or Gravity.CENTER_VERTICAL
-            marginEnd = navMarginEnd
+            marginEnd = (endFactor * navMarginEnd.toFloat()).toInt()
         }
         navButtonContainer.orientation = LinearLayout.HORIZONTAL
         navButtonContainer.layoutParams = navButtonParams
 
         // Add the spaces in between the nav buttons
         val spaceInBetween = resources.getDimensionPixelSize(R.dimen.taskbar_button_space_inbetween)
+        val spaceInBetweenDiv = if (layoutMode == 0) 1 else 4
         for (i in 0 until navButtonContainer.childCount) {
             val navButton = navButtonContainer.getChildAt(i)
             val buttonLayoutParams = navButton.layoutParams as LinearLayout.LayoutParams
@@ -92,8 +102,8 @@ class TaskbarNavLayoutter(
                     buttonLayoutParams.marginStart = spaceInBetween / 2
                 }
                 else -> {
-                    buttonLayoutParams.marginStart = spaceInBetween / 2
-                    buttonLayoutParams.marginEnd = spaceInBetween / 2
+                    buttonLayoutParams.marginStart = (spaceInBetween / 2) / spaceInBetweenDiv
+                    buttonLayoutParams.marginEnd = (spaceInBetween / 2) / spaceInBetweenDiv
                 }
             }
         }
