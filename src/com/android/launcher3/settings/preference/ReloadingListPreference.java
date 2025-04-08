@@ -4,10 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import androidx.preference.ListPreference;
+import androidx.preference.PreferenceManager;
 
 import java.util.function.Function;
 
 import com.android.launcher3.settings.SettingsIcons;
+import com.android.launcher3.R;
 
 import static com.android.launcher3.util.Executors.MAIN_EXECUTOR;
 import static com.android.launcher3.util.Executors.THREAD_POOL_EXECUTOR;
@@ -36,6 +38,14 @@ public class ReloadingListPreference extends ListPreference
     public ReloadingListPreference(Context context, AttributeSet attrs, int defStyleAttr,
                                    int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    @Override
+    protected void onAttachedToHierarchy(PreferenceManager preferenceManager) {
+        super.onAttachedToHierarchy(preferenceManager);
+        if ("pref_icon_pack".equals(getKey())) {
+            setLayoutResource(R.layout.preference_layout_icon);
+        }
     }
 
     @Override
