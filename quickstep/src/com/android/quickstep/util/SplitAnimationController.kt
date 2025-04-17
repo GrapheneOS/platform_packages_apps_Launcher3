@@ -1134,14 +1134,6 @@ class SplitAnimationController(val splitSelectStateController: SplitSelectStateC
             val taskId = taskInfo.taskId
             val mode = change.mode
 
-            // Find the target tasks' root tasks since those are the split stages that need to
-            // be animated (the tasks themselves are children and thus inherit animation).
-            if (taskId == initialTaskId || taskId == secondTaskId) {
-                check(mode == TRANSIT_OPEN || mode == TRANSIT_TO_FRONT) {
-                    "Expected task to be showing, but it is $mode"
-                }
-            }
-
             if (taskId == initialTaskId) {
                 splitRoot1 = change
                 val parentToken1 = change.parent
