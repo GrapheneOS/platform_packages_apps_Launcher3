@@ -16,6 +16,7 @@
 package com.android.launcher3.taskbar;
 
 import static android.view.View.AccessibilityDelegate;
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewTreeObserver.InternalInsetsInfo.TOUCHABLE_INSETS_REGION;
 import static android.view.WindowManager.LayoutParams.TYPE_NAVIGATION_BAR_PANEL;
 
@@ -1041,6 +1042,12 @@ public class NavbarButtonsViewController implements TaskbarControllers.LoggableT
         ImageView buttonView = (ImageView) mContext.getLayoutInflater()
                 .inflate(layoutId, parent, false);
         buttonView.setId(id);
+        if (mContext.isPhoneButtonNavMode()) {
+            ViewGroup.LayoutParams navButtonParams =
+                    (ViewGroup.LayoutParams) buttonView.getLayoutParams();
+            navButtonParams.width = MATCH_PARENT;
+            navButtonParams.height = MATCH_PARENT;
+        }
         parent.addView(buttonView);
         mAllButtons.add(buttonView);
         return buttonView;
