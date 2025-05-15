@@ -18,6 +18,7 @@ package com.android.launcher3.util;
 
 import android.content.ComponentName;
 import android.os.UserHandle;
+import android.os.UserManager;
 
 import androidx.annotation.NonNull;
 
@@ -43,6 +44,25 @@ public abstract class ItemInfoMatcher {
 
     public static Predicate<ItemInfo> ofUser(UserHandle user) {
         return info -> info != null && info.user.equals(user);
+    }
+
+    public static Predicate<ItemInfo> ofCurrentOrDualUser(UserManager userManager, UserHandle user) {
+        return itemInfo -> itemInfo != null && (
+                isDualAppUser(userManager, itemInfo.user) || itemInfo.user.equals(user)
+        );
+    }
+
+    private static boolean isDualAppUser(UserManager userManager, UserHandle user) {
+        return user.getIdentifier() == getCloneUserId(userManager);
+    }
+
+    public static int getCloneUserId(UserManager userManager) {
+        for (UserHandle userHandle : userManager.getUserProfiles()) {
+            if (userManager.getUserInfo(userHandle.getIdentifier()).isCloneProfile()) {
+                return userHandle.getIdentifier();
+            }
+        }
+        return -1;
     }
 
     public static Predicate<ItemInfo> ofComponents(

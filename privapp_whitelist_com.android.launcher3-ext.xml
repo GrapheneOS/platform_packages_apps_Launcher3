@@ -22,6 +22,7 @@
         <permission name="android.permission.MANAGE_APP_LOCK"/>
         <permission name="android.permission.ACCESS_CONTEXTUAL_SEARCH"/>
         <permission name="android.permission.FORCE_STOP_PACKAGES"/>
+        <permission name="android.permission.QUERY_USERS"/>
         <permission name="com.libremobileos.permission.START_FREEFORM"/>
     </privapp-permissions>
 </permissions>
