@@ -177,19 +177,23 @@ public class SplitToWorkspaceController {
                 secondTaskEndingBounds);
 
         FloatingTaskView firstFloatingTaskView = mController.getFirstFloatingTaskView();
-        firstFloatingTaskView.getBoundsOnScreen(firstTaskStartingBounds);
-        firstFloatingTaskView.addConfirmAnimation(pendingAnimation,
-                new RectF(firstTaskStartingBounds), firstTaskEndingBounds,
-                false /* fadeWithThumbnail */, true /* isStagedTask */);
+        if (firstFloatingTaskView != null) {
+            firstFloatingTaskView.getBoundsOnScreen(firstTaskStartingBounds);
+            firstFloatingTaskView.addConfirmAnimation(pendingAnimation,
+                    new RectF(firstTaskStartingBounds), firstTaskEndingBounds,
+                    false /* fadeWithThumbnail */, true /* isStagedTask */);
+        }
 
         View backingScrim = recentsView.getSplitSelectController().getSplitAnimationController()
                 .addScrimBehindAnim(pendingAnimation, mLauncher, view.getContext());
 
         FloatingTaskView secondFloatingTaskView = FloatingTaskView.getFloatingTaskView(mLauncher,
                 view, bitmap, icon, secondTaskStartingBounds);
-        secondFloatingTaskView.setAlpha(1);
-        secondFloatingTaskView.addConfirmAnimation(pendingAnimation, secondTaskStartingBounds,
-                secondTaskEndingBounds, true /* fadeWithThumbnail */, false /* isStagedTask */);
+        if (secondFloatingTaskView != null) {
+            secondFloatingTaskView.setAlpha(1);
+            secondFloatingTaskView.addConfirmAnimation(pendingAnimation, secondTaskStartingBounds,
+                    secondTaskEndingBounds, true /* fadeWithThumbnail */, false /* isStagedTask */);
+        }
 
         pendingAnimation.addListener(new AnimatorListenerAdapter() {
             private boolean mIsCancelled = false;
@@ -213,8 +217,12 @@ public class SplitToWorkspaceController {
             }
 
             private void cleanUp() {
-                mLauncher.getDragLayer().removeView(firstFloatingTaskView);
-                mLauncher.getDragLayer().removeView(secondFloatingTaskView);
+                if (firstFloatingTaskView != null) {
+                    mLauncher.getDragLayer().removeView(firstFloatingTaskView);
+                }
+                if (secondFloatingTaskView != null) {
+                    mLauncher.getDragLayer().removeView(secondFloatingTaskView);
+                }
                 mLauncher.getDragLayer().removeView(backingScrim);
                 mController.getSplitAnimationController().removeSplitInstructionsView(mLauncher);
                 mController.resetState();
