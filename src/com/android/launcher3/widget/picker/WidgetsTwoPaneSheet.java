@@ -204,7 +204,7 @@ public class WidgetsTwoPaneSheet extends WidgetsFullSheet {
         onWidgetsBound();
         if (mIsInSearchMode) {
             mSearchBar.reset();
-        } else if (!mSuggestedWidgetsPackageUserKey.equals(mSelectedHeader)) {
+        } else if (mSelectedHeader != null && mSelectedHeader != mSuggestedWidgetsPackageUserKey) {
             mAdapters.get(mActivePage).mWidgetsListAdapter.selectFirstHeaderEntry();
             mAdapters.get(mActivePage).mWidgetsRecyclerView.scrollToTop();
         }
