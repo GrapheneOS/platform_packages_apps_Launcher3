@@ -146,7 +146,7 @@ public class HotseatEduController {
             return v != null && v.getTag() != null && ((ItemInfo) v.getTag()).container
                     != LauncherSettings.Favorites.CONTAINER_HOTSEAT_PREDICTION;
         });
-        boolean canMigrateToFirstPage = cellLayout.makeSpaceForHotseatMigration(false);
+        boolean canMigrateToFirstPage = cellLayout != null && cellLayout.makeSpaceForHotseatMigration(false);
         if (requiresMigration && canMigrateToFirstPage) {
             showDialog();
         } else {
