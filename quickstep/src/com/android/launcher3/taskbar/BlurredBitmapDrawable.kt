@@ -33,7 +33,7 @@ class BlurredBitmapDrawable(bitmap: Bitmap?, radiusX: Float, radiusY: Float) :
 
     init {
         mBlurRenderNode.setRenderEffect(
-            RenderEffect.createBlurEffect(radiusX, radiusY, Shader.TileMode.CLAMP)
+            RenderEffect.createBlurEffect(radiusX, radiusY, Shader.TileMode.MIRROR)
         )
     }
 

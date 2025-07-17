@@ -89,7 +89,7 @@ class DoubleShadowIconDrawable(
             RenderEffect.createOffsetEffect(
                 offsetX,
                 offsetY,
-                RenderEffect.createBlurEffect(radius, radius, Shader.TileMode.CLAMP)
+                RenderEffect.createBlurEffect(radius, radius, Shader.TileMode.MIRROR)
             )
         )
     }

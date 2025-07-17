@@ -81,7 +81,7 @@ public class FloatingTaskThumbnailView extends View {
     public void setThumbnail(Bitmap bitmap) {
         mBitmap = bitmap;
         if (bitmap != null) {
-            mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+            mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR);
             mPaint.setShader(mBitmapShader);
         }
     }

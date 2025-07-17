@@ -263,7 +263,7 @@ public class SysUiScrim implements View.OnAttachStateChangeListener,
         Canvas c = new Canvas(dst);
         Paint paint = new Paint(DITHER_FLAG);
         LinearGradient lg = new LinearGradient(0, 0, 0, height,
-                colors, positions, Shader.TileMode.CLAMP);
+                colors, positions, Shader.TileMode.MIRROR);
         paint.setShader(lg);
         c.drawPaint(paint);
         return dst;

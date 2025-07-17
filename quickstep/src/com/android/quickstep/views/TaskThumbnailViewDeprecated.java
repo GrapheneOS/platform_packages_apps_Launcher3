@@ -208,7 +208,7 @@ public class TaskThumbnailViewDeprecated extends View implements ViewPool.Reusab
         if (mThumbnailData != null && mThumbnailData.getThumbnail() != null) {
             Bitmap bm = mThumbnailData.getThumbnail();
             bm.prepareToDraw();
-            mBitmapShader = new BitmapShader(bm, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+            mBitmapShader = new BitmapShader(bm, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR);
             mPaint.setShader(mBitmapShader);
             updateThumbnailMatrix();
             if (shouldRefreshOverlay) {

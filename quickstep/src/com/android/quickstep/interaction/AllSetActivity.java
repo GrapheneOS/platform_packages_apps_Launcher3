@@ -758,7 +758,7 @@ public class AllSetActivity extends Activity implements UIControllerChangeListen
             mColor = context.getColor(R.color.all_set_page_background);
             mMaskGrad = new RadialGradient(0, 0, 1,
                     new int[] {ColorUtils.setAlphaComponent(mColor, 0), mColor},
-                    new float[]{0, 1}, TileMode.CLAMP);
+                    new float[]{0, 1}, TileMode.MIRROR);
 
             mPaint.setShader(mMaskGrad);
             mPaint.setColorFilter(mColorFilter);
