@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2025 crDroid Android Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+
+<com.android.launcher3.widget.TintDrawable
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_settings_recents"
+    android:tint="@color/homepage_red_fg" />

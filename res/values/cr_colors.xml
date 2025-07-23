@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2016-2025 crDroid Android Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+
+    <!-- Material Expressive -->
+    <color name="homepage_blue_variant_fg">@color/m3_ref_palette_blue_variant30</color>
+    <color name="homepage_blue_variant_bg">@color/m3_ref_palette_blue_variant90</color>
+    <color name="homepage_blue_fg">@color/m3_ref_palette_blue30</color>
+    <color name="homepage_blue_bg">@color/m3_ref_palette_blue90</color>
+    <color name="homepage_pink_fg">@color/m3_ref_palette_pink30</color>
+    <color name="homepage_pink_bg">@color/m3_ref_palette_pink90</color>
+    <color name="homepage_orange_fg">@color/m3_ref_palette_orange30</color>
+    <color name="homepage_orange_bg">@color/m3_ref_palette_orange90</color>
+    <color name="homepage_yellow_fg">@color/m3_ref_palette_yellow30</color>
+    <color name="homepage_yellow_bg">@color/m3_ref_palette_yellow90</color>
+    <color name="homepage_green_fg">@color/m3_ref_palette_green30</color>
+    <color name="homepage_green_bg">@color/m3_ref_palette_green90</color>
+    <color name="homepage_grey_fg">@color/m3_ref_palette_grey30</color>
+    <color name="homepage_grey_bg">@color/m3_ref_palette_grey90</color>
+    <color name="homepage_cyan_fg">@color/m3_ref_palette_cyan30</color>
+    <color name="homepage_cyan_bg">@color/m3_ref_palette_cyan90</color>
+    <color name="homepage_red_fg">@color/m3_ref_palette_red30</color>
+    <color name="homepage_red_bg">@color/m3_ref_palette_red90</color>
+    <color name="homepage_purple_fg">@color/m3_ref_palette_purple30</color>
+    <color name="homepage_purple_bg">@color/m3_ref_palette_purple90</color>
+</resources>

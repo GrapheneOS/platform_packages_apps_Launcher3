@@ -22,7 +22,7 @@
         android:key="icons"
         android:title="@string/icons_category_title"
         android:summary="@string/icons_category_summary"
-        android:icon="@drawable/ic_settings_icons"
+        android:icon="@drawable/ic_homepage_icons"
         android:layout="@layout/settings_layout">
     <intent
             android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
@@ -34,7 +34,7 @@
         android:key="home_screen"
         android:title="@string/home_category_title"
         android:summary="@string/home_category_summary"
-        android:icon="@drawable/ic_settings_homescreen"
+        android:icon="@drawable/ic_homepage_homescreen"
         android:layout="@layout/settings_layout">
     <intent
             android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
@@ -46,7 +46,7 @@
         android:key="app_drawer"
         android:title="@string/app_drawer_category_title"
         android:summary="@string/app_drawer_category_summary"
-        android:icon="@drawable/ic_settings_appdrawer"
+        android:icon="@drawable/ic_homepage_appdrawer"
         android:layout="@layout/settings_layout">
     <intent
             android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
@@ -58,7 +58,7 @@
         android:key="recents"
         android:title="@string/recents_category_title"
         android:summary="@string/recents_category_summary"
-        android:icon="@drawable/ic_settings_recents"
+        android:icon="@drawable/ic_homepage_recents"
         android:layout="@layout/settings_layout">
     <intent
             android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
@@ -70,7 +70,7 @@
         android:key="miscellaneous"
         android:title="@string/misc_category_title"
         android:summary="@string/misc_category_summary"
-        android:icon="@drawable/ic_settings_misc"
+        android:icon="@drawable/ic_homepage_misc"
         android:layout="@layout/settings_layout">
     <intent
             android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
