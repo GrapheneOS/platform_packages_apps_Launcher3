@@ -68,7 +68,7 @@ object OnboardingPrefs {
     @JvmField val HOME_BOUNCE_COUNT = CountedItem("launcher.home_bounce_count", 3)
 
     @JvmField
-    val HOTSEAT_DISCOVERY_TIP_COUNT = CountedItem("launcher.hotseat_discovery_tip_count", 5)
+    val HOTSEAT_DISCOVERY_TIP_COUNT = CountedItem("launcher.hotseat_discovery_tip_count", 0)
 
     @JvmField val ALL_APPS_VISITED_COUNT = CountedItem("launcher.all_apps_visited_count", 20)
 
