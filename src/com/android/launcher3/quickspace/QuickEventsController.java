@@ -70,18 +70,11 @@ public class QuickEventsController {
     private Drawable mEventSubIcon = null;
 
     private boolean mIsQuickEvent = false;
-    private boolean mRegistered = false;
 
     private final Map<Integer, String[]> mCachedPSAMap = new HashMap<>();
 
     // PSA + Personality
     private String[] mPSAStr;
-    private BroadcastReceiver mPSAListener = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            psonalityEvent();
-        }
-    };
 
     // NowPlaying
     private boolean mEventNowPlaying = false;
@@ -92,34 +85,19 @@ public class QuickEventsController {
     public QuickEventsController(Context context) {
         mContext = context;
         mResources = context.getResources();
-        initQuickEvents();
     }
 
     public void initQuickEvents() {
-        registerPSAListener();
         updateQuickEvents();
     }
 
-    private void registerPSAListener() {
-        if (mRegistered) return;
-        mRegistered = true;
-        IntentFilter psonalityIntent = new IntentFilter();
-        psonalityIntent.addAction(Intent.ACTION_TIME_TICK);
-        psonalityIntent.addAction(Intent.ACTION_TIME_CHANGED);
-        psonalityIntent.addAction(Intent.ACTION_TIMEZONE_CHANGED);
-        mContext.registerReceiver(mPSAListener, psonalityIntent, Context.RECEIVER_NOT_EXPORTED);
-    }
-
-    private void unregisterPSAListener() {
-        if (!mRegistered) return;
-        mRegistered = false;
-        mContext.unregisterReceiver(mPSAListener);
-    }
-
     public void updateQuickEvents() {
-        if (!mRegistered) return;
         nowPlayingEvent();
         initNowPlayingEvent();
+        psonalityEvent();
+    }
+
+    public void updatePsonality() {
         psonalityEvent();
     }
 
@@ -310,14 +288,6 @@ public class QuickEventsController {
 
     public boolean isNowPlaying() {
         return mPlayingActive;
-    }
-
-    public void onPause() {
-        unregisterPSAListener();
-    }
-
-    public void onResume() {
-        registerPSAListener();
     }
 
     private String[] getCachedArray(int resId) {
