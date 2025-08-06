@@ -130,23 +130,37 @@ public class QuickEventsController {
         mEventTitleSubAction = view -> MSMHProxy.INSTANCE(mContext).launchMediaApp();
     }
 
-    private static String formatDateTime(Context context) {
+    public static String getDayOfWeek(Context context) {
+        DateFormat format = DateFormat.getInstanceForSkeleton("EEEE", Locale.getDefault());
+        format.setContext(DisplayContext.CAPITALIZATION_FOR_STANDALONE);
+        return format.format(System.currentTimeMillis());
+    }
+
+    public static String getShortDate(Context context) {
+        DateFormat format = DateFormat.getInstanceForSkeleton("dMMMM", Locale.getDefault());
+        format.setContext(DisplayContext.CAPITALIZATION_FOR_STANDALONE);
+        return format.format(System.currentTimeMillis());
+    }
+
+    private static String formatDateTime(Context context, int style) {
         String styleText;
         DateFormat dateFormat;
-        if (LauncherPrefs.SHOW_QUICKSPACE_ALT.get(context)) {
+        if (style == 1) { // Extended
             styleText = context.getString(R.string.quickspace_date_format_minimalistic);
         } else {
             styleText = context.getString(R.string.quickspace_date_format);
         }
         dateFormat = DateFormat.getInstanceForSkeleton(styleText, Locale.getDefault());
         dateFormat.setContext(DisplayContext.CAPITALIZATION_FOR_STANDALONE);
+
         return dateFormat.format(System.currentTimeMillis());
     }
 
     private void psonalityEvent() {
         if (mEventNowPlaying) return;
 
-	    mEventTitle = formatDateTime(mContext);
+
+	    mEventTitle = formatDateTime(mContext, Integer.parseInt(LauncherPrefs.QUICKSPACE_UI_STYLE.get(mContext)));
         mEventTitleSubAction = new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -16,11 +16,16 @@
 package com.android.launcher3.quickspace;
 
 import android.content.ActivityNotFoundException;
+import android.content.ContentUris;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.AlarmClock;
+import android.provider.CalendarContract;
 import android.text.TextUtils.TruncateAt;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -36,6 +41,7 @@ import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.model.data.ItemInfo;
+import com.android.launcher3.quickspace.views.AccentedTextClock;
 import com.android.launcher3.util.Themes;
 
 import com.android.launcher3.quickspace.QuickspaceController.OnDataListener;
@@ -54,6 +60,16 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     public ImageView mEventSubIcon;
     public ImageView mNowPlayingIcon;
     public TextView mEventTitleSub;
+
+    public TextView mQuickspaceDayOfWeek;
+    public AccentedTextClock mQuickspaceClock;
+    public TextView mQuickspaceDate;
+    public TextView mPSAMessage;
+    public ViewGroup mNowPlayingContent;
+    public TextView mNowPlayingText;
+    public ViewGroup mDateWeatherRow;
+    public ViewGroup mContextualInfoRow;
+
     public TextView mEventTitleSubColored;
     public TextView mGreetingsExt;
     public TextView mGreetingsExtClock;
@@ -72,6 +88,8 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     private QuickSpaceActionReceiver mActionReceiver;
     public QuickspaceController mController;
 
+    private int mCurrentStyle = -1;
+
     public QuickSpaceView(Context context, AttributeSet set) {
         super(context, set);
         mController = new QuickspaceController(context);
@@ -82,13 +100,27 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
 
     @Override
     public void onDataUpdated() {
-        boolean altUI = LauncherPrefs.SHOW_QUICKSPACE_ALT.get(getContext());
-        if (mEventTitle == null || mIsAlternateStyle != altUI) {
-            prepareLayout(altUI);
+        int style = Integer.parseInt(LauncherPrefs.QUICKSPACE_UI_STYLE.get(getContext()));
+        if (mEventTitle == null || mCurrentStyle != style) {
+            prepareLayout(style);
         }
         mIsQuickEvent = mController.isQuickEvent();
         mWeatherAvailable = mController.isWeatherAvailable();
-        loadDoubleLine(altUI);
+        updateView(style);
+    }
+
+    private void updateView(int style) {
+        switch (style) {
+            case 2:
+                loadLargeStyle();
+                break;
+            case 1: // Extended
+            case 0: // Default
+            default:
+                loadDoubleLine(style == 1);
+                break;
+        }
+
     }
 
     private final void loadDoubleLine(boolean useAlternativeQuickspaceUI) {
@@ -153,6 +185,8 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
             }
         }
         bindWeather(mWeatherContentSub, mWeatherTempSub, mWeatherIconSub);
+        boolean hasGoogleApp = isPackageEnabled("com.google.android.googlequicksearchbox", getContext());
+        mWeatherContentSub.setOnClickListener(hasGoogleApp ? getActionReceiver().getWeatherAction() : null);
     }
 
     private void maybeSetMarquee(TextView tv) {
@@ -193,11 +227,9 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
             container.setVisibility(View.GONE);
             return;
         }
-        boolean hasGoogleApp = isPackageEnabled("com.google.android.googlequicksearchbox", getContext());
         if (container.getVisibility() != View.VISIBLE) {
             animateIn(container);
         }
-        container.setOnClickListener(hasGoogleApp ? getActionReceiver().getWeatherAction() : null);
         title.setText(weatherTemp);
         icon.setImageDrawable(mController.getWeatherIcon());
     }
@@ -209,6 +241,75 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
         return mActionReceiver;
     }
 
+    private void loadLargeStyle() {
+        if (mQuickspaceDayOfWeek == null) return; // Views not inflated for this style
+
+        boolean accentEnabled = LauncherPrefs.QUICKSPACE_VOLTAGE_ACCENT.get(getContext());
+        if (mQuickspaceClock != null) {
+            mQuickspaceClock.setAccentEnabled(accentEnabled);
+        }
+
+        mQuickspaceDayOfWeek.setText(QuickEventsController.getDayOfWeek(getContext()));
+        mQuickspaceDate.setText(mController.getEventController().getShortDate(getContext()));
+        mWeatherContentSub.setVisibility(View.VISIBLE);
+
+        mDateWeatherRow.setVisibility(View.VISIBLE);
+
+        View.OnClickListener openClockListener = v -> {
+            try {
+                getContext().startActivity(new Intent(AlarmClock.ACTION_SHOW_ALARMS)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
+        };
+
+        View.OnClickListener openCalendarListener = v -> {
+            try {
+                Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+                builder.appendPath("time");
+                ContentUris.appendId(builder, System.currentTimeMillis());
+                Intent intent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
+        };
+
+        mQuickspaceClock.setOnClickListener(openClockListener);
+        mQuickspaceDayOfWeek.setOnClickListener(openClockListener); // Both clock and day open the Clock app
+        mQuickspaceDate.setOnClickListener(openCalendarListener);
+
+        boolean hasGoogleApp = isPackageEnabled("com.google.android.googlequicksearchbox", getContext());
+        mWeatherContentSub.setOnClickListener(hasGoogleApp ? getActionReceiver().getWeatherAction() : null);
+
+        bindWeather(mWeatherContentSub, mWeatherTempSub, mWeatherIconSub);
+
+        boolean isNowPlaying = mController.getEventController().isNowPlaying();
+        if (isNowPlaying) {
+            mContextualInfoRow.setVisibility(View.VISIBLE);
+            mPSAMessage.setVisibility(View.GONE);
+            mNowPlayingContent.setVisibility(View.VISIBLE);
+            String nowPlaying = mController.getEventController().getTitle() + " - " + mController.getEventController().getActionTitle();
+            mNowPlayingText.setText(nowPlaying);
+            mNowPlayingContent.setOnClickListener(mController.getEventController().getAction());
+        } else {
+            mNowPlayingContent.setVisibility(View.GONE);
+            if (mIsQuickEvent && LauncherPrefs.SHOW_QUICKSPACE_PSONALITY.get(getContext())) {
+                mContextualInfoRow.setVisibility(View.VISIBLE);
+                mNowPlayingContent.setVisibility(View.GONE);
+                mPSAMessage.setVisibility(View.VISIBLE);
+                mPSAMessage.setText(mController.getEventController().getActionTitle());
+                mPSAMessage.setOnClickListener(mController.getEventController().getAction());
+                maybeSetMarquee(mPSAMessage);
+            } else {
+                mContextualInfoRow.setVisibility(View.GONE);
+            }
+        }
+    }
+
+
     private final void loadViews() {
         mEventTitle = (TextView) findViewById(R.id.quick_event_title);
         mEventTitleSub = (TextView) findViewById(R.id.quick_event_title_sub);
@@ -219,21 +320,39 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
         mQuickspaceContent = (ViewGroup) findViewById(R.id.quickspace_content);
         mWeatherContentSub = (ViewGroup) findViewById(R.id.quick_event_weather_content);
         mWeatherTempSub = (TextView) findViewById(R.id.quick_event_weather_temp);
-        if (LauncherPrefs.SHOW_QUICKSPACE_ALT.get(getContext())) {
+        if (mCurrentStyle == 1) { // Extended style
             mGreetingsExtClock = (TextView) findViewById(R.id.extended_greetings_clock);
             mGreetingsExt = (TextView) findViewById(R.id.extended_greetings);
         }
+
+        if (mCurrentStyle == 2) { // Large style
+            mQuickspaceDayOfWeek = findViewById(R.id.quickspace_day_of_week);
+            mQuickspaceClock = (AccentedTextClock) findViewById(R.id.quickspace_clock);
+            mQuickspaceDate = findViewById(R.id.quickspace_date);
+            mPSAMessage = findViewById(R.id.quickspace_psa_message);
+            mNowPlayingContent = findViewById(R.id.now_playing_content);
+            mNowPlayingText = findViewById(R.id.now_playing_text);
+            mDateWeatherRow = findViewById(R.id.date_weather_row);
+            mContextualInfoRow = findViewById(R.id.contextual_info_row);
+        }
     }
 
-    private void prepareLayout(boolean useAlternativeQuickspaceUI) {
-        mIsAlternateStyle = useAlternativeQuickspaceUI;
+    private void prepareLayout(int style) {
+        mCurrentStyle = style;
         int indexOfChild = indexOfChild(mQuickspaceContent);
         removeView(mQuickspaceContent);
-        if (useAlternativeQuickspaceUI) {
-            addView(LayoutInflater.from(getContext()).inflate(R.layout.quickspace_alternate_double, this, false), indexOfChild);
-        } else {
-            addView(LayoutInflater.from(getContext()).inflate(R.layout.quickspace_doubleline, this, false), indexOfChild);
+        int layoutId;
+        switch (style) {
+            case 1:
+                layoutId = R.layout.quickspace_alternate_double;
+                break;
+            case 2:
+                layoutId = R.layout.quickspace_large_style;
+                break;
+            default:
+                layoutId = R.layout.quickspace_doubleline;
         }
+        addView(LayoutInflater.from(getContext()).inflate(layoutId, this, false), indexOfChild);
 
         loadViews();
         getQuickSpaceView();
@@ -353,6 +472,16 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
         mWeatherIconSub = null;
         mWeatherTempSub = null;
         mEventTitle = null;
+        
+        // Nullify Voltage style views
+        mQuickspaceDayOfWeek = null;
+        mQuickspaceClock = null;
+        mQuickspaceDate = null;
+        mPSAMessage = null;
+        mNowPlayingContent = null;
+        mNowPlayingText = null;
+        mDateWeatherRow = null;
+        mContextualInfoRow = null;
     }
 
     public void setPadding(int n, int n2, int n3, int n4) {

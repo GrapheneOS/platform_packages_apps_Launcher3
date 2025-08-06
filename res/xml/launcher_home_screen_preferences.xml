@@ -141,14 +141,25 @@
             android:persistent="true"
             launcher:iconSpaceReserved="false" />
 
-        <SwitchPreferenceCompat
-            android:key="pref_quickspace_alt"
-            android:title="@string/quickspace_alternate_style_title"
-            android:summary="@string/quickspace_alternate_style_summary"
-            android:dependency="pref_quickspace"
-            android:defaultValue="false"
-            android:persistent="true"
-            launcher:iconSpaceReserved="false" />
+<ListPreference
+    android:key="pref_quickspace_style"
+    android:title="@string/quickspace_style_title"
+    android:summary="%s"
+    android:dependency="pref_quickspace"
+    android:entries="@array/quickspace_style_entries"
+    android:entryValues="@array/quickspace_style_values"
+    android:defaultValue="0"
+    android:persistent="true"
+    launcher:iconSpaceReserved="false" />
+
+<SwitchPreferenceCompat
+    android:key="pref_quickspace_voltage_accent"
+    android:title="@string/quickspace_voltage_accent_title"
+    android:summary="@string/quickspace_voltage_accent_summary"
+    android:dependency="pref_quickspace"
+    android:defaultValue="true"
+    android:persistent="true"
+    launcher:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
             android:key="pref_quickspace_psonality"

@@ -40,43 +40,7 @@
         launcher:keyShadowColor="?workspaceKeyShadowColor"
         launcher:keyShadowOffsetX="0.5dip" />
 
-        <LinearLayout
-            android:id="@+id/quick_event_weather_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_weight="0.0"
-            android:background="@drawable/bg_quickspace"
-            android:clickable="true"
-            android:gravity="start|center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp">
-
-            <ImageView
-                android:id="@+id/quick_event_weather_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="start|center_vertical"
-                android:scaleType="fitXY" />
-
-            <com.android.launcher3.quickspace.views.DoubleShadowTextView
-                android:id="@+id/quick_event_weather_temp"
-                style="@style/QuickSpaceSubText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:drawablePadding="8dp"
-                android:paddingStart="6dp"
-                android:textColor="?workspaceTextColor"
-                android:textSize="@dimen/quickspace_subtitle_size"
-                android:letterSpacing="0.01"
-                launcher:ambientShadowBlur="3dp"
-                launcher:ambientShadowColor="?workspaceAmbientShadowColor"
-                launcher:keyShadowBlur="2dp"
-                launcher:keyShadowColor="?workspaceKeyShadowColor"
-                launcher:keyShadowOffsetX="0.5dip" />
-        </LinearLayout>
+	<include layout="@layout/quickspace_weather_content" />
 
     <LinearLayout
         android:id="@+id/subtitle_line"

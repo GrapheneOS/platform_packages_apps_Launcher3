@@ -200,6 +200,23 @@
     <string name="quickspace_date_format" translatable="false">EEE, MMM d</string>
     <string name="quickspace_date_format_minimalistic" translatable="false">EEEE, MMMM d</string>
 
+<!-- Quickspace new style -->
+<string name="quickspace_style_title">At A Glance style</string>
+<string-array name="quickspace_style_entries">
+    <item>Default</item>
+    <item>Extended</item>
+    <item>Voltage</item>
+</string-array>
+<string-array name="quickspace_style_values" translatable="false">
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+</string-array>
+
+<!-- Quickspace clock accent -->
+<string name="quickspace_voltage_accent_title">Accent colored clock</string>
+<string name="quickspace_voltage_accent_summary">Color the first number of the clock in Voltage style</string>
+
     <!-- QuickSpace: QuickEvent: Greetings -->
     <string name="quickspace_grt_morning">Good morning.</string>
     <string name="quickspace_grt_evening">Good evening.</string>
