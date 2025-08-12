@@ -1769,6 +1769,7 @@ public class Launcher extends StatefulActivity<LauncherState>
         PillColorProvider.getInstance(mWorkspace.getContext()).unregisterObserver();
 
         if (mQuickSpace != null) {
+            mQuickSpace.prepareForDestroy();
             mQuickSpace.onDestroy();
         }
     }

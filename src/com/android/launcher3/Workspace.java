@@ -1503,8 +1503,26 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         mWallpaperOffset.setWindowToken(getWindowToken());
+        refreshFirstPageWidget();
         computeScroll();
         mLauncher.getStateManager().addStateListener(mAccessibilityDropListener);
+    }
+
+    private void refreshFirstPageWidget() {
+        if (mFirstPagePinnedItem != null && getPageCount() > 0) {
+            CellLayout firstPage = (CellLayout) getPageAt(0);
+            if (firstPage != null && mFirstPagePinnedItem.getParent() == firstPage) {
+                firstPage.removeView(mFirstPagePinnedItem);
+            }
+
+            int cellHSpan = mLauncher.getDeviceProfile().inv.numSearchContainerColumns;
+            int style = Integer.parseInt(LauncherPrefs.QUICKSPACE_UI_STYLE.get(getContext()));
+            int cellVSpan = (style == 2) ? 2 : 1;
+            CellLayoutLayoutParams lp = new CellLayoutLayoutParams(0, 0, cellHSpan, cellVSpan);
+            lp.canReorder = false;
+            firstPage.addViewToCellLayout(
+                    mFirstPagePinnedItem, 0, R.id.reserved_container_workspace, lp, true);
+        }
     }
 
     protected void onDetachedFromWindow() {

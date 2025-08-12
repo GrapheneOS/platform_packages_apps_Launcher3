@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     android:id="@+id/quickspace_content"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="start|center_vertical"
-    android:orientation="vertical">
+    android:layout_gravity="start|center_vertical">
 
     <!-- Day of the Week -->
     <com.android.launcher3.quickspace.views.DoubleShadowTextView
@@ -17,6 +17,8 @@
         android:textColor="?workspaceTextColor"
         android:textSize="28sp"
         android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         launcher:ambientShadowBlur="3dp"
         launcher:ambientShadowColor="?workspaceAmbientShadowColor"
         launcher:keyShadowBlur="2dp"
@@ -27,41 +29,51 @@
     <com.android.launcher3.quickspace.views.AccentedTextClock
         android:id="@+id/quickspace_clock"
         android:paddingStart="16dp"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:textColor="?workspaceTextColor"
-        android:textSize="88sp"
+        android:textSize="80sp"
         android:format12Hour="h:mm"
         android:format24Hour="H:mm"
-        android:includeFontPadding="false" />
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:ellipsize="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quickspace_day_of_week" />
 
-    <!-- Date and Weather Row -->
-    <LinearLayout
-        android:id="@+id/date_weather_row"
-        android:paddingStart="16dp"
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/date_weather_barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="quickspace_date,quick_event_weather_content" />
 
-        <com.android.launcher3.quickspace.views.DoubleShadowTextView
-            android:id="@+id/quickspace_date"
-            style="@style/QuickSpaceSubText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?workspaceTextColor"
-            android:textSize="@dimen/quickspace_subtitle_size"
-            android:paddingEnd="8dp"
-            launcher:ambientShadowBlur="3dp"
-            launcher:ambientShadowColor="?workspaceAmbientShadowColor"
-            launcher:keyShadowBlur="2dp"
-            launcher:keyShadowColor="?workspaceKeyShadowColor"
-            launcher:keyShadowOffsetX="0.5dip" />
+    <com.android.launcher3.quickspace.views.DoubleShadowTextView
+        android:id="@+id/quickspace_date"
+        style="@style/QuickSpaceSubText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="8dp"
+        android:textColor="?workspaceTextColor"
+        android:textSize="@dimen/quickspace_subtitle_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/quickspace_clock"
+        launcher:ambientShadowBlur="3dp"
+        launcher:ambientShadowColor="?workspaceAmbientShadowColor"
+        launcher:keyShadowBlur="2dp"
+        launcher:keyShadowColor="?workspaceKeyShadowColor"
+        launcher:keyShadowOffsetX="0.5dip" />
 
-        <include layout="@layout/quickspace_weather_content" />
-
-    </LinearLayout>
+    <include
+        android:id="@+id/quick_event_weather_content"
+        layout="@layout/quickspace_weather_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/quickspace_date"
+        app:layout_constraintTop_toBottomOf="@id/quickspace_clock" />
 
     <!-- Contextual Info (PSA or Now Playing) -->
     <FrameLayout
@@ -69,7 +81,9 @@
         android:paddingStart="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/date_weather_barrier">
         
         <!-- Now Playing -->
         <LinearLayout
@@ -112,4 +126,4 @@
 
     </FrameLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
