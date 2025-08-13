@@ -21,6 +21,7 @@ import static com.android.launcher3.Flags.injectableModelItems;
 import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_PRIVATESPACE;
 import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.ICON_OVERLAP_FACTOR;
 import static com.android.launcher3.graphics.ShapeDelegate.DEFAULT_PATH_SIZE;
+import static com.android.launcher3.icons.BaseIconFactory.CONFIG_HINT_NO_WRAP;
 import static com.android.launcher3.icons.BitmapInfo.FLAG_THEMED;
 import static com.android.launcher3.icons.IconNormalizer.ICON_VISIBLE_AREA_FACTOR;
 import static com.android.launcher3.util.Executors.MAIN_EXECUTOR;
@@ -759,10 +760,10 @@ public final class Utilities {
         if (mainIcon == null) {
             return null;
         }
-        AdaptiveIconDrawable result;
+        AdaptiveIconDrawable result = null;
         if (mainIcon instanceof AdaptiveIconDrawable aid) {
             result = aid;
-        } else {
+        } else if ((mainIcon.getChangingConfigurations() & CONFIG_HINT_NO_WRAP) == 0) {
             // Wrap the main icon in AID
             try (LauncherIcons li = LauncherIcons.obtain(context)) {
                 result = li.wrapToAdaptiveIcon(mainIcon);
