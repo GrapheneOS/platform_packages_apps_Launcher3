@@ -155,7 +155,7 @@ public class TaskbarScrimViewController implements TaskbarControllers.LoggableTa
     }
 
     private void onClick() {
-        SystemUiProxy.INSTANCE.get(mActivity).onBackEvent(null);
+        SystemUiProxy.INSTANCE.get(mActivity).onBackEvent(null, mActivity.getDisplayId());
     }
 
     @Override

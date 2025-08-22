@@ -117,7 +117,7 @@ public class TaskbarNavButtonController implements TaskbarControllers.LoggableTa
     private static final int SCREEN_UNPIN_COMBO = BUTTON_BACK | BUTTON_RECENTS;
     private int mLongPressedButtons = 0;
 
-    private final Context mContext;
+    private final int mDisplayId;
     private final TaskbarNavButtonCallbacks mCallbacks;
     private final SystemUiProxy mSystemUiProxy;
     private final Handler mHandler;
@@ -128,12 +128,12 @@ public class TaskbarNavButtonController implements TaskbarControllers.LoggableTa
     private final Runnable mResetLongPress = this::resetScreenUnpin;
 
     public TaskbarNavButtonController(
-            Context context,
+            int displayId,
             TaskbarNavButtonCallbacks callbacks,
             SystemUiProxy systemUiProxy,
             Handler handler,
             ContextualSearchInvoker contextualSearchInvoker) {
-        mContext = context;
+        mDisplayId = displayId;
         mCallbacks = callbacks;
         mSystemUiProxy = systemUiProxy;
         mHandler = handler;
@@ -344,7 +344,7 @@ public class TaskbarNavButtonController implements TaskbarControllers.LoggableTa
 
     private void navigateHome() {
         TaskUtils.closeSystemWindowsAsync(CLOSE_SYSTEM_WINDOWS_REASON_HOME_KEY);
-        mCallbacks.onNavigateHome(mContext.getDisplayId());
+        mCallbacks.onNavigateHome(mDisplayId);
     }
 
     private void navigateToOverview() {
@@ -353,11 +353,11 @@ public class TaskbarNavButtonController implements TaskbarControllers.LoggableTa
         }
         TestLogging.recordEvent(TestProtocol.SEQUENCE_MAIN, "onOverviewToggle");
         TaskUtils.closeSystemWindowsAsync(CLOSE_SYSTEM_WINDOWS_REASON_RECENTS);
-        mCallbacks.onToggleOverview(mContext.getDisplayId());
+        mCallbacks.onToggleOverview(mDisplayId);
     }
 
     public void hideOverview() {
-        mCallbacks.onHideOverview(mContext.getDisplayId());
+        mCallbacks.onHideOverview(mDisplayId);
     }
 
     void sendBackKeyEvent(int action, boolean cancelled) {
@@ -380,7 +380,7 @@ public class TaskbarNavButtonController implements TaskbarControllers.LoggableTa
             mSystemUiProxy.updateContextualEduStats(/* isTrackpadGesture= */ false,
                     GestureType.BACK);
         }
-        mSystemUiProxy.onBackEvent(keyEvent);
+        mSystemUiProxy.onBackEvent(keyEvent, mDisplayId);
         mLastSentBackAction = keyEvent != null ? keyEvent.getAction() : ACTION_UP;
     }
 
@@ -396,7 +396,7 @@ public class TaskbarNavButtonController implements TaskbarControllers.LoggableTa
         if (longClick) {
             mSystemUiProxy.notifyAccessibilityButtonLongClicked();
         } else {
-            mSystemUiProxy.notifyAccessibilityButtonClicked(mContext.getDisplayId());
+            mSystemUiProxy.notifyAccessibilityButtonClicked(mDisplayId);
         }
     }
 
