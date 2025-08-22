@@ -1581,14 +1581,14 @@ public class TaskbarManagerImpl implements DisplayDecorationListener {
     private void createNavButtonController(int displayId) {
         if (!isExternalDisplay(displayId)) {
             mPrimaryNavButtonController = new TaskbarNavButtonController(
-                    mPrimaryWindowContext,
+                    displayId,
                     mNavCallbacks,
                     SystemUiProxy.INSTANCE.get(mBaseContext),
                     new Handler(),
                     new ContextualSearchInvoker(mBaseContext));
         } else {
             TaskbarNavButtonController navButtonController = new TaskbarNavButtonController(
-                    getWindowContext(displayId),
+                    displayId,
                     mNavCallbacks,
                     SystemUiProxy.INSTANCE.get(mBaseContext),
                     new Handler(),

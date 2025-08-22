@@ -45,6 +45,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.doAnswer
 import org.mockito.kotlin.spy
@@ -59,7 +60,7 @@ class TaskbarScrimViewControllerTest {
         TaskbarWindowSandboxContext.create(
             SandboxParams({
                 spy(SystemUiProxy(ApplicationProvider.getApplicationContext())) {
-                    doAnswer { backPressed = true }.whenever(it).onBackEvent(anyOrNull())
+                    doAnswer { backPressed = true }.whenever(it).onBackEvent(anyOrNull(), any())
                 }
             })
         )

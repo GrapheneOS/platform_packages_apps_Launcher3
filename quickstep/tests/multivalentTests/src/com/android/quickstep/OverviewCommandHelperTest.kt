@@ -69,6 +69,7 @@ class OverviewCommandHelperTest {
 
     private val displayRepository: DisplayRepository = mock()
     private val executeCommandDisplayIds = mutableListOf<Int>()
+    private val systemUiProxy: SystemUiProxy = mock()
 
     private val recentView: RecentsView<*, *> = mock()
     private val stateManager: StateManager<LauncherState, StatefulActivity<LauncherState>> = mock()
@@ -112,6 +113,7 @@ class OverviewCommandHelperTest {
                     taskAnimationManagerRepository =
                         FakePerDisplayRepository<TaskAnimationManager> { _ -> taskAnimationManager },
                     elapsedRealtime = ::elapsedRealtime,
+                    systemUiProxy = systemUiProxy,
                 )
             )
     }
