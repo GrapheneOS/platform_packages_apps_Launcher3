@@ -253,16 +253,28 @@ public abstract class SystemShortcut<T extends ActivityContext> extends ItemInfo
 
         @Override
         public void onClick(View view) {
-            InfoBottomSheet cbs;
             dismissTaskMenuView();
             Rect sourceBounds = Utilities.getViewBounds(view);
             ActivityOptionsWrapper options = mTarget.getActivityLaunchOptions(view, mItemInfo);
-            if (Launcher.getLauncher(view.getContext()).getStateManager().getState().isRecentsViewVisible) {
+
+            boolean fromRecents = (mItemInfo.itemType == ITEM_TYPE_TASK);
+            if (!fromRecents) {
+                if (mTarget instanceof Launcher) {
+                    fromRecents = ((Launcher) mTarget)
+                            .getStateManager()
+                            .getState()
+                            .isRecentsViewVisible;
+                } else {
+                    fromRecents = true;
+                }
+            }
+
+            if (fromRecents) {
                 PackageManagerHelper.startDetailsActivityForInfo(view.getContext(), mItemInfo,
                         sourceBounds, options.toBundle());
             } else {
                 try {
-                    cbs = (InfoBottomSheet) mTarget.getLayoutInflater().inflate(
+                    InfoBottomSheet cbs = (InfoBottomSheet) mTarget.getLayoutInflater().inflate(
                             R.layout.app_info_bottom_sheet,
                             mTarget.getDragLayer(),
                             false);
