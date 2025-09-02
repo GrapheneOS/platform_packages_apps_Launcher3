@@ -35,7 +35,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,8 +46,6 @@ import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.lineage.trust.db.TrustComponent;
 import com.android.launcher3.lineage.trust.db.TrustDatabaseHelper;
-
-import com.google.android.material.color.DynamicColors;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
 
@@ -72,10 +69,7 @@ public class TrustAppsActivity extends CollapsingToolbarBaseActivity implements
     protected void onCreate(@Nullable Bundle savedInstance) {
         super.onCreate(savedInstance);
 
-        setupEdgeToEdge();
         setContentView(R.layout.activity_hidden_apps);
-        DynamicColors.applyToActivityIfAvailable(this);
-        setTheme(com.android.settingslib.widget.theme.R.style.Theme_SubSettingsBase);
 
         mRecyclerView = findViewById(R.id.hidden_apps_list);
         mLoadingView = findViewById(R.id.hidden_apps_loading);
@@ -152,20 +146,6 @@ public class TrustAppsActivity extends CollapsingToolbarBaseActivity implements
         mLoadingView.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
         mAdapter.update(result);
-    }
-
-    private void setupEdgeToEdge() {
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content),
-                (v, windowInsets) -> {
-                    Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-                    // Apply the insets paddings to the view.
-                    v.setPadding(insets.left, insets.top, insets.right, insets.bottom);
-
-                    // Return CONSUMED if you don't want the window insets to keep being
-                    // passed down to descendant views.
-                    return WindowInsetsCompat.CONSUMED;
-                });
     }
 
     private void showOnBoarding(boolean forceShow) {
