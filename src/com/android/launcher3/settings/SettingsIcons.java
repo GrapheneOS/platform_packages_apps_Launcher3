@@ -29,7 +29,6 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
-import androidx.core.view.WindowCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -50,6 +49,7 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.util.SettingsCache;
 
 import com.android.settingslib.collapsingtoolbar.CollapsingToolbarBaseActivity;
+import com.android.settingslib.widget.SettingsBasePreferenceFragment;
 
 /**
  * Settings activity for Launcher.
@@ -73,8 +73,6 @@ public class SettingsIcons extends CollapsingToolbarBaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
-
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
         Intent intent = getIntent();
 
@@ -145,7 +143,7 @@ public class SettingsIcons extends CollapsingToolbarBaseActivity
     /**
      * This fragment shows the launcher preferences.
      */
-    public static class IconsSettingsFragment extends PreferenceFragmentCompat implements
+    public static class IconsSettingsFragment extends SettingsBasePreferenceFragment implements
             SettingsCache.OnChangeListener {
 
         private boolean mRestartOnResume = false;
