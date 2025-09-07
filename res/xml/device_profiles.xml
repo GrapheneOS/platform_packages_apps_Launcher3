@@ -243,6 +243,40 @@
 
     </grid-option>
 
+<grid-option
+        launcher:name="4_by_6"
+        launcher:numRows="6"
+        launcher:numColumns="4"
+        launcher:numFolderRows="3"
+        launcher:numFolderColumns="3"
+        launcher:numHotseatIcons="4"
+        launcher:numAllAppsColumns="4"
+        launcher:numExtendedAllAppsColumns="6"
+        launcher:numExtendedHotseatIcons="6"
+        launcher:dbFile="launcher_4_by_6.db"
+        launcher:isScalable="true"
+        launcher:folderStyle="@style/Folder4x5Style"
+        launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_split"
+        launcher:defaultLayoutId="@xml/default_workspace_4x6"
+        launcher:deviceCategory="phone|multi_display" >
+
+        <display-option
+            launcher:allAppsBorderSpace="16"
+            launcher:allAppsCellHeight="104"
+            launcher:borderSpace="16"
+            launcher:canBeDefault="true"
+            launcher:horizontalMargin="22"
+            launcher:iconImageSize="66"
+            launcher:iconSizeLandscape="54"
+            launcher:iconTextSize="14"
+            launcher:minCellHeight="104"
+            launcher:minCellWidth="80"
+            launcher:minHeightDps="838"
+            launcher:minWidthDps="367"
+            launcher:name="Pixel 2021"/>
+
+    </grid-option>
+
     <grid-option
         launcher:name="5_by_5"
         launcher:numRows="5"
