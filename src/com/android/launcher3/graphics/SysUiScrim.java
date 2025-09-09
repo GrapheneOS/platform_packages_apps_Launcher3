@@ -89,6 +89,10 @@ public class SysUiScrim implements View.OnAttachStateChangeListener,
 
     private final View mRoot;
     private final StatefulContainer mContainer;
+    private final SharedPreferences mPrefs;
+    private boolean mAttachListenerAdded;
+    private ObjectAnimator mRunningAnimator;
+
     private boolean mShowSysUiScrim;
     private boolean mSkipScrimAnimationForTest = false;
 
@@ -108,9 +112,10 @@ public class SysUiScrim implements View.OnAttachStateChangeListener,
 
         if (mShowSysUiScrim) {
             view.addOnAttachStateChangeListener(this);
+            mAttachListenerAdded = true;
         }
-        SharedPreferences prefs = LauncherPrefs.getPrefs(view.getContext());
-        prefs.registerOnSharedPreferenceChangeListener(this);
+        mPrefs = LauncherPrefs.getPrefs(view.getContext());
+        mPrefs.registerOnSharedPreferenceChangeListener(this);
     }
 
     /**
@@ -122,24 +127,20 @@ public class SysUiScrim implements View.OnAttachStateChangeListener,
                 mAnimateScrimOnNextDraw = false;
                 return;
             }
-
             if (mAnimateScrimOnNextDraw) {
                 mSysUiAnimMultiplier.value = 0;
                 reapplySysUiAlphaNoInvalidate();
 
-                ObjectAnimator oa = mSysUiAnimMultiplier.animateToValue(1);
-                oa.setDuration(600);
-                oa.setStartDelay(mContainer.getWindow().getTransitionBackgroundFadeDuration());
-                oa.start();
+                if (mRunningAnimator != null) mRunningAnimator.cancel();
+                mRunningAnimator = mSysUiAnimMultiplier.animateToValue(1);
+                mRunningAnimator.setDuration(600);
+                mRunningAnimator.setStartDelay(
+                        mContainer.getWindow().getTransitionBackgroundFadeDuration());
+                mRunningAnimator.start();
                 mAnimateScrimOnNextDraw = false;
             }
-
-            if (mDrawTopScrim) {
-                canvas.drawBitmap(mTopMaskBitmap, null, mTopMaskRect, mTopMaskPaint);
-            }
-            if (mDrawBottomScrim) {
-                canvas.drawBitmap(mBottomMaskBitmap, null, mBottomMaskRect, mBottomMaskPaint);
-            }
+            if (mDrawTopScrim)   canvas.drawBitmap(mTopMaskBitmap, null, mTopMaskRect, mTopMaskPaint);
+            if (mDrawBottomScrim) canvas.drawBitmap(mBottomMaskBitmap, null, mBottomMaskRect, mBottomMaskPaint);
         }
     }
 
@@ -177,15 +178,41 @@ public class SysUiScrim implements View.OnAttachStateChangeListener,
     @Override
     public void onViewDetachedFromWindow(View view) {
         ScreenOnTracker.INSTANCE.get(mContainer.asContext()).removeListener(mScreenOnListener);
+        if (mRunningAnimator != null) { mRunningAnimator.cancel(); mRunningAnimator = null; }
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (LauncherPrefs.SHOW_TOP_SHADOW.getSharedPrefKey().equals(key)) {
-            mShowSysUiScrim = prefs.getBoolean(key, true);
+            boolean newVal = prefs.getBoolean(key, true);
+            if (newVal != mShowSysUiScrim) {
+                mShowSysUiScrim = newVal;
+
+                if (mShowSysUiScrim && !mAttachListenerAdded) {
+                    mRoot.addOnAttachStateChangeListener(this);
+                    mAttachListenerAdded = true;
+                } else if (!mShowSysUiScrim && mAttachListenerAdded) {
+                    if (mRoot.isAttachedToWindow()) {
+                        ScreenOnTracker.INSTANCE.get(mContainer.asContext())
+                                .removeListener(mScreenOnListener);
+                    }
+                    mRoot.removeOnAttachStateChangeListener(this);
+                    mAttachListenerAdded = false;
+                }
+            }
             createMaskBitmaps();
             mRoot.invalidate();
         }
+    }
+
+    public void release() {
+        if (mAttachListenerAdded) {
+            mRoot.removeOnAttachStateChangeListener(this);
+            mAttachListenerAdded = false;
+        }
+        mPrefs.unregisterOnSharedPreferenceChangeListener(this);
+        mTopMaskBitmap = null;
+        mBottomMaskBitmap = null;
     }
 
     private void createMaskBitmaps() {
