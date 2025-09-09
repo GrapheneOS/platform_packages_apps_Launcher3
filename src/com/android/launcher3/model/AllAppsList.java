@@ -37,6 +37,7 @@ import com.android.launcher3.dagger.ApplicationContext;
 import com.android.launcher3.dagger.LauncherAppSingleton;
 import com.android.launcher3.icons.IconCache;
 import com.android.launcher3.lineage.trust.AppLockHelper;
+import com.android.launcher3.lineage.trust.HiddenAppsFilter;
 import com.android.launcher3.model.data.AppInfo;
 import com.android.launcher3.model.data.AppsListData;
 import com.android.launcher3.model.data.ItemInfo;
@@ -103,7 +104,7 @@ public class AllAppsList {
     @Inject
     public AllAppsList(@NonNull IconCache iconCache,
             @ApplicationContext Context context,
-            @NonNull AppFilter appFilter,
+            @NonNull HiddenAppsFilter appFilter,
             @NonNull Provider<AppsListRepository> repositoryProvider) {
         mIconCache = iconCache;
         mAppFilter = appFilter;
