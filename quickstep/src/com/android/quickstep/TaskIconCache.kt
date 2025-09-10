@@ -60,9 +60,11 @@ class TaskIconCache(
     private val context: Context,
     private val bgExecutor: Executor,
     private val iconProvider: IconProvider,
-    displayController: DisplayController,
+    private val displayController: DisplayController,
     val dispatcherProvider: DispatcherProvider,
-) : TaskIconDataSource, DisplayInfoChangeListener, OnSharedPreferenceChangeListener {
+) : TaskIconDataSource, DisplayController.DisplayInfoChangeListener,
+    SharedPreferences.OnSharedPreferenceChangeListener, AutoCloseable {
+
     private val recentsIconCacheSize = context.resources.getInteger(R.integer.recentsIconCacheSize)
     private var iconCache: TaskKeyLruCache<TaskCacheEntry>? = null
     // TODO: b/431811298 - Make non-null when flag is cleaned up.
@@ -91,6 +93,12 @@ class TaskIconCache(
         //  displays.
         displayController.addChangeListener(this)
         LauncherPrefs.getPrefs(context).registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun close() {
+        displayController.removeChangeListener(this)
+        LauncherPrefs.getPrefs(context).unregisterOnSharedPreferenceChangeListener(this)
+        bgExecutor.execute { resetFactory() }
     }
 
     override fun onDisplayInfoChanged(context: Context, info: DisplayController.Info, flags: Int) {
@@ -408,6 +416,10 @@ class TaskIconCache(
         _iconFactory = null
         bitmapInfoCache?.evictAll()
         iconCache?.evictAll()
+        synchronized(defaultIcons) {
+            defaultIcons.clear()
+            defaultIconBase = null
+        }
     }
 
     data class TaskCacheEntry(
