@@ -180,6 +180,9 @@ public class OverviewActionsView<T extends OverlayUICallbacks> extends FrameLayo
     private boolean mClearAll;
     private boolean mLens;
 
+    private SharedPreferences mPrefs;
+    private boolean mPrefsRegistered;
+
     public OverviewActionsView(Context context) {
         this(context, null);
     }
@@ -190,11 +193,39 @@ public class OverviewActionsView<T extends OverlayUICallbacks> extends FrameLayo
 
     public OverviewActionsView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr, 0);
+        mPrefs = LauncherPrefs.getPrefs(context);
         mScreenshot = LauncherPrefs.RECENTS_SCREENSHOT.get(context);
         mClearAll = LauncherPrefs.RECENTS_CLEAR_ALL.get(context);
         mLens = LauncherPrefs.RECENTS_LENS.get(context);
-        SharedPreferences prefs = LauncherPrefs.getPrefs(context);
-        prefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (!mPrefsRegistered) {
+            mPrefs.registerOnSharedPreferenceChangeListener(this);
+            mPrefsRegistered = true;
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        setCallbacks(null);
+        clearChildClickListeners();
+        if (mPrefsRegistered) {
+            mPrefs.unregisterOnSharedPreferenceChangeListener(this);
+            mPrefsRegistered = false;
+        }
+        super.onDetachedFromWindow();
+    }
+
+    private void clearChildClickListeners() {
+        View v;
+        if ((v = findViewById(R.id.action_screenshot)) != null) v.setOnClickListener(null);
+        if ((v = findViewById(R.id.action_split)) != null) v.setOnClickListener(null);
+        if ((v = findViewById(R.id.action_save_app_pair)) != null) v.setOnClickListener(null);
+        if ((v = findViewById(R.id.action_clear_all)) != null) v.setOnClickListener(null);
+        if ((v = findViewById(R.id.action_lens)) != null) v.setOnClickListener(null);
     }
 
     @Override
@@ -250,7 +281,7 @@ public class OverviewActionsView<T extends OverlayUICallbacks> extends FrameLayo
      *
      * @param callbacks for callbacks, or {@code null} to clear the listener.
      */
-    public void setCallbacks(T callbacks) {
+    public void setCallbacks(@Nullable T callbacks) {
         mCallbacks = callbacks;
     }
 
@@ -492,15 +523,19 @@ public class OverviewActionsView<T extends OverlayUICallbacks> extends FrameLayo
 
         requestLayout();
 
-        int splitIconRes = dp.isLeftRightSplit
-                ? R.drawable.ic_split_horizontal
-                : R.drawable.ic_split_vertical;
-        mSplitButton.setCompoundDrawablesRelativeWithIntrinsicBounds(splitIconRes, 0, 0, 0);
+        if (mSplitButton != null) {
+            mSplitButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                dp.isLeftRightSplit ? R.drawable.ic_split_horizontal : R.drawable.ic_split_vertical,
+                0, 0, 0
+            );
+        }
 
-        int appPairIconRes = dp.isLeftRightSplit
-                ? R.drawable.ic_save_app_pair_left_right
-                : R.drawable.ic_save_app_pair_up_down;
-        mSaveAppPairButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                appPairIconRes, 0, 0, 0);
+        if (mSaveAppPairButton != null) {
+            mSaveAppPairButton.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                dp.isLeftRightSplit ? R.drawable.ic_save_app_pair_left_right
+                                    : R.drawable.ic_save_app_pair_up_down,
+                0, 0, 0
+            );
+        }
     }
 }
