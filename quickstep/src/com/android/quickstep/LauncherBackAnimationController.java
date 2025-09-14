@@ -319,6 +319,22 @@ public class LauncherBackAnimationController {
         mBackRegistered = false;
     }
 
+    public void cleanupForDestroy() {
+        if (mScrimAlphaAnimator != null) {
+            mScrimAlphaAnimator.cancel();
+            mScrimAlphaAnimator = null;
+        }
+        if (mScrimLayer != null) {
+            removeScrimLayer();
+        }
+        if (mBackTarget != null && mBackTarget.leash.isValid())
+            mBackTarget.leash.release();
+        if (mLauncherTarget != null && mLauncherTarget.leash.isValid())
+            mLauncherTarget.leash.release();
+        mBackTarget = null;
+        mLauncherTarget = null;
+    }
+
     private void initBackMotion(BackMotionEvent backEvent) {
         // in case we're still animating an onBackCancelled event, let's remove the finish-
         // callback from the progress animator to prevent calling finishAnimation() before
