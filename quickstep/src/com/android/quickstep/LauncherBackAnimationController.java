@@ -130,6 +130,9 @@ public class LauncherBackAnimationController {
     private int mMaxBlurRadius;
     private int mLastBlurRadius = 0;
 
+    private boolean mCallbacksRegistered;
+    private boolean mBackRegistered;
+
     private final ComponentCallbacks mComponentCallbacks = new ComponentCallbacks() {
         @Override
         public void onConfigurationChanged(Configuration newConfig) {
@@ -155,10 +158,12 @@ public class LauncherBackAnimationController {
      * @param handler Handler to the thread to run the animations on.
      */
     public void registerBackCallbacks(Handler handler) {
+        if (mBackRegistered) return;
         mBackCallback = new OnBackInvokedCallbackStub(handler, mProgressAnimator,
                 mProgressInterpolator, this);
         SystemUiProxy.INSTANCE.get(mLauncher).setBackToLauncherCallback(mBackCallback,
                 new RemoteAnimationRunnerStub(this, handler));
+        mBackRegistered = true;
     }
 
     private static class OnBackInvokedCallbackStub extends IOnBackInvokedCallback.Stub {
@@ -305,11 +310,13 @@ public class LauncherBackAnimationController {
 
     /** Unregisters the back to launcher callback in shell. */
     public void unregisterBackCallbacks() {
+        if (!mBackRegistered) return;
         if (mBackCallback != null) {
             SystemUiProxy.INSTANCE.get(mLauncher).clearBackToLauncherCallback(mBackCallback);
         }
         mProgressAnimator.reset();
         mBackCallback = null;
+        mBackRegistered = false;
     }
 
     private void initBackMotion(BackMotionEvent backEvent) {
@@ -608,16 +615,19 @@ public class LauncherBackAnimationController {
      * Called when launcher is destroyed. Unregisters component callbacks to avoid memory leaks.
      */
     public void unregisterComponentCallbacks() {
+        if (!mCallbacksRegistered) return;
         mLauncher.unregisterComponentCallbacks(mComponentCallbacks);
+        mCallbacksRegistered = false;
     }
 
     /**
      * Registers component callbacks with the launcher to receive configuration change events.
      */
     public void registerComponentCallbacks() {
+        if (mCallbacksRegistered) return;
         mLauncher.registerComponentCallbacks(mComponentCallbacks);
+        mCallbacksRegistered = true;
     }
-
 
     private void resetScrim() {
         removeScrimLayer();
