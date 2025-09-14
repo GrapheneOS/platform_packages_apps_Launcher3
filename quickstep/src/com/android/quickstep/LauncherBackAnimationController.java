@@ -269,11 +269,9 @@ public class LauncherBackAnimationController {
         public void onAnimationStart(int transit, RemoteAnimationTarget[] apps,
                 RemoteAnimationTarget[] wallpapers, RemoteAnimationTarget[] nonApps,
                 IRemoteAnimationFinishedCallback finishedCallback) {
-            LauncherBackAnimationController controller = mControllerRef.get();
-            if (controller == null) {
-                return;
-            }
             final Runnable r = () -> {
+                LauncherBackAnimationController controller = mControllerRef.get();
+                if (controller == null) return;
                 for (final RemoteAnimationTarget target : apps) {
                     if (MODE_CLOSING == target.mode) {
                         controller.mBackTarget = target;
