@@ -281,7 +281,6 @@
         launcher:deviceCategory="tablet"
         launcher:folderStyle="@style/Folder6x5Style"
         launcher:inlineNavButtonsEndSpacing="@dimen/taskbar_button_margin_6_5"
-        launcher:inlineQsb="landscape"
         launcher:isScalable="true"
         launcher:name="tablet_normal"
         launcher:numAllAppsColumns="6"
