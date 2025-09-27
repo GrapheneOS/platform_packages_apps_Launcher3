@@ -359,11 +359,15 @@ public final class WellbeingModel implements SafeCloseable {
                         new String[]{packageName})).contains(packageName)) {
                     return null;
                 }
-                if (packageManager.isPackageSuspendedForUser(
-                        itemInfo.getTargetComponent().getPackageName(),
-                        itemInfo.user.getIdentifier())) {
-                    return null;
-                }
+		try {
+    		    if (packageManager.isPackageSuspendedForUser(
+            		    itemInfo.getTargetComponent().getPackageName(),
+            		     itemInfo.user.getIdentifier())) {
+        		return null;
+    		    }
+		} catch (SecurityException e) {
+    		    return null;
+		}
                 return new PauseApps(activity, itemInfo, originalView);
             };
 
