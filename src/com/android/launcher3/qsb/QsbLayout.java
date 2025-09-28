@@ -10,12 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.PaintDrawable;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import androidx.core.view.ViewCompat;
 import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.Reorderable;
@@ -30,20 +27,19 @@ public class QsbLayout extends FrameLayout implements Reorderable {
     private ImageView micIcon;
     private ImageView gIcon;
     private ImageView lensIcon;
-    private Context mContext;
     private FrameLayout inner;
 
     private final MultiTranslateDelegate mTranslateDelegate = new MultiTranslateDelegate(this);
     private float mScaleForReorderBounce = 1f;
 
+    private boolean mIsThemed;
+
     public QsbLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
     }
 
     public QsbLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mContext = context;
     }
 
     @Override
@@ -58,18 +54,11 @@ public class QsbLayout extends FrameLayout implements Reorderable {
         setUpBackground();
         clipIconRipples();
 
-        boolean isThemed = LauncherPrefs.DOCK_THEME.get(mContext);
-
-        if (Utilities.isMusicSearchEnabled(mContext)) {
-            micIcon.setImageResource(isThemed ? R.drawable.ic_music_themed : R.drawable.ic_music_color);
-        } else {
-            micIcon.setImageResource(isThemed ? R.drawable.ic_mic_themed : R.drawable.ic_mic_color);
-        }
-        gIcon.setImageResource(isThemed ? R.drawable.ic_super_g_themed : R.drawable.ic_super_g_color);
-        lensIcon.setImageResource(isThemed ? R.drawable.ic_lens_themed : R.drawable.ic_lens_color);
+        mIsThemed = LauncherPrefs.DOCK_THEME.get(getContext());
 
         setupGIcon();
         setupLensIcon();
+        setupMicIcon();
     }
 
     private void clipIconRipples() {
@@ -86,18 +75,18 @@ public class QsbLayout extends FrameLayout implements Reorderable {
 
     private void setUpBackground() {
         float cornerRadius = getCornerRadius();
-        int alphaValue = (LauncherPrefs.HOTSEAT_QSB_OPACITY.get(mContext) * 255) / 100;
-        int baseColor = Themes.getAttrColor(mContext, R.attr.qsbFillColor);
-        if (LauncherPrefs.DOCK_THEME.get(mContext))
-            baseColor = Themes.getAttrColor(mContext, R.attr.qsbFillColorThemed);
+        int alphaValue = (LauncherPrefs.HOTSEAT_QSB_OPACITY.get(getContext()) * 255) / 100;
+        int baseColor = Themes.getAttrColor(getContext(), R.attr.qsbFillColor);
+        if (LauncherPrefs.DOCK_THEME.get(getContext()))
+            baseColor = Themes.getAttrColor(getContext(), R.attr.qsbFillColorThemed);
         int color = Color.argb(alphaValue, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor));
-        float strokeWidth = LauncherPrefs.HOTSEAT_QSB_STROKE_WIDTH.get(mContext);
+        float strokeWidth = LauncherPrefs.HOTSEAT_QSB_STROKE_WIDTH.get(getContext());
 
         PaintDrawable backgroundDrawable = new PaintDrawable(color);
         backgroundDrawable.setCornerRadius(cornerRadius);
 
         if (strokeWidth != 0f) {
-            PaintDrawable strokeDrawable = new PaintDrawable(Themes.getColorAccent(mContext));
+            PaintDrawable strokeDrawable = new PaintDrawable(Themes.getColorAccent(getContext()));
             strokeDrawable.getPaint().setStyle(Paint.Style.STROKE);
             strokeDrawable.getPaint().setStrokeWidth(strokeWidth);
             strokeDrawable.setCornerRadius(cornerRadius);
@@ -126,20 +115,39 @@ public class QsbLayout extends FrameLayout implements Reorderable {
         }
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        setOnClickListener(null);
+        if (gIcon != null) gIcon.setOnClickListener(null);
+        if (lensIcon != null) lensIcon.setOnClickListener(null);
+        if (micIcon != null) micIcon.setOnClickListener(null);
+        if (inner != null) inner.setBackground(null);
+    }
+
     private void setUpMainSearch() {
-        String searchPackage = QsbContainerView.getSearchWidgetPackageName(mContext);
-        setOnClickListener(view -> {
-            mContext.startActivity(new Intent("android.search.action.GLOBAL_SEARCH").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_CLEAR_TASK).setPackage(searchPackage));
-        });
+        try {
+            setOnClickListener(view -> {
+                Intent intent = new Intent();
+                intent.setAction("android.search.action.GLOBAL_SEARCH");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.setPackage(QsbContainerView.getSearchWidgetPackageName(view.getContext()));
+                view.getContext().startActivity(intent);
+            });
+        } catch (Exception e) {
+            // Do nothing
+        }
     }
 
     private void setupGIcon() {
         try {
-            Intent intent = mContext.getPackageManager().getLaunchIntentForPackage(Utilities.GSA_PACKAGE);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            gIcon.setImageResource(mIsThemed ? R.drawable.ic_super_g_themed : R.drawable.ic_super_g_color);
             gIcon.setOnClickListener(view -> {
-                mContext.startActivity(intent);
+                Intent intent = view.getContext().getPackageManager().getLaunchIntentForPackage(Utilities.GSA_PACKAGE);
+                if (intent != null) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    view.getContext().startActivity(intent);
+                }
             });
         } catch (Exception e) {
             // Do nothing
@@ -148,26 +156,51 @@ public class QsbLayout extends FrameLayout implements Reorderable {
 
     private void setupLensIcon() {
         try {
+            lensIcon.setImageResource(mIsThemed ? R.drawable.ic_lens_themed : R.drawable.ic_lens_color);
             lensIcon.setOnClickListener(view -> {
-                Intent lensIntent = new Intent();
-                lensIntent.setAction(Intent.ACTION_VIEW)
-                    .setComponent(new ComponentName(Utilities.GSA_PACKAGE, Utilities.LENS_ACTIVITY))
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    .setData(Uri.parse(Utilities.LENS_URI))
-                    .putExtra("LensHomescreenShortcut", true);
-                mContext.startActivity(lensIntent);
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.setComponent(new ComponentName(Utilities.GSA_PACKAGE, Utilities.LENS_ACTIVITY));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.setData(Uri.parse(Utilities.LENS_URI));
+                intent.putExtra("LensHomescreenShortcut", true);
+                view.getContext().startActivity(intent);
             });
         } catch (Exception e) {
             lensIcon.setVisibility(View.GONE);
         }
     }
 
+    private void setupMicIcon() {
+        try {
+            boolean isMusicSearch = Utilities.isMusicSearchEnabled(getContext());
+            if (isMusicSearch) {
+                micIcon.setImageResource(mIsThemed ? R.drawable.ic_music_themed : R.drawable.ic_music_color);
+            } else {
+                micIcon.setImageResource(mIsThemed ? R.drawable.ic_mic_themed : R.drawable.ic_mic_color);
+            }
+            micIcon.setOnClickListener(view -> {
+                Intent intent = new Intent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                if (isMusicSearch) {
+                    intent.setAction("com.google.android.googlequicksearchbox.MUSIC_SEARCH");
+                    intent.setPackage(QsbContainerView.getSearchWidgetPackageName(view.getContext()));
+                } else {
+                    intent.setAction("android.intent.action.VOICE_COMMAND");
+                }
+                view.getContext().startActivity(intent);
+            });
+        } catch (Exception e) {
+            micIcon.setVisibility(View.GONE);
+        }
+    }
+
     private float getCornerRadius() {
-        Resources res = mContext.getResources();
+        Resources res = getContext().getResources();
         float qsbWidgetHeight = res.getDimension(R.dimen.qsb_widget_height);
         float qsbWidgetPadding = res.getDimension(R.dimen.qsb_widget_vertical_padding);
         float innerHeight = qsbWidgetHeight - 2 * qsbWidgetPadding;
-        return (innerHeight / 2) * ((float)LauncherPrefs.SEARCH_RADIUS_SIZE.get(mContext) / 100f);
+        return (innerHeight / 2) * ((float)LauncherPrefs.SEARCH_RADIUS_SIZE.get(getContext()) / 100f);
     }
 
     @Override
