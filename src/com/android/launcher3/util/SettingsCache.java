@@ -215,9 +215,14 @@ public class SettingsCache extends ContentObserver {
      * {@link #register(Uri, OnChangeListener)}
      */
     public void unregister(Uri uri, OnChangeListener listener) {
-        List<OnChangeListener> listenersToRemoveFrom = mListenerMap.get(uri);
-        if (listenersToRemoveFrom != null) {
-            listenersToRemoveFrom.remove(listener);
+        List<OnChangeListener> listeners = mListenerMap.get(uri);
+        if (listeners != null) {
+            listeners.remove(listener);
+            if (listeners.isEmpty()) {
+                mKeyCache.remove(uri);
+                mIntKeyCache.remove(uri);
+                mListenerMap.remove(uri);
+            }
         }
     }
 
