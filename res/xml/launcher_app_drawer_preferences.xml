@@ -62,6 +62,15 @@
         android:persistent="true"
         launcher:iconSpaceReserved="false" />
 
+    <SwitchPreferenceCompat
+        android:key="pref_all_apps_dark_text"
+        android:title="@string/all_apps_dark_text_title"
+        android:summary="@string/all_apps_dark_text_summary"
+        android:defaultValue="false"
+        android:persistent="true"
+        android:dependency="pref_drawer_show_labels"
+        launcher:iconSpaceReserved="false" />
+
     <com.android.launcher3.settings.preferences.CustomSeekBarPreference
         android:key="pref_row_height"
         android:title="@string/row_height_title"
