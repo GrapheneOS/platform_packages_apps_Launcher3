@@ -54,6 +54,10 @@ public class RotationHelper implements LauncherPrefChangeListener,
      * Returns the default value of {@link #ALLOW_ROTATION_PREFERENCE_KEY} preference.
      */
     public static boolean getAllowRotationDefaultValue(DisplayController.Info info) {
+        if (info.isRotationAllowed()) {
+            return true;
+        }
+
         // If the device's pixel density was scaled (usually via settings for A11y), use the
         // original dimensions to determine if rotation is allowed of not.
         float originalSmallestWidth = dpiFromPx(Math.min(info.currentSize.x, info.currentSize.y),

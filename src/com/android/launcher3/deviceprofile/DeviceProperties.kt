@@ -40,6 +40,7 @@ data class DeviceProperties(
     val isLandscape: Boolean,
     val isExternalDisplay: Boolean,
     val isGestureMode: Boolean,
+    val isRotationAllowed: Boolean,
 ) {
     companion object Factory {
         // b/419264328 adding here all the improvements/cleanup for this class
@@ -52,6 +53,7 @@ data class DeviceProperties(
             isGestureMode: Boolean,
         ): DeviceProperties {
             val isTablet = info.isTablet(windowBounds)
+            val isRotationAllowed = info.isRotationAllowed()
             val windowX = windowBounds.bounds.left
             val windowY = windowBounds.bounds.top
             val rotationHint = windowBounds.rotationHint
@@ -76,6 +78,7 @@ data class DeviceProperties(
                 isLandscape = windowBounds.isLandscape,
                 isExternalDisplay = isExternalDisplay,
                 isGestureMode = isGestureMode,
+                isRotationAllowed = isRotationAllowed,
             )
         }
 

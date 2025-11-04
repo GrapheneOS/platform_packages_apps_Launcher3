@@ -467,6 +467,8 @@ public class DisplayController {
 
         private final boolean mIsNightModeActive;
 
+        private final boolean mIsRotationAllowed;
+
         public Info(Context displayInfoContext, WindowManagerProxy wmProxy) {
             this(displayInfoContext, enableScalabilityForDesktopExperience()
                             && displayInfoContext.getResources().getBoolean(
@@ -498,6 +500,8 @@ public class DisplayController {
             mScreenSizeDp = new PortraitSize(config.screenHeightDp, config.screenWidthDp);
             navigationMode = wmProxy.getNavigationMode(displayInfoContext);
             mIsNightModeActive = config.isNightModeActive();
+            mIsRotationAllowed =
+                    displayInfoContext.getResources().getBoolean(R.bool.config_allowRotation);
 
             mPerDisplayBounds.putAll(perDisplayBoundsCache);
             List<WindowBounds> cachedValue = getCurrentBounds();
@@ -557,6 +561,13 @@ public class DisplayController {
             return smallestSizeDp(bounds) >= MIN_TABLET_WIDTH
                     // External displays should always be considered tablet.
                     || context.getDisplay().getDisplayId() != DEFAULT_DISPLAY;
+        }
+
+        /**
+         * Returns {@code true} if rotation is allowed.
+         */
+        public boolean isRotationAllowed() {
+            return mIsRotationAllowed;
         }
 
         /** Getter for {@link #navigationMode} to allow mocking. */
