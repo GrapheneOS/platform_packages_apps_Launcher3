@@ -360,7 +360,6 @@ class ModelCallbacks(private var launcher: Launcher) : BgDataModel.Callbacks {
             }
         }
         orderedScreenIds
-            .filter { screenId -> screenId != FIRST_SCREEN_ID }
             .forEach { screenId ->
                 launcher.workspace.insertNewWorkspaceScreenBeforeEmptyScreen(screenId)
             }
