@@ -247,8 +247,8 @@ public class QuickstepModelDelegate extends ModelDelegate {
                         "Item info: %s found with invalid container: %s",
                         info,
                         containerInfo));
+                return null;
             }
-            // Allow crash to help debug b/173838775
             return (CollectionInfo) containerInfo;
         }
         return null;
