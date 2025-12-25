@@ -18,6 +18,8 @@ package com.android.launcher3
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.os.Process
+import android.os.UserManager
 import androidx.annotation.VisibleForTesting
 import com.android.launcher3.GridType.Companion.GRID_TYPE_ANY
 import com.android.launcher3.InvariantDeviceProfile.GRID_NAME_PREFS_KEY
@@ -56,8 +58,16 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
 
     open protected fun getSharedPrefs(item: Item): SharedPreferences =
         item.run {
-            if (encryptionType == EncryptionType.DEVICE_PROTECTED) deviceProtectedSharedPrefs
-            else encryptedContext.getSharedPreferences(sharedPrefFile, MODE_PRIVATE)
+            if (encryptionType == EncryptionType.DEVICE_PROTECTED) return@run deviceProtectedSharedPrefs
+
+            var context = encryptedContext
+            if (!context.isDeviceProtectedStorage) {
+                val um = context.getSystemService(UserManager::class.java)
+                if (um != null && !um.isUserUnlocked(Process.myUserHandle())) {
+                    context = context.createDeviceProtectedStorageContext()
+                }
+            }
+            context.getSharedPreferences(sharedPrefFile, MODE_PRIVATE)
         }
 
     @Deprecated("Don't use shared preferences directly. Use other LauncherPref methods.")
