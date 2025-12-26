@@ -43,4 +43,5 @@
 
     <color name="all_apps_label_color_dark_forced">#FF212121</color>
 
+    <color name="mid_clear_all_background_color">@*android:color/system_neutral2_50</color>
 </resources>

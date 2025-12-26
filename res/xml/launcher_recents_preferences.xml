@@ -51,6 +51,14 @@
         android:title="@string/actions_category_title">
 
         <SwitchPreferenceCompat
+            android:key="pref_recents_chips"
+            android:title="@string/recents_chips_title"
+            android:summary="@string/recents_chips_summary"
+            android:defaultValue="false"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
             android:key="pref_recents_screenshot"
             android:title="@string/recents_screenshot_title"
             android:defaultValue="true"

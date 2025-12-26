@@ -168,6 +168,8 @@
     <string name="recents_meminfo_zram_title">ZRAM info</string>
 
     <!-- Recents icons -->
+    <string name="recents_chips_title">Use compact action design</string>
+    <string name="recents_chips_summary">May be required for large numbers of actions to display</string>
     <string name="recents_screenshot_title">Screenshot</string>
     <string name="recents_clear_all_title">Clear all</string>
     <string name="recents_lens_title">Lens</string>
@@ -541,4 +543,5 @@
     <string name="icon_pack_default_label">Default</string>
     <string name="icon_pack_add">Install more</string>
     <string name="icon_pack_no_market">There\'s no available app store</string>
+
 </resources>
