@@ -1204,7 +1204,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
         isPackageEnabled("com.google.android.googlequicksearchbox", getContext());
     if (mWeatherContentSub != null) {
       mWeatherContentSub.setOnClickListener(
-          hasGoogleApp ? getActionReceiver().getWeatherAction() : null);
+          getActionReceiver().getWeatherAction(hasGoogleApp));
     }
 
     View.OnClickListener mediaClickListener =
