@@ -21,7 +21,6 @@ import static com.android.wm.shell.shared.split.SplitBounds.KEY_EXTRA_SPLIT_BOUN
 
 import android.app.WindowConfiguration;
 import android.content.Context;
-import android.util.Log;
 import android.view.RemoteAnimationTarget;
 import android.window.TransitionInfo;
 
@@ -164,8 +163,6 @@ public class RemoteTargetGluer {
         }
 
         boolean containsSplitTargets = mSplitBounds != null;
-        Log.d(TAG, "containsSplitTargets? " + containsSplitTargets + " handleLength: " +
-                mRemoteTargetHandles.length + " appsLength: " + targets.apps.length);
 
         if (mRemoteTargetHandles.length == 1) {
             resizeRemoteTargetHandles(targets);
@@ -313,7 +310,6 @@ public class RemoteTargetGluer {
         int handleCount = (int) Arrays.stream(targets.apps)
                 .filter(app -> app.mode == targets.targetMode)
                 .count();
-        Log.d(TAG, "appCount: " + handleCount + " handleLength: " + mRemoteTargetHandles.length);
         if (handleCount < mRemoteTargetHandles.length) {
             reduceRemoteTargetHandles(handleCount);
         }
@@ -329,7 +325,6 @@ public class RemoteTargetGluer {
      * This value should be non-negative and less than the current size of the handle list.
      */
     private void reduceRemoteTargetHandles(int handleCount) {
-        Log.d(TAG, "Reduce handles, count: " + handleCount);
         RemoteTargetHandle[] newHandles = new RemoteTargetHandle[(int) handleCount];
         System.arraycopy(mRemoteTargetHandles, 0/*src*/, newHandles, 0/*dst*/, (int) handleCount);
         mRemoteTargetHandles = newHandles;
