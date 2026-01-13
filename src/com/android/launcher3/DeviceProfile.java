@@ -529,7 +529,8 @@ public class DeviceProfile {
                 /*hotseatProfile*/ hotseatProfile,
                 /*hotseatBarBottomSpacePx*/ hotseatBarBottomSpacePx,
                 /*hotseatQsbSpace*/hotseatQsbSpace,
-                /*hotseatBarSizePx*/hotseatBarSizePx
+                /*hotseatBarSizePx*/hotseatBarSizePx,
+                /*hotseatQsbVisualHeight*/hotseatQsbVisualHeight
         );
 
         updateIconSize(mWorkspaceProfile.getScale(), context);

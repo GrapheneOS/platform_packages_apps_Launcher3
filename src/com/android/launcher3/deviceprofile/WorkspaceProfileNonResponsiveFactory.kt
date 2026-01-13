@@ -66,6 +66,7 @@ object WorkspaceProfileNonResponsiveFactory {
         hotseatProfile: HotseatProfile,
         hotseatBarBottomSpacePx: Int,
         hotseatQsbSpace: Int,
+        hotseatQsbVisualHeight: Int,
     ): Rect {
         // TODO : This is to update updateHotseatSizes, we need a better way to do
         // this
@@ -77,6 +78,7 @@ object WorkspaceProfileNonResponsiveFactory {
                 hotseatBarBottomSpacePx = hotseatBarBottomSpacePx,
                 hotseatQsbSpace = hotseatQsbSpace,
                 isQsbInline = isFixedLandscape,
+                hotseatQsbVisualHeight = hotseatQsbVisualHeight,
             )
         if (isVerticalLayout) {
             return Rect(
@@ -168,6 +170,7 @@ object WorkspaceProfileNonResponsiveFactory {
         hotseatQsbSpace: Int,
         panelCount: Int,
         scale: Float,
+        hotseatQsbVisualHeight: Int,
     ): WorkspaceProfile {
         val cellLayoutBorderSpacePx = Point(0, 0)
         var cellSize =
@@ -229,6 +232,7 @@ object WorkspaceProfileNonResponsiveFactory {
                 iconSize = iconSizePx,
                 hotseatBarBottomSpacePx = hotseatBarBottomSpacePx,
                 hotseatQsbSpace = hotseatQsbSpace,
+                hotseatQsbVisualHeight = hotseatQsbVisualHeight,
             )
         val cellLayoutPadding =
             when {
@@ -329,6 +333,7 @@ object WorkspaceProfileNonResponsiveFactory {
         hotseatProfile: HotseatProfile,
         hotseatBarBottomSpacePx: Int,
         hotseatQsbSpace: Int,
+        hotseatQsbVisualHeight: Int,
     ): WorkspaceProfile {
         val cellLayoutBorderSpacePx =
             Point(
@@ -427,6 +432,7 @@ object WorkspaceProfileNonResponsiveFactory {
                 iconSize = iconSizePx,
                 hotseatBarBottomSpacePx = hotseatBarBottomSpacePx,
                 hotseatQsbSpace = hotseatQsbSpace,
+                hotseatQsbVisualHeight = hotseatQsbVisualHeight,
             )
         val cellLayoutPadding =
             when {
@@ -524,6 +530,7 @@ object WorkspaceProfileNonResponsiveFactory {
         hotseatProfile: HotseatProfile,
         hotseatBarBottomSpacePx: Int,
         hotseatQsbSpace: Int,
+        hotseatQsbVisualHeight: Int,
     ): WorkspaceProfile {
         // Icon scale should never exceed 1, otherwise pixellation may occur.
         val iconScale = min(1f, scale)
@@ -564,6 +571,7 @@ object WorkspaceProfileNonResponsiveFactory {
                         deviceProperties = deviceProperties,
                         hotseatBarBottomSpacePx = hotseatBarBottomSpacePx,
                         hotseatQsbSpace = hotseatQsbSpace,
+                        hotseatQsbVisualHeight = hotseatQsbVisualHeight,
                     )
                     .let { hideWorkspaceLabelsIfNotEnoughSpace(isVerticalLayout, it, inv) }
 
@@ -586,6 +594,7 @@ object WorkspaceProfileNonResponsiveFactory {
                         hotseatQsbSpace = hotseatQsbSpace,
                         panelCount = panelCount,
                         scale = scale,
+                        hotseatQsbVisualHeight = hotseatQsbVisualHeight,
                     )
                     .let { hideWorkspaceLabelsIfNotEnoughSpace(isVerticalLayout, it, inv) }
         }
@@ -610,6 +619,7 @@ object WorkspaceProfileNonResponsiveFactory {
         hotseatBarBottomSpacePx: Int,
         hotseatQsbSpace: Int,
         hotseatBarSizePx: Int,
+        hotseatQsbVisualHeight: Int,
     ): WorkspaceProfile {
         var workspaceProfile =
             internalCreateWorkspaceProfileNonResponsive(
@@ -630,6 +640,7 @@ object WorkspaceProfileNonResponsiveFactory {
                 hotseatProfile = hotseatProfile,
                 hotseatBarBottomSpacePx = hotseatBarBottomSpacePx,
                 hotseatQsbSpace = hotseatQsbSpace,
+                hotseatQsbVisualHeight = hotseatQsbVisualHeight,
             )
 
         // Check to see if the icons fit within the available height.
@@ -674,6 +685,7 @@ object WorkspaceProfileNonResponsiveFactory {
                     hotseatProfile = hotseatProfile,
                     hotseatBarBottomSpacePx = hotseatBarBottomSpacePx,
                     hotseatQsbSpace = hotseatQsbSpace,
+                    hotseatQsbVisualHeight = hotseatQsbVisualHeight,
                 )
             extraHeight =
                 max(0, (maxHeight - workspaceProfile.cellLayoutHeightSpecification)).toFloat()
@@ -700,6 +712,7 @@ object WorkspaceProfileNonResponsiveFactory {
             hotseatBarBottomSpacePx,
             hotseatQsbSpace,
             inv,
+            hotseatQsbVisualHeight,
         )
     }
 }
