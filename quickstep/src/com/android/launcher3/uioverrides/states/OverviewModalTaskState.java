@@ -18,6 +18,8 @@ package com.android.launcher3.uioverrides.states;
 import static com.android.launcher3.util.OverviewReleaseFlags.enableGridOnlyOverview;
 import static com.android.launcher3.logging.StatsLogManager.LAUNCHER_STATE_OVERVIEW;
 
+import android.content.Context;
+
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherUiState;
@@ -46,7 +48,12 @@ public class OverviewModalTaskState extends OverviewState {
 
     @Override
     public int getVisibleElements(LauncherUiState launcherUiState) {
-    return OVERVIEW_ACTIONS | MEMINFO;
+        int elements = OVERVIEW_ACTIONS;
+        Context context = launcherUiState.getDeviceProfileRef().getValue().getDisplayInfo().context;
+        if (LauncherPrefs.RECENTS_MEMINFO.get(context)) {
+            elements |= MEMINFO;
+        }
+        return elements;
     }
 
     @Override
