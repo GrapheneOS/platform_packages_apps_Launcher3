@@ -124,7 +124,7 @@
         <item name="android:textColorHint">#A0FFFFFF</item>
         <item name="android:colorControlHighlight">#19FFFFFF</item>
         <item name="android:colorPrimary">#FF212121</item>
-        <item name="allAppsScrimColor">@*android:color/system_neutral1_800</item>
+        <item name="allAppsScrimColor">#FF000000</item>
         <item name="allappsHeaderProtectionColor">@color/materialColorSurfaceContainerLow</item>
         <item name="allAppsNavBarScrimColor">#80000000</item>
         <item name="popupColorPrimary">@color/popup_color_primary_dark</item>

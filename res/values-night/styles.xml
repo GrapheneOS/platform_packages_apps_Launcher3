@@ -54,4 +54,5 @@
         <item name="colorAccent">@android:color/system_primary_dark</item>
         <item name="android:colorBackground">@android:color/system_surface_container_high_dark</item>
     </style>
+
 </resources>
