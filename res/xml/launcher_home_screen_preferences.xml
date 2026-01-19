@@ -189,6 +189,15 @@
             launcher:iconSpaceReserved="false" />
 
         <SwitchPreferenceCompat
+            android:key="pref_quickspace_battery"
+            android:title="@string/quickspace_battery_title"
+            android:summary="@string/quickspace_battery_summary"
+            android:dependency="pref_quickspace"
+            android:defaultValue="false"
+            android:persistent="true"
+            launcher:iconSpaceReserved="false" />
+
+        <SwitchPreferenceCompat
             android:key="pref_quickspace_weather_city"
             android:title="@string/quick_event_weather_city_title"
             android:summary="@string/quick_event_weather_city_summary"

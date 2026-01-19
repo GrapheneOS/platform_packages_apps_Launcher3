@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2018-2025 crDroid Android Project
+ * Copyright (C) 2025-2026 VoltageOS
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +16,18 @@
  */
 package com.android.launcher3.quickspace;
 
+import android.animation.ValueAnimator;
 import android.content.ActivityNotFoundException;
-import android.content.ContentUris;
 import android.content.ComponentName;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
@@ -32,864 +37,1119 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.view.ViewPropertyAnimator;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.LauncherPrefs;
 import com.android.launcher3.R;
 import com.android.launcher3.model.data.ItemInfo;
+import com.android.launcher3.quickspace.QuickspaceController.OnDataListener;
+import com.android.launcher3.quickspace.receivers.QuickSpaceActionReceiver;
 import com.android.launcher3.quickspace.views.AccentedTextClock;
 import com.android.launcher3.util.Themes;
 
-import com.android.launcher3.quickspace.QuickspaceController.OnDataListener;
-import com.android.launcher3.quickspace.receivers.QuickSpaceActionReceiver;
-
 public class QuickSpaceView extends FrameLayout implements OnDataListener {
 
-    private static final String TAG = "Launcher3:QuickSpaceView";
-    private static final boolean DEBUG = false;
+  private static final String TAG = "Launcher3:QuickSpaceView";
+  private static final boolean DEBUG = false;
 
-    public final ColorStateList mColorStateList;
-    public BubbleTextView mBubbleTextView;
-    public final int mQuickspaceBackgroundRes;
+  public final ColorStateList mColorStateList;
+  public BubbleTextView mBubbleTextView;
+  public final int mQuickspaceBackgroundRes;
 
-    public ViewGroup mQuickspaceContent;
-    public ImageView mEventSubIcon;
-    public ImageView mNowPlayingIcon;
-    public TextView mEventTitleSub;
+  public ViewGroup mQuickspaceContent;
+  public ImageView mEventSubIcon;
+  public ImageView mNowPlayingIcon;
+  public TextView mEventTitleSub;
 
-    public TextView mQuickspaceDayOfWeek;
-    public AccentedTextClock mQuickspaceClock;
-    public TextView mQuickspaceDate;
-    public TextView mPSAMessage;
-    public ViewGroup mNowPlayingContent;
-    public TextView mNowPlayingText;
-    public ViewGroup mContextualInfoRow;
+  public TextView mQuickspaceDayOfWeek;
+  public AccentedTextClock mQuickspaceClock;
+  public TextView mQuickspaceDate;
+  public TextView mPSAMessage;
+  public ViewGroup mNowPlayingContent;
+  public TextView mNowPlayingText;
+  public ViewGroup mContextualInfoRow;
 
-    public TextView mEventTitleSubColored;
-    public TextView mGreetingsExt;
-    public TextView mGreetingsExtClock;
-    public ViewGroup mWeatherContentSub;
-    public ImageView mWeatherIconSub;
-    public TextView mWeatherTempSub;
-    public TextView mEventTitle;
+  public ViewGroup mBatteryRow;
+  public View mBatteryProgress;
+  public TextView mBatteryDeviceName;
+  public TextView mBatteryPercentage;
+  public ImageView mBatteryIcon;
+  public LinearLayout mBatteryDotsContainer;
 
-    public boolean mIsQuickEvent;
-    public boolean mFinishedInflate;
-    public boolean mWeatherAvailable;
-    public boolean mAttached;
-    private volatile boolean mDestroyed = false;
-    private volatile boolean mPendingDestroy = false;
+  public TextView mEventTitleSubColored;
+  public TextView mGreetingsExt;
+  public TextView mGreetingsExtClock;
+  public ViewGroup mWeatherContentSub;
+  public ImageView mWeatherIconSub;
+  public TextView mWeatherTempSub;
+  public TextView mEventTitle;
 
-    private boolean mIsAlternateStyle = false;
-    private boolean mLastAccentState;
-    private boolean mViewsLoaded = false;
-    private String mLastEventTitle = "";
-    private String mLastWeatherTemp = "";
-    private boolean mLastNowPlayingState = false;
-    private String mLastPSAMessage = "";
-    private String mLastActionTitle = "";
+  public boolean mIsQuickEvent;
+  public boolean mFinishedInflate;
+  public boolean mWeatherAvailable;
+  public boolean mAttached;
+  private volatile boolean mDestroyed = false;
+  private volatile boolean mPendingDestroy = false;
 
-    private ViewPropertyAnimator mCurrentAnimateIn;
-    private ViewPropertyAnimator mCurrentAnimateOut;
-    private int mLastEventTitleHash = 0;
-    private int mLastWeatherTempHash = 0;
-    private int mLastActionTitleHash = 0;
-    private long mLastUpdateTime = 0;
-    private static final long MIN_UPDATE_INTERVAL = 100;
+  private boolean mIsAlternateStyle = false;
+  private boolean mLastAccentState;
+  private boolean mViewsLoaded = false;
+  private String mLastEventTitle = "";
+  private String mLastWeatherTemp = "";
+  private boolean mLastNowPlayingState = false;
+  private String mLastPSAMessage = "";
+  private String mLastActionTitle = "";
+  private int mLastBatteryLevel = -1;
+  private int mLastDeviceCount = 0;
 
-    private QuickSpaceActionReceiver mActionReceiver;
+  private ViewPropertyAnimator mCurrentAnimateIn;
+  private ViewPropertyAnimator mCurrentAnimateOut;
+  private ValueAnimator mBatteryProgressAnimator;
 
-    private boolean mIsLayoutSuppressed = false;
-    private final Runnable mDeferredUpdateRunnable = new Runnable() {
+  private int mLastEventTitleHash = 0;
+  private int mLastWeatherTempHash = 0;
+  private int mLastActionTitleHash = 0;
+  private long mLastUpdateTime = 0;
+  private static final long MIN_UPDATE_INTERVAL = 100;
+
+  private QuickSpaceActionReceiver mActionReceiver;
+
+  private boolean mIsLayoutSuppressed = false;
+  private final Runnable mDeferredUpdateRunnable =
+      new Runnable() {
         @Override
         public void run() {
-            performDeferredUpdate();
+          performDeferredUpdate();
         }
-    };
+      };
 
-    public QuickspaceController mController;
+  public QuickspaceController mController;
 
-    private int mCurrentStyle = -1;
+  private int mCurrentStyle = -1;
 
-    public QuickSpaceView(Context context, AttributeSet set) {
-        super(context, set);
-        mController = QuickspaceController.getInstance(context);
-        mColorStateList = ColorStateList.valueOf(Themes.getAttrColor(getContext(), R.attr.workspaceTextColor));
-        mQuickspaceBackgroundRes = R.drawable.bg_quickspace;
-        setClipChildren(false);
+  public QuickSpaceView(Context context, AttributeSet set) {
+    super(context, set);
+    mController = QuickspaceController.getInstance(context);
+    mColorStateList =
+        ColorStateList.valueOf(Themes.getAttrColor(getContext(), R.attr.workspaceTextColor));
+    mQuickspaceBackgroundRes = R.drawable.bg_quickspace;
+    setClipChildren(false);
+  }
+
+  @Override
+  public void onDataUpdated() {
+    if (mDestroyed) {
+      return;
     }
 
-    @Override
-    public void onDataUpdated() {
-	if (mDestroyed) {
-            return;
-        }
+    removeCallbacks(mDeferredUpdateRunnable);
+    postDelayed(mDeferredUpdateRunnable, 16);
+  }
 
-        removeCallbacks(mDeferredUpdateRunnable);
-        postDelayed(mDeferredUpdateRunnable, 16); // ~60fps
-    }
-    
-    private void performDeferredUpdate() {
-	if (mDestroyed) {
-            return;
-        }
-
-        int style = Integer.parseInt(LauncherPrefs.QUICKSPACE_UI_STYLE.get(getContext()));
-        boolean styleChanged = mCurrentStyle != style;
-        if (!mViewsLoaded || styleChanged) {
-            prepareLayout(style);
-            mViewsLoaded = true;
-        }
-        mIsQuickEvent = mController.isQuickEvent();
-        mWeatherAvailable = mController.isWeatherAvailable();
-
-        if (styleChanged || !mViewsLoaded || hasDataChanged()) {
-            updateView(style);
-
-            if (styleChanged && !mIsLayoutSuppressed) {
-                requestLayout();
-            }
-
-        }
+  private void performDeferredUpdate() {
+    if (mDestroyed) {
+      return;
     }
 
-    private void updateView(int style) {
-        if (mDestroyed || mPendingDestroy) {
-            return;
-        }
+    int style = Integer.parseInt(LauncherPrefs.QUICKSPACE_UI_STYLE.get(getContext()));
+    boolean styleChanged = mCurrentStyle != style;
+    if (!mViewsLoaded || styleChanged) {
+      prepareLayout(style);
+      mViewsLoaded = true;
+    }
+    mIsQuickEvent = mController.isQuickEvent();
+    mWeatherAvailable = mController.isWeatherAvailable();
 
-        switch (style) {
-            case 2:
-                loadLargeStyle();
-                break;
-            case 1: // Extended
-            case 0: // Default
-            default:
-                loadDoubleLine(style == 1);
-                break;
-        }
+    if (styleChanged || !mViewsLoaded || hasDataChanged()) {
+      updateView(style);
 
+      if (styleChanged && !mIsLayoutSuppressed) {
+        requestLayout();
+      }
+    }
+  }
+
+  private void updateView(int style) {
+    if (mDestroyed || mPendingDestroy) {
+      return;
     }
 
-    private boolean hasDataChanged() {
-        if (mDestroyed || mPendingDestroy) {
-            return false;
-        }
+    switch (style) {
+      case 2:
+        loadLargeStyle();
+        break;
+      case 1: // Extended
+      case 0: // Default
+      default:
+        loadDoubleLine(style == 1);
+        break;
+    }
+  }
 
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - mLastUpdateTime < MIN_UPDATE_INTERVAL) {
-            return false;
-        }
-
-        if (mController == null) {
-            return false;
-        }
-
-        QuickEventsController eventController = mController.getEventController();
-        if (eventController == null) {
-            return false;
-        }
-
-        boolean currentNowPlayingState = eventController.isNowPlaying();
-        if (mLastNowPlayingState != currentNowPlayingState) {
-            mLastNowPlayingState = currentNowPlayingState;
-            mLastUpdateTime = currentTime;
-            return true;
-        }
-
-        String currentEventTitle = eventController.getTitle();
-        int eventTitleHash = currentEventTitle != null ? currentEventTitle.hashCode() : 0;
-
-        String currentWeatherTemp = mController.getWeatherTemp();
-        int weatherTempHash = currentWeatherTemp != null ? currentWeatherTemp.hashCode() : 0;
-
-        String currentActionTitle = eventController.getActionTitle();
-        int actionTitleHash = currentActionTitle != null ? currentActionTitle.hashCode() : 0;
-
-
-        boolean changed = mLastEventTitleHash != eventTitleHash ||
-                         mLastWeatherTempHash != weatherTempHash ||
-                         mLastActionTitleHash != actionTitleHash;
-
-        if (changed) {
-            mLastEventTitleHash = eventTitleHash;
-            mLastWeatherTempHash = weatherTempHash;
-            mLastActionTitleHash = actionTitleHash;
-            mLastUpdateTime = currentTime;
-
-            mLastEventTitle = currentEventTitle != null ? currentEventTitle : "";
-            mLastWeatherTemp = currentWeatherTemp != null ? currentWeatherTemp : "";
-            mLastActionTitle = currentActionTitle != null ? currentActionTitle : "";
-        }
-
-        return changed;
+  private boolean hasDataChanged() {
+    if (mDestroyed || mPendingDestroy) {
+      return false;
     }
 
-    private final void loadDoubleLine(boolean useAlternativeQuickspaceUI) {
-        if (mDestroyed || mPendingDestroy) {
-            return;
-        }
-
-        if (mIsLayoutSuppressed) {
-            return;
-        }
-
-        if (mController == null || mController.getEventController() == null) {
-            return;
-        }
-
-        beginBatchEdit();
-
-        if (getBackground() == null) {
-            setBackgroundResource(mQuickspaceBackgroundRes);
-        }
-
-        QuickEventsController eventController = mController.getEventController();
-
-        String eventTitle = mController.getEventController().getTitle();
-        boolean titleChanged = updateTextViewIfNeeded(mEventTitle, eventTitle, false);
-
-        if (useAlternativeQuickspaceUI) {
-            String greetingsExt = mController.getEventController().getGreetings();
-            updateTextViewIfNeeded(mGreetingsExt, greetingsExt, true);
-            if (mGreetingsExt.getVisibility() == View.VISIBLE) {
-                mGreetingsExt.setEllipsize(TruncateAt.END);
-                mGreetingsExt.setOnClickListener(mController.getEventController().getAction());
-            }
-            String greetingsExtClock = mController.getEventController().getClockExt();
-            updateTextViewIfNeeded(mGreetingsExtClock, greetingsExtClock, true);
-            if (mGreetingsExtClock.getVisibility() == View.VISIBLE) {
-                mGreetingsExtClock.setOnClickListener(mController.getEventController().getAction());
-            }
-        }
-        boolean shouldShowPsa = mIsQuickEvent && (LauncherPrefs.SHOW_QUICKSPACE_PSONALITY.get(getContext()) ||
-                        mController.getEventController().isNowPlaying());
-
-        updatePsaContent(shouldShowPsa, useAlternativeQuickspaceUI, titleChanged);
-        updateWeatherContent();
-
-        endBatchEdit();
-    }
-    
-    private void updatePsaContent(boolean shouldShowPsa, boolean useAlternativeQuickspaceUI, boolean titleChanged) {
-        if (shouldShowPsa) {
-            if (titleChanged) {
-                maybeSetMarquee(mEventTitle);
-            }
-            mEventTitle.setOnClickListener(mController.getEventController().getAction());
-
-            String actionTitle = mController.getEventController().getActionTitle();
-            if (updateTextViewIfNeeded(mEventTitleSub, actionTitle, false)) {
-                maybeSetMarquee(mEventTitleSub);
-            }
-            mEventTitleSub.setOnClickListener(mController.getEventController().getAction());
-
-            if (mEventTitleSub.getVisibility() != View.VISIBLE) {
-                animateIn(mEventTitleSub);
-            }
-
-            if (useAlternativeQuickspaceUI) {
-                updateNowPlayingState();
-            } else {
-                setEventSubIcon();
-            }
-        } else {
-            animateOut(mEventTitleSub);
-            animateOut(mEventSubIcon);
-            if (useAlternativeQuickspaceUI) {
-                animateOut(mEventTitleSubColored);
-                animateOut(mNowPlayingIcon);
-            }
-        }
-    }
-    
-    private void updateNowPlayingState() {
-        if (mController.getEventController().isNowPlaying()) {
-            animateOut(mEventSubIcon);
-            animateIn(mEventTitleSubColored);
-            animateIn(mNowPlayingIcon);
-
-            String nowPlayingText = getContext().getString(R.string.qe_now_playing_by);
-            updateTextViewIfNeeded(mEventTitleSubColored, nowPlayingText, false);
-            mEventTitleSubColored.setOnClickListener(mController.getEventController().getAction());
-        } else {
-            setEventSubIcon();
-            animateOut(mEventTitleSubColored);
-            animateOut(mNowPlayingIcon);
-        }
-    }
-    
-    private void updateWeatherContent() {
-        bindWeather(mWeatherContentSub, mWeatherTempSub, mWeatherIconSub);
-    }
-    
-    private boolean updateTextViewIfNeeded(TextView textView, CharSequence newText, boolean setVisibility) {
-        if (textView == null) return false;
-
-        boolean hasText = !TextUtils.isEmpty(newText);
-
-        int currentVisibility = textView.getVisibility();
-        CharSequence currentText = textView.getText();
-        int desiredVisibility = hasText ? View.VISIBLE : View.GONE;
-
-        if (setVisibility && currentVisibility == desiredVisibility && 
-            TextUtils.equals(currentText, newText)) {
-            return false;
-        }
-
-        // Update visibility if requested
-        if (setVisibility) {
-            if (currentVisibility != desiredVisibility) {
-                textView.setVisibility(desiredVisibility);
-            }
-        }
-
-        // Update text content only if it has changed
-        if (!TextUtils.equals(currentText, newText)) {
-            textView.setText(newText);
-            return true;
-        }
-        return false;
+    long currentTime = System.currentTimeMillis();
+    if (currentTime - mLastUpdateTime < MIN_UPDATE_INTERVAL) {
+      return false;
     }
 
-    private void maybeSetMarquee(TextView tv) {
-        if (tv == null) return;
-        tv.setSelected(false);
-        tv.removeCallbacks(null);
-        tv.setEllipsize(TruncateAt.END);
-        final float textWidth = tv.getPaint().measureText(tv.getText().toString());
-        tv.post(() -> {
-            android.text.Layout layout = tv.getLayout();
-            if (layout != null && layout.getEllipsizedWidth() < textWidth) {
-                tv.setEllipsize(TruncateAt.MARQUEE);
-                tv.setMarqueeRepeatLimit(1);
-                tv.setSelected(true);
-            }
+    if (mController == null) {
+      return false;
+    }
+
+    QuickEventsController eventController = mController.getEventController();
+    if (eventController == null) {
+      return false;
+    }
+
+    boolean currentNowPlayingState = eventController.isNowPlaying();
+    if (mLastNowPlayingState != currentNowPlayingState) {
+      mLastNowPlayingState = currentNowPlayingState;
+      mLastUpdateTime = currentTime;
+      return true;
+    }
+
+    String currentEventTitle = eventController.getTitle();
+    int eventTitleHash = currentEventTitle != null ? currentEventTitle.hashCode() : 0;
+
+    String currentWeatherTemp = mController.getWeatherTemp();
+    int weatherTempHash = currentWeatherTemp != null ? currentWeatherTemp.hashCode() : 0;
+
+    String currentActionTitle = eventController.getActionTitle();
+    int actionTitleHash = currentActionTitle != null ? currentActionTitle.hashCode() : 0;
+
+    int batteryLevel =
+        mController.getBatteryController() != null
+            ? mController.getBatteryController().getBatteryLevel()
+            : -1;
+
+    boolean batteryVisible = batteryLevel >= 0;
+    boolean lastBatteryVisible = mLastBatteryLevel >= 0;
+    int deviceCount =
+        mController.getBatteryController() != null
+            ? mController.getBatteryController().getDeviceCount()
+            : 0;
+
+    boolean changed =
+        mLastEventTitleHash != eventTitleHash
+            || mLastWeatherTempHash != weatherTempHash
+            || mLastActionTitleHash != actionTitleHash
+            || mLastBatteryLevel != batteryLevel
+            || batteryVisible != lastBatteryVisible
+            || mLastDeviceCount != deviceCount;
+
+    if (changed) {
+      mLastEventTitleHash = eventTitleHash;
+      mLastWeatherTempHash = weatherTempHash;
+      mLastActionTitleHash = actionTitleHash;
+      mLastBatteryLevel = batteryLevel;
+      mLastUpdateTime = currentTime;
+      mLastDeviceCount = deviceCount;
+
+      mLastEventTitle = currentEventTitle != null ? currentEventTitle : "";
+      mLastWeatherTemp = currentWeatherTemp != null ? currentWeatherTemp : "";
+      mLastActionTitle = currentActionTitle != null ? currentActionTitle : "";
+    }
+
+    return changed;
+  }
+
+  private final void loadDoubleLine(boolean useAlternativeQuickspaceUI) {
+    if (mDestroyed || mPendingDestroy) {
+      return;
+    }
+
+    if (mIsLayoutSuppressed) {
+      return;
+    }
+
+    if (mController == null || mController.getEventController() == null) {
+      return;
+    }
+
+    beginBatchEdit();
+
+    if (getBackground() == null) {
+      setBackgroundResource(mQuickspaceBackgroundRes);
+    }
+
+    QuickEventsController eventController = mController.getEventController();
+
+    String eventTitle = mController.getEventController().getTitle();
+    updateTextViewIfNeeded(mEventTitle, eventTitle, false);
+
+    if (useAlternativeQuickspaceUI) {
+      String greetingsExt = mController.getEventController().getGreetings();
+      updateTextViewIfNeeded(mGreetingsExt, greetingsExt, true);
+      if (mGreetingsExt.getVisibility() == View.VISIBLE) {
+        mGreetingsExt.setEllipsize(TruncateAt.END);
+        mGreetingsExt.setOnClickListener(mController.getEventController().getAction());
+      }
+      String greetingsExtClock = mController.getEventController().getClockExt();
+      updateTextViewIfNeeded(mGreetingsExtClock, greetingsExtClock, true);
+      if (mGreetingsExtClock.getVisibility() == View.VISIBLE) {
+        mGreetingsExtClock.setOnClickListener(mController.getEventController().getAction());
+      }
+    }
+    boolean shouldShowPsa =
+        mIsQuickEvent
+            && (LauncherPrefs.SHOW_QUICKSPACE_PSONALITY.get(getContext())
+                || mController.getEventController().isNowPlaying());
+
+    updatePsaContent(shouldShowPsa, useAlternativeQuickspaceUI);
+    updateWeatherContent();
+
+    endBatchEdit();
+  }
+
+  private void updatePsaContent(boolean shouldShowPsa, boolean useAlternativeQuickspaceUI) {
+    if (shouldShowPsa) {
+      maybeSetMarquee(mEventTitle);
+      mEventTitle.setOnClickListener(mController.getEventController().getAction());
+
+      String actionTitle = mController.getEventController().getActionTitle();
+      updateTextViewIfNeeded(mEventTitleSub, actionTitle, false);
+      maybeSetMarquee(mEventTitleSub);
+      mEventTitleSub.setOnClickListener(mController.getEventController().getAction());
+
+      if (mEventTitleSub.getVisibility() != View.VISIBLE) {
+        animateIn(mEventTitleSub);
+      }
+
+      if (useAlternativeQuickspaceUI) {
+        updateNowPlayingState();
+      } else {
+        setEventSubIcon();
+      }
+    } else {
+      animateOut(mEventTitleSub);
+      animateOut(mEventSubIcon);
+      if (useAlternativeQuickspaceUI) {
+        animateOut(mEventTitleSubColored);
+        animateOut(mNowPlayingIcon);
+      }
+    }
+  }
+
+  private void updateNowPlayingState() {
+    if (mController.getEventController().isNowPlaying()) {
+      animateOut(mEventSubIcon);
+      animateIn(mEventTitleSubColored);
+      animateIn(mNowPlayingIcon);
+
+      String nowPlayingText = getContext().getString(R.string.qe_now_playing_by);
+      updateTextViewIfNeeded(mEventTitleSubColored, nowPlayingText, false);
+      mEventTitleSubColored.setOnClickListener(mController.getEventController().getAction());
+    } else {
+      setEventSubIcon();
+      animateOut(mEventTitleSubColored);
+      animateOut(mNowPlayingIcon);
+    }
+  }
+
+  private void updateWeatherContent() {
+    bindWeather(mWeatherContentSub, mWeatherTempSub, mWeatherIconSub);
+  }
+
+  private void updateTextViewIfNeeded(
+      TextView textView, CharSequence newText, boolean setVisibility) {
+    if (textView == null) return;
+
+    boolean hasText = !TextUtils.isEmpty(newText);
+
+    int currentVisibility = textView.getVisibility();
+    CharSequence currentText = textView.getText();
+    int desiredVisibility = hasText ? View.VISIBLE : View.GONE;
+
+    if (setVisibility
+        && currentVisibility == desiredVisibility
+        && TextUtils.equals(currentText, newText)) {
+      return;
+    }
+
+    if (setVisibility) {
+      if (currentVisibility != desiredVisibility) {
+        textView.setVisibility(desiredVisibility);
+      }
+    }
+
+    if (!TextUtils.equals(currentText, newText)) {
+      textView.setText(newText);
+    }
+  }
+
+  private void maybeSetMarquee(TextView tv) {
+    if (tv == null) return;
+    tv.setSelected(false);
+    tv.setEllipsize(TruncateAt.END);
+    final float textWidth = tv.getPaint().measureText(tv.getText().toString());
+    tv.post(
+        () -> {
+          android.text.Layout layout = tv.getLayout();
+          if (layout != null && layout.getEllipsizedWidth() < textWidth) {
+            tv.setEllipsize(TruncateAt.MARQUEE);
+            tv.setMarqueeRepeatLimit(1);
+            tv.setSelected(true);
+          }
         });
+  }
+
+  private void setEventSubIcon() {
+    if (mController == null || mController.getEventController() == null) {
+      return;
     }
 
-    private void setEventSubIcon() {
-        if (mController == null || mController.getEventController() == null) {
-            return;
-        }
+    Drawable icon = mController.getEventController().getActionIcon();
+    if (icon != null) {
+      if (mEventSubIcon.getVisibility() != View.VISIBLE) {
+        animateIn(mEventSubIcon);
+      }
+      mEventSubIcon.setImageTintList(
+          mController.getEventController().isNowPlaying() ? null : mColorStateList);
+      mEventSubIcon.setImageDrawable(icon);
+      mEventSubIcon.setOnClickListener(mController.getEventController().getAction());
+    } else {
+      animateOut(mEventSubIcon);
+    }
+  }
 
-        Drawable icon = mController.getEventController().getActionIcon();
-        if (icon != null) {
-            if (mEventSubIcon.getVisibility() != View.VISIBLE) {
-                animateIn(mEventSubIcon);
-            }
-            mEventSubIcon.setImageTintList(mController.getEventController().isNowPlaying() ? null : mColorStateList);
-            mEventSubIcon.setImageDrawable(icon);
-            mEventSubIcon.setOnClickListener(mController.getEventController().getAction());
-        } else {
-            animateOut(mEventSubIcon);
-        }
+  private final void bindWeather(View container, TextView title, ImageView icon) {
+    if (container == null || title == null || icon == null) return;
+
+    if (!mWeatherAvailable || mController.getEventController().isNowPlaying()) {
+      if (container.getVisibility() != View.GONE) {
+        container.setVisibility(View.GONE);
+      }
+      return;
+    }
+    String weatherTemp = mController.getWeatherTemp();
+    if (weatherTemp == null || weatherTemp.isEmpty()) {
+      if (container.getVisibility() != View.GONE) {
+        container.setVisibility(View.GONE);
+      }
+      return;
+    }
+    if (container.getVisibility() != View.VISIBLE) {
+      animateIn(container);
     }
 
-    private final void bindWeather(View container, TextView title, ImageView icon) {
-        if (container == null || title == null || icon == null) return;
+    updateTextViewIfNeeded(title, weatherTemp, false);
 
-        if (!mWeatherAvailable || mController.getEventController().isNowPlaying()) {
-            if (container.getVisibility() != View.GONE) {
-                container.setVisibility(View.GONE);
-            }
-            return;
-        }
-        String weatherTemp = mController.getWeatherTemp();
-        if (weatherTemp == null || weatherTemp.isEmpty()) {
-            if (container.getVisibility() != View.GONE) {
-                container.setVisibility(View.GONE);
-            }
-            return;
-        }
-        if (container.getVisibility() != View.VISIBLE) {
-            animateIn(container);
-        }
+    Drawable weatherIcon = mController.getWeatherIcon();
+    if (icon.getDrawable() != weatherIcon) {
+      icon.setImageDrawable(weatherIcon);
+    }
+  }
 
-        updateTextViewIfNeeded(title, weatherTemp, false);
+  private QuickSpaceActionReceiver getActionReceiver() {
+    if (mActionReceiver == null) {
+      mActionReceiver = new QuickSpaceActionReceiver(getContext());
+    }
+    return mActionReceiver;
+  }
 
-        Drawable weatherIcon = mController.getWeatherIcon();
-        if (icon.getDrawable() != weatherIcon) {
-            icon.setImageDrawable(weatherIcon);
-        }
+  private void loadLargeStyle() {
+    if (mDestroyed || mPendingDestroy) {
+      return;
     }
 
-    private QuickSpaceActionReceiver getActionReceiver() {
-        if (mActionReceiver == null) {
-            mActionReceiver = new QuickSpaceActionReceiver(getContext());
-        }
-        return mActionReceiver;
+    if (mIsLayoutSuppressed) {
+      return;
     }
 
-    private void loadLargeStyle() {
-        if (mDestroyed || mPendingDestroy) {
-            return;
-        }
+    if (mQuickspaceDayOfWeek == null || mBatteryRow == null) return;
 
-        if (mIsLayoutSuppressed) {
-            return;
-        }
+    if (mController == null || mController.getEventController() == null) {
+      return;
+    }
 
-        if (mQuickspaceDayOfWeek == null) return; // Views not inflated for this style
+    beginBatchEdit();
 
-        if (mController == null || mController.getEventController() == null) {
-            return;
-        }
+    boolean accentEnabled = LauncherPrefs.QUICKSPACE_VOLTAGE_ACCENT.get(getContext());
+    if (mQuickspaceClock != null) {
+      if (mLastAccentState != accentEnabled) {
+        mQuickspaceClock.setAccentEnabled(accentEnabled);
+        mLastAccentState = accentEnabled;
+      }
+    }
 
-        beginBatchEdit();
+    String dayOfWeek = QuickEventsController.getDayOfWeek(getContext());
+    updateTextViewIfNeeded(mQuickspaceDayOfWeek, dayOfWeek, false);
 
-        boolean accentEnabled = LauncherPrefs.QUICKSPACE_VOLTAGE_ACCENT.get(getContext());
-        if (mQuickspaceClock != null) { 
-            if (mLastAccentState != accentEnabled) {
-                mQuickspaceClock.setAccentEnabled(accentEnabled);
-                mLastAccentState = accentEnabled;
-            }
-        }
+    String shortDate = mController.getEventController().getShortDate(getContext());
+    updateTextViewIfNeeded(mQuickspaceDate, shortDate, false);
 
-        String dayOfWeek = QuickEventsController.getDayOfWeek(getContext());
-        updateTextViewIfNeeded(mQuickspaceDayOfWeek, dayOfWeek, false);
+    if (mWeatherContentSub.getVisibility() != View.VISIBLE) {
+      mWeatherContentSub.setVisibility(View.VISIBLE);
+    }
 
-        String shortDate = mController.getEventController().getShortDate(getContext());
-        updateTextViewIfNeeded(mQuickspaceDate, shortDate, false);
-
-        if (mWeatherContentSub.getVisibility() != View.VISIBLE) {
-            mWeatherContentSub.setVisibility(View.VISIBLE);
-        }
-
-        View.OnClickListener openClockListener = v -> {
-            try {
-                getContext().startActivity(new Intent(AlarmClock.ACTION_SHOW_ALARMS)
-                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-            } catch (ActivityNotFoundException e) {
-                e.printStackTrace();
-            }
+    View.OnClickListener openClockListener =
+        v -> {
+          try {
+            getContext()
+                .startActivity(
+                    new Intent(AlarmClock.ACTION_SHOW_ALARMS)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+          } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+          }
         };
 
-        View.OnClickListener openCalendarListener = v -> {
-            try {
-                Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
-                builder.appendPath("time");
-                ContentUris.appendId(builder, System.currentTimeMillis());
-                Intent intent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getContext().startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                e.printStackTrace();
-            }
+    View.OnClickListener openCalendarListener =
+        v -> {
+          try {
+            Uri.Builder builder = CalendarContract.CONTENT_URI.buildUpon();
+            builder.appendPath("time");
+            ContentUris.appendId(builder, System.currentTimeMillis());
+            Intent intent = new Intent(Intent.ACTION_VIEW).setData(builder.build());
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getContext().startActivity(intent);
+          } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+          }
         };
 
-        mQuickspaceClock.setOnClickListener(openClockListener);
-        mQuickspaceDayOfWeek.setOnClickListener(openClockListener); // Both clock and day open the Clock app
-        mQuickspaceDate.setOnClickListener(openCalendarListener);
+    mQuickspaceClock.setOnClickListener(openClockListener);
+    mQuickspaceDayOfWeek.setOnClickListener(openClockListener);
+    mQuickspaceDate.setOnClickListener(openCalendarListener);
 
+    bindWeather(mWeatherContentSub, mWeatherTempSub, mWeatherIconSub);
 
-        bindWeather(mWeatherContentSub, mWeatherTempSub, mWeatherIconSub);
+    boolean isNowPlaying = mController.getEventController().isNowPlaying();
+    if (isNowPlaying) {
+      if (mContextualInfoRow.getVisibility() != View.VISIBLE) {
+        mContextualInfoRow.setVisibility(View.VISIBLE);
+      }
+      if (mPSAMessage.getVisibility() != View.GONE) {
+        mPSAMessage.setVisibility(View.GONE);
+      }
+      if (mNowPlayingContent.getVisibility() != View.VISIBLE) {
+        mNowPlayingContent.setVisibility(View.VISIBLE);
+      }
 
-        boolean isNowPlaying = mController.getEventController().isNowPlaying();
-        if (isNowPlaying) {
-            if (mContextualInfoRow.getVisibility() != View.VISIBLE) {
-                mContextualInfoRow.setVisibility(View.VISIBLE);
-            }
-            if (mPSAMessage.getVisibility() != View.GONE) {
-                mPSAMessage.setVisibility(View.GONE);
-            }
-            if (mNowPlayingContent.getVisibility() != View.VISIBLE) {
-                mNowPlayingContent.setVisibility(View.VISIBLE);
-            }
-
-            if (mController == null || mController.getEventController() == null) {
-                endBatchEdit();
-                return;
-            }
-
-            String nowPlaying = mController.getEventController().getTitle() + " - " + mController.getEventController().getActionTitle();
-            updateTextViewIfNeeded(mNowPlayingText, nowPlaying, false);
-            post(() -> maybeSetMarquee(mNowPlayingText));
-        } else {
-            if (mNowPlayingContent.getVisibility() != View.GONE) {
-                mNowPlayingContent.setVisibility(View.GONE);
-            }
-            if (mIsQuickEvent && LauncherPrefs.SHOW_QUICKSPACE_PSONALITY.get(getContext())) {
-                if (mContextualInfoRow.getVisibility() != View.VISIBLE) {
-                    mContextualInfoRow.setVisibility(View.VISIBLE);
-                }
-                if (mPSAMessage.getVisibility() != View.VISIBLE) {
-                    mPSAMessage.setVisibility(View.VISIBLE);
-                }
-
-                if (mController == null || mController.getEventController() == null) {
-                    endBatchEdit();
-                    return;
-                }
-
-                String actionTitle = mController.getEventController().getActionTitle();
-                updateTextViewIfNeeded(mPSAMessage, actionTitle, false);
-                mPSAMessage.setOnClickListener(mController.getEventController().getAction());
-                post(() -> maybeSetMarquee(mPSAMessage));
-            } else {
-                if (mContextualInfoRow.getVisibility() != View.GONE) {
-                    mContextualInfoRow.setVisibility(View.GONE);
-                }
-            }
-        }
-
+      if (mController == null || mController.getEventController() == null) {
         endBatchEdit();
+        return;
+      }
+
+      String nowPlaying =
+          mController.getEventController().getTitle()
+              + " - "
+              + mController.getEventController().getActionTitle();
+      updateTextViewIfNeeded(mNowPlayingText, nowPlaying, false);
+      post(() -> maybeSetMarquee(mNowPlayingText));
+    } else {
+      if (mNowPlayingContent.getVisibility() != View.GONE) {
+        mNowPlayingContent.setVisibility(View.GONE);
+      }
+      if (mIsQuickEvent && LauncherPrefs.SHOW_QUICKSPACE_PSONALITY.get(getContext())) {
+        if (mContextualInfoRow.getVisibility() != View.VISIBLE) {
+          mContextualInfoRow.setVisibility(View.VISIBLE);
+        }
+        if (mPSAMessage.getVisibility() != View.VISIBLE) {
+          mPSAMessage.setVisibility(View.VISIBLE);
+        }
+
+        if (mController == null || mController.getEventController() == null) {
+          endBatchEdit();
+          return;
+        }
+
+        String actionTitle = mController.getEventController().getActionTitle();
+        updateTextViewIfNeeded(mPSAMessage, actionTitle, false);
+        mPSAMessage.setOnClickListener(mController.getEventController().getAction());
+        post(() -> maybeSetMarquee(mPSAMessage));
+      } else {
+        if (mContextualInfoRow.getVisibility() != View.GONE) {
+          mContextualInfoRow.setVisibility(View.GONE);
+        }
+      }
     }
 
+    boolean showBattery = LauncherPrefs.SHOW_QUICKSPACE_BATTERY.get(getContext());
+    QuickBatteryController batController = mController.getBatteryController();
+    if (showBattery && batController != null) {
+      int level = batController.getBatteryLevel();
 
-    private void beginBatchEdit() {
-        if (mQuickspaceContent != null && !mIsLayoutSuppressed) {
-            mIsLayoutSuppressed = true;
-            mQuickspaceContent.suppressLayout(true);
+      if (level >= 0) {
+        updateBatteryPillContent();
 
-            ViewGroup parent = (ViewGroup) getParent();
-            if (parent != null) {
-                parent.suppressLayout(true);
-            }
+        if (mBatteryRow.getVisibility() != View.VISIBLE) {
+          animateIn(mBatteryRow);
         }
+
+        if (batController.getDeviceCount() > 1) {
+          mBatteryRow.setOnClickListener(v -> cycleBatteryDevice());
+        } else {
+          mBatteryRow.setOnClickListener(v -> batController.launchBatterySettings());
+        }
+        mBatteryRow.setOnLongClickListener(
+            v -> {
+              batController.launchBatterySettings();
+              return true;
+            });
+      } else {
+        animateOut(mBatteryRow);
+      }
+    } else {
+      if (mBatteryRow.getVisibility() != View.GONE) {
+        mBatteryRow.setVisibility(View.GONE);
+      }
     }
-    
-    private void endBatchEdit() {
-        if (mQuickspaceContent != null) {
-            mQuickspaceContent.suppressLayout(false);
-        }
-        if (mIsLayoutSuppressed) {
-            mIsLayoutSuppressed = false;
-            ViewGroup parent = (ViewGroup) getParent();
-            if (parent != null) {
-                parent.suppressLayout(false);
-            }
-        }
+
+    endBatchEdit();
+  }
+
+  private void updateBatteryPillContent() {
+    QuickBatteryController batController = mController.getBatteryController();
+    if (batController == null) return;
+
+    String deviceName = batController.getDeviceName();
+    int level = batController.getBatteryLevel();
+    boolean isAudio = batController.isAudioDevice();
+
+    updateTextViewIfNeeded(mBatteryDeviceName, deviceName, false);
+    String percentStr = level + "%";
+    updateTextViewIfNeeded(mBatteryPercentage, percentStr, false);
+
+    updateBatteryTextHierarchy(level);
+    updateBatteryColors(level);
+
+    if (mBatteryIcon != null) {
+      mBatteryIcon.setImageResource(
+          isAudio ? R.drawable.ic_audio_device : R.drawable.ic_battery_std);
     }
 
-    private final void loadViews() {
-        mEventTitle = (TextView) findViewById(R.id.quick_event_title);
-        mEventTitleSub = (TextView) findViewById(R.id.quick_event_title_sub);
-        mEventTitleSubColored = (TextView) findViewById(R.id.quick_event_title_sub_colored);
-        mNowPlayingIcon = (ImageView) findViewById(R.id.now_playing_icon_sub);
-        mEventSubIcon = (ImageView) findViewById(R.id.quick_event_icon_sub);
-        mWeatherIconSub = (ImageView) findViewById(R.id.quick_event_weather_icon);
-        mQuickspaceContent = (ViewGroup) findViewById(R.id.quickspace_content);
-        mWeatherContentSub = (ViewGroup) findViewById(R.id.quick_event_weather_content);
-        mWeatherTempSub = (TextView) findViewById(R.id.quick_event_weather_temp);
-        if (mCurrentStyle == 1) { // Extended style
-            mGreetingsExtClock = (TextView) findViewById(R.id.extended_greetings_clock);
-            mGreetingsExt = (TextView) findViewById(R.id.extended_greetings);
-        }
+    animateBatteryProgress(level);
 
-        if (mCurrentStyle == 2) { // Large style
-            mQuickspaceDayOfWeek = findViewById(R.id.quickspace_day_of_week);
-            mQuickspaceClock = (AccentedTextClock) findViewById(R.id.quickspace_clock);
-            mQuickspaceDate = findViewById(R.id.quickspace_date);
-            mPSAMessage = findViewById(R.id.quickspace_psa_message);
-            mNowPlayingContent = findViewById(R.id.now_playing_content);
-            mNowPlayingText = findViewById(R.id.now_playing_text);
-            mContextualInfoRow = findViewById(R.id.contextual_info_row);
-        }
-        boolean hasGoogleApp = isPackageEnabled("com.google.android.googlequicksearchbox", getContext());
-        if (mWeatherContentSub != null) {
-            mWeatherContentSub.setOnClickListener(hasGoogleApp ? getActionReceiver().getWeatherAction() : null);
-        }
+    updateBatteryDots();
+  }
 
-       View.OnClickListener mediaClickListener = v -> {
-            if (mController != null && mController.getEventController() != null) {
-                View.OnClickListener action = mController.getEventController().getAction();
-                if (action != null) {
-                    action.onClick(v);
-                }
+  private void cycleBatteryDevice() {
+    if (mController.getBatteryController() == null) return;
+
+    mBatteryRow.animate().cancel();
+    mBatteryRow
+        .animate()
+        .alpha(0f)
+        .setDuration(150)
+        .withEndAction(
+            () -> {
+              mController.getBatteryController().advanceIndex();
+              updateBatteryPillContent();
+
+              mBatteryRow.animate().alpha(1f).setDuration(150).start();
+            })
+        .start();
+  }
+
+  private void updateBatteryDots() {
+    if (mBatteryDotsContainer == null) return;
+    int count = mController.getBatteryController().getDeviceCount();
+    int current = mController.getBatteryController().getCurrentIndex();
+
+    if (count <= 1) {
+      mBatteryDotsContainer.setVisibility(View.GONE);
+      return;
+    }
+    mBatteryDotsContainer.setVisibility(View.VISIBLE);
+
+    if (mBatteryDotsContainer.getChildCount() != count) {
+      mBatteryDotsContainer.removeAllViews();
+      for (int i = 0; i < count; i++) {
+        View dot = new View(getContext());
+        int size = dpToPx(5);
+        int margin = dpToPx(4);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size, size);
+        lp.setMarginStart(margin);
+        dot.setLayoutParams(lp);
+        dot.setBackgroundResource(R.drawable.bg_battery_dot);
+        mBatteryDotsContainer.addView(dot);
+      }
+    }
+
+    for (int i = 0; i < count; i++) {
+      View dot = mBatteryDotsContainer.getChildAt(i);
+      if (i == current) {
+        dot.setAlpha(1.0f);
+      } else {
+        dot.setAlpha(0.4f);
+      }
+    }
+  }
+
+  private void updateBatteryTextHierarchy(int level) {
+    if (mBatteryPercentage == null) return;
+
+    if (level >= 90) {
+      mBatteryPercentage.setAlpha(0.4f);
+      mBatteryPercentage.setTypeface(Typeface.DEFAULT);
+    } else if (level < 20) {
+      mBatteryPercentage.setAlpha(1.0f);
+      mBatteryPercentage.setTypeface(Typeface.DEFAULT_BOLD);
+    } else {
+      mBatteryPercentage.setAlpha(0.7f);
+      mBatteryPercentage.setTypeface(Typeface.DEFAULT);
+    }
+  }
+
+  private void updateBatteryColors(int level) {
+    if (mBatteryProgress == null || mBatteryPercentage == null) return;
+
+    int color;
+    if (level <= 10) {
+      color = Themes.getAttrColor(getContext(), android.R.attr.colorError);
+      mBatteryPercentage.setTextColor(color);
+    } else if (level <= 20) {
+      color = 0xFFFBC02D;
+      mBatteryPercentage.setTextColor(color);
+    } else {
+      color = Themes.getAttrColor(getContext(), R.attr.workspaceAccentColor);
+      mBatteryPercentage.setTextColor(mColorStateList);
+    }
+
+    Drawable bg = mBatteryProgress.getBackground();
+    if (bg instanceof GradientDrawable) {
+      GradientDrawable gd = (GradientDrawable) bg;
+      int r = Color.red(color);
+      int g = Color.green(color);
+      int b = Color.blue(color);
+
+      int startColor = Color.argb(80, r, g, b);
+      int midColor = Color.argb(25, r, g, b);
+      int endColor = 0x00FFFFFF;
+
+      if (level < 20) {
+        startColor = Color.argb(200, r, g, b);
+        midColor = Color.argb(100, r, g, b);
+      }
+
+      gd.setColors(new int[] {startColor, midColor, endColor});
+      gd.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+
+      gd.setAlpha(level < 20 ? 255 : 255);
+    }
+  }
+
+  private void animateBatteryProgress(int level) {
+    mBatteryRow.post(
+        () -> {
+          if (mBatteryRow == null || mBatteryProgress == null || mBatteryRow.getWidth() <= 0)
+            return;
+
+          int totalWidth = mBatteryRow.getWidth();
+          int targetWidth = (int) ((totalWidth * level) / 100f);
+
+          if (mBatteryProgress.getLayoutParams().width != targetWidth) {
+            if (mBatteryProgressAnimator != null && mBatteryProgressAnimator.isRunning()) {
+              mBatteryProgressAnimator.cancel();
             }
+
+            mBatteryProgressAnimator =
+                ValueAnimator.ofInt(mBatteryProgress.getLayoutParams().width, targetWidth);
+            mBatteryProgressAnimator.setDuration(400);
+            mBatteryProgressAnimator.setInterpolator(new DecelerateInterpolator(1.5f));
+            mBatteryProgressAnimator.addUpdateListener(
+                animation -> {
+                  if (mBatteryProgress == null) return;
+                  ViewGroup.LayoutParams lp = mBatteryProgress.getLayoutParams();
+                  lp.width = (int) animation.getAnimatedValue();
+                  mBatteryProgress.setLayoutParams(lp);
+                });
+            mBatteryProgressAnimator.start();
+          }
+        });
+  }
+
+  private void beginBatchEdit() {
+    if (mQuickspaceContent != null && !mIsLayoutSuppressed) {
+      mIsLayoutSuppressed = true;
+      mQuickspaceContent.suppressLayout(true);
+
+      ViewGroup parent = (ViewGroup) getParent();
+      if (parent != null) {
+        parent.suppressLayout(true);
+      }
+    }
+  }
+
+  private void endBatchEdit() {
+    if (mQuickspaceContent != null) {
+      mQuickspaceContent.suppressLayout(false);
+    }
+    if (mIsLayoutSuppressed) {
+      mIsLayoutSuppressed = false;
+      ViewGroup parent = (ViewGroup) getParent();
+      if (parent != null) {
+        parent.suppressLayout(false);
+      }
+    }
+  }
+
+  private final void loadViews() {
+    mEventTitle = (TextView) findViewById(R.id.quick_event_title);
+    mEventTitleSub = (TextView) findViewById(R.id.quick_event_title_sub);
+    mEventTitleSubColored = (TextView) findViewById(R.id.quick_event_title_sub_colored);
+    mNowPlayingIcon = (ImageView) findViewById(R.id.now_playing_icon_sub);
+    mEventSubIcon = (ImageView) findViewById(R.id.quick_event_icon_sub);
+    mWeatherIconSub = (ImageView) findViewById(R.id.quick_event_weather_icon);
+    mQuickspaceContent = (ViewGroup) findViewById(R.id.quickspace_content);
+    mWeatherContentSub = (ViewGroup) findViewById(R.id.quick_event_weather_content);
+    mWeatherTempSub = (TextView) findViewById(R.id.quick_event_weather_temp);
+    if (mCurrentStyle == 1) { // Extended style
+      mGreetingsExtClock = (TextView) findViewById(R.id.extended_greetings_clock);
+      mGreetingsExt = (TextView) findViewById(R.id.extended_greetings);
+    }
+
+    if (mCurrentStyle == 2) { // Large style
+      mQuickspaceDayOfWeek = findViewById(R.id.quickspace_day_of_week);
+      mQuickspaceClock = (AccentedTextClock) findViewById(R.id.quickspace_clock);
+      mQuickspaceDate = findViewById(R.id.quickspace_date);
+      mPSAMessage = findViewById(R.id.quickspace_psa_message);
+      mNowPlayingContent = findViewById(R.id.now_playing_content);
+      mNowPlayingText = findViewById(R.id.now_playing_text);
+      mContextualInfoRow = findViewById(R.id.contextual_info_row);
+
+      mBatteryRow = findViewById(R.id.battery_info_row);
+      mBatteryProgress = findViewById(R.id.battery_progress_bar);
+      mBatteryDeviceName = findViewById(R.id.battery_device_name);
+      mBatteryPercentage = findViewById(R.id.battery_percentage);
+      mBatteryIcon = findViewById(R.id.battery_icon);
+      mBatteryDotsContainer = findViewById(R.id.battery_dots_container);
+    }
+    boolean hasGoogleApp =
+        isPackageEnabled("com.google.android.googlequicksearchbox", getContext());
+    if (mWeatherContentSub != null) {
+      mWeatherContentSub.setOnClickListener(
+          hasGoogleApp ? getActionReceiver().getWeatherAction() : null);
+    }
+
+    View.OnClickListener mediaClickListener =
+        v -> {
+          if (mController != null && mController.getEventController() != null) {
+            View.OnClickListener action = mController.getEventController().getAction();
+            if (action != null) {
+              action.onClick(v);
+            }
+          }
         };
 
-        if (mNowPlayingIcon != null) {
-            mNowPlayingIcon.setOnClickListener(mediaClickListener);
-        }
-
-        if (mNowPlayingContent != null) {
-            mNowPlayingContent.setOnClickListener(mediaClickListener);
-        }
+    if (mNowPlayingIcon != null) {
+      mNowPlayingIcon.setOnClickListener(mediaClickListener);
     }
 
-    private void prepareLayout(int style) {
-        if (mCurrentStyle == style && mViewsLoaded) {
-            return; // Avoid unnecessary layout inflation
-        }
+    if (mNowPlayingContent != null) {
+      mNowPlayingContent.setOnClickListener(mediaClickListener);
+    }
+  }
 
-        mCurrentStyle = style;
-        int indexOfChild = indexOfChild(mQuickspaceContent);
-        if (mQuickspaceContent != null) {
-            removeView(mQuickspaceContent);
-        }
-        int layoutId;
-        switch (style) {
-            case 1:
-                layoutId = R.layout.quickspace_alternate_double;
-                break;
-            case 2:
-                layoutId = R.layout.quickspace_large_style;
-                break;
-            default:
-                layoutId = R.layout.quickspace_doubleline;
-        }
-        addView(LayoutInflater.from(getContext()).inflate(layoutId, this, false), indexOfChild);
-
-        loadViews();
-        getQuickSpaceView();
+  private void prepareLayout(int style) {
+    if (mCurrentStyle == style && mViewsLoaded) {
+      return;
     }
 
-    private void getQuickSpaceView() {
-        if (mQuickspaceContent == null) return;
+    mCurrentStyle = style;
+    int indexOfChild = indexOfChild(mQuickspaceContent);
+    if (mQuickspaceContent != null) {
+      removeView(mQuickspaceContent);
+    }
+    int layoutId;
+    switch (style) {
+      case 1:
+        layoutId = R.layout.quickspace_alternate_double;
+        break;
+      case 2:
+        layoutId = R.layout.quickspace_large_style;
+        break;
+      default:
+        layoutId = R.layout.quickspace_doubleline;
+    }
+    addView(LayoutInflater.from(getContext()).inflate(layoutId, this, false), indexOfChild);
 
-        if (mQuickspaceContent.getVisibility() != View.VISIBLE) {
-            mQuickspaceContent.setVisibility(View.VISIBLE);
-            mQuickspaceContent.setAlpha(0.8f);
-            mQuickspaceContent.animate()
-                .setDuration(100)
-                .alpha(1.0f)
-                .setInterpolator(new DecelerateInterpolator(1.5f))
-                .start();
-        }
+    loadViews();
+    getQuickSpaceView();
+  }
+
+  private void getQuickSpaceView() {
+    if (mQuickspaceContent == null) return;
+
+    if (mQuickspaceContent.getVisibility() != View.VISIBLE) {
+      mQuickspaceContent.setVisibility(View.VISIBLE);
+      mQuickspaceContent.setAlpha(0.8f);
+      mQuickspaceContent
+          .animate()
+          .setDuration(100)
+          .alpha(1.0f)
+          .setInterpolator(new DecelerateInterpolator(1.5f))
+          .start();
+    }
+  }
+
+  private void animateIn(View view) {
+    if (mDestroyed || mPendingDestroy || view == null) {
+      return;
     }
 
-    private void animateIn(View view) {
-        if (mDestroyed || mPendingDestroy || view == null) {
-            return;
-        }
+    if (view.getVisibility() == View.VISIBLE && view.getAlpha() == 1f) {
+      return;
+    }
 
-        if (view.getVisibility() == View.VISIBLE && view.getAlpha() == 1f) {
-            return; // Already visible
-        }
+    view.animate().cancel();
 
-        view.animate().cancel();
-
-        view.setVisibility(View.VISIBLE);
-        view.setAlpha(0f);
-        view.setTranslationY(view.getHeight() / 2f);
-        mCurrentAnimateIn = view.animate()
+    view.setVisibility(View.VISIBLE);
+    view.setAlpha(0f);
+    view.setTranslationY(view.getHeight() / 2f);
+    mCurrentAnimateIn =
+        view.animate()
             .alpha(1f)
             .translationY(0f)
             .setDuration(200)
             .setInterpolator(new DecelerateInterpolator())
             .withEndAction(null);
-        mCurrentAnimateIn.start();
+    mCurrentAnimateIn.start();
+  }
+
+  private void animateOut(View view) {
+    if (mDestroyed || mPendingDestroy || view == null) {
+      return;
     }
 
-     private void animateOut(View view) {
-        if (mDestroyed || mPendingDestroy || view == null) {
-            return;
-        }
+    if (view.getVisibility() != View.VISIBLE) {
+      return;
+    }
+    view.animate().cancel();
 
-        if (view.getVisibility() != View.VISIBLE) {
-            return; // Already hidden
-        }
-        view.animate().cancel();
-        
-        mCurrentAnimateOut = view.animate()
+    mCurrentAnimateOut =
+        view.animate()
             .alpha(0f)
             .translationY(view.getHeight() / 2f)
             .setDuration(250)
             .setInterpolator(new AccelerateInterpolator())
-            .withEndAction(() -> {
-                view.setVisibility(View.GONE);
-                view.setTranslationY(0f);
-                view.setAlpha(1f);
-            });
-        
-        mCurrentAnimateOut.start();
+            .withEndAction(
+                () -> {
+                  view.setVisibility(View.GONE);
+                  view.setTranslationY(0f);
+                  view.setAlpha(1f);
+                  view.setOnClickListener(null);
+                });
+
+    mCurrentAnimateOut.start();
+  }
+
+  private void cancelAllAnimations() {
+    if (mCurrentAnimateIn != null) {
+      mCurrentAnimateIn.cancel();
+      mCurrentAnimateIn = null;
+    }
+    if (mCurrentAnimateOut != null) {
+      mCurrentAnimateOut.cancel();
+      mCurrentAnimateOut = null;
     }
 
-    private void cancelAllAnimations() {
-        if (mCurrentAnimateIn != null) {
-            mCurrentAnimateIn.cancel();
-            mCurrentAnimateIn = null;
-        }
-        if (mCurrentAnimateOut != null) {
-            mCurrentAnimateOut.cancel();
-            mCurrentAnimateOut = null;
-        }
-        
-        if (mEventTitleSub != null) mEventTitleSub.animate().cancel();
-        if (mEventSubIcon != null) mEventSubIcon.animate().cancel();
-        if (mEventTitleSubColored != null) mEventTitleSubColored.animate().cancel();
-        if (mNowPlayingIcon != null) mNowPlayingIcon.animate().cancel();
-        if (mWeatherContentSub != null) mWeatherContentSub.animate().cancel();
-        if (mQuickspaceContent != null) mQuickspaceContent.animate().cancel();
+    if (mEventTitleSub != null) mEventTitleSub.animate().cancel();
+    if (mEventSubIcon != null) mEventSubIcon.animate().cancel();
+    if (mEventTitleSubColored != null) mEventTitleSubColored.animate().cancel();
+    if (mNowPlayingIcon != null) mNowPlayingIcon.animate().cancel();
+    if (mWeatherContentSub != null) mWeatherContentSub.animate().cancel();
+    if (mQuickspaceContent != null) mQuickspaceContent.animate().cancel();
+    if (mBatteryRow != null) mBatteryRow.animate().cancel();
+
+    if (mBatteryProgressAnimator != null) {
+      mBatteryProgressAnimator.cancel();
     }
-    
-    private void clearClickListeners() {
-        View[] clickableViews = {
-            mEventTitle, mEventTitleSub, mEventTitleSubColored,
-            mGreetingsExt, mGreetingsExtClock, mEventSubIcon,
-            mNowPlayingIcon, mWeatherContentSub, mQuickspaceDayOfWeek,
-            mQuickspaceClock, mQuickspaceDate, mPSAMessage,
-            mNowPlayingContent, mNowPlayingText
-        };
-        
-        for (View view : clickableViews) {
-            if (view != null) {
-                view.setOnClickListener(null);
-            }
-        }
+  }
+
+  private void clearClickListeners() {
+    View[] clickableViews = {
+      mEventTitle, mEventTitleSub, mEventTitleSubColored,
+      mGreetingsExt, mGreetingsExtClock, mEventSubIcon,
+      mNowPlayingIcon, mWeatherContentSub, mQuickspaceDayOfWeek,
+      mQuickspaceClock, mQuickspaceDate, mPSAMessage,
+      mNowPlayingContent, mNowPlayingText, mBatteryRow
+    };
+
+    for (View view : clickableViews) {
+      if (view != null) {
+        view.setOnClickListener(null);
+        view.setOnLongClickListener(null);
+      }
+    }
+  }
+
+  private void safeRemoveListener() {
+    if (mController != null && !mDestroyed) {
+      try {
+        mController.removeListener(this);
+      } catch (Exception e) {
+        // Ignore - controller might be destroyed
+      }
+    }
+  }
+
+  @Override
+  public void onAttachedToWindow() {
+    super.onAttachedToWindow();
+    if (mAttached || mDestroyed || mPendingDestroy) {
+      return;
     }
 
-    private void safeRemoveListener() {
-        if (mController != null && !mDestroyed) {
-            try {
-                mController.removeListener(this);
-            } catch (Exception e) {
-                // Ignore - controller might be destroyed
-            }
-        }
-    }
-
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        if (mAttached || mDestroyed || mPendingDestroy) {
-            return;
-        }
-
-        mAttached = true;
-        post(() -> {
-            if (mController != null && mFinishedInflate && !mDestroyed && mAttached) {
+    mAttached = true;
+    post(
+        () -> {
+          if (mController != null && mFinishedInflate && !mDestroyed && mAttached) {
             mController.addListener(this);
-            }
+          }
         });
+  }
+
+  @Override
+  public void onDetachedFromWindow() {
+    super.onDetachedFromWindow();
+    if (!mAttached) {
+      return;
     }
 
-    @Override
-    public void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        if (!mAttached) {
-             return;
-        }
+    cancelAllAnimations();
+    safeRemoveListener();
 
-        cancelAllAnimations();
-        safeRemoveListener();
+    mAttached = false;
+  }
 
-        mAttached = false;
+  public boolean isPackageEnabled(String pkgName, Context context) {
+    try {
+      return context.getPackageManager().getApplicationInfo(pkgName, 0).enabled;
+    } catch (PackageManager.NameNotFoundException e) {
+      return false;
     }
+  }
 
-    public boolean isPackageEnabled(String pkgName, Context context) {
-        try {
-            return context.getPackageManager().getApplicationInfo(pkgName, 0).enabled;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
-
-    @Override
-    public void onFinishInflate() {
-        super.onFinishInflate();
-        loadViews();
-        mFinishedInflate = true;
-        mBubbleTextView = findViewById(R.id.dummyBubbleTextView);
-        mBubbleTextView.setTag(new ItemInfo() {
-            @Override
-            public ComponentName getTargetComponent() {
-                return new ComponentName(getContext(), "");
-            }
+  @Override
+  public void onFinishInflate() {
+    super.onFinishInflate();
+    loadViews();
+    mFinishedInflate = true;
+    mBubbleTextView = findViewById(R.id.dummyBubbleTextView);
+    mBubbleTextView.setTag(
+        new ItemInfo() {
+          @Override
+          public ComponentName getTargetComponent() {
+            return new ComponentName(getContext(), "");
+          }
         });
-        mBubbleTextView.setContentDescription("");
-        if (isAttachedToWindow()) {
-            if (mController != null) {
-                mController.addListener(this);
-            }
-        }
+    mBubbleTextView.setContentDescription("");
+    if (isAttachedToWindow()) {
+      if (mController != null) {
+        mController.addListener(this);
+      }
     }
+  }
 
-    @Override
-    public void onLayout(boolean b, int n, int n2, int n3, int n4) {
-        super.onLayout(b, n, n2, n3, n4);
-    }
+  @Override
+  public void onLayout(boolean b, int n, int n2, int n3, int n4) {
+    super.onLayout(b, n, n2, n3, n4);
+  }
 
-    public void onPause() {
-        safeRemoveListener();
-        if (mController != null) {
-            try {
-            mController.onPause();
-            } catch (Exception e) {
-                mController = null;
-            }
-        }
-    }
-
-    public void onResume() {
-        removeCallbacks(mDeferredUpdateRunnable);
-
-        if (mController != null && mFinishedInflate && !mDestroyed && !mPendingDestroy) {
-            mController.addListener(this);
-            try {
-            mController.onResume();
-            } catch (Exception e) {
-                mController = null;
-            }
-        }
-    }
-
-    public void prepareForDestroy() {
-        cancelAllAnimations();
-        safeRemoveListener();
-        clearClickListeners();
-    }
-
-    public void onDestroy() {
-        if (mDestroyed) {
-            return;
-        }
-
-        mDestroyed = true;
-        mPendingDestroy = true;
-
-        removeCallbacks(mDeferredUpdateRunnable);
-
-        cancelAllAnimations();
-
-        safeRemoveListener();
-        clearClickListeners();
-
-        if (mController != null) {
-            // Just remove this view's listener
-            safeRemoveListener();
-        }
-        mActionReceiver = null;
+  public void onPause() {
+    safeRemoveListener();
+    if (mController != null) {
+      try {
+        mController.onPause();
+      } catch (Exception e) {
         mController = null;
-        mBubbleTextView = null;
-        mQuickspaceContent = null;
-        mEventSubIcon = null;
-        mNowPlayingIcon = null;
-        mEventTitleSub = null;
-        mEventTitleSubColored = null;
-        mGreetingsExt = null;
-        mGreetingsExtClock = null;
-        mWeatherContentSub = null;
-        mWeatherIconSub = null;
-        mWeatherTempSub = null;
-        mEventTitle = null;
-        
-        // Nullify Voltage style views
-        mQuickspaceDayOfWeek = null;
-        mQuickspaceClock = null;
-        mQuickspaceDate = null;
-        mPSAMessage = null;
-        mNowPlayingContent = null;
-        mNowPlayingText = null;
-        mContextualInfoRow = null;
-        setBackground(null);
-        mAttached = false;
-        mFinishedInflate = false;
-        mViewsLoaded = false;
-        mLastEventTitle = "";
-        mLastWeatherTemp = "";
-        mLastActionTitle = "";
+      }
+    }
+  }
+
+  public void onResume() {
+    removeCallbacks(mDeferredUpdateRunnable);
+
+    if (mController != null && mFinishedInflate && !mDestroyed && !mPendingDestroy) {
+      mController.addListener(this);
+      try {
+        mController.onResume();
+      } catch (Exception e) {
+        mController = null;
+      }
+    }
+  }
+
+  public void prepareForDestroy() {
+    cancelAllAnimations();
+    safeRemoveListener();
+    clearClickListeners();
+  }
+
+  public void onDestroy() {
+    if (mDestroyed) {
+      return;
     }
 
-    public void setPadding(int n, int n2, int n3, int n4) {
-        super.setPadding(0, 0, 0, 0);
+    mDestroyed = true;
+    mPendingDestroy = true;
+
+    removeCallbacks(mDeferredUpdateRunnable);
+
+    cancelAllAnimations();
+
+    safeRemoveListener();
+    clearClickListeners();
+
+    if (mController != null) {
+      safeRemoveListener();
     }
+    mActionReceiver = null;
+    mController = null;
+    mBubbleTextView = null;
+    mQuickspaceContent = null;
+    mEventSubIcon = null;
+    mNowPlayingIcon = null;
+    mEventTitleSub = null;
+    mEventTitleSubColored = null;
+    mGreetingsExt = null;
+    mGreetingsExtClock = null;
+    mWeatherContentSub = null;
+    mWeatherIconSub = null;
+    mWeatherTempSub = null;
+    mEventTitle = null;
+
+    mQuickspaceDayOfWeek = null;
+    mQuickspaceClock = null;
+    mQuickspaceDate = null;
+    mPSAMessage = null;
+    mNowPlayingContent = null;
+    mNowPlayingText = null;
+    mContextualInfoRow = null;
+
+    mBatteryRow = null;
+    mBatteryProgress = null;
+    mBatteryDeviceName = null;
+    mBatteryPercentage = null;
+    mBatteryIcon = null;
+    mBatteryDotsContainer = null;
+
+    setBackground(null);
+    mAttached = false;
+    mFinishedInflate = false;
+    mViewsLoaded = false;
+    mLastEventTitle = "";
+    mLastWeatherTemp = "";
+    mLastActionTitle = "";
+  }
+
+  public void setPadding(int n, int n2, int n3, int n4) {
+    super.setPadding(0, 0, 0, 0);
+  }
+
+  private int dpToPx(int dp) {
+    return (int) (dp * getResources().getDisplayMetrics().density);
+  }
 }

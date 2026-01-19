@@ -126,4 +126,78 @@
 
     </FrameLayout>
 
+    <!-- Battery Pill -->
+    <FrameLayout
+        android:id="@+id/battery_info_row"
+        android:layout_width="0dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        android:background="@drawable/bg_battery_pill"
+        android:alpha="0.12"
+        android:clipToOutline="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contextual_info_row">
+
+        <!-- Progress Bar Fill -->
+        <View
+            android:id="@+id/battery_progress_bar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_battery_progress"/>
+
+        <!-- Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <ImageView
+                android:id="@+id/battery_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_battery_std"
+                android:tint="?workspaceTextColor"
+                android:alpha="0.6"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:id="@+id/battery_device_name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="?workspaceTextColor"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:ellipsize="end"
+                android:singleLine="true" />
+
+            <TextView
+                android:id="@+id/battery_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?workspaceTextColor"
+                android:textSize="13sp"
+                android:fontFamily="sans-serif"
+                android:alpha="0.6"
+                android:singleLine="true" />
+
+            <!-- Dots Indicator -->
+            <LinearLayout
+                android:id="@+id/battery_dots_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+    </FrameLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
