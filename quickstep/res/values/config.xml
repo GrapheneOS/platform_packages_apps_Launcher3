@@ -63,4 +63,21 @@
 
     <!-- -Represents the arrow for the clip path in AllSetActivity -->
     <string name="all_set_arrow_path" translatable="false">M61.554,32.22C58.4,27.364 55.245,22.502 52.091,17.646C50.045,14.494 47.963,11.299 45.196,8.796C42.43,6.287 38.846,4.514 35.171,4.745C31.945,4.951 28.954,6.686 26.593,8.952C24.232,11.218 22.398,14.008 20.594,16.773C15.715,24.237 10.829,31.702 5.95,39.173C3.632,42.718 1.252,46.419 0.611,50.645C-0.164,55.75 1.924,60.95 5.629,64.345C9.504,67.896 15.781,67.609 20.497,66.635C25.667,65.568 30.722,63.558 35.995,63.565C40.511,63.565 44.875,65.05 49.271,66.13C53.659,67.203 58.375,67.865 62.613,66.267C67.873,64.289 71.651,58.665 71.548,52.892C71.451,47.624 68.503,42.918 65.664,38.536C64.296,36.433 62.928,34.324 61.56,32.22H61.554Z</string>
+
+    <!-- The max memory usage of a single image for the Launcher process in MB -->
+    <integer name="max_launcher_memory_mb">300</integer>
+
+    <!-- The list of mime types that are allowed to be decoded for the Launcher process. -->
+    <string-array name="allowed_image_mime_types" translatable="false">
+        <item>image/png</item>
+        <item>image/jpeg</item>
+        <item>image/webp</item>
+        <item>image/gif</item>
+        <item>image/bmp</item>
+        <item>image/x-ico</item>
+        <item>image/vnd.wap.wbmp</item>
+        <item>image/heif</item>
+        <item>image/heic</item>
+        <item>image/avif</item>
+    </string-array>
 </resources>
