@@ -265,8 +265,6 @@ public class NavbarButtonsViewController implements TaskbarControllers.LoggableT
 
     private final Runnable mAutoDim = () -> mTaskbarTransitions.setAutoDim(true);
 
-    private final SettingsCache.OnChangeListener mButtonOrderListener;
-
     private final boolean mIsUserUnlocked;
 
     public NavbarButtonsViewController(TaskbarActivityContext context,
@@ -296,9 +294,6 @@ public class NavbarButtonsViewController implements TaskbarControllers.LoggableT
                 || SUWTheme.equals(GLIF_EXPRESSIVE_LIGHT_THEME);
 
         mIsUserUnlocked = LockedUserState.get(context).isUserUnlocked();
-
-        mButtonOrderListener = isEnabled -> getLayoutterForCurrentState().layoutButtons(
-                mContext, isA11yButtonPersistent());
     }
 
     /**
@@ -525,11 +520,6 @@ public class NavbarButtonsViewController implements TaskbarControllers.LoggableT
         mSpace.setOnClickListener(view -> navButtonController.onButtonClick(BUTTON_SPACE, view));
         mSpace.setOnLongClickListener(view ->
                 navButtonController.onButtonLongClick(BUTTON_SPACE, view));
-
-        if (android.view.accessibility.Flags.navbarFlipOrderOption()) {
-            SettingsCache.INSTANCE.get(mContext).register(
-                    mButtonOrderChangedUri, mButtonOrderListener);
-        }
     }
 
     private void notifyRecentsButtonPosition() {
@@ -1144,9 +1134,6 @@ public class NavbarButtonsViewController implements TaskbarControllers.LoggableT
             mFloatingRotationButton.hide();
             mFloatingRotationButton = null;
         }
-        SettingsCache.INSTANCE.get(mContext).unregister(
-                    mButtonOrderChangedUri, mButtonOrderListener);
-
         moveNavButtonsBackToTaskbarWindow();
         mNavButtonContainer.removeAllViews();
         mEndContextualContainer.removeAllViews();
