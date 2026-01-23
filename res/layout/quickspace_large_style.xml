@@ -5,7 +5,9 @@
     android:id="@+id/quickspace_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="start|center_vertical">
+    android:orientation="vertical"
+    android:paddingTop="44dp"
+    android:layout_gravity="start|top" >
 
     <!-- Day of the Week -->
     <com.android.launcher3.quickspace.views.DoubleShadowTextView
@@ -135,7 +137,6 @@
         android:layout_marginEnd="16dp"
         android:visibility="gone"
         android:background="@drawable/bg_battery_pill"
-        android:alpha="0.12"
         android:clipToOutline="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -180,12 +181,15 @@
             <TextView
                 android:id="@+id/battery_percentage"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="?workspaceTextColor"
-                android:textSize="13sp"
+                android:layout_height="22dp"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:background="@drawable/bg_battery_level_tag"
+                android:textColor="?android:attr/textColorPrimaryInverse"
+                android:textSize="12sp"
                 android:fontFamily="sans-serif"
-                android:alpha="0.6"
-                android:singleLine="true" />
+                android:singleLine="true"/>
 
             <!-- Dots Indicator -->
             <LinearLayout

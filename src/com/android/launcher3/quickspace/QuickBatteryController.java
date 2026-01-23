@@ -137,6 +137,7 @@ public class QuickBatteryController {
   public QuickBatteryController(Context context, QuickspaceController controller) {
     mContext = context;
     mController = controller;
+    onResume();
   }
 
   public void onResume() {
@@ -146,11 +147,7 @@ public class QuickBatteryController {
         mReceiver.onReceive(mContext, stickyIntent);
       }
     } else {
-      unRegisterReceiver();
-      mDevices.clear();
-      mCurrentDeviceAddress = null;
-      mAlertedDevices.clear();
-      mController.notifyListeners();
+      clearData();
     }
   }
 

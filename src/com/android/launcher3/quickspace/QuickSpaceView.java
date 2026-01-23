@@ -621,7 +621,6 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     String percentStr = level + "%";
     updateTextViewIfNeeded(mBatteryPercentage, percentStr, false);
 
-    updateBatteryTextHierarchy(level);
     updateBatteryColors(level);
 
     if (mBatteryIcon != null) {
@@ -687,42 +686,45 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     }
   }
 
-  private void updateBatteryTextHierarchy(int level) {
-    if (mBatteryPercentage == null) return;
-
-    if (level >= 90) {
-      mBatteryPercentage.setAlpha(0.4f);
-      mBatteryPercentage.setTypeface(Typeface.DEFAULT);
-    } else if (level < 20) {
-      mBatteryPercentage.setAlpha(1.0f);
-      mBatteryPercentage.setTypeface(Typeface.DEFAULT_BOLD);
-    } else {
-      mBatteryPercentage.setAlpha(0.7f);
-      mBatteryPercentage.setTypeface(Typeface.DEFAULT);
-    }
-  }
-
   private void updateBatteryColors(int level) {
     if (mBatteryProgress == null || mBatteryPercentage == null) return;
 
-    int color;
+    int progressColor;
+    int textColor;
+    int backplateColor;
+
     if (level <= 10) {
-      color = Themes.getAttrColor(getContext(), android.R.attr.colorError);
-      mBatteryPercentage.setTextColor(color);
+      progressColor = Themes.getAttrColor(getContext(), android.R.attr.colorError);
+      backplateColor = progressColor;
+      textColor = Color.BLACK;
+      mBatteryPercentage.setTypeface(Typeface.DEFAULT_BOLD);
     } else if (level <= 20) {
-      color = 0xFFFBC02D;
-      mBatteryPercentage.setTextColor(color);
+      progressColor = 0xFFFBC02D;
+      backplateColor = progressColor;
+      textColor = Color.BLACK;
+      mBatteryPercentage.setTypeface(Typeface.DEFAULT_BOLD);
     } else {
-      color = Themes.getAttrColor(getContext(), R.attr.workspaceAccentColor);
-      mBatteryPercentage.setTextColor(mColorStateList);
+      progressColor = Themes.getAttrColor(getContext(), R.attr.workspaceAccentColor);
+      backplateColor = 0x4D000000;
+
+      if (level >= 90) {
+          textColor = 0x99FFFFFF;
+      } else {
+          textColor = Color.WHITE;
+      }
+      mBatteryPercentage.setTypeface(Typeface.DEFAULT);
     }
+
+    mBatteryPercentage.setAlpha(1.0f);
+    mBatteryPercentage.setTextColor(textColor);
+    mBatteryPercentage.setBackgroundTintList(ColorStateList.valueOf(backplateColor));
 
     Drawable bg = mBatteryProgress.getBackground();
     if (bg instanceof GradientDrawable) {
       GradientDrawable gd = (GradientDrawable) bg;
-      int r = Color.red(color);
-      int g = Color.green(color);
-      int b = Color.blue(color);
+      int r = Color.red(progressColor);
+      int g = Color.green(progressColor);
+      int b = Color.blue(progressColor);
 
       int startColor = Color.argb(80, r, g, b);
       int midColor = Color.argb(25, r, g, b);
@@ -1008,6 +1010,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
           if (mController != null && mFinishedInflate && !mDestroyed && mAttached) {
             mController.addListener(this);
           }
+          onDataUpdated();
         });
   }
 

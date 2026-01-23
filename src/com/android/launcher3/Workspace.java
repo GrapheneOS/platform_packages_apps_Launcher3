@@ -666,7 +666,7 @@ public class Workspace<T extends View & PageIndicator> extends PagedView<T>
 
         int cellHSpan = mLauncher.getDeviceProfile().inv.numSearchContainerColumns;
         int style = Integer.parseInt(LauncherPrefs.QUICKSPACE_UI_STYLE.get(getContext()));
-        int cellVSpan = (style == 2) ? 2 : 1;
+        int cellVSpan = (style == 2) ? 3 : 1;
         CellLayoutLayoutParams lp = new CellLayoutLayoutParams(0, 0, cellHSpan, cellVSpan);
 
         lp.canReorder = false;
