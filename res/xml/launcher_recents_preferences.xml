@@ -29,7 +29,7 @@
             android:max="100"
             android:min="0"
             settings:units="%"
-            android:defaultValue="40" />
+            android:defaultValue="100" />
 
         <SwitchPreferenceCompat
             android:key="pref_recents_meminfo"
