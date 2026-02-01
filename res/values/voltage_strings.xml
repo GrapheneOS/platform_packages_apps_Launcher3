@@ -545,4 +545,7 @@
     <string name="icon_pack_add">Install more</string>
     <string name="icon_pack_no_market">There\'s no available app store</string>
 
+    <string name="pref_tablet_overview_style_title">Use tablet overview style(Need restart)</string>
+    <string name="pref_tablet_overview_style_summary_on">Using tablet style for overview/recents</string>
+    <string name="pref_tablet_overview_style_summary_off">Using phone style for overview/recents</string>
 </resources>

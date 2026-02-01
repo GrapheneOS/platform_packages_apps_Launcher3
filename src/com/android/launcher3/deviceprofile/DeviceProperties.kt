@@ -16,6 +16,8 @@
 
 package com.android.launcher3.deviceprofile
 
+import android.content.Context
+import com.android.launcher3.LauncherPrefs
 import com.android.launcher3.util.DisplayController
 import com.android.launcher3.util.WindowBounds
 import kotlin.math.max
@@ -74,6 +76,49 @@ data class DeviceProperties(
                 isLandscape = windowBounds.isLandscape,
                 isExternalDisplay = isExternalDisplay,
                 isGestureMode = isGestureMode,
+            )
+        }
+
+        fun createDevicePropertiesWithTabletOverride(
+            context: Context,
+            info: DisplayController.Info,
+            windowBounds: WindowBounds,
+            transposeLayoutWithOrientation: Boolean,
+            isMultiDisplay: Boolean,
+            isExternalDisplay: Boolean,
+            isGestureMode: Boolean,
+        ): DeviceProperties {
+            val systemIsTablet = info.isTablet(windowBounds)
+            val isRotationAllowed = info.isRotationAllowed()
+            val prefs = LauncherPrefs.get(context)
+            val forceTabletStyle = prefs.get(LauncherPrefs.TABLET_OVERVIEW_STYLE)
+            val isTablet = systemIsTablet || forceTabletStyle
+
+            val windowX = windowBounds.bounds.left
+            val windowY = windowBounds.bounds.top
+            val rotationHint = windowBounds.rotationHint
+            val widthPx = windowBounds.bounds.width()
+            val heightPx = windowBounds.bounds.height()
+            val availableWidthPx = windowBounds.availableSize.x
+            val availableHeightPx = windowBounds.availableSize.y
+            return DeviceProperties(
+                windowX = windowX,
+                windowY = windowY,
+                rotationHint = rotationHint,
+                widthPx = widthPx,
+                heightPx = heightPx,
+                availableWidthPx = availableWidthPx,
+                availableHeightPx = availableHeightPx,
+                aspectRatio = max(widthPx, heightPx).toFloat() / min(widthPx, heightPx).toFloat(),
+                isTablet = isTablet,
+                isPhone = !isTablet,
+                transposeLayoutWithOrientation = transposeLayoutWithOrientation,
+                isMultiDisplay = isMultiDisplay,
+                isTwoPanels = isTablet && isMultiDisplay,
+                isLandscape = windowBounds.isLandscape,
+                isExternalDisplay = isExternalDisplay,
+                isGestureMode = isGestureMode,
+                isRotationAllowed = isRotationAllowed,
             )
         }
     }

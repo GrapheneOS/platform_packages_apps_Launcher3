@@ -377,6 +377,9 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
                 type = String::class.java,
             )
 
+        @JvmField
+        val TABLET_OVERVIEW_STYLE = backedUpItem("pref_tablet_overview_style", false)
+
         // Preferences for widget configurations
         @JvmField
         val RECONFIGURABLE_WIDGET_EDUCATION_TIP_SEEN =
