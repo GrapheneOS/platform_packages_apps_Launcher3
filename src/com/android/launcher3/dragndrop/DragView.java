@@ -257,7 +257,7 @@ public abstract class DragView<T extends Context & ActivityContext> extends Fram
             Pair<AdaptiveIconDrawable, Drawable> fullDrawable = Utilities.getFullDrawable(
                     mActivity, info, w, h,
                     themeManager.isIconThemeEnabled());
-            if (fullDrawable != null) {
+            if (fullDrawable != null && fullDrawable.first != null) {
                 AdaptiveIconDrawable adaptiveIcon = fullDrawable.first;
                 int blurMargin = (int) mActivity.getResources()
                         .getDimension(R.dimen.blur_size_medium_outline) / 2;

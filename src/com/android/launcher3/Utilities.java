@@ -761,9 +761,10 @@ public final class Utilities {
             return null;
         }
         AdaptiveIconDrawable result = null;
+        boolean noWrapHintSet = (mainIcon.getChangingConfigurations() & CONFIG_HINT_NO_WRAP) != 0;
         if (mainIcon instanceof AdaptiveIconDrawable aid) {
             result = aid;
-        } else if ((mainIcon.getChangingConfigurations() & CONFIG_HINT_NO_WRAP) == 0) {
+        } else if (!noWrapHintSet) {
             // Wrap the main icon in AID
             try (LauncherIcons li = LauncherIcons.obtain(context)) {
                 result = li.wrapToAdaptiveIcon(mainIcon);
@@ -771,7 +772,7 @@ public final class Utilities {
         }
 
         // Inject theme icon drawable
-        if (ATLEAST_T && useTheme) {
+        if (ATLEAST_T && useTheme && !noWrapHintSet) {
             IconThemeController themeController =
                     ThemeManager.INSTANCE.get(context).getThemeController();
             if (themeController != null) {
