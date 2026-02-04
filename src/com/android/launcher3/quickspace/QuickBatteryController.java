@@ -20,7 +20,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.SystemClock;
+import android.os.SystemProperties;
+import android.provider.Settings;
+import android.text.TextUtils;
 import com.android.launcher3.LauncherPrefs;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,17 +48,23 @@ public class QuickBatteryController {
     public boolean isAudio;
     public String address;
 
-    public BatteryDevice(String name, int level, boolean isAudio, String address) {
+    public boolean isCharging;
+
+    public BatteryDevice(
+        String name, int level, boolean isAudio, String address, boolean isCharging) {
       this.name = name;
       this.level = level;
       this.isAudio = isAudio;
       this.address = address;
+      this.isCharging = isCharging;
     }
   }
 
   private final List<BatteryDevice> mDevices = new ArrayList<>();
+  private BatteryDevice mPhoneDevice;
+  private final List<BatteryDevice> mBtDevices = new ArrayList<>();
 
-  private String mCurrentDeviceAddress = null;
+  private String mCurrentDeviceAddress = "device_phone";
   private int mCurrentIndex = 0;
   private long mLastInteractionTime = 0;
   private final Set<String> mAlertedDevices = new HashSet<>();
@@ -64,75 +74,117 @@ public class QuickBatteryController {
         @Override
         public void onReceive(Context context, Intent intent) {
           if (ACTION_BLUETOOTH_BATTERY_UPDATE.equals(intent.getAction())) {
-            mDevices.clear();
-
-            ArrayList<String> names = intent.getStringArrayListExtra("device_list_names");
-            ArrayList<Integer> levels = intent.getIntegerArrayListExtra("device_list_levels");
-            ArrayList<String> audioFlags = intent.getStringArrayListExtra("device_list_audio");
-            ArrayList<String> addresses = intent.getStringArrayListExtra("device_list_addresses");
-
-            if (names != null && levels != null && !names.isEmpty()) {
-              int count = Math.min(names.size(), levels.size());
-              if (audioFlags != null) count = Math.min(count, audioFlags.size());
-
-              for (int i = 0; i < count; i++) {
-                boolean isAudio = false;
-                if (audioFlags != null) {
-                  isAudio = Boolean.parseBoolean(audioFlags.get(i));
-                }
-
-                String addr =
-                    (addresses != null && i < addresses.size()) ? addresses.get(i) : names.get(i);
-
-                int level = Math.max(0, Math.min(100, levels.get(i)));
-                mDevices.add(new BatteryDevice(names.get(i), level, isAudio, addr));
-              }
-
-              if (SystemClock.elapsedRealtime() - mLastInteractionTime > SESSION_TIMEOUT_MS) {
-                mCurrentDeviceAddress = null;
-              }
-
-              int newIndex = 0;
-              if (mCurrentDeviceAddress != null) {
-                for (int i = 0; i < mDevices.size(); i++) {
-                  if (mDevices.get(i).address.equals(mCurrentDeviceAddress)) {
-                    newIndex = i;
-                    break;
-                  }
-                }
-              }
-              mCurrentIndex = newIndex;
-
-              if (mDevices.size() > 1) {
-                for (int i = 0; i < mDevices.size(); i++) {
-                  BatteryDevice d = mDevices.get(i);
-
-                  if (d.level > 20) {
-                    mAlertedDevices.remove(d.address);
-                  }
-
-                  if (d.level <= 15 && !mAlertedDevices.contains(d.address)) {
-                    mCurrentIndex = i;
-                    mCurrentDeviceAddress = d.address;
-                    mAlertedDevices.add(d.address);
-                    mLastInteractionTime = SystemClock.elapsedRealtime();
-                    break;
-                  }
-                }
-              }
-
-              if (!mDevices.isEmpty()) {
-                mCurrentDeviceAddress = mDevices.get(mCurrentIndex).address;
-              }
-
-            } else {
-              mCurrentIndex = 0;
-              mCurrentDeviceAddress = null;
-            }
-            mController.notifyListeners();
+            updateBluetoothDevices(intent);
+          } else if (Intent.ACTION_BATTERY_CHANGED.equals(intent.getAction())) {
+            updatePhoneBattery(intent);
           }
+          refreshDeviceList();
         }
       };
+
+  private void updatePhoneBattery(Intent intent) {
+    int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+    int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+    boolean isCharging =
+        status == BatteryManager.BATTERY_STATUS_CHARGING
+            || status == BatteryManager.BATTERY_STATUS_FULL;
+
+    String name = SystemProperties.get("ro.product.marketname", "");
+    if (TextUtils.isEmpty(name)) {
+      name = Settings.Global.getString(mContext.getContentResolver(), Settings.Global.DEVICE_NAME);
+    }
+    if (TextUtils.isEmpty(name)) {
+      name = android.os.Build.MODEL;
+    }
+
+    mPhoneDevice = new BatteryDevice(name, level, false, "device_phone", isCharging);
+  }
+
+  private void updateBluetoothDevices(Intent intent) {
+    mBtDevices.clear();
+
+    ArrayList<String> names = intent.getStringArrayListExtra("device_list_names");
+    ArrayList<Integer> levels = intent.getIntegerArrayListExtra("device_list_levels");
+    ArrayList<String> audioFlags = intent.getStringArrayListExtra("device_list_audio");
+    ArrayList<String> addresses = intent.getStringArrayListExtra("device_list_addresses");
+
+    if (names != null && levels != null && !names.isEmpty()) {
+      int count = Math.min(names.size(), levels.size());
+
+      for (int i = 0; i < count; i++) {
+        boolean isAudio = false;
+        if (audioFlags != null) {
+          isAudio = Boolean.parseBoolean(audioFlags.get(i));
+        }
+
+        String addr = (addresses != null && i < addresses.size()) ? addresses.get(i) : names.get(i);
+
+        int level = Math.max(0, Math.min(100, levels.get(i)));
+        mBtDevices.add(new BatteryDevice(names.get(i), level, isAudio, addr, false));
+      }
+    }
+  }
+
+  private void refreshDeviceList() {
+    mDevices.clear();
+    if (mPhoneDevice != null) {
+      mDevices.add(mPhoneDevice);
+    }
+    mDevices.addAll(mBtDevices);
+
+    updateCurrentIndex();
+    mController.notifyListeners();
+  }
+
+  private void updateCurrentIndex() {
+    if (mDevices.isEmpty()) {
+      mCurrentIndex = 0;
+      mCurrentDeviceAddress = null;
+      return;
+    }
+
+    if (SystemClock.elapsedRealtime() - mLastInteractionTime > SESSION_TIMEOUT_MS) {
+      if (mPhoneDevice != null) {
+        mCurrentDeviceAddress = mPhoneDevice.address;
+      } else if (!mDevices.isEmpty()) {
+        mCurrentDeviceAddress = mDevices.get(0).address;
+      }
+    }
+
+    int newIndex = 0;
+    if (mCurrentDeviceAddress != null) {
+      for (int i = 0; i < mDevices.size(); i++) {
+        if (mDevices.get(i).address.equals(mCurrentDeviceAddress)) {
+          newIndex = i;
+          break;
+        }
+      }
+    }
+    mCurrentIndex = newIndex;
+
+    for (int i = 0; i < mDevices.size(); i++) {
+      BatteryDevice d = mDevices.get(i);
+
+      if (d.level > 20) {
+        mAlertedDevices.remove(d.address);
+      }
+
+      if (d.isCharging) {
+        mCurrentIndex = i;
+        mCurrentDeviceAddress = d.address;
+        mLastInteractionTime = SystemClock.elapsedRealtime();
+        return;
+      }
+
+      if (d.level <= 20 && !mAlertedDevices.contains(d.address)) {
+        mCurrentIndex = i;
+        mCurrentDeviceAddress = d.address;
+        mAlertedDevices.add(d.address);
+        mLastInteractionTime = SystemClock.elapsedRealtime();
+        return;
+      }
+    }
+  }
 
   public QuickBatteryController(Context context, QuickspaceController controller) {
     mContext = context;
@@ -159,6 +211,7 @@ public class QuickBatteryController {
     if (mRegistered) return null;
     IntentFilter filter = new IntentFilter();
     filter.addAction(ACTION_BLUETOOTH_BATTERY_UPDATE);
+    filter.addAction(Intent.ACTION_BATTERY_CHANGED);
     Intent sticky = null;
     try {
       sticky = mContext.registerReceiver(mReceiver, filter, Context.RECEIVER_EXPORTED);
@@ -182,6 +235,7 @@ public class QuickBatteryController {
   private void clearData() {
     if (mDevices.isEmpty()) return;
     mDevices.clear();
+    mBtDevices.clear();
     mCurrentDeviceAddress = null;
     mController.notifyListeners();
   }
@@ -223,11 +277,27 @@ public class QuickBatteryController {
     return d != null ? d.isAudio : false;
   }
 
+  public boolean isCharging() {
+    BatteryDevice d = getCurrentDevice();
+    return d != null ? d.isCharging : false;
+  }
+
   public void launchBatterySettings() {
+    BatteryDevice d = getCurrentDevice();
+    if (d == null) return;
+
     try {
-      Intent intent = new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
-      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-      mContext.startActivity(intent);
+      Intent intent;
+      if (d.address.equals("device_phone")) {
+        intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);
+      } else {
+        intent = new Intent(android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
+      }
+
+      if (intent != null) {
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
+      }
     } catch (Exception e) {
     }
   }

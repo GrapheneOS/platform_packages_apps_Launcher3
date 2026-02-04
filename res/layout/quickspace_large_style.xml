@@ -143,11 +143,18 @@
         app:layout_constraintTop_toBottomOf="@id/contextual_info_row">
 
         <!-- Progress Bar Fill -->
-        <View
+        <FrameLayout
             android:id="@+id/battery_progress_bar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_battery_progress"/>
+            android:background="@drawable/bg_battery_progress">
+            <View
+                android:id="@+id/battery_shimmer_view"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_battery_shimmer"
+                android:visibility="gone"/>
+        </FrameLayout>
 
         <!-- Content -->
         <LinearLayout

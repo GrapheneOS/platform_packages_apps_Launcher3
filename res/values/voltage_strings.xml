@@ -520,8 +520,8 @@
     <string name="quick_event_weather_text_title">Current condition</string>
     <string name="quick_event_weather_text_summary">Display current weather condition summary</string>
 
-    <string name="quickspace_battery_title">Bluetooth Battery</string>
-    <string name="quickspace_battery_summary">Show connected device battery in Voltage style</string>
+    <string name="quickspace_battery_title">Device Battery</string>
+    <string name="quickspace_battery_summary">Show phone and connected bluetooth device battery in Voltage style</string>
 
     <!-- Dark App Drawer Text -->
     <string name="all_apps_dark_text_title">Dark app labels</string>

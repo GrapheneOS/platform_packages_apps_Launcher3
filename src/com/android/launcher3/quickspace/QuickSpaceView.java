@@ -81,6 +81,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
   public TextView mBatteryPercentage;
   public ImageView mBatteryIcon;
   public LinearLayout mBatteryDotsContainer;
+  public View mBatteryShimmer;
 
   public TextView mEventTitleSubColored;
   public TextView mGreetingsExt;
@@ -111,6 +112,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
   private ViewPropertyAnimator mCurrentAnimateIn;
   private ViewPropertyAnimator mCurrentAnimateOut;
   private ValueAnimator mBatteryProgressAnimator;
+  private ValueAnimator mShimmerAnimator;
 
   private int mLastEventTitleHash = 0;
   private int mLastWeatherTempHash = 0;
@@ -170,7 +172,13 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       updateView(style);
 
       if (styleChanged && !mIsLayoutSuppressed) {
-        requestLayout();
+        post(
+            () -> {
+              if (!mDestroyed && mQuickspaceContent != null) {
+                mQuickspaceContent.requestLayout();
+                requestLayout();
+              }
+            });
       }
     }
   }
@@ -589,8 +597,10 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
 
         if (batController.getDeviceCount() > 1) {
           mBatteryRow.setOnClickListener(v -> cycleBatteryDevice());
+          mBatteryRow.setClickable(true);
         } else {
-          mBatteryRow.setOnClickListener(v -> batController.launchBatterySettings());
+          mBatteryRow.setOnClickListener(null);
+          mBatteryRow.setClickable(false);
         }
         mBatteryRow.setOnLongClickListener(
             v -> {
@@ -616,19 +626,28 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     String deviceName = batController.getDeviceName();
     int level = batController.getBatteryLevel();
     boolean isAudio = batController.isAudioDevice();
+    boolean isCharging = batController.isCharging();
 
     updateTextViewIfNeeded(mBatteryDeviceName, deviceName, false);
     String percentStr = level + "%";
     updateTextViewIfNeeded(mBatteryPercentage, percentStr, false);
 
-    updateBatteryColors(level);
+    updateBatteryColors(level, isCharging);
 
     if (mBatteryIcon != null) {
-      mBatteryIcon.setImageResource(
-          isAudio ? R.drawable.ic_audio_device : R.drawable.ic_battery_std);
+      int iconRes;
+      if (isCharging) {
+        iconRes = R.drawable.ic_battery_charging;
+      } else if (isAudio) {
+        iconRes = R.drawable.ic_audio_device;
+      } else {
+        iconRes = R.drawable.ic_battery_std;
+      }
+      mBatteryIcon.setImageResource(iconRes);
     }
 
     animateBatteryProgress(level);
+    updateChargingShimmer(isCharging);
 
     updateBatteryDots();
   }
@@ -686,7 +705,54 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     }
   }
 
-  private void updateBatteryColors(int level) {
+  private void updateChargingShimmer(boolean isCharging) {
+    if (mBatteryShimmer == null) return;
+
+    if (isCharging) {
+      if (mBatteryShimmer.getVisibility() != View.VISIBLE) {
+        mBatteryShimmer.setVisibility(View.VISIBLE);
+        startShimmerAnimation();
+      } else if (mShimmerAnimator == null || !mShimmerAnimator.isRunning()) {
+        startShimmerAnimation();
+      }
+    } else {
+      if (mBatteryShimmer.getVisibility() != View.GONE) {
+        mBatteryShimmer.setVisibility(View.GONE);
+      }
+      if (mShimmerAnimator != null) {
+        mShimmerAnimator.cancel();
+      }
+    }
+  }
+
+  private void startShimmerAnimation() {
+    if (mShimmerAnimator != null) mShimmerAnimator.cancel();
+
+    mBatteryShimmer.post(
+        () -> {
+          if (mBatteryProgress == null || mBatteryShimmer == null) return;
+
+          float w = mBatteryProgress.getWidth();
+          if (w <= 0) w = 500;
+          final float width = w;
+
+          mBatteryShimmer.setTranslationX(-mBatteryShimmer.getWidth());
+
+          mShimmerAnimator = ValueAnimator.ofFloat(0, 1);
+          mShimmerAnimator.setDuration(2000);
+          mShimmerAnimator.setRepeatCount(ValueAnimator.INFINITE);
+          mShimmerAnimator.addUpdateListener(
+              val -> {
+                float frac = val.getAnimatedFraction();
+                float trans =
+                    (width + mBatteryShimmer.getWidth()) * frac - mBatteryShimmer.getWidth();
+                mBatteryShimmer.setTranslationX(trans);
+              });
+          mShimmerAnimator.start();
+        });
+  }
+
+  private void updateBatteryColors(int level, boolean isCharging) {
     if (mBatteryProgress == null || mBatteryPercentage == null) return;
 
     int progressColor;
@@ -707,12 +773,12 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       progressColor = Themes.getAttrColor(getContext(), R.attr.workspaceAccentColor);
       backplateColor = 0x4D000000;
 
-      if (level >= 90) {
-          textColor = 0x99FFFFFF;
+      if (level >= 90 && !isCharging) {
+        textColor = 0x99FFFFFF;
       } else {
-          textColor = Color.WHITE;
+        textColor = Color.WHITE;
       }
-      mBatteryPercentage.setTypeface(Typeface.DEFAULT);
+      mBatteryPercentage.setTypeface(isCharging ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
     }
 
     mBatteryPercentage.setAlpha(1.0f);
@@ -1061,6 +1127,20 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     super.onLayout(b, n, n2, n3, n4);
   }
 
+  @Override
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    if (mQuickspaceContent != null && !mViewsLoaded) {
+      int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+      int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+      if (heightMode != MeasureSpec.UNSPECIFIED) {
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.AT_MOST);
+      }
+    }
+
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+  }
+
   public void onPause() {
     safeRemoveListener();
     if (mController != null) {
@@ -1082,6 +1162,13 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       } catch (Exception e) {
         mController = null;
       }
+
+      post(() -> {
+        if (!mDestroyed && mQuickspaceContent != null) {
+          mQuickspaceContent.requestLayout();
+          requestLayout();
+        }
+      });
     }
   }
 
