@@ -137,7 +137,7 @@
         android:layout_marginEnd="16dp"
         android:visibility="gone"
         android:background="@drawable/bg_battery_pill"
-        android:clipToOutline="true"
+        android:clipChildren="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/contextual_info_row">
@@ -147,6 +147,7 @@
             android:id="@+id/battery_progress_bar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:clipToOutline="true"
             android:background="@drawable/bg_battery_progress">
             <View
                 android:id="@+id/battery_shimmer_view"
@@ -165,14 +166,30 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp">
 
-            <ImageView
-                android:id="@+id/battery_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_battery_std"
-                android:tint="?workspaceTextColor"
-                android:alpha="0.6"
-                android:layout_marginEnd="12dp"/>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp">
+
+                <ImageView
+                    android:id="@+id/battery_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_battery_std"
+                    android:tint="?workspaceTextColor"
+                    android:alpha="0.6"/>
+
+                <ImageView
+                    android:id="@+id/battery_charging_overlay"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="bottom|end"
+                    android:elevation="1dp"
+                    android:src="@drawable/ic_bolt_mini"
+                    android:tint="?workspaceTextColor"
+                    android:alpha="0.8"
+                    android:visibility="gone"/>
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/battery_device_name"

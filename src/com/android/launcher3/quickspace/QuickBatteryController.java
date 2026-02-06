@@ -63,6 +63,7 @@ public class QuickBatteryController {
   private final List<BatteryDevice> mDevices = new ArrayList<>();
   private BatteryDevice mPhoneDevice;
   private final List<BatteryDevice> mBtDevices = new ArrayList<>();
+  private String mCachedPhoneName = null;
 
   private String mCurrentDeviceAddress = "device_phone";
   private int mCurrentIndex = 0;
@@ -89,14 +90,7 @@ public class QuickBatteryController {
         status == BatteryManager.BATTERY_STATUS_CHARGING
             || status == BatteryManager.BATTERY_STATUS_FULL;
 
-    String name = SystemProperties.get("ro.product.marketname", "");
-    if (TextUtils.isEmpty(name)) {
-      name = Settings.Global.getString(mContext.getContentResolver(), Settings.Global.DEVICE_NAME);
-    }
-    if (TextUtils.isEmpty(name)) {
-      name = android.os.Build.MODEL;
-    }
-
+    String name = getPhoneName();
     mPhoneDevice = new BatteryDevice(name, level, false, "device_phone", isCharging);
   }
 
@@ -232,6 +226,23 @@ public class QuickBatteryController {
     mRegistered = false;
   }
 
+  private String getPhoneName() {
+    if (mCachedPhoneName != null) {
+      return mCachedPhoneName;
+    }
+
+    String name = SystemProperties.get("ro.product.marketname", "");
+    if (TextUtils.isEmpty(name)) {
+      name = Settings.Global.getString(mContext.getContentResolver(), Settings.Global.DEVICE_NAME);
+    }
+    if (TextUtils.isEmpty(name)) {
+      name = android.os.Build.MODEL;
+    }
+
+    mCachedPhoneName = name;
+    return name;
+  }
+
   private void clearData() {
     if (mDevices.isEmpty()) return;
     mDevices.clear();
@@ -280,6 +291,11 @@ public class QuickBatteryController {
   public boolean isCharging() {
     BatteryDevice d = getCurrentDevice();
     return d != null ? d.isCharging : false;
+  }
+
+  public String getCurrentDeviceAddress() {
+    BatteryDevice d = getCurrentDevice();
+    return d != null ? d.address : null;
   }
 
   public void launchBatterySettings() {
