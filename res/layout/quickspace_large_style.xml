@@ -10,22 +10,17 @@
     android:layout_gravity="start|top" >
 
     <!-- Day of the Week -->
-    <com.android.launcher3.quickspace.views.DoubleShadowTextView
+    <TextView
         android:id="@+id/quickspace_day_of_week"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="google-sans-medium"
         android:paddingStart="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?workspaceTextColor"
         android:textSize="28sp"
-        android:textStyle="bold"
+        android:textStyle="normal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        launcher:ambientShadowBlur="3dp"
-        launcher:ambientShadowColor="?workspaceAmbientShadowColor"
-        launcher:keyShadowBlur="2dp"
-        launcher:keyShadowColor="?workspaceKeyShadowColor"
-        launcher:keyShadowOffsetX="0.5dip" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Clock -->
     <com.android.launcher3.quickspace.views.AccentedTextClock
@@ -33,7 +28,7 @@
         android:paddingStart="16dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="google-sans-flex"
         android:textColor="?workspaceTextColor"
         android:textSize="80sp"
         android:format12Hour="h:mm"
@@ -52,22 +47,19 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="quickspace_date,quick_event_weather_content" />
 
-    <com.android.launcher3.quickspace.views.DoubleShadowTextView
+    <!-- Date -->
+    <TextView
         android:id="@+id/quickspace_date"
         style="@style/QuickSpaceSubText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="8dp"
+        android:fontFamily="google-sans-flex"
         android:textColor="?workspaceTextColor"
         android:textSize="@dimen/quickspace_subtitle_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quickspace_clock"
-        launcher:ambientShadowBlur="3dp"
-        launcher:ambientShadowColor="?workspaceAmbientShadowColor"
-        launcher:keyShadowBlur="2dp"
-        launcher:keyShadowColor="?workspaceKeyShadowColor"
-        launcher:keyShadowOffsetX="0.5dip" />
+        app:layout_constraintTop_toBottomOf="@id/quickspace_clock" />
 
     <include
         android:id="@+id/quick_event_weather_content"
@@ -107,24 +99,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="?workspaceTextColor"
+                android:fontFamily="google-sans-flex"
                 android:textSize="@dimen/quickspace_subtitle_size"
                 android:singleLine="true"/>
         </LinearLayout>
 
         <!-- PSA Message -->
-        <com.android.launcher3.quickspace.views.DoubleShadowTextView
+        <TextView
             android:id="@+id/quickspace_psa_message"
             style="@style/QuickSpaceSubText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="?workspaceTextColor"
+            android:fontFamily="google-sans-flex"
             android:textSize="@dimen/quickspace_subtitle_size"
-            android:visibility="gone"
-            launcher:ambientShadowBlur="3dp"
-            launcher:ambientShadowColor="?workspaceAmbientShadowColor"
-            launcher:keyShadowBlur="2dp"
-            launcher:keyShadowColor="?workspaceKeyShadowColor"
-            launcher:keyShadowOffsetX="0.5dip" />
+            android:visibility="gone" />
 
     </FrameLayout>
 
@@ -198,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="?workspaceTextColor"
                 android:textSize="16sp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="google-sans-medium"
                 android:ellipsize="end"
                 android:singleLine="true" />
 
@@ -212,7 +201,7 @@
                 android:background="@drawable/bg_battery_level_tag"
                 android:textColor="?android:attr/textColorPrimaryInverse"
                 android:textSize="12sp"
-                android:fontFamily="sans-serif"
+                android:fontFamily="google-sans-medium"
                 android:singleLine="true"/>
 
             <!-- Dots Indicator -->
@@ -226,6 +215,4 @@
 
         </LinearLayout>
     </FrameLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

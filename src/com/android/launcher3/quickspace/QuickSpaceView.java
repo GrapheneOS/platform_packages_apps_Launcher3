@@ -34,12 +34,13 @@ import android.provider.CalendarContract;
 import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
 import android.util.AttributeSet;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -60,9 +61,22 @@ import com.android.launcher3.util.Themes;
 public class QuickSpaceView extends FrameLayout implements OnDataListener {
 
   private static final String TAG = "Launcher3:QuickSpaceView";
-  private static final boolean DEBUG = false;
 
-  public final ColorStateList mColorStateList;
+  private static final int BATTERY_FULL_THRESHOLD = 95;
+  private static final int BATTERY_LOW_THRESHOLD = 20;
+  private static final int BATTERY_CRITICAL_THRESHOLD = 10;
+  private static final long SHIMMER_DURATION_MS = 2800;
+  private static final float SHIMMER_WIDTH_RATIO = 0.30f;
+  private static final int MIN_SHIMMER_WIDTH_DP = 30;
+  private static final int BATTERY_CHANGE_THRESHOLD = 5;
+  private static final long MIN_UPDATE_INTERVAL = 100;
+  private static final int COLOR_TRANSITION_DURATION = 200;
+  private static final int ANIMATE_IN_DURATION = 200;
+  private static final int ANIMATE_OUT_DURATION = 250;
+  private static final int BATTERY_PROGRESS_DURATION = 350;
+  private static final int DEVICE_SWITCH_DURATION = 160;
+
+  public ColorStateList mColorStateList;
   public BubbleTextView mBubbleTextView;
   public final int mQuickspaceBackgroundRes;
 
@@ -105,6 +119,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
 
   private boolean mIsAlternateStyle = false;
   private boolean mLastAccentState;
+  private boolean mLastBlackTextState = false;
   private boolean mViewsLoaded = false;
   private String mLastEventTitle = "";
   private String mLastWeatherTemp = "";
@@ -115,6 +130,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
   private int mLastDeviceCount = 0;
   private String mLastDeviceAddress = null;
   private boolean mLastChargingState = false;
+  private boolean mBatteryAlphaRestoreNeeded = false;
 
   private ViewPropertyAnimator mCurrentAnimateIn;
   private ViewPropertyAnimator mCurrentAnimateOut;
@@ -125,9 +141,27 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
   private int mLastWeatherTempHash = 0;
   private int mLastActionTitleHash = 0;
   private long mLastUpdateTime = 0;
-  private static final long MIN_UPDATE_INTERVAL = 100;
 
   private QuickSpaceActionReceiver mActionReceiver;
+
+  private ColorStateList mCachedColorStateList;
+  private boolean mCachedUseBlackText = false;
+
+  private final android.content.BroadcastReceiver mWallpaperChangeReceiver =
+      new android.content.BroadcastReceiver() {
+        @Override
+        public void onReceive(android.content.Context context, android.content.Intent intent) {
+          if (android.content.Intent.ACTION_WALLPAPER_CHANGED.equals(intent.getAction())) {
+            post(
+                () -> {
+                  if (!mDestroyed) {
+                    refreshColorStateList();
+                    updateColorForViews();
+                  }
+                });
+          }
+        }
+      };
 
   private boolean mIsLayoutSuppressed = false;
   private final Runnable mDeferredUpdateRunnable =
@@ -145,10 +179,10 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
   public QuickSpaceView(Context context, AttributeSet set) {
     super(context, set);
     mController = QuickspaceController.getInstance(context);
-    mColorStateList =
-        ColorStateList.valueOf(Themes.getAttrColor(getContext(), R.attr.workspaceTextColor));
+    refreshColorStateList();
     mQuickspaceBackgroundRes = R.drawable.bg_quickspace;
     setClipChildren(false);
+    setClipToPadding(false);
   }
 
   @Override
@@ -168,6 +202,10 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
 
     int style = Integer.parseInt(LauncherPrefs.QUICKSPACE_UI_STYLE.get(getContext()));
     boolean styleChanged = mCurrentStyle != style;
+    boolean useBlackText =
+        LauncherPrefs.getPrefs(getContext()).getBoolean("pref_quickspace_black_text", false);
+    boolean colorChanged = mLastBlackTextState != useBlackText;
+
     if (!mViewsLoaded || styleChanged) {
       prepareLayout(style);
       mViewsLoaded = true;
@@ -175,18 +213,20 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     mIsQuickEvent = mController.isQuickEvent();
     mWeatherAvailable = mController.isWeatherAvailable();
 
-    if (styleChanged || !mViewsLoaded || hasDataChanged()) {
+    if (styleChanged || !mViewsLoaded || hasDataChanged() || colorChanged) {
       updateView(style);
 
-      if (styleChanged && !mIsLayoutSuppressed) {
+      if ((styleChanged || colorChanged) && !mIsLayoutSuppressed) {
         post(
             () -> {
               if (!mDestroyed && mQuickspaceContent != null) {
-                mQuickspaceContent.requestLayout();
                 requestLayout();
               }
             });
+        refreshColorStateList();
+        updateColorForViews();
       }
+      mLastBlackTextState = useBlackText;
     }
   }
 
@@ -199,8 +239,8 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       case 2:
         loadLargeStyle();
         break;
-      case 1: // Extended
-      case 0: // Default
+      case 1:
+      case 0:
       default:
         loadDoubleLine(style == 1);
         break;
@@ -246,7 +286,9 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
         mController.getBatteryController() != null
             ? mController.getBatteryController().getBatteryLevel()
             : -1;
-    boolean isCharging = mController.getBatteryController() != null && mController.getBatteryController().isCharging();
+    boolean isCharging =
+        mController.getBatteryController() != null
+            && mController.getBatteryController().isCharging();
 
     boolean batteryVisible = batteryLevel >= 0;
     boolean lastBatteryVisible = mLastBatteryLevel >= 0;
@@ -255,7 +297,8 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
             ? mController.getBatteryController().getDeviceCount()
             : 0;
 
-    boolean changed = mLastEventTitleHash != eventTitleHash
+    boolean changed =
+        mLastEventTitleHash != eventTitleHash
             || mLastWeatherTempHash != weatherTempHash
             || mLastActionTitleHash != actionTitleHash
             || mLastBatteryLevel != batteryLevel
@@ -600,10 +643,13 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       if (level >= 0) {
         updateBatteryPillContent();
 
-        mBatteryRow.setAlpha(1f);
-
         if (mBatteryRow.getVisibility() != View.VISIBLE) {
+          mBatteryRow.setAlpha(1f);
           animateIn(mBatteryRow);
+        } else if (mBatteryAlphaRestoreNeeded) {
+          mBatteryRow.animate().cancel();
+          mBatteryRow.setAlpha(1f);
+          mBatteryAlphaRestoreNeeded = false;
         }
 
         mBatteryRow.setOnTouchListener(
@@ -613,6 +659,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
                   v.animate().cancel();
                   if (mShimmerAnimator != null) mShimmerAnimator.cancel();
                   v.animate().scaleX(0.98f).scaleY(0.98f).alpha(0.96f).setDuration(80).start();
+                  v.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
                   return true;
                 case MotionEvent.ACTION_UP:
                   v.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(120).start();
@@ -658,12 +705,116 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     endBatchEdit();
   }
 
+  private void refreshColorStateList() {
+    boolean useBlack =
+        LauncherPrefs.getPrefs(getContext()).getBoolean("pref_quickspace_black_text", false);
+
+    if (mCachedColorStateList != null && mCachedUseBlackText == useBlack) {
+      mColorStateList = mCachedColorStateList;
+      return;
+    }
+
+    int color =
+        useBlack ? Color.BLACK : Themes.getAttrColor(getContext(), R.attr.workspaceTextColor);
+    mColorStateList = ColorStateList.valueOf(color);
+    mCachedColorStateList = mColorStateList;
+    mCachedUseBlackText = useBlack;
+  }
+
+  private void updateColorForViews() {
+    if (mColorStateList == null) {
+      refreshColorStateList();
+      if (mColorStateList == null) return;
+    }
+
+    int targetColor = mColorStateList.getDefaultColor();
+
+    if (mEventTitle != null) {
+      animateTextColor(mEventTitle, targetColor);
+      updateShadows(mEventTitle);
+    }
+    if (mQuickspaceDayOfWeek != null) {
+      animateTextColor(mQuickspaceDayOfWeek, targetColor);
+      updateShadows(mQuickspaceDayOfWeek);
+    }
+    if (mQuickspaceClock != null) {
+      animateTextColor(mQuickspaceClock, targetColor);
+      updateShadows(mQuickspaceClock);
+    }
+    if (mQuickspaceDate != null) {
+      animateTextColor(mQuickspaceDate, targetColor);
+      updateShadows(mQuickspaceDate);
+    }
+    if (mPSAMessage != null) {
+      animateTextColor(mPSAMessage, targetColor);
+      updateShadows(mPSAMessage);
+    }
+    if (mWeatherTempSub != null) {
+      animateTextColor(mWeatherTempSub, targetColor);
+      updateShadows(mWeatherTempSub);
+    }
+    if (mEventTitleSub != null) {
+      animateTextColor(mEventTitleSub, targetColor);
+      updateShadows(mEventTitleSub);
+    }
+    if (mNowPlayingText != null) {
+      animateTextColor(mNowPlayingText, targetColor);
+      updateShadows(mNowPlayingText);
+    }
+    if (mGreetingsExt != null) {
+      animateTextColor(mGreetingsExt, targetColor);
+      updateShadows(mGreetingsExt);
+    }
+    if (mGreetingsExtClock != null) {
+      animateTextColor(mGreetingsExtClock, targetColor);
+      updateShadows(mGreetingsExtClock);
+    }
+    if (mEventTitleSubColored != null) {
+      animateTextColor(mEventTitleSubColored, targetColor);
+      updateShadows(mEventTitleSubColored);
+    }
+
+    if (mBatteryDeviceName != null) {
+      animateTextColor(mBatteryDeviceName, targetColor);
+    }
+
+    if (mBatteryIcon != null) mBatteryIcon.setImageTintList(mColorStateList);
+    if (mBatteryChargingOverlay != null) mBatteryChargingOverlay.setImageTintList(mColorStateList);
+  }
+
+  private void animateTextColor(TextView view, int toColor) {
+    if (view == null) return;
+
+    int fromColor = view.getCurrentTextColor();
+    if (fromColor == toColor) return;
+
+    ValueAnimator colorAnim = ValueAnimator.ofArgb(fromColor, toColor);
+    colorAnim.setDuration(COLOR_TRANSITION_DURATION);
+    colorAnim.addUpdateListener(
+        animator -> {
+          if (view != null && !mDestroyed) {
+            view.setTextColor((int) animator.getAnimatedValue());
+          }
+        });
+    colorAnim.start();
+  }
+
+  private void updateShadows(TextView view) {
+    if (view == null) return;
+    view.setShadowLayer(0, 0, 0, 0);
+  }
+
   private void updateBatteryPillContent() {
     QuickBatteryController batController = mController.getBatteryController();
     if (batController == null) return;
 
     String currentAddress = batController.getCurrentDeviceAddress();
-    boolean deviceChanged = mLastDeviceAddress != null && !TextUtils.equals(currentAddress, mLastDeviceAddress);
+
+    refreshColorStateList();
+    updateColorForViews();
+
+    boolean deviceChanged =
+        mLastDeviceAddress != null && !TextUtils.equals(currentAddress, mLastDeviceAddress);
 
     if (deviceChanged) {
       performDeviceSwitchTransition(batController);
@@ -675,22 +826,24 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
   }
 
   private void performDeviceSwitchTransition(QuickBatteryController batController) {
+    mBatteryRow.animate().cancel();
     mBatteryRow
         .animate()
         .alpha(0f)
         .translationX(-dpToPx(6))
-        .setDuration(160)
+        .setDuration(DEVICE_SWITCH_DURATION)
         .setInterpolator(new PathInterpolator(0.4f, 0f, 1f, 1f))
         .withEndAction(
             () -> {
               applyBatteryData(batController);
 
               mBatteryRow.setTranslationX(dpToPx(6));
+              mBatteryRow.animate().cancel();
               mBatteryRow
                   .animate()
                   .alpha(1f)
                   .translationX(0f)
-                  .setDuration(160)
+                  .setDuration(DEVICE_SWITCH_DURATION)
                   .setInterpolator(new PathInterpolator(0f, 0f, 0.2f, 1f))
                   .start();
             })
@@ -698,11 +851,10 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
   }
 
   private void applyBatteryData(QuickBatteryController batController) {
-
     String deviceName = batController.getDeviceName();
     int level = batController.getBatteryLevel();
     boolean isAudio = batController.isAudioDevice();
-    boolean isCharging = batController.isCharging();
+    boolean isCharging = getActualChargingState(batController);
 
     updateTextViewIfNeeded(mBatteryDeviceName, deviceName, false);
     String percentStr = level + "%";
@@ -716,11 +868,9 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     }
 
     if (mBatteryChargingOverlay != null) {
-      if (isCharging) {
-        mBatteryChargingOverlay.setVisibility(View.VISIBLE);
-        mBatteryChargingOverlay.bringToFront();
-      } else {
+      if (mBatteryChargingOverlay.getVisibility() != View.GONE) {
         mBatteryChargingOverlay.setVisibility(View.GONE);
+        mBatteryChargingOverlay.setAlpha(0f);
       }
     }
 
@@ -728,6 +878,24 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     updateChargingShimmer(isCharging, level);
 
     updateBatteryDots();
+  }
+
+  private boolean getActualChargingState(QuickBatteryController batController) {
+    boolean controllerState = batController.isCharging();
+
+    try {
+      android.os.BatteryManager bm =
+          (android.os.BatteryManager)
+              getContext().getSystemService(android.content.Context.BATTERY_SERVICE);
+      if (bm != null) {
+        int status = bm.getIntProperty(android.os.BatteryManager.BATTERY_PROPERTY_STATUS);
+        return (status == android.os.BatteryManager.BATTERY_STATUS_CHARGING
+            || status == android.os.BatteryManager.BATTERY_STATUS_FULL);
+      }
+    } catch (Exception e) {
+    }
+
+    return controllerState;
   }
 
   private void cycleBatteryDevice() {
@@ -775,20 +943,19 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
   private void updateChargingShimmer(boolean isCharging, int level) {
     if (mBatteryShimmer == null) return;
 
-    if (isCharging && level < 95) {
-      if (mBatteryShimmer.getVisibility() != View.VISIBLE) {
-        mBatteryShimmer.setVisibility(View.VISIBLE);
-        startShimmerAnimation();
-      } else if (mShimmerAnimator == null || !mShimmerAnimator.isRunning()) {
-        startShimmerAnimation();
-      }
+    if (mShimmerAnimator != null) {
+      mShimmerAnimator.cancel();
+      mShimmerAnimator = null;
+    }
+
+    if (isCharging && level < BATTERY_FULL_THRESHOLD) {
+      mBatteryShimmer.setVisibility(View.VISIBLE);
+      mBatteryShimmer.setAlpha(1f);
+      startShimmerAnimation();
     } else {
-      if (mBatteryShimmer.getVisibility() != View.GONE) {
-        mBatteryShimmer.setVisibility(View.GONE);
-      }
-      if (mShimmerAnimator != null) {
-        mShimmerAnimator.cancel();
-      }
+      mBatteryShimmer.setVisibility(View.GONE);
+      mBatteryShimmer.setAlpha(0f);
+      mBatteryShimmer.setTranslationX(0f);
     }
   }
 
@@ -798,40 +965,44 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     if (mBatteryProgress == null || mBatteryShimmer == null) return;
 
     if (mBatteryProgress.getWidth() <= 0) {
-        mBatteryProgress.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (mBatteryProgress.getWidth() > 0) {
+      mBatteryProgress
+          .getViewTreeObserver()
+          .addOnGlobalLayoutListener(
+              new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                  if (mBatteryProgress.getWidth() > 0) {
                     mBatteryProgress.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     if (mBatteryShimmer.getVisibility() == View.VISIBLE) {
-                        startShimmerAnimationInternal();
+                      startShimmerAnimationInternal();
                     }
+                  }
                 }
-            }
-        });
-        return;
+              });
+      return;
     }
 
     startShimmerAnimationInternal();
   }
 
   private void startShimmerAnimationInternal() {
-      mBatteryShimmer.post(() -> {
-          if (mBatteryProgress == null || mBatteryShimmer == null) return;
+    mBatteryShimmer.post(
+        () -> {
+          if (mBatteryProgress == null || mBatteryShimmer == null || mDestroyed) return;
 
           mShimmerAnimator = ValueAnimator.ofFloat(0, 1);
-          mShimmerAnimator.setDuration(2800);
+          mShimmerAnimator.setDuration(SHIMMER_DURATION_MS);
           mShimmerAnimator.setInterpolator(new LinearInterpolator());
           mShimmerAnimator.setRepeatCount(ValueAnimator.INFINITE);
           mShimmerAnimator.addUpdateListener(
               val -> {
-                if (mBatteryProgress == null || mBatteryShimmer == null) return;
+                if (mBatteryProgress == null || mBatteryShimmer == null || mDestroyed) return;
 
                 float currentParentWidth = mBatteryProgress.getWidth();
                 if (currentParentWidth <= 0) return;
 
-                float desiredShimmerWidth = currentParentWidth * 0.30f;
-                float minShimmer = dpToPx(30);
+                float desiredShimmerWidth = currentParentWidth * SHIMMER_WIDTH_RATIO;
+                float minShimmer = dpToPx(MIN_SHIMMER_WIDTH_DP);
                 if (desiredShimmerWidth < minShimmer) desiredShimmerWidth = minShimmer;
 
                 if (mBatteryShimmer.getLayoutParams().width != (int) desiredShimmerWidth) {
@@ -843,11 +1014,12 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
                 float currentShimmerWidth = desiredShimmerWidth;
 
                 float frac = val.getAnimatedFraction();
-                float trans = (currentParentWidth + currentShimmerWidth) * frac - currentShimmerWidth;
+                float trans =
+                    (currentParentWidth + currentShimmerWidth) * frac - currentShimmerWidth;
                 mBatteryShimmer.setTranslationX(trans);
               });
           mShimmerAnimator.start();
-      });
+        });
   }
 
   private void updateBatteryColors(int level, boolean isCharging) {
@@ -857,13 +1029,12 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     int textColor;
     int backplateColor;
 
-    if (level <= 10) {
-      progressColor = Themes.getAttrColor(getContext(), android.R.attr.colorError);
-      backplateColor = progressColor;
-      textColor = Color.BLACK;
-      mBatteryPercentage.setTypeface(Typeface.DEFAULT_BOLD);
-    } else if (level <= 20) {
-      progressColor = 0xFFFBC02D;
+    if (level <= BATTERY_LOW_THRESHOLD) {
+      if (level <= BATTERY_CRITICAL_THRESHOLD) {
+        progressColor = Themes.getAttrColor(getContext(), android.R.attr.colorError);
+      } else {
+        progressColor = 0xFFFBC02D;
+      }
       backplateColor = progressColor;
       textColor = Color.BLACK;
       mBatteryPercentage.setTypeface(Typeface.DEFAULT_BOLD);
@@ -872,9 +1043,9 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       backplateColor = 0x4D000000;
 
       if (level >= 90 && !isCharging) {
-        textColor = 0x99FFFFFF;
+        textColor = mColorStateList.withAlpha(150).getDefaultColor();
       } else {
-        textColor = Color.WHITE;
+        textColor = mColorStateList.getDefaultColor();
       }
       mBatteryPercentage.setTypeface(isCharging ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
     }
@@ -894,7 +1065,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       int midColor = Color.argb(25, r, g, b);
       int endColor = 0x00FFFFFF;
 
-      if (level < 20) {
+      if (level < BATTERY_LOW_THRESHOLD) {
         startColor = Color.argb(200, r, g, b);
         midColor = Color.argb(100, r, g, b);
       }
@@ -902,7 +1073,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       gd.setColors(new int[] {startColor, midColor, endColor});
       gd.setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
 
-      gd.setAlpha(level < 20 ? 255 : 255);
+      gd.setAlpha(level < BATTERY_LOW_THRESHOLD ? 255 : 255);
     }
   }
 
@@ -915,12 +1086,12 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
           int totalWidth = mBatteryRow.getWidth();
           int targetWidth = (int) ((totalWidth * level) / 100f);
 
-          boolean significantChange = Math.abs(level - mLastBatteryLevel) >= 5;
+          boolean significantChange =
+              Math.abs(level - mLastBatteryLevel) >= BATTERY_CHANGE_THRESHOLD;
           boolean stateChange = isCharging != mLastChargingState;
           boolean firstRun = mLastBatteryLevel == -1;
 
           mLastBatteryLevel = level;
-          mLastChargingState = isCharging;
 
           if (mBatteryProgress.getLayoutParams().width != targetWidth) {
             if (mBatteryProgressAnimator != null && mBatteryProgressAnimator.isRunning()) {
@@ -930,11 +1101,11 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
             if (!firstRun && (significantChange || stateChange)) {
               mBatteryProgressAnimator =
                   ValueAnimator.ofInt(mBatteryProgress.getLayoutParams().width, targetWidth);
-              mBatteryProgressAnimator.setDuration(350);
+              mBatteryProgressAnimator.setDuration(BATTERY_PROGRESS_DURATION);
               mBatteryProgressAnimator.setInterpolator(new DecelerateInterpolator(1.5f));
               mBatteryProgressAnimator.addUpdateListener(
                   animation -> {
-                    if (mBatteryProgress == null) return;
+                    if (mBatteryProgress == null || mDestroyed) return;
                     ViewGroup.LayoutParams lp = mBatteryProgress.getLayoutParams();
                     lp.width = (int) animation.getAnimatedValue();
                     mBatteryProgress.setLayoutParams(lp);
@@ -984,12 +1155,18 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     mQuickspaceContent = (ViewGroup) findViewById(R.id.quickspace_content);
     mWeatherContentSub = (ViewGroup) findViewById(R.id.quick_event_weather_content);
     mWeatherTempSub = (TextView) findViewById(R.id.quick_event_weather_temp);
-    if (mCurrentStyle == 1) { // Extended style
+
+    if (mQuickspaceContent != null) {
+      mQuickspaceContent.setClipChildren(false);
+      mQuickspaceContent.setClipToPadding(false);
+    }
+
+    if (mCurrentStyle == 1) {
       mGreetingsExtClock = (TextView) findViewById(R.id.extended_greetings_clock);
       mGreetingsExt = (TextView) findViewById(R.id.extended_greetings);
     }
 
-    if (mCurrentStyle == 2) { // Large style
+    if (mCurrentStyle == 2) {
       mQuickspaceDayOfWeek = findViewById(R.id.quickspace_day_of_week);
       mQuickspaceClock = (AccentedTextClock) findViewById(R.id.quickspace_clock);
       mQuickspaceDate = findViewById(R.id.quickspace_date);
@@ -1005,7 +1182,24 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       mBatteryIcon = findViewById(R.id.battery_icon);
       mBatteryChargingOverlay = findViewById(R.id.battery_charging_overlay);
       mBatteryDotsContainer = findViewById(R.id.battery_dots_container);
+      mBatteryShimmer = findViewById(R.id.battery_shimmer_view);
+
+      if (mBatteryRow != null) {
+        mBatteryRow.setClipChildren(false);
+        mBatteryRow.setClipToPadding(false);
+        mBatteryRow.setContentDescription("Battery information");
+      }
+
+      if (mQuickspaceClock != null) {
+        mQuickspaceClock.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+        mQuickspaceClock.setContentDescription("Current time");
+      }
+
+      if (mQuickspaceDate != null) {
+        mQuickspaceDate.setContentDescription("Current date");
+      }
     }
+
     boolean hasGoogleApp =
         isPackageEnabled("com.google.android.googlequicksearchbox", getContext());
     if (mWeatherContentSub != null) {
@@ -1079,11 +1273,11 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       return;
     }
 
+    view.animate().cancel();
+
     if (view.getVisibility() == View.VISIBLE && view.getAlpha() == 1f) {
       return;
     }
-
-    view.animate().cancel();
 
     view.setVisibility(View.VISIBLE);
     view.setAlpha(0f);
@@ -1092,7 +1286,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
         view.animate()
             .alpha(1f)
             .translationY(0f)
-            .setDuration(200)
+            .setDuration(ANIMATE_IN_DURATION)
             .setInterpolator(new DecelerateInterpolator())
             .withEndAction(null);
     mCurrentAnimateIn.start();
@@ -1112,7 +1306,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
         view.animate()
             .alpha(0f)
             .translationY(view.getHeight() / 2f)
-            .setDuration(250)
+            .setDuration(ANIMATE_OUT_DURATION)
             .setInterpolator(new AccelerateInterpolator())
             .withEndAction(
                 () -> {
@@ -1126,6 +1320,22 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
   }
 
   private void cancelAllAnimations() {
+    View[] animatedViews = {
+      mEventTitleSub,
+      mEventSubIcon,
+      mEventTitleSubColored,
+      mNowPlayingIcon,
+      mWeatherContentSub,
+      mQuickspaceContent,
+      mBatteryRow
+    };
+
+    for (View view : animatedViews) {
+      if (view != null) {
+        view.animate().cancel();
+      }
+    }
+
     if (mCurrentAnimateIn != null) {
       mCurrentAnimateIn.cancel();
       mCurrentAnimateIn = null;
@@ -1134,17 +1344,15 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       mCurrentAnimateOut.cancel();
       mCurrentAnimateOut = null;
     }
-
-    if (mEventTitleSub != null) mEventTitleSub.animate().cancel();
-    if (mEventSubIcon != null) mEventSubIcon.animate().cancel();
-    if (mEventTitleSubColored != null) mEventTitleSubColored.animate().cancel();
-    if (mNowPlayingIcon != null) mNowPlayingIcon.animate().cancel();
-    if (mWeatherContentSub != null) mWeatherContentSub.animate().cancel();
-    if (mQuickspaceContent != null) mQuickspaceContent.animate().cancel();
-    if (mBatteryRow != null) mBatteryRow.animate().cancel();
-
     if (mBatteryProgressAnimator != null) {
+      mBatteryProgressAnimator.removeAllUpdateListeners();
       mBatteryProgressAnimator.cancel();
+      mBatteryProgressAnimator = null;
+    }
+    if (mShimmerAnimator != null) {
+      mShimmerAnimator.removeAllUpdateListeners();
+      mShimmerAnimator.cancel();
+      mShimmerAnimator = null;
     }
   }
 
@@ -1170,7 +1378,6 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       try {
         mController.removeListener(this);
       } catch (Exception e) {
-        // Ignore - controller might be destroyed
       }
     }
   }
@@ -1183,6 +1390,16 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     }
 
     mAttached = true;
+
+    try {
+      android.content.IntentFilter filter =
+          new android.content.IntentFilter(android.content.Intent.ACTION_WALLPAPER_CHANGED);
+      getContext().registerReceiver(mWallpaperChangeReceiver, filter);
+    } catch (Exception e) {
+    }
+
+    mBatteryAlphaRestoreNeeded = true;
+
     post(
         () -> {
           if (mController != null && mFinishedInflate && !mDestroyed && mAttached) {
@@ -1197,6 +1414,11 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     super.onDetachedFromWindow();
     if (!mAttached) {
       return;
+    }
+
+    try {
+      getContext().unregisterReceiver(mWallpaperChangeReceiver);
+    } catch (Exception e) {
     }
 
     cancelAllAnimations();
@@ -1239,20 +1461,6 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     super.onLayout(b, n, n2, n3, n4);
   }
 
-  @Override
-  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    if (mQuickspaceContent != null && !mViewsLoaded) {
-      int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-      int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-
-      if (heightMode != MeasureSpec.UNSPECIFIED) {
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.AT_MOST);
-      }
-    }
-
-    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-  }
-
   public void onPause() {
     safeRemoveListener();
     if (mController != null) {
@@ -1274,6 +1482,8 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
       } catch (Exception e) {
         mController = null;
       }
+
+      mBatteryAlphaRestoreNeeded = true;
 
       post(
           () -> {
@@ -1339,6 +1549,9 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     mBatteryIcon = null;
     mBatteryChargingOverlay = null;
     mBatteryDotsContainer = null;
+    mBatteryShimmer = null;
+
+    mCachedColorStateList = null;
 
     setBackground(null);
     mAttached = false;
@@ -1349,6 +1562,7 @@ public class QuickSpaceView extends FrameLayout implements OnDataListener {
     mLastActionTitle = "";
     mLastDeviceAddress = null;
     mLastBatteryLevel = -1;
+    mBatteryAlphaRestoreNeeded = false;
   }
 
   public void setPadding(int n, int n2, int n3, int n4) {

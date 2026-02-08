@@ -13,17 +13,15 @@
         android:layout_height="20dp"
         android:scaleType="fitXY" />
 
-    <com.android.launcher3.quickspace.views.DoubleShadowTextView
+    <TextView
         android:id="@+id/quick_event_weather_temp"
         style="@style/QuickSpaceSubText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingStart="6dp"
+        android:fontFamily="google-sans-flex"
         android:textColor="?workspaceTextColor"
         android:textSize="@dimen/quickspace_subtitle_size"
-        launcher:ambientShadowBlur="3dp"
-        launcher:ambientShadowColor="?workspaceAmbientShadowColor"
-        launcher-keyShadowBlur="2dp"
-        launcher-keyShadowColor="?workspaceKeyShadowColor"
-        launcher-keyShadowOffsetX="0.5dip" />
+        android:singleLine="true" />
+
 </LinearLayout>

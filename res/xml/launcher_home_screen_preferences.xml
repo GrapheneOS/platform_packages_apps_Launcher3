@@ -141,6 +141,13 @@
             android:persistent="true"
             launcher:iconSpaceReserved="false" />
 
+<SwitchPreferenceCompat
+    android:key="pref_quickspace_black_text"
+    android:title="Black Text"
+    android:summary="Force black text on QuickSpace"
+    android:defaultValue="false"
+    android:persistent="true" />
+
 <ListPreference
     android:key="pref_quickspace_style"
     android:title="@string/quickspace_style_title"
