@@ -15,11 +15,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:androidprv="http://schemas.android.com/apk/prv/res/android">
     <item>
-        <shape android:shape="rectangle"
-            android:tint="?colorButtonNormal">
-            <corners android:radius="100dp" />
-            <solid android:color="@color/mid_clear_all_background_color"/>
-        </shape>
+    <shape android:shape="rectangle">
+        <corners android:radius="100dp" />
+        <solid android:color="@color/mid_clear_all_background_color"/>
+    </shape>
     </item>
 </ripple>
 
