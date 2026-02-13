@@ -597,7 +597,6 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer,
 
         shortcuts.addAll(getSplitShortcuts());
         shortcuts.add(UNINSTALL);
-        shortcuts.add(WellbeingModel.PAUSE_APPS);
         shortcuts.add(FLOATING);
         shortcuts.add(WIDGETS);
         shortcuts.add(KILL_APP);

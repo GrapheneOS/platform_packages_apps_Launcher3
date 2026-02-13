@@ -20,7 +20,6 @@ import static android.content.ContentResolver.SCHEME_CONTENT;
 
 import static com.android.launcher3.util.SimpleBroadcastReceiver.packageFilter;
 
-import android.app.AlertDialog;
 import android.app.AppGlobals;
 import android.app.RemoteAction;
 import android.content.ContentProviderClient;
@@ -47,7 +46,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
-import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.R;
 import com.android.launcher3.dagger.ApplicationContext;
 import com.android.launcher3.dagger.LauncherAppSingleton;
@@ -348,62 +346,6 @@ public final class WellbeingModel implements SafeCloseable {
                             info,
                             originalView);
 
-    public static final SystemShortcut.Factory<ActivityContext> PAUSE_APPS =
-            (activity, itemInfo, originalView) -> {
-                if (originalView == null) {
-                    return null;
-                }
-                String packageName = itemInfo.getTargetComponent().getPackageName();
-                PackageManager packageManager = originalView.getContext().getPackageManager();
-                if (Arrays.asList(packageManager.getUnsuspendablePackages(
-                        new String[]{packageName})).contains(packageName)) {
-                    return null;
-                }
-		try {
-    		    if (packageManager.isPackageSuspendedForUser(
-            		    itemInfo.getTargetComponent().getPackageName(),
-            		     itemInfo.user.getIdentifier())) {
-        		return null;
-    		    }
-		} catch (SecurityException e) {
-    		    return null;
-		}
-                return new PauseApps(activity, itemInfo, originalView);
-            };
-
-    public static class PauseApps<T extends ActivityContext> extends SystemShortcut<T> {
-
-        public PauseApps(T target, ItemInfo itemInfo, View originalView) {
-            super(R.drawable.ic_hourglass_top, R.string.paused_apps_drop_target_label, target,
-                    itemInfo, originalView);
-        }
-
-        @Override
-        public void onClick(View view) {
-            final Context context = view.getContext();
-            final String packageToSuspend = mItemInfo.getTargetComponent().getPackageName();
-            final UserHandle packageUser = mItemInfo.user;
-            final PackageManager packageManager = context.getPackageManager();
-            CharSequence appLabel = packageToSuspend;
-            try {
-                appLabel = packageManager.getApplicationLabel(
-                        packageManager.getApplicationInfoAsUser(packageToSuspend,
-                                PackageManager.ApplicationInfoFlags.of(0), packageUser));
-            } catch (PackageManager.NameNotFoundException e) {
-
-            }
-            new AlertDialog.Builder(context)
-                    .setIcon(R.drawable.ic_hourglass_top)
-                    .setTitle(context.getString(R.string.pause_apps_dialog_title, appLabel))
-                    .setMessage(context.getString(R.string.pause_apps_dialog_message, appLabel))
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .setPositiveButton(R.string.pause, (dialog, which) ->
-                            suspendPackages(context, List.of(packageToSuspend), packageUser))
-                    .show();
-            AbstractFloatingView.closeAllOpenViews(mTarget);
-        }
-    }
-
     /** Suspends a list of packages in the target user. */
     public static void suspendPackages(final @NonNull Context context,
             final @NonNull List<String> packages,
@@ -431,7 +373,7 @@ public final class WellbeingModel implements SafeCloseable {
                 .setIcon(R.drawable.ic_hourglass_top)
                 .setTitle(R.string.paused_apps_dialog_title)
                 .setMessage(R.string.paused_apps_dialog_message)
-                .setNeutralButtonAction(SuspendDialogInfo.BUTTON_ACTION_UNSUSPEND)
+                .setNeutralButtonText(android.R.string.ok)
                 .build();
     }
 }
