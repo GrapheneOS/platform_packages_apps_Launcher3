@@ -182,6 +182,7 @@ public final class Utilities {
     public @interface AdjustmentDirection{}
 
     public static final String GSA_PACKAGE = "com.google.android.googlequicksearchbox";
+    public static final String GEMINI_PACKAGE = "com.google.android.apps.bard";
     public static final String LENS_ACTIVITY = "com.google.android.apps.search.lens.LensExportedActivity";
     public static final String LENS_URI = "google://lens";
     public static final String LENS_SHARE_ACTIVITY = "com.google.android.apps.search.lens.LensShareEntryPointActivity";
@@ -1108,12 +1109,16 @@ public final class Utilities {
         }, WAIT_BEFORE_RESTART);
     }
 
-    public static boolean isGSAEnabled(Context context) {
+    public static boolean isPackageInstalled(Context context, String pkg) {
         try {
-            return context.getPackageManager().getApplicationInfo(GSA_PACKAGE, 0).enabled;
-        } catch (PackageManager.NameNotFoundException e) {
+            return context.getPackageManager().getApplicationInfo(pkg, 0).enabled;
+        } catch (Exception e) {
             return false;
         }
+    }
+
+    public static boolean isGSAEnabled(Context context) {
+        return isPackageInstalled(context, GSA_PACKAGE);
     }
 
     /**

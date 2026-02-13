@@ -27,6 +27,19 @@
             tools:ignore="RtlSymmetry">
 
             <ImageView
+                android:id="@+id/gemini_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:contentDescription="@string/label_gemini_search"
+                android:focusable="false"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="@dimen/qsb_icon_padding"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_gemini_color" />
+
+            <ImageView
                 android:id="@+id/mic_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

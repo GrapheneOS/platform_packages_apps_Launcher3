@@ -11,6 +11,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.PaintDrawable;
 import android.net.Uri;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.android.launcher3.LauncherPrefs;
@@ -24,9 +25,12 @@ import android.view.View;
 
 public class QsbLayout extends FrameLayout implements Reorderable {
 
+    private static final String TAG = "QsbLayout";
+
     private ImageView micIcon;
     private ImageView gIcon;
     private ImageView lensIcon;
+    private ImageView geminiIcon;
     private FrameLayout inner;
 
     private final MultiTranslateDelegate mTranslateDelegate = new MultiTranslateDelegate(this);
@@ -48,6 +52,7 @@ public class QsbLayout extends FrameLayout implements Reorderable {
         micIcon = findViewById(R.id.mic_icon);
         gIcon = findViewById(R.id.g_icon);
         lensIcon = findViewById(R.id.lens_icon);
+        geminiIcon = findViewById(R.id.gemini_icon);
         inner = findViewById(R.id.inner);
 
         setUpMainSearch();
@@ -59,6 +64,7 @@ public class QsbLayout extends FrameLayout implements Reorderable {
         setupGIcon();
         setupLensIcon();
         setupMicIcon();
+        setupGeminiIcon();
     }
 
     private void clipIconRipples() {
@@ -71,6 +77,8 @@ public class QsbLayout extends FrameLayout implements Reorderable {
         lensIcon.setBackground(pd);
         gIcon.setClipToOutline(cornerRadius > 0);
         gIcon.setBackground(pd);
+        geminiIcon.setClipToOutline(cornerRadius > 0);
+        geminiIcon.setBackground(pd);
     }
 
     private void setUpBackground() {
@@ -122,6 +130,7 @@ public class QsbLayout extends FrameLayout implements Reorderable {
         if (gIcon != null) gIcon.setOnClickListener(null);
         if (lensIcon != null) lensIcon.setOnClickListener(null);
         if (micIcon != null) micIcon.setOnClickListener(null);
+        if (geminiIcon != null) geminiIcon.setOnClickListener(null);
         if (inner != null) inner.setBackground(null);
     }
 
@@ -193,6 +202,34 @@ public class QsbLayout extends FrameLayout implements Reorderable {
         } catch (Exception e) {
             micIcon.setVisibility(View.GONE);
         }
+    }
+
+    private void setupGeminiIcon() {
+        if (geminiIcon == null) return;
+
+        if (!Utilities.isPackageInstalled(getContext(), Utilities.GEMINI_PACKAGE)) {
+            geminiIcon.setVisibility(View.GONE);
+            return;
+        }
+
+        geminiIcon.setVisibility(View.VISIBLE);
+        geminiIcon.setImageResource(mIsThemed
+                ? R.drawable.ic_gemini_themed
+                : R.drawable.ic_gemini_color);
+
+        geminiIcon.setOnClickListener(view -> {
+            Context ctx = view.getContext();
+            try {
+                Intent intent = view.getContext().getPackageManager().getLaunchIntentForPackage(Utilities.GEMINI_PACKAGE);
+                if (intent != null) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    view.getContext().startActivity(intent);
+                }
+            } catch (Exception e) {
+                geminiIcon.setVisibility(View.GONE);
+                Log.e(TAG, "Gemini launch failed", e);
+            }
+        });
     }
 
     private float getCornerRadius() {

@@ -351,6 +351,7 @@ public class PackageUpdatedTask implements ModelUpdateTask {
     }
 
     private boolean isTargetPackage(String packageName) {
-        return packageName.equals(Utilities.GSA_PACKAGE);
+        return packageName.equals(Utilities.GSA_PACKAGE) ||
+            packageName.equals(Utilities.GEMINI_PACKAGE);
     }
 }
