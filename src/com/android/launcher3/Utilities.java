@@ -1116,10 +1116,6 @@ public final class Utilities {
         }
     }
 
-    public static boolean isWorkspaceEditAllowed(Context context) {
-        return !LauncherPrefs.WORKSPACE_LOCK.get(context);
-    }
-
     /**
      * Shows authentication screen to confirm credentials (pin, pattern or password) for the current
      * user of the device.
