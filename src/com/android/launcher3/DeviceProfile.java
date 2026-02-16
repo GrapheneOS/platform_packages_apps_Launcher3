@@ -312,7 +312,22 @@ public class DeviceProfile {
         // Some more constants.
         final Resources res = context.getResources();
 
-        overviewProfile = OverviewProfile.Factory.createOverviewProfile(res);
+        OverviewProfile valOverviewProfile = OverviewProfile.Factory.createOverviewProfile(res);
+        if (mDeviceProperties.isTablet() && valOverviewProfile.getRowSpacing() == 0) {
+            overviewProfile = new OverviewProfile(
+                    valOverviewProfile.getTaskMarginPx(),
+                    valOverviewProfile.getTaskIconSizePx(),
+                    valOverviewProfile.getTaskIconDrawableSizePx(),
+                    valOverviewProfile.getTaskIconDrawableSizeGridPx(),
+                    valOverviewProfile.getTaskThumbnailTopMarginPx(),
+                    valOverviewProfile.getActionsTopMarginPx(),
+                    valOverviewProfile.getActionsHeight(),
+                    pxFromDp(25, res.getDisplayMetrics()), // Horizontal spacing (Separates columns)
+                    pxFromDp(20, res.getDisplayMetrics()), // Vertical spacing (Separates rows)
+                    pxFromDp(16, res.getDisplayMetrics())); // Side margins (Space from screen edge)
+        } else {
+            overviewProfile = valOverviewProfile;
+        }
 
         mMetrics = res.getDisplayMetrics();
 
