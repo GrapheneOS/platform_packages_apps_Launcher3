@@ -55,6 +55,7 @@ import static com.android.launcher3.model.data.ItemInfoWithIcon.FLAG_NOT_PINNABL
 import static com.android.launcher3.popup.QuickstepSystemShortcut.getSplitSelectShortcutByPosition;
 import static com.android.launcher3.popup.SystemShortcut.ADD_TO_HOME_SCREEN;
 import static com.android.launcher3.popup.SystemShortcut.APP_INFO;
+import static com.android.launcher3.popup.SystemShortcut.APPS_SCOPES;
 import static com.android.launcher3.popup.SystemShortcut.BUBBLE_SHORTCUT;
 import static com.android.launcher3.popup.SystemShortcut.CONTACT_SCOPES;
 import static com.android.launcher3.popup.SystemShortcut.DONT_SUGGEST_APP;
@@ -551,6 +552,7 @@ public class QuickstepLauncher extends Launcher implements RecentsViewContainer,
         shortcuts.add(WIDGETS);
         shortcuts.add(STORAGE_SCOPES);
         shortcuts.add(CONTACT_SCOPES);
+        shortcuts.add(APPS_SCOPES);
         shortcuts.add(INSTALL);
         // TODO(b/444744861): Update private space apps to have its own container.
         boolean isPinnable = itemInfo instanceof ItemInfoWithIcon info

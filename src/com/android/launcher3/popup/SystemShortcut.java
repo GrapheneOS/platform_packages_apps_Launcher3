@@ -340,6 +340,30 @@ public abstract class SystemShortcut<T extends ActivityContext> extends ItemInfo
         }
     }
 
+    public static final Factory<BaseActivity> APPS_SCOPES = AppsScopes::maybeGet;
+
+    public static class AppsScopes<T extends ActivityContext> extends ScopesShortcut<T> {
+
+        private AppsScopes(T target, ItemInfo itemInfo, View originalView) {
+            super(R.drawable.ic_info_no_shadow, R.string.apps_scopes_label, target,
+                    itemInfo, originalView);
+        }
+
+        @Nullable
+        public static <T extends ActivityContext> AppsScopes<T> maybeGet(T target, ItemInfo itemInfo, View originalView) {
+            if (hasGosPackageStateFlag(itemInfo, GosPackageStateFlag.APPS_SCOPES_ENABLED)) {
+                return new AppsScopes<>(target, itemInfo, originalView);
+            }
+
+            return null;
+        }
+
+        @Override
+        protected Intent getIntent(String targetPkg) {
+            return android.app.AppsScope.createConfigActivityIntent(targetPkg);
+        }
+    }
+
     public static final Factory<ActivityContext> REMOVE = RemoveApp::new;
 
     public static class RemoveApp<T extends ActivityContext> extends SystemShortcut<T> {
