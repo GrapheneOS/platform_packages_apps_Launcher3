@@ -71,6 +71,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.DeviceProfile.OnDeviceProfileChangeListener;
 import com.android.launcher3.DragSource;
+import com.android.launcher3.ExtendedEditText;
 import com.android.launcher3.DropTarget.DragObject;
 import com.android.launcher3.Flags;
 import com.android.launcher3.Insettable;
@@ -570,7 +571,14 @@ public class ActivityAllAppsContainerView<T extends Context & ActivityContext>
             return;
         }
         if (currentActivePage != SEARCH) {
-            mActivityContext.hideKeyboard();
+            // Only hide the keyboard if the search field is no longer focused.
+            // When the user deletes all text, onClearSearchResult() exits search
+            // mode which triggers this callback. Without this guard the keyboard
+            // closes, forcing the user to tap the search box again to retype.
+            ExtendedEditText editText = mSearchUiManager.getEditText();
+            if (editText == null || !editText.isFocused()) {
+                mActivityContext.hideKeyboard();
+            }
         }
         if (mAH.get(currentActivePage).mRecyclerView != null) {
             mAH.get(currentActivePage).mRecyclerView.bindFastScrollbar(mFastScroller,
