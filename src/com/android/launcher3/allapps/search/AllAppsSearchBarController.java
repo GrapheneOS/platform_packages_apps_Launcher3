@@ -134,6 +134,10 @@ public class AllAppsSearchBarController
 
     @Override
     public boolean onBackKey() {
+        // Note: This doesn't seem to be called from ExtendedEditText#onkeyPreIme, likely because
+        // predictive back is being used.
+        Log.d(TAG, "onBackKey");
+
         // Only hide the search field if there is no query
         String query = Utilities.trim(mInput.getEditableText().toString());
         if (query.isEmpty()) {
