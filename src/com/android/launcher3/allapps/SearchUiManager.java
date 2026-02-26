@@ -25,6 +25,11 @@ import com.android.launcher3.ExtendedEditText;
  * Interface for controlling the Apps search UI.
  */
 public interface SearchUiManager {
+    default boolean shouldInterceptBackButton() {
+        // In NexusLauncher, this would be stored and accessed from OneSearchSessionManager.
+        // Doing it here makes it simpler, i.e. avoids us needing to manage a SessionManagerObject.
+        return false;
+    }
 
     /**
      * Initializes the search manager.

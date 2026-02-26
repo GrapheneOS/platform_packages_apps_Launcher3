@@ -16,10 +16,18 @@
 
 package com.android.launcher3.dagger
 
+import com.android.launcher3.taskbar.allapps.TaskbarSearchSessionController
+import com.android.launcher3.taskbar.allapps.TaskbarSearchSessionControllerImpl
+import dagger.Binds
 import dagger.Module
 
 /**
  * Module containing the app specific [ActivityContext] bindings for the final derivate app, an
  * implementation of this module should be included in the final app code.
  */
-@Module abstract class AppActivityContextModule {}
+@Module abstract class AppActivityContextModule {
+    @Binds
+    abstract fun bindTaskbarSearchSessionController(
+        impl: TaskbarSearchSessionControllerImpl
+    ): TaskbarSearchSessionController
+}
