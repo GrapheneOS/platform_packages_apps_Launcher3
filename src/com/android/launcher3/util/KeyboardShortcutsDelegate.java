@@ -32,6 +32,7 @@ import com.android.launcher3.LauncherState;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.accessibility.BaseAccessibilityDelegate;
+import com.android.launcher3.allapps.search.SearchSessionManager;
 import com.android.launcher3.testing.shared.TestProtocol;
 
 import java.util.ArrayList;
@@ -118,8 +119,11 @@ public class KeyboardShortcutsDelegate {
                 topView.close(/* animate= */ true);
                 return true;
             } else if (mLauncher.getAppsView().isInAllApps()) {
-                // Close all apps if there are no open floating views.
-                mLauncher.getStateManager().goToState(NORMAL, true);
+                // Close all apps if there are no open floating views. If search is active, close
+                // that first.
+                if (!SearchSessionManager.handleAllAppsSearchBackInvoked(mLauncher, true)) {
+                    mLauncher.getStateManager().goToState(NORMAL, true);
+                }
                 return true;
             } else if (mLauncher.isInState(LauncherState.OVERVIEW)
                     || mLauncher.isInState(LauncherState.OVERVIEW_SPLIT_SELECT)) {
