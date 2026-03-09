@@ -46,6 +46,7 @@ import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.R;
 import com.android.launcher3.logging.StatsLogManager.LauncherEvent;
 import com.android.launcher3.model.WellbeingModel;
+import com.android.launcher3.popup.GrapheneSystemShortcut;
 import com.android.launcher3.popup.SystemShortcut;
 import com.android.launcher3.popup.SystemShortcut.AppInfo;
 import com.android.launcher3.util.InstantAppResolver;
@@ -135,7 +136,8 @@ public interface TaskShortcutFactory {
                                                  TaskContainer taskContainer) {
             TaskView taskView = taskContainer.getTaskView();
 
-            var s = SystemShortcut.StorageScopes.maybeGet(container, taskContainer.getItemInfo(), taskView);
+            var s = GrapheneSystemShortcut.StorageScopes.maybeGet(
+                    container, taskContainer.getItemInfo(), taskView);
             if (s == null) {
                 return null;
             }
@@ -155,7 +157,8 @@ public interface TaskShortcutFactory {
                                                  TaskContainer taskContainer) {
             TaskView taskView = taskContainer.getTaskView();
 
-            var s = SystemShortcut.ContactScopes.maybeGet(container, taskContainer.getItemInfo(), taskView);
+            var s = GrapheneSystemShortcut.ContactScopes.maybeGet(
+                    container, taskContainer.getItemInfo(), taskView);
             if (s == null) {
                 return null;
             }
