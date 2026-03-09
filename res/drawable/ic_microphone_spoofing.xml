@@ -1,0 +1,11 @@
+<!-- "mic" from Material Symbols -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:tint="?android:attr/colorControlNormal"
+    android:viewportHeight="960"
+    android:viewportWidth="960">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M480,560Q447,560 423.5,536.5Q400,513 400,480V240Q400,207 423.5,183.5Q447,160 480,160Q513,160 536.5,183.5Q560,207 560,240V480Q560,513 536.5,536.5Q513,560 480,560ZM440,800V708Q355,688 297.5,620.5Q240,553 240,460H320Q320,527 366.5,573.5Q413,620 480,620Q547,620 593.5,573.5Q640,527 640,460H720Q720,553 662.5,620.5Q605,688 520,708V800H440Z" />
+</vector>

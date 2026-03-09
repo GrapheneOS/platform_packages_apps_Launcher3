@@ -136,6 +136,7 @@ public class TaskOverlayFactory {
             TaskShortcutFactory.MODAL,
             TaskShortcutFactory.STORAGE_SCOPES,
             TaskShortcutFactory.CONTACT_SCOPES,
+            TaskShortcutFactory.MIC_SPOOFING,
     };
 
     /**

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.GosPackageState;
 import android.content.pm.GosPackageStateFlag;
 import android.ext.cscopes.ContactScopesApi;
+import android.ext.micspoofing.MicSpoofingApi;
 import android.view.View;
 import android.window.SplashScreen;
 
@@ -124,6 +125,40 @@ public interface GrapheneSystemShortcut {
         @Override
         protected Intent getIntent(String targetPkg) {
             return ContactScopesApi.createConfigActivityIntent(targetPkg);
+        }
+    }
+
+    /**
+     * Mic spoofing
+     */
+
+    SystemShortcut.Factory<BaseActivity> MIC_SPOOFING = MicSpoofing::maybeGet;
+
+    class MicSpoofing<T extends ActivityContext> extends ScopedFeatureShortcut<T> {
+
+        private MicSpoofing(T target, ItemInfo itemInfo, View originalView) {
+            super(
+                    R.drawable.ic_microphone_spoofing,
+                    R.string.microphone_spoofing_drop_target_label,
+                    target,
+                    itemInfo,
+                    originalView
+            );
+        }
+
+        @Nullable
+        public static <T extends ActivityContext> MicSpoofing<T> maybeGet(
+                T target, ItemInfo itemInfo, View originalView
+        ) {
+            if (!hasGosPackageStateFlag(itemInfo, GosPackageStateFlag.MIC_SPOOFING_ENABLED)) {
+                return null;
+            }
+            return new MicSpoofing<>(target, itemInfo, originalView);
+        }
+
+        @Override
+        protected Intent getIntent(String targetPkg) {
+            return MicSpoofingApi.createConfigActivityIntent(targetPkg);
         }
     }
 }

@@ -171,6 +171,27 @@ public interface TaskShortcutFactory {
         }
     };
 
+    TaskShortcutFactory MIC_SPOOFING = new TaskShortcutFactory() {
+        @Nullable
+        @Override
+        public List<SystemShortcut> getShortcuts(RecentsViewContainer container,
+                                                 TaskContainer taskContainer) {
+            TaskView taskView = taskContainer.getTaskView();
+
+            var s = GrapheneSystemShortcut.MicSpoofing.maybeGet(
+                    container, taskContainer.getItemInfo(), taskView);
+            if (s == null) {
+                return null;
+            }
+            return Collections.singletonList(s);
+        }
+
+        @Override
+        public boolean showForGroupedTask() {
+            return true;
+        }
+    };
+
     class SplitSelectSystemShortcut extends SystemShortcut {
         private final TaskContainer mTaskContainer;
         private final SplitPositionOption mSplitPositionOption;
