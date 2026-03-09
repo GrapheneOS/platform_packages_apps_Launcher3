@@ -216,7 +216,7 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
     /**
      * Sets results list for search
      */
-    public boolean setSearchResults(ArrayList<AdapterItem> results) {
+    public boolean setSearchResults(List<AdapterItem> results) {
         if (Objects.equals(results, mSearchResults)) {
             return false;
         }
