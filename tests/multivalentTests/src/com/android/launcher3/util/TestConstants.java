@@ -20,11 +20,11 @@ public class TestConstants {
 
         public static final String TEST_APP_NAME = "LauncherTestApp";
         public static final String DUMMY_APP_NAME = "Aardwolf";
-        public static final String MAPS_APP_NAME = "Maps";
-        public static final String STORE_APP_NAME = "Play Store";
-        public static final String GMAIL_APP_NAME = "Gmail";
-        public static final String PHOTOS_APP_NAME = "Photos";
-        public static final String CHROME_APP_NAME = "Chrome";
-        public static final String MESSAGES_APP_NAME = "Messages";
+        public static final String MAPS_APP_NAME = "Clock";
+        public static final String STORE_APP_NAME = "Files";
+        public static final String GMAIL_APP_NAME = "Calculator";
+        public static final String PHOTOS_APP_NAME = "Phone";
+        public static final String CHROME_APP_NAME = "Contacts";
+        public static final String MESSAGES_APP_NAME = "Settings";
     }
 }
