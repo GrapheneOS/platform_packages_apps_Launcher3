@@ -35,6 +35,15 @@
 
         <option name="run-command" value="settings put global verifier_verify_adb_installs 0" />
 
+        <!-- GrapheneOS: bypass fs-verity and same-versionCode checks for test installs -->
+        <option name="run-command" value="setprop persist.disable_install_time_fsverity_check true" />
+        <option name="run-command" value="setprop persist.disable_same_versionCode_sys_pkg_update_check true" />
+        <option name="run-command" value="setprop persist.allow_unknown_system_app_updates 1" />
+
+        <!-- GrapheneOS: allow weakening DCL restrictions for debuggable system apps (mockito needs dexmaker) -->
+        <option name="run-command" value="setprop persist.sys.allow_weakening_system_app_sepolicy true" />
+        <option name="run-command" value="pm edit-gos-package-state com.android.launcher3 0 add-flag RESTRICT_STORAGE_DYN_CODE_LOADING_NON_DEFAULT clear-flag RESTRICT_STORAGE_DYN_CODE_LOADING set-kill-uid-after-apply true" />
+
         <!-- Kill the launcher so it starts fresh. TestLogging.sHadEventsNotFromTest is a
              static boolean that never resets; a stale launcher process from before the test
              run may already have it set, which causes every TAPL test to fail.
@@ -42,6 +51,20 @@
              (deviceId != -1) will set this flag and fail all subsequent TAPL tests. -->
         <option name="run-command" value="am force-stop com.android.launcher3" />
 
+    </target_preparer>
+
+    <!-- GrapheneOS: restore hardening after tests. Test harness mode (set-test-harness above)
+         wants you to factory rest to get out of the test harness mode anyway. But can still use
+         device eleewhere in test harness mode from a previous run, so explicit teardown still nice
+         for these persist properties. Test harness mode is required regardless: without it, 
+         TestInformationProvider.getProxy() returns null and all TAPL test communication with the 
+         launcher process dies. -->
+    <target_preparer class="com.android.tradefed.targetprep.RunCommandTargetPreparer">
+        <option name="teardown-command" value="setprop persist.disable_install_time_fsverity_check ''" />
+        <option name="teardown-command" value="setprop persist.disable_same_versionCode_sys_pkg_update_check ''" />
+        <option name="teardown-command" value="setprop persist.allow_unknown_system_app_updates ''" />
+        <option name="teardown-command" value="setprop persist.sys.allow_weakening_system_app_sepolicy ''" />
+        <option name="teardown-command" value="pm edit-gos-package-state com.android.launcher3 0 clear-flag RESTRICT_STORAGE_DYN_CODE_LOADING_NON_DEFAULT clear-flag RESTRICT_STORAGE_DYN_CODE_LOADING set-kill-uid-after-apply true" />
     </target_preparer>
 
     <target_preparer class="com.android.tradefed.targetprep.suite.SuiteApkInstaller">
