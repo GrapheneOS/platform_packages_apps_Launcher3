@@ -42,6 +42,14 @@
 
         <!-- GrapheneOS: allow weakening DCL restrictions for debuggable system apps (mockito needs dexmaker) -->
         <option name="run-command" value="setprop persist.sys.allow_weakening_system_app_sepolicy true" />
+
+        <!-- Suppress the 16KB page size compatibility warning dialog on certain devices (e.g. 
+             bluejay/Pixel 6a). The test APK bundles dexmaker JVMTI agent libraries (
+             libstaticjvmtiagent.so, libdexmakerjvmtiagent.so) whose ELF LOAD
+             segments are not 16KB-aligned. Without this, Android pops a system alert dialog
+             mid-test ("Android App Compatibility"), which TAPL detects as an anomaly and
+             fails all tests that trigger it. See AppWarnings.showPageSizeMismatchDialogIfNeeded. -->
+        <option name="run-command" value="setprop bionic.linker.16kb.app_compat.enabled true" />
         <option name="run-command" value="pm edit-gos-package-state com.android.launcher3 0 add-flag RESTRICT_STORAGE_DYN_CODE_LOADING_NON_DEFAULT clear-flag RESTRICT_STORAGE_DYN_CODE_LOADING set-kill-uid-after-apply true" />
 
         <!-- Kill the launcher so it starts fresh. TestLogging.sHadEventsNotFromTest is a
