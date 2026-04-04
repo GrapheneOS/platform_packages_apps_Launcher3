@@ -240,7 +240,18 @@ public class AppsSearchContainerLayout extends ExtendedEditText
     @Override
     public void setInsets(Rect insets) {
         MarginLayoutParams mlp = (MarginLayoutParams) getLayoutParams();
-        mlp.topMargin = insets.top;
+        DeviceProfile dp = mLauncher.getDeviceProfile();
+        if (dp.shouldShowAllAppsOnSheet()) {
+            // Use bottom_sheet_handle_area_height instead which is what NexusLauncher's
+            // UniversalSearchInputView does. This puts it closer to the bottom sheet handle, as it
+            // makes it flush against the handle area.
+            mlp.topMargin = getResources().getDimensionPixelSize(
+                    R.dimen.bottom_sheet_handle_area_height);
+        } else {
+            // insets.top originates from SystemWindowManagerProxy.normalizeWindowInsets:
+            // max(statusBars.top, android:dimen/status_bar_height_portrait, displayCutout.top)
+            mlp.topMargin = insets.top;
+        }
         requestLayout();
     }
 
