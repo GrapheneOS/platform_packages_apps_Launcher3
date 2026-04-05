@@ -695,7 +695,11 @@ public class PrivateProfileManager extends UserProfileManager {
                     + " settingsCogAlpha: " + mPrivateSpaceSettingsButton.getAlpha());
             if (!expand) {
                 // Call onAppsUpdated() because it may be canceled when this animation occurs.
-                if (!Utilities.isRunningInTestHarness()) {
+                final boolean isInTest = Utilities.isRunningInTestHarness()
+                        && (mAllApps.getContext().getApplicationInfo().flags
+                                & android.content.pm.ApplicationInfo.FLAG_DEBUGGABLE) != 0
+                        && Utilities.isRunningInstrumentationTest();
+                if (!isInTest) {
                     mAllApps.getPersonalAppList().onAppsUpdated();
                 }
                 if (isPrivateSpaceHidden()) {

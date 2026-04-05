@@ -31,6 +31,8 @@ import static com.android.window.flags.Flags.enableNonDefaultDisplaySplit;
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
+import android.app.ActivityThread;
+import android.app.Instrumentation;
 import android.app.Person;
 import android.app.WallpaperManager;
 import android.content.Context;
@@ -168,6 +170,13 @@ public final class Utilities {
         Configuration configuration = context.getResources().getConfiguration();
         int nightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return nightMode == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static boolean isRunningInstrumentationTest() {
+        final var thread = ActivityThread.currentActivityThread();
+        if (thread == null) return false;
+        final Instrumentation instrumentation = thread.getInstrumentation();
+        return instrumentation != null && instrumentation.isInstrumenting();
     }
 
     private static boolean sIsRunningInTestHarness = ActivityManager.isRunningInTestHarness();
