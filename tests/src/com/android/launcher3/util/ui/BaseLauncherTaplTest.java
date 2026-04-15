@@ -117,9 +117,17 @@ public abstract class BaseLauncherTaplTest {
 
     /** Detects UI surface leaks and throws an exception if a leak is found. */
     public static void checkDetectedLeaks(LauncherInstrumentation launcher) {
-        if (TestStabilityRule.isPresubmit()) return; // b/313501215
+        if (!TestStabilityRule.isPostsubmit()) return; // b/313501215
 
         if (sUiSurfaceLeakReported) return;
+
+        // Clear references held in the test process itself before polling. launcher.forceGc()
+        // only collects inside the Launcher3 process; destroyed TestActivityContext / other
+        // test-side contexts can still be reachable from the instrumentation process. This doesn't
+        // seem to work 100% though
+        Runtime.getRuntime().gc();
+        Runtime.getRuntime().runFinalization();
+        Runtime.getRuntime().gc();
 
         // Check whether activity leak detector has found leaked activities.
         Wait.atMost(() -> getUiSurfaceLeakErrorMessage(launcher),

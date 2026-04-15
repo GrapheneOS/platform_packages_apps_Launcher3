@@ -155,6 +155,10 @@ public class TestStabilityRule implements TestRule {
         return getRunFlavor() == PLATFORM_PRESUBMIT;
     }
 
+    public static boolean isPostsubmit() {
+        return getRunFlavor() == PLATFORM_POSTSUBMIT;
+    }
+
     public static boolean isRobolectricTest() {
         return Build.FINGERPRINT.contains("robolectric");
     }
