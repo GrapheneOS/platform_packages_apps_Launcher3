@@ -71,6 +71,7 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 import org.junit.After;
+import org.junit.AssumptionViolatedException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -248,6 +249,8 @@ public class NavHandleLongPressInputConsumerTest {
             verify(mNavHandleLongPressHandler, never()).onTouchFinished(any(), any());
             verify(mStatsLogger).log(LAUNCHER_LONG_PRESS_NAVBAR);
             verifyNoMoreInteractions(mStatsLatencyLogger);
+        } catch (AssumptionViolatedException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -269,6 +272,8 @@ public class NavHandleLongPressInputConsumerTest {
             verify(mNavHandleLongPressHandler, never()).onTouchFinished(any(), any());
             verify(mStatsLogger).log(LAUNCHER_LONG_PRESS_NAVBAR);
             verifyNoMoreInteractions(mStatsLatencyLogger);
+        } catch (AssumptionViolatedException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -454,6 +459,8 @@ public class NavHandleLongPressInputConsumerTest {
                     eq(NavHandleLongPressInputConsumer.CANCEL_REASON_TOUCH_SLOP_PASSED));
             verifyNoMoreInteractions(mStatsLogger);
             verify(mStatsLatencyLogger).log(LAUNCHER_LATENCY_CONTEXTUAL_SEARCH_LPNH_ABANDON);
+        } catch (AssumptionViolatedException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -491,6 +498,8 @@ public class NavHandleLongPressInputConsumerTest {
                     eq(NavHandleLongPressInputConsumer.CANCEL_REASON_TOUCH_SLOP_PASSED));
             verifyNoMoreInteractions(mStatsLogger);
             verify(mStatsLatencyLogger).log(LAUNCHER_LATENCY_CONTEXTUAL_SEARCH_LPNH_ABANDON);
+        } catch (AssumptionViolatedException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
