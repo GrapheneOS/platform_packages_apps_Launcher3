@@ -21,6 +21,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Insets
 import android.graphics.Rect
+import android.platform.test.annotations.EnableFlags
+import android.platform.test.flag.junit.SetFlagsRule
 import android.widget.FrameLayout
 import androidx.core.animation.AnimatorTestRule
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
@@ -32,6 +34,7 @@ import com.android.launcher3.DropTarget.DragObject
 import com.android.launcher3.dragndrop.DragOptions
 import com.android.launcher3.model.data.AppInfo
 import com.android.launcher3.taskbar.bubbles.BubbleBarController.BubbleBarLocationListener
+import com.android.wm.shell.Flags.FLAG_ENABLE_CREATE_ANY_BUBBLE
 import com.android.wm.shell.shared.bubbles.BubbleBarLocation
 import com.android.wm.shell.shared.bubbles.DeviceConfig
 import com.android.wm.shell.shared.bubbles.DragZoneFactory
@@ -61,6 +64,7 @@ import org.mockito.kotlin.verify
 class DragToBubbleControllerTest {
 
     @get:Rule val animatorTestRule = AnimatorTestRule()
+    @get:Rule val mSetFlagsRule: SetFlagsRule = SetFlagsRule()
 
     private val context = getApplicationContext<Context>()
     private val container = FrameLayout(context)
@@ -484,6 +488,7 @@ class DragToBubbleControllerTest {
     }
 
     @Test
+    @EnableFlags(FLAG_ENABLE_CREATE_ANY_BUBBLE)
     fun onShellDragStateChanged_true_preparesShellDragManager() {
         // When
         dragToBubbleController.onShellDragStateChanged(true)
@@ -512,6 +517,7 @@ class DragToBubbleControllerTest {
     }
 
     @Test
+    @EnableFlags(FLAG_ENABLE_CREATE_ANY_BUBBLE)
     fun showShellBubbleBarDropTargetAt_leftLocation_showsLeftDropTarget() {
         // Given
         dragToBubbleController.onShellDragStateChanged(true)
@@ -526,6 +532,7 @@ class DragToBubbleControllerTest {
     }
 
     @Test
+    @EnableFlags(FLAG_ENABLE_CREATE_ANY_BUBBLE)
     fun showShellBubbleBarDropTargetAt_rightLocation_showsRightDropTarget() {
         // Given
         dragToBubbleController.onShellDragStateChanged(true)
@@ -540,6 +547,7 @@ class DragToBubbleControllerTest {
     }
 
     @Test
+    @EnableFlags(FLAG_ENABLE_CREATE_ANY_BUBBLE)
     fun showShellBubbleBarDropTargetAtLeft_nullLocation_hidesDropTarget() {
         // Given
         dragToBubbleController.onShellDragStateChanged(true)
@@ -581,6 +589,7 @@ class DragToBubbleControllerTest {
     }
 
     @Test
+    @EnableFlags(FLAG_ENABLE_CREATE_ANY_BUBBLE)
     fun showShellBubbleBarDropTargetAt_consecutiveCallsSameLocation_noCallsToListener() {
         // Given
         prepareBubbleBarViewController(bubbleBarLocation = BubbleBarLocation.LEFT)
@@ -643,6 +652,7 @@ class DragToBubbleControllerTest {
     }
 
     @Test
+    @EnableFlags(FLAG_ENABLE_CREATE_ANY_BUBBLE)
     fun isDragInProgress_afterShellDragStart_returnsTrue() {
         // When
         dragToBubbleController.onShellDragStateChanged(true)
