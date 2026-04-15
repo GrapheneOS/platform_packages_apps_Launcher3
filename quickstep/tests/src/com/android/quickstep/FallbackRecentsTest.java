@@ -334,9 +334,10 @@ public class FallbackRecentsTest {
         final Matcher matcher = COMPONENT_INFO_REGEX.matcher(
                 mDevice.executeShellCommand(launcherCmdForMainUser));
         assertTrue("Incorrect output from get-default-launcher", matcher.find());
+        String testPackageName = getInstrumentation().getContext().getPackageName();
         assertEquals("Current Launcher activity is incorrect",
-                "com.google.android.apps.nexuslauncher.tests/com.android"
-                        + ".launcher3.testcomponent.TestLauncherActivity",
+                testPackageName
+                        + "/com.android.launcher3.testcomponent.TestLauncherActivity",
                 matcher.group(1)
         );
     }
