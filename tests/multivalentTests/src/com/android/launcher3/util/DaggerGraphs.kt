@@ -32,8 +32,10 @@ import com.android.launcher3.dagger.SystemDragModule
 import com.android.launcher3.dagger.WidgetModule
 import com.android.launcher3.dagger.WindowManagerProxyModule
 import com.android.launcher3.util.dagger.LauncherExecutorsModule
+import com.android.launcher3.util.window.WindowManagerProxy
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 
 private class DaggerGraphs {}
 
@@ -75,3 +77,9 @@ class AllModulesMinusWMProxy
 /** All modules except the ApiWrapper */
 @Module(includes = [WindowManagerProxyModule::class, CommonModulesForTest::class])
 class AllModulesMinusApiWrapper
+
+/** Sandbox WM proxy module that provides the base WindowManagerProxy for tests */
+@Module
+class SandboxWmProxyModule {
+    @Provides fun provideWindowManagerProxy(): WindowManagerProxy = WindowManagerProxy()
+}

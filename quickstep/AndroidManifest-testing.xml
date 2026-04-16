@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sets debuggable so that the JVMTI agent required by mockito's inline mock maker
+     can attach to the instrumentation test process. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.launcher3">
+    <application android:debuggable="true" />
+</manifest>
