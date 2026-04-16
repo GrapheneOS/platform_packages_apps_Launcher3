@@ -41,6 +41,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Trace;
+import android.util.Log;
 import android.view.Display;
 import android.view.RemoteAnimationAdapter;
 import android.view.RemoteAnimationTarget;
@@ -127,6 +128,9 @@ public final class RecentsActivity extends StatefulActivity<RecentsState> implem
 
     private final Runnable mAnimationStartTimeoutRunnable = this::onAnimationStartTimeout;
     private SplitSelectStateController mSplitSelectStateController;
+
+    // from CP1A RecentsActivity
+    private boolean mIsInRecentsViewVisibleState;
     @Nullable
     private DesktopRecentsTransitionController mDesktopRecentsTransitionController;
 
@@ -430,6 +434,14 @@ public final class RecentsActivity extends StatefulActivity<RecentsState> implem
             AccessibilityManagerCompat.sendStateEventToTest(getBaseContext(),
                     OVERVIEW_STATE_ORDINAL);
         }
+        // fix from CP1A RecentsActivity
+        if (mIsInRecentsViewVisibleState && !state.isRecentsViewVisible() && !isFinishing()) {
+            Log.d(TAG, "onStateSetEnd: closeAllOpenViews and moveTaskToBack to hide Recents "
+                    + "overview");
+            AbstractFloatingView.closeAllOpenViews(this, /* animate= */ false);
+            moveTaskToBack(/* nonRoot= */ true);
+        }
+        mIsInRecentsViewVisibleState = state.isRecentsViewVisible();
     }
 
     @Override
