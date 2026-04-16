@@ -33,6 +33,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.inputmethod.InputMethodManager;
 
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.ExtendedEditText;
@@ -46,6 +47,7 @@ import com.android.launcher3.search.SearchCallback;
 import com.android.launcher3.views.ActivityContext;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Layout to contain the All-apps search UI.
@@ -102,6 +104,16 @@ public class AppsSearchContainerLayout extends ExtendedEditText
 
         mContentOverlap =
                 getResources().getDimensionPixelSize(R.dimen.all_apps_search_bar_content_overlap);
+    }
+
+    @Override
+    protected void viewClicked(InputMethodManager imm) {
+        super.viewClicked(imm);
+        if (!mIsSearchSessionActive) {
+            mIsSearchSessionActive = true;
+            // non-null list to trigger animateToSearchState
+            mAppsView.setSearchResults(Collections.emptyList());
+        }
     }
 
     @Override
