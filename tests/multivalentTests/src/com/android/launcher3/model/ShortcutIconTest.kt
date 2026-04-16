@@ -23,11 +23,13 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.os.Process
+import android.platform.test.annotations.EnableFlags
 import android.platform.test.flag.junit.SetFlagsRule
 import android.util.Log
 import androidx.core.graphics.drawable.toDrawable
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import com.android.launcher3.Flags.FLAG_MODEL_REPOSITORY
 import com.android.launcher3.LauncherSettings.Favorites.ITEM_TYPE_DEEP_SHORTCUT
 import com.android.launcher3.icons.BitmapRenderer.createSoftwareBitmap
 import com.android.launcher3.icons.cache.CacheLookupFlag.Companion.DEFAULT_LOOKUP_FLAG
@@ -72,6 +74,7 @@ class ShortcutIconTest {
     val state: TestableModelState by lazy { app.appComponent.testableModelState }
 
     @Test
+    @EnableFlags(FLAG_MODEL_REPOSITORY)
     @MockUser(userType = UserIconInfo.TYPE_MAIN)
     fun shortcut_icon_retained_even_after_system_error() {
         // Setup mock LauncherApps to return a valid drawable
