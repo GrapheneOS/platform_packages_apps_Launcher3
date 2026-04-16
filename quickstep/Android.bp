@@ -109,3 +109,51 @@ filegroup {
         "tests/multivalentScreenshotTests/src/**/*.kt",
     ],
 }
+
+android_test {
+    name: "Launcher3QuickStepTests",
+    defaults: [
+        "launcher_compose_tests_defaults",
+    ],
+    srcs: [
+        ":launcher3-quickstep-tests-src",
+        ":launcher-tests-src",
+    ],
+    exclude_srcs: [
+        // widget_picker_component is a static_lib of both the test APK and the instrumented
+        // app. Each gets its own AAPT2 resource compilation with different ID namespaces, so
+        // the test APK's widgetpicker R class shadows the app's with wrong resource IDs.
+        // TaplAddWidgetTest triggers the widget picker UI which hits this mismatch.
+        // Same exclusion as Launcher3Tests -- see tests/Android.bp.
+        "../tests/src_e2e/com/android/launcher3/widget/TaplAddWidgetTest.java",
+    ],
+    static_libs: [
+        "Launcher3TestLib",
+        "com_android_launcher3_flags_lib",
+        "com_android_wm_shell_flags_lib",
+        "com_android_systemui_shared_flags_lib",
+        "androidx.core_core-animation-testing",
+    ],
+    // android_test defaults resource_dirs to ["res"] when a local res/ exists. In quickstep that
+    // would package app quickstep/res into the test APK, recreating the com.android.launcher3.R
+    // shadowing / resource ID mismatch against the instrumented Launcher3QuickStep app.
+    resource_dirs: [],
+    libs: [
+        "android.test.base.stubs.system",
+        "android.test.runner.stubs.system",
+        "android.test.mock.stubs.system",
+    ],
+    jni_libs: [
+        "libdexmakerjvmtiagent",
+        "libstaticjvmtiagent",
+    ],
+    use_embedded_native_libs: false,
+    compile_multilib: "both",
+    instrumentation_for: "Launcher3QuickStepForTesting",
+    manifest: "tests/AndroidManifest.xml",
+    platform_apis: true,
+    test_config: "tests/Launcher3QuickStepTests.xml",
+    data: [":Launcher3QuickStepForTesting"],
+    plugins: ["dagger2-compiler"],
+    test_suites: ["general-tests"],
+}

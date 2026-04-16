@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration description="Runs Launcher3 QuickStep tests.">
+    <option name="test-suite-tag" value="apct" />
+    <option name="test-suite-tag" value="apct-instrumentation" />
+
+    <option name="max-tmp-logcat-file" value="104857600" /> <!-- 100 * 1024 * 1024 -->
+
+    <logger class="com.android.tradefed.log.FileLogger">
+        <option name="max-log-size" value="20" />
+    </logger>
+
+    <target_preparer class="com.android.tradefed.targetprep.DeviceSetup">
+        <option name="set-test-harness" value="true" />
+
+        <option name="run-command" value="svc nfc disable" />
+        <option name="run-command" value="settings put global ble_scan_always_enabled 0" />
+        <option name="run-command" value="svc bluetooth disable" />
+
+        <option name="run-command" value="pm uninstall com.google.android.apps.nexuslauncher" />
+        <option name="run-command" value="pm uninstall com.google.android.apps.nexuslauncher.out_of_proc_tests" />
+        <option name="run-command" value="pm uninstall com.google.android.apps.nexuslauncher.tests" />
+        <option name="run-command" value="pm disable com.google.android.googlequicksearchbox" />
+
+        <option name="run-command" value="input keyevent 82" />
+        <option name="run-command" value="settings delete secure assistant" />
+        <option name="run-command" value="settings put global airplane_mode_on 1" />
+        <option name="run-command" value="am broadcast -a android.intent.action.AIRPLANE_MODE" />
+
+        <option name="run-command" value="setprop debug.wm.disable_deprecated_target_sdk_dialog 1"/>
+
+        <option name="run-command" value="settings put system pointer_location 1" />
+        <option name="run-command" value="settings put system show_touches 1" />
+
+        <option name="run-command" value="setprop pixel_legal_joint_permission_v2 true" />
+
+        <option name="run-command" value="settings put global verifier_verify_adb_installs 0" />
+
+        <!-- Kill the launcher so it starts fresh. TestLogging.sHadEventsNotFromTest is a
+             static boolean that never resets; a stale launcher process from before the test
+             run may already have it set, which causes every TAPL test to fail.
+             Also: do not tap the screen at all during tests, as any physical input event
+             (deviceId != -1) will set this flag and fail all subsequent TAPL tests. -->
+        <option name="run-command" value="am force-stop com.android.launcher3" />
+
+    </target_preparer>
+
+    <target_preparer class="com.android.tradefed.targetprep.suite.SuiteApkInstaller">
+        <option name="cleanup-apks" value="true" />
+        <option name="test-file-name" value="Launcher3QuickStepTests.apk" />
+        <option name="test-file-name" value="Launcher3QuickStepForTesting.apk" />
+    </target_preparer>
+
+
+    <metrics_collector class="com.android.tradefed.device.metric.FilePullerLogCollector">
+        <option name="directory-keys" value="/data/user/0/com.android.launcher3/files" />
+        <option name="directory-keys" value="/data/user/10/com.android.launcher3/files" />
+        <option name="collect-on-run-ended-only" value="true" />
+    </metrics_collector>
+
+    <test class="com.android.tradefed.testtype.AndroidJUnitTest" >
+        <option name="package" value="com.android.launcher3.tests" />
+        <option name="runner" value="androidx.test.runner.AndroidJUnitRunner" />
+        <option name="hidden-api-checks" value="false" />
+    </test>
+</configuration>

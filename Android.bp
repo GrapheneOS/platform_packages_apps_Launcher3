@@ -662,6 +662,35 @@ android_app {
 
 }
 
+// Launcher3QuickStep with R8 optimization disabled so that instrumentation tests can access all
+// methods. The production Launcher3QuickStep has R8 enabled, which strips methods that are unused
+// by the app but referenced by tests (e.g. @JvmOverloads synthetic overloads, default interface
+// methods).
+android_app {
+    name: "Launcher3QuickStepForTesting",
+    static_libs: ["Launcher3QuickStepLib"],
+    optimize: {
+        enabled: false,
+    },
+
+    platform_apis: true,
+    min_sdk_version: "current",
+    target_sdk_version: "current",
+
+    privileged: true,
+    system_ext_specific: true,
+
+    resource_dirs: ["quickstep/res"],
+
+    additional_manifests: [
+        "quickstep/AndroidManifest-launcher.xml",
+        "quickstep/AndroidManifest-testing.xml",
+        "AndroidManifest-common.xml",
+    ],
+
+    manifest: "quickstep/AndroidManifest.xml",
+}
+
 // Build rule for Launcher3 Go app with quickstep for Android Go devices.
 // Note that the following two rules are exactly same, and should
 // eventually be merged into a single target
