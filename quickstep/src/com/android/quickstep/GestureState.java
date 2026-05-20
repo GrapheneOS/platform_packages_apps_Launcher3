@@ -188,6 +188,9 @@ public class GestureState implements RecentsAnimationCallbacks.RecentsAnimationL
     private CachedTaskInfo mRunningTask;
     private GestureEndTarget mEndTarget;
     private RemoteAnimationTarget[] mLastAppearedTaskTargets;
+    // Task ids used for RecentsView lookup. These can differ from the Shell target task ids when
+    // legacy tracking reports a child home task while Shell animates the root home task.
+    private int[] mLastAppearedTaskIds;
     private Set<Integer> mPreviouslyAppearedTaskIds = new HashSet<>();
     private int[] mLastStartedTaskId = new int[]{INVALID_TASK_ID, INVALID_TASK_ID};
     private HashMap<Integer, ThumbnailData> mRecentsAnimationCanceledSnapshots;
@@ -218,6 +221,7 @@ public class GestureState implements RecentsAnimationCallbacks.RecentsAnimationL
         mRunningTask = other.mRunningTask;
         mEndTarget = other.mEndTarget;
         mLastAppearedTaskTargets = other.mLastAppearedTaskTargets;
+        mLastAppearedTaskIds = other.mLastAppearedTaskIds;
         mPreviouslyAppearedTaskIds = other.mPreviouslyAppearedTaskIds;
         mLastStartedTaskId = other.mLastStartedTaskId;
     }
@@ -390,12 +394,27 @@ public class GestureState implements RecentsAnimationCallbacks.RecentsAnimationL
      * Updates the last task that appeared during this gesture.
      */
     public void updateLastAppearedTaskTargets(RemoteAnimationTarget[] lastAppearedTaskTargets) {
+        updateLastAppearedTaskTargets(lastAppearedTaskTargets,
+                getTaskIds(lastAppearedTaskTargets));
+    }
+
+    /**
+     * Updates the last task that appeared during this gesture.
+     */
+    public void updateLastAppearedTaskTargets(RemoteAnimationTarget[] lastAppearedTaskTargets,
+            int[] lastAppearedTaskIds) {
         mLastAppearedTaskTargets = lastAppearedTaskTargets;
-        for (RemoteAnimationTarget target : lastAppearedTaskTargets) {
-            if (target == null) {
+        mLastAppearedTaskIds = lastAppearedTaskIds == null
+                ? null
+                : Arrays.copyOf(lastAppearedTaskIds, lastAppearedTaskIds.length);
+        if (mLastAppearedTaskIds == null) {
+            return;
+        }
+        for (int taskId : mLastAppearedTaskIds) {
+            if (taskId == INVALID_TASK_ID) {
                 continue;
             }
-            mPreviouslyAppearedTaskIds.add(target.taskId);
+            mPreviouslyAppearedTaskIds.add(taskId);
         }
     }
 
@@ -403,12 +422,19 @@ public class GestureState implements RecentsAnimationCallbacks.RecentsAnimationL
      * @return The id of the task that appeared during this gesture.
      */
     public int[] getLastAppearedTaskIds() {
-        if (mLastAppearedTaskTargets == null) {
+        if (mLastAppearedTaskIds == null) {
             return new int[]{INVALID_TASK_ID, INVALID_TASK_ID};
         } else {
-            return Arrays.stream(mLastAppearedTaskTargets)
-                    .mapToInt(target -> target != null ? target.taskId : INVALID_TASK_ID).toArray();
+            return Arrays.copyOf(mLastAppearedTaskIds, mLastAppearedTaskIds.length);
         }
+    }
+
+    private int[] getTaskIds(@Nullable RemoteAnimationTarget[] lastAppearedTaskTargets) {
+        if (lastAppearedTaskTargets == null) {
+            return null;
+        }
+        return Arrays.stream(lastAppearedTaskTargets)
+                .mapToInt(target -> target != null ? target.taskId : INVALID_TASK_ID).toArray();
     }
 
     public void updatePreviouslyAppearedTaskIds(Set<Integer> previouslyAppearedTaskIds) {
@@ -596,6 +622,7 @@ public class GestureState implements RecentsAnimationCallbacks.RecentsAnimationL
         pw.println(prefix + "\tendTarget=" + mEndTarget);
         pw.println(prefix + "\tlastAppearedTaskTargetId="
                 + Arrays.toString(mLastAppearedTaskTargets));
+        pw.println(prefix + "\tlastAppearedTaskIds=" + Arrays.toString(mLastAppearedTaskIds));
         pw.println(prefix + "\tlastStartedTaskId=" + Arrays.toString(mLastStartedTaskId));
         pw.println(prefix + "\tisRecentsAnimationRunning=" + isRecentsAnimationRunning());
     }
