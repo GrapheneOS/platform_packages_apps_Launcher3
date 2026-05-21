@@ -244,8 +244,10 @@ public class TaskAnimationManagerTest {
     }
 
     @Test
-    public void testRecentsAnimationStartTimeout_cleansUpRecentsAnimation() {
+    public void recentsAnimationStartTimeout_notifiesListenersAndCleansUpAnimation() {
         final GestureState gestureState = buildMockGestureState();
+        final RecentsAnimationCallbacks.RecentsAnimationListener listener =
+                mock(RecentsAnimationCallbacks.RecentsAnimationListener.class);
         when(mSystemUiProxy
                 .startRecentsTransition(any(), any(), any(), anyBoolean(), any(), anyInt()))
                 .thenReturn(true);
@@ -257,16 +259,19 @@ public class TaskAnimationManagerTest {
             mTaskAnimationManager.startRecentsAnimation(
                     gestureState,
                     new Intent(),
-                    mock(RecentsAnimationCallbacks.RecentsAnimationListener.class));
+                    listener);
 
             assertNotNull("TaskAnimationManager was cleaned up prematurely:",
                     mTaskAnimationManager.getCurrentCallbacks());
         });
 
         SystemClock.sleep(RECENTS_ANIMATION_START_TIMEOUT_MS);
+        // The timeout callback posts listener dispatch back to MAIN_EXECUTOR.
+        runOnMainSync(() -> { });
 
         runOnMainSync(() -> assertNull("TaskAnimationManager was not cleaned up after the timeout:",
                 mTaskAnimationManager.getCurrentCallbacks()));
+        verify(listener).onRecentsAnimationStartTimedOut();
     }
 
     protected static void runOnMainSync(Runnable runnable) {
