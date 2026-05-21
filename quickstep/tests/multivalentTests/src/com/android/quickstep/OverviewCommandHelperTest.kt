@@ -34,6 +34,7 @@ import com.android.launcher3.uioverrides.QuickstepLauncher
 import com.android.launcher3.util.LauncherMultivalentJUnit
 import com.android.launcher3.util.RunnableList
 import com.android.launcher3.util.TestDispatcherProvider
+import com.android.quickstep.AbsSwipeUpHandler.GestureAnimationEndResult
 import com.android.quickstep.OverviewCommandHelper.CommandInfo
 import com.android.quickstep.OverviewCommandHelper.CommandInfo.CommandStatus
 import com.android.quickstep.OverviewCommandHelper.CommandType
@@ -60,6 +61,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.anyInt
 import org.mockito.Mockito.spy
+import org.mockito.Mockito.times
 import org.mockito.kotlin.any
 import org.mockito.kotlin.argumentCaptor
 import org.mockito.kotlin.doAnswer
@@ -147,6 +149,7 @@ class OverviewCommandHelperTest {
 
     private fun mockExecuteCommand() {
         doAnswer { invocation ->
+                @Suppress("UNCHECKED_CAST")
                 val pendingCallback = invocation.arguments[1] as () -> Unit
 
                 val delayInMillis = pendingCallbacksWithDelays.removeFirstOrNull()
@@ -163,7 +166,7 @@ class OverviewCommandHelperTest {
                 delayInMillis == null // if no callback to execute, returns success
             }
             .`when`(sut)
-            .executeCommand(any<CommandInfo>(), any())
+            .executeCommand(any<CommandInfo>(), any<() -> Unit>())
     }
 
     @Test
@@ -529,10 +532,11 @@ class OverviewCommandHelperTest {
             verify(newGestureState)
                 .setHandlingAtomicEvent(GestureState.GestureEndTarget.REJECT_HOME)
 
-            // Make sure we can transition to completed state once we see an end callback.
             val gestureAnimationEndCallbackCaptor = argumentCaptor<Runnable>()
             verify(swipeUpHandler)
                 .setGestureAnimationEndCallback(gestureAnimationEndCallbackCaptor.capture())
+            whenever(swipeUpHandler.gestureAnimationEndResult)
+                .thenReturn(GestureAnimationEndResult.NORMAL)
             gestureAnimationEndCallbackCaptor.firstValue.run()
             runCurrent()
             assertThat(command.status).isEqualTo(CommandStatus.COMPLETED)
@@ -648,17 +652,87 @@ class OverviewCommandHelperTest {
             verify(newGestureState).setHandlingAtomicEvent(GestureState.GestureEndTarget.RECENTS)
             verify(recentView).setKeyboardFocusTask(KeyboardFocusTask.ExpectedCurrentTask)
 
-            // Make sure we can transition to completed state once we see an end callback.
             val gestureAnimationEndCallbackCaptor = argumentCaptor<Runnable>()
             verify(swipeUpHandler)
                 .setGestureAnimationEndCallback(gestureAnimationEndCallbackCaptor.capture())
             whenever(containerInterface.getVisibleRecentsView<RecentsView<*, *>>())
                 .thenReturn(recentView)
+            whenever(swipeUpHandler.gestureAnimationEndResult)
+                .thenReturn(GestureAnimationEndResult.NORMAL)
             gestureAnimationEndCallbackCaptor.firstValue.run()
 
             runCurrent()
             assertThat(command.status).isEqualTo(CommandStatus.COMPLETED)
             verify(recentView).setKeyboardFocusTask(KeyboardFocusTask.Unfocused)
+        }
+
+    @Test
+    fun showWithFocusCommand_retriesAfterLauncherDestroyedDuringRecents() =
+        testScope.runTest {
+            whenever(containerInterface.getVisibleRecentsView<RecentsView<*, *>>()).thenReturn(null)
+            whenever(containerInterface.switchToRecentsIfVisible(any())).thenReturn(false)
+            val (swipeUpHandler, _) = setupGestureDependencies()
+            val command = sut.addCommand(CommandType.SHOW_WITH_FOCUS)!!
+
+            runCurrent()
+            assertThat(command.status).isEqualTo(CommandStatus.PROCESSING)
+            val firstCallbackCaptor = argumentCaptor<Runnable>()
+            verify(swipeUpHandler)
+                .setGestureAnimationEndCallback(firstCallbackCaptor.capture())
+
+            // Launcher was destroyed before Shell finished recents. The command should retry once
+            // after the stale animation is force finished.
+            whenever(swipeUpHandler.gestureAnimationEndResult)
+                .thenReturn(GestureAnimationEndResult.LAUNCHER_DESTROYED)
+            firstCallbackCaptor.firstValue.run()
+            runCurrent()
+
+            assertThat(command.status).isEqualTo(CommandStatus.PROCESSING)
+            verify(swipeUpHandler, times(2)).onGestureStarted(any())
+            val retryCallbackCaptor = argumentCaptor<Runnable>()
+            verify(swipeUpHandler, times(2))
+                .setGestureAnimationEndCallback(retryCallbackCaptor.capture())
+
+            whenever(containerInterface.getVisibleRecentsView<RecentsView<*, *>>())
+                .thenReturn(recentView)
+            whenever(swipeUpHandler.gestureAnimationEndResult)
+                .thenReturn(GestureAnimationEndResult.NORMAL)
+            retryCallbackCaptor.allValues.last().run()
+            runCurrent()
+
+            assertThat(command.status).isEqualTo(CommandStatus.COMPLETED)
+            verify(taskAnimationManager, times(2)).startRecentsAnimation(any(), any(), any())
+        }
+
+    @Test
+    fun showWithFocusCommand_cancelsAfterLauncherDestroyedDuringRetry() =
+        testScope.runTest {
+            whenever(containerInterface.getVisibleRecentsView<RecentsView<*, *>>()).thenReturn(null)
+            whenever(containerInterface.switchToRecentsIfVisible(any())).thenReturn(false)
+            val (swipeUpHandler, _) = setupGestureDependencies()
+            val command = sut.addCommand(CommandType.SHOW_WITH_FOCUS)!!
+
+            runCurrent()
+            val firstCallbackCaptor = argumentCaptor<Runnable>()
+            verify(swipeUpHandler)
+                .setGestureAnimationEndCallback(firstCallbackCaptor.capture())
+
+            whenever(swipeUpHandler.gestureAnimationEndResult)
+                .thenReturn(GestureAnimationEndResult.LAUNCHER_DESTROYED)
+            firstCallbackCaptor.firstValue.run()
+            runCurrent()
+            val retryCallbackCaptor = argumentCaptor<Runnable>()
+            verify(swipeUpHandler, times(2))
+                .setGestureAnimationEndCallback(retryCallbackCaptor.capture())
+
+            // If Launcher is destroyed again during the retry, the user action cannot be preserved.
+            whenever(swipeUpHandler.gestureAnimationEndResult)
+                .thenReturn(GestureAnimationEndResult.LAUNCHER_DESTROYED)
+            retryCallbackCaptor.allValues.last().run()
+            runCurrent()
+
+            assertThat(command.status).isEqualTo(CommandStatus.CANCELED)
+            verify(taskAnimationManager, times(2)).startRecentsAnimation(any(), any(), any())
         }
 
     private fun setupGestureDependencies(): Pair<AbsSwipeUpHandler<*, *, *>, GestureState> {

@@ -65,6 +65,7 @@ import androidx.test.filters.SmallTest;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.android.app.displaylib.fakes.FakePerDisplayRepository;
+import com.android.internal.os.IResultReceiver;
 import com.android.launcher3.uioverrides.QuickstepLauncher;
 import com.android.launcher3.util.DisplayController;
 import com.android.launcher3.util.Executors;
@@ -329,12 +330,16 @@ public class TaskAnimationManagerTest {
     }
 
     @Test
-    public void testLauncherDestroyed_whileRecentsAnimationStartPending_finishesAnimation() {
+    public void launcherDestroyedBeforeRecentsAnimationStarts_finishesAnimation()
+            throws Exception {
         final GestureState gestureState = buildMockGestureState();
         final ArgumentCaptor<RecentsAnimationCallbacks> listenerCaptor =
                 ArgumentCaptor.forClass(RecentsAnimationCallbacks.class);
+        final ArgumentCaptor<IResultReceiver> finishCallbackCaptor =
+                ArgumentCaptor.forClass(IResultReceiver.class);
         final RecentsAnimationControllerCompat controllerCompat =
                 mock(RecentsAnimationControllerCompat.class);
+        final Runnable forceFinishCompleteCallback = mock(Runnable.class);
         final RemoteAnimationTarget remoteAnimationTarget = new RemoteAnimationTarget(
                 /* taskId= */ 0,
                 /* mode= */ RemoteAnimationTarget.MODE_CLOSING,
@@ -364,8 +369,9 @@ public class TaskAnimationManagerTest {
                     new Intent(),
                     mock(RecentsAnimationCallbacks.RecentsAnimationListener.class));
 
-            // Simulate multiple launcher destroyed events before the recents animation start
-            mTaskAnimationManager.onLauncherDestroyed();
+            // Launcher can be destroyed before Shell calls onAnimationStart. Repeated destroy
+            // events must still result in one force finish and one completion callback.
+            mTaskAnimationManager.onLauncherDestroyed(forceFinishCompleteCallback);
             mTaskAnimationManager.onLauncherDestroyed();
             mTaskAnimationManager.onLauncherDestroyed();
             listenerCaptor.getValue().onAnimationStart(
@@ -377,9 +383,48 @@ public class TaskAnimationManagerTest {
                     new TransitionInfo(0, 0));
         });
 
-        // Verify checks that finish was only called once
+        // The repeated destroy events above should be coalesced into a single controller finish.
         runOnMainSync(() -> verify(controllerCompat)
-                .finish(/* toHome= */ eq(false), anyBoolean(), any()));
+                .finish(/* toHome= */ eq(false), anyBoolean(), finishCallbackCaptor.capture()));
+        verify(forceFinishCompleteCallback, never()).run();
+
+        finishCallbackCaptor.getValue().send(/* resultCode= */ 0, /* resultData= */ null);
+        runOnMainSync(() -> {});
+
+        verify(forceFinishCompleteCallback, times(1)).run();
+    }
+
+    @Test
+    public void launcherDestroyedAfterRecentsAnimationStarts_finishesAnimation()
+            throws Exception {
+        final GestureState gestureState = buildMockGestureState();
+        final RecentsAnimationCallbacks callbacks =
+                startRecentsAnimationAndCaptureCallbacks(gestureState);
+        final RecentsAnimationControllerCompat controllerCompat =
+                mock(RecentsAnimationControllerCompat.class);
+        final ArgumentCaptor<IResultReceiver> finishCallbackCaptor =
+                ArgumentCaptor.forClass(IResultReceiver.class);
+        final Runnable forceFinishCompleteCallback = mock(Runnable.class);
+        final RemoteAnimationTarget appTarget = createRemoteAnimationTarget(
+                /* taskId= */ 0,
+                MODE_CLOSING,
+                ACTIVITY_TYPE_STANDARD,
+                "app.example");
+
+        dispatchRecentsAnimationStart(callbacks, controllerCompat, appTarget);
+
+        // Once Shell has returned a controller, launcher destruction should wait for the
+        // controller finish callback before reporting command completion.
+        runOnMainSync(() -> mTaskAnimationManager.onLauncherDestroyed(forceFinishCompleteCallback));
+
+        runOnMainSync(() -> verify(controllerCompat)
+                .finish(/* toHome= */ eq(false), anyBoolean(), finishCallbackCaptor.capture()));
+        verify(forceFinishCompleteCallback, never()).run();
+
+        finishCallbackCaptor.getValue().send(/* resultCode= */ 0, /* resultData= */ null);
+        runOnMainSync(() -> {});
+
+        verify(forceFinishCompleteCallback, times(1)).run();
     }
 
     @Test
@@ -440,8 +485,16 @@ public class TaskAnimationManagerTest {
 
     private void dispatchRecentsAnimationStart(
             RecentsAnimationCallbacks callbacks, RemoteAnimationTarget... appTargets) {
+        dispatchRecentsAnimationStart(callbacks, mock(RecentsAnimationControllerCompat.class),
+                appTargets);
+    }
+
+    private void dispatchRecentsAnimationStart(
+            RecentsAnimationCallbacks callbacks,
+            RecentsAnimationControllerCompat controller,
+            RemoteAnimationTarget... appTargets) {
         runOnMainSync(() -> callbacks.onAnimationStart(
-                mock(RecentsAnimationControllerCompat.class),
+                controller,
                 appTargets,
                 new RemoteAnimationTarget[0],
                 new Rect(),

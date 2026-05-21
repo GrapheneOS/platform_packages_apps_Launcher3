@@ -45,6 +45,7 @@ import com.android.launcher3.util.OverviewCommandHelperProtoLogProxy
 import com.android.launcher3.util.OverviewReleaseFlags.enableGridOnlyOverview
 import com.android.launcher3.util.RunnableList
 import com.android.launcher3.util.coroutines.DispatcherProvider
+import com.android.quickstep.AbsSwipeUpHandler.GestureAnimationEndResult
 import com.android.quickstep.GestureState.GestureEndTarget
 import com.android.quickstep.GestureState.displaySupportsHomeGesture
 import com.android.quickstep.OverviewCommandHelper.CommandInfo.CommandStatus
@@ -71,6 +72,7 @@ import dagger.assisted.AssistedInject
 import java.io.PrintWriter
 import java.util.concurrent.ConcurrentLinkedDeque
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.coroutineContext
 import kotlin.coroutines.resume
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -206,9 +208,18 @@ constructor(
             coroutineScope.launch(dispatcherProvider.main) {
                 traceSection("OverviewCommandHelper.executeCommandWithTimeout") {
                     withTimeout(QUEUE_WAIT_DURATION_IN_MS) {
-                        executeCommandSuspended(command)
+                        val result = executeCommandWithLauncherDestroyedRetry(command)
                         ensureActive()
-                        onCommandFinished(command)
+                        if (result == CommandExecutionResult.COMPLETED) {
+                            onCommandFinished(command)
+                        } else {
+                            Log.w(
+                                TAG,
+                                "Canceling overview command after repeated Launcher destruction " +
+                                    "during recents",
+                            )
+                            cancelCommand(command, throwable = null)
+                        }
                     }
                 }
             }
@@ -233,21 +244,69 @@ constructor(
      * Executes the task and returns true if next task can be executed. If false, then the next task
      * is deferred until [.scheduleNextTask] is called
      */
-    private suspend fun executeCommandSuspended(command: CommandInfo) =
+    private suspend fun executeCommandWithLauncherDestroyedRetry(
+        command: CommandInfo
+    ): CommandExecutionResult {
+        var result = executeCommandSuspended(command)
+        coroutineContext.ensureActive()
+        if (result != CommandExecutionResult.RETRY_AFTER_LAUNCHER_DESTROYED) {
+            return result
+        }
+
+        // Launcher can be relaunched after the command starts but before Shell finishes the old
+        // recents animation. Retry once after that forced finish so the user action is not consumed
+        // by the stale animation.
+        Log.w(TAG, "Retrying overview command after Launcher was destroyed during recents")
+        result = executeCommandSuspended(command)
+        coroutineContext.ensureActive()
+        return result
+    }
+
+    /**
+     * Executes the task and returns true if next task can be executed. If false, then the next task
+     * is deferred until [.scheduleNextTask] is called
+     */
+    private suspend fun executeCommandSuspended(command: CommandInfo): CommandExecutionResult =
         suspendCancellableCoroutine { continuation ->
+            var hasResult = false
+
+            fun resumeWith(result: CommandExecutionResult) {
+                if (hasResult || !continuation.isActive) {
+                    return
+                }
+                hasResult = true
+                continuation.resume(result)
+            }
+
+            fun processCallbackResult(result: CommandExecutionResult) {
+                OverviewCommandHelperProtoLogProxy.logExecutedCommandWithResult(
+                    command,
+                    result == CommandExecutionResult.COMPLETED,
+                )
+                resumeWith(result)
+            }
+
             fun processResult(isCompleted: Boolean) {
+                if (hasResult) {
+                    return
+                }
                 OverviewCommandHelperProtoLogProxy.logExecutedCommandWithResult(
                     command,
                     isCompleted,
                 )
                 if (isCompleted) {
-                    continuation.resume(Unit)
+                    resumeWith(CommandExecutionResult.COMPLETED)
                 } else {
                     OverviewCommandHelperProtoLogProxy.logWaitingForCommandCallback(command)
                 }
             }
 
-            val result = executeCommand(command, onCallbackResult = { processResult(true) })
+            // Keep command callbacks as no-argument callbacks for rebase portability; recents
+            // transition completion writes the reason before invoking this callback.
+            command.callbackExecutionResult = CommandExecutionResult.COMPLETED
+            val result = executeCommand(command) {
+                processCallbackResult(command.callbackExecutionResult)
+            }
             processResult(result)
 
             continuation.invokeOnCancellation { cancelCommand(command, it) }
@@ -672,6 +731,9 @@ constructor(
         command.removeListener(handler)
         Trace.endAsyncSection(TRANSITION_NAME, 0)
         onRecentsViewFocusUpdated(command)
+        if (handler.gestureAnimationEndResult == GestureAnimationEndResult.LAUNCHER_DESTROYED) {
+            command.callbackExecutionResult = CommandExecutionResult.RETRY_AFTER_LAUNCHER_DESTROYED
+        }
         onCommandResult()
     }
 
@@ -776,6 +838,11 @@ constructor(
         pw.println("  keyboardFocusTask=$keyboardFocusTask")
     }
 
+    enum class CommandExecutionResult {
+        COMPLETED,
+        RETRY_AFTER_LAUNCHER_DESTROYED,
+    }
+
     @VisibleForTesting
     data class CommandInfo(
         val type: CommandType,
@@ -785,6 +852,10 @@ constructor(
         val displayId: Int = DEFAULT_DISPLAY,
         val isLastOfBatch: Boolean = true,
     ) {
+        // Set before invoking a deferred command callback when completion needs a non-default
+        // outcome, such as retrying after Launcher was destroyed during recents.
+        var callbackExecutionResult: CommandExecutionResult = CommandExecutionResult.COMPLETED
+
         fun setAnimationCallbacks(recentsAnimationCallbacks: RecentsAnimationCallbacks) {
             this.animationCallbacks = recentsAnimationCallbacks
         }

@@ -224,6 +224,8 @@ public abstract class AbsSwipeUpHandler<
     protected @Nullable RECENTS_VIEW mRecentsView;
     protected Runnable mGestureEndCallback;
     protected Runnable mGestureAnimationEndCallback;
+    // Keep the existing Runnable callback API stable and expose the completion reason separately.
+    private GestureAnimationEndResult mGestureAnimationEndResult = GestureAnimationEndResult.NORMAL;
     protected MultiStateCallback mStateCallback;
     protected boolean mCanceled;
     private boolean mRecentsViewScrollLinked = false;
@@ -2434,6 +2436,7 @@ public abstract class AbsSwipeUpHandler<
         if (mGestureEndCallback != null) {
             mGestureEndCallback.run();
         }
+        finishGestureAnimationIfLauncherIsGone();
 
         mContextInitListener.unregister("AbsSwipeUpHandler.invalidateHandler");
         TaskStackChangeListeners.getInstance().unregisterTaskStackListener(
@@ -2452,10 +2455,32 @@ public abstract class AbsSwipeUpHandler<
         if (mRecentsView != null) {
             mRecentsView.onGestureAnimationEnd();
         }
-        if (mGestureAnimationEndCallback != null) {
-            mGestureAnimationEndCallback.run();
-        }
+        runGestureAnimationEndCallback(GestureAnimationEndResult.NORMAL);
         resetLauncherListeners();
+    }
+
+    private void finishGestureAnimationIfLauncherIsGone() {
+        if (mStateCallback.hasStates(STATE_LAUNCHER_PRESENT)) {
+            return;
+        }
+        if (mGestureAnimationEndCallback == null) {
+            return;
+        }
+        // A pending recents animation can still finish back to the previous app after Launcher is
+        // destroyed. Wait for TaskAnimationManager to force-finish it before retrying the command.
+        Log.w(TAG, "Recovering overview command after Launcher was destroyed during recents");
+        ActiveGestureProtoLogProxy.logOverviewCommandRecoveredAfterLauncherGone();
+        mTaskAnimationManager.onLauncherDestroyed(
+                () -> runGestureAnimationEndCallback(GestureAnimationEndResult.LAUNCHER_DESTROYED));
+    }
+
+    private void runGestureAnimationEndCallback(GestureAnimationEndResult result) {
+        mGestureAnimationEndResult = result;
+        Runnable callback = mGestureAnimationEndCallback;
+        mGestureAnimationEndCallback = null;
+        if (callback != null) {
+            callback.run();
+        }
     }
 
     private void endLauncherTransitionController() {
@@ -2677,6 +2702,15 @@ public abstract class AbsSwipeUpHandler<
 
     public void setGestureAnimationEndCallback(Runnable gestureAnimationEndCallback) {
         mGestureAnimationEndCallback = gestureAnimationEndCallback;
+    }
+
+    public GestureAnimationEndResult getGestureAnimationEndResult() {
+        return mGestureAnimationEndResult;
+    }
+
+    public enum GestureAnimationEndResult {
+        NORMAL,
+        LAUNCHER_DESTROYED,
     }
 
     protected void linkRecentsViewScroll() {
