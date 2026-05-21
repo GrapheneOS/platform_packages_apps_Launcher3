@@ -23,6 +23,8 @@ import static com.android.launcher3.statehandlers.DesktopVisibilityController.IN
 import static com.android.quickstep.AbsSwipeUpHandler.STATE_GESTURE_CANCELLED;
 import static com.android.quickstep.AbsSwipeUpHandler.STATE_HANDLER_INVALIDATED;
 import static com.android.quickstep.AbsSwipeUpHandler.STATE_LAUNCHER_PRESENT;
+import static com.android.quickstep.AbsSwipeUpHandler.GestureAnimationEndResult.LAUNCHER_DESTROYED;
+import static com.android.quickstep.AbsSwipeUpHandler.GestureAnimationEndResult.NORMAL;
 import static com.android.wm.shell.shared.ShellSharedConstants.KEY_EXTRA_SHELL_CAN_HAND_OFF_ANIMATION;
 import static com.android.wm.shell.shared.split.SplitBounds.KEY_EXTRA_SPLIT_BOUNDS;
 import static com.android.wm.shell.shared.split.SplitScreenConstants.SNAP_TO_2_50_50;
@@ -40,6 +42,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -513,7 +516,33 @@ public abstract class AbsSwipeUpHandlerTestCase<
 
         handler.mStateCallback.setState(STATE_HANDLER_INVALIDATED | STATE_LAUNCHER_PRESENT);
 
-        verify(onGestureAnimationEndCallback).run();
+        verify(onGestureAnimationEndCallback, times(1)).run();
+        assertEquals(NORMAL, handler.getGestureAnimationEndResult());
+    }
+
+    @Test
+    public void launcherDestroyedDuringRecentsCommand_waitsForAnimationFinish() {
+        SWIPE_HANDLER handler = createSwipeHandler();
+        Runnable onGestureAnimationEndCallback = mock(Runnable.class);
+        ArgumentCaptor<Runnable> forceFinishCallbackCaptor =
+                ArgumentCaptor.forClass(Runnable.class);
+        handler.setGestureAnimationEndCallback(onGestureAnimationEndCallback);
+        doNothing().when(mTaskAnimationManager).onLauncherDestroyed(any(Runnable.class));
+
+        // Launcher was destroyed before the gesture ended, so the command callback must wait for
+        // TaskAnimationManager to force finish Shell's recents animation.
+        handler.mStateCallback.setState(STATE_HANDLER_INVALIDATED);
+
+        verify(mTaskAnimationManager).onLauncherDestroyed(forceFinishCallbackCaptor.capture());
+        verify(onGestureAnimationEndCallback, never()).run();
+
+        forceFinishCallbackCaptor.getValue().run();
+        verify(onGestureAnimationEndCallback, times(1)).run();
+        assertEquals(LAUNCHER_DESTROYED, handler.getGestureAnimationEndResult());
+
+        handler.mStateCallback.setState(STATE_LAUNCHER_PRESENT);
+
+        verify(onGestureAnimationEndCallback, times(1)).run();
     }
 
     @Test

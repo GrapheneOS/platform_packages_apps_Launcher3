@@ -50,6 +50,7 @@ import com.android.launcher3.dagger.ApplicationContext;
 import com.android.launcher3.taskbar.TaskbarInteractor;
 import com.android.launcher3.util.DaggerSingletonObject;
 import com.android.launcher3.util.DisplayController;
+import com.android.launcher3.util.RunnableList;
 import com.android.quickstep.dagger.QuickstepBaseAppComponent;
 import com.android.quickstep.util.ActiveGestureLog;
 import com.android.quickstep.util.ActiveGestureProtoLogProxy;
@@ -100,6 +101,8 @@ public class TaskAnimationManager implements RecentsAnimationCallbacks.RecentsAn
     private final int mDisplayId;
 
     private boolean mLauncherDestroyCallbackSet = false;
+    private boolean mLauncherDestroyForceFinishPending = false;
+    private RunnableList mLauncherDestroyedCallbacks;
 
     public static final DaggerSingletonObject<PerDisplayRepository<TaskAnimationManager>>
             REPOSITORY_INSTANCE = new DaggerSingletonObject<>(
@@ -640,15 +643,38 @@ public class TaskAnimationManager implements RecentsAnimationCallbacks.RecentsAn
     }
 
     void onLauncherDestroyed() {
-        if (!mRecentsAnimationStartPending) {
-            return;
-        }
-        if (mCallbacks == null) {
-            return;
-        }
+        onLauncherDestroyed(/* onForceFinishComplete= */ null);
+    }
+
+    void onLauncherDestroyed(@Nullable Runnable onForceFinishComplete) {
+        addLauncherDestroyedCallback(onForceFinishComplete);
         if (mLauncherDestroyCallbackSet) {
             return;
         }
+        if (mLauncherDestroyForceFinishPending) {
+            return;
+        }
+        if (mController != null) {
+            // Android 17 Beta 4 CP21.260330.008 NexusLauncher force-finishes here when the start
+            // callback already provided a controller. Preserve that path so the retry hook also
+            // covers this timing.
+            mLauncherDestroyForceFinishPending = true;
+            finishRunningRecentsAnimation(
+                    /* toHome= */ false,
+                    /* forceFinish= */ true,
+                    /* forceFinishCb= */ TaskAnimationManager.this::runLauncherDestroyedCallbacks,
+                    mController,
+                    /* reason= */ new ActiveGestureLog.CompoundString(
+                            "TaskAnimationManager.onLauncherDestroyed"));
+            return;
+        }
+        if (!mRecentsAnimationStartPending || mCallbacks == null) {
+            runLauncherDestroyedCallbacks();
+            return;
+        }
+        // Launcher may be destroyed before Shell sends onRecentsAnimationStart. In that case,
+        // callers waiting to retry the user command must wait until the late start callback has
+        // been force-finished, otherwise Shell can still finish back to the previous app.
         ActiveGestureProtoLogProxy.logQueuingForceFinishRecentsAnimation();
         mLauncherDestroyCallbackSet = true;
         mCallbacks.addListener(new RecentsAnimationCallbacks.RecentsAnimationListener() {
@@ -657,16 +683,37 @@ public class TaskAnimationManager implements RecentsAnimationCallbacks.RecentsAn
                     RecentsAnimationController controller,
                     RecentsAnimationTargets targets,
                     @Nullable TransitionInfo transitionInfo) {
+                mLauncherDestroyForceFinishPending = true;
                 finishRunningRecentsAnimation(
                         /* toHome= */ false,
                         /* forceFinish= */ true,
-                        /* forceFinishCb= */ null,
+                        /* forceFinishCb= */ TaskAnimationManager.this::runLauncherDestroyedCallbacks,
                         controller,
                         /* reason= */ new ActiveGestureLog.CompoundString(
                                 "TaskAnimationManager.onLauncherDestroyed"));
                 mLauncherDestroyCallbackSet = false;
             }
         });
+    }
+
+    private void addLauncherDestroyedCallback(@Nullable Runnable callback) {
+        if (callback == null) {
+            return;
+        }
+        if (mLauncherDestroyedCallbacks == null) {
+            mLauncherDestroyedCallbacks = new RunnableList();
+        }
+        mLauncherDestroyedCallbacks.add(callback);
+    }
+
+    private void runLauncherDestroyedCallbacks() {
+        mLauncherDestroyCallbackSet = false;
+        mLauncherDestroyForceFinishPending = false;
+        RunnableList callbacks = mLauncherDestroyedCallbacks;
+        mLauncherDestroyedCallbacks = null;
+        if (callbacks != null) {
+            callbacks.executeAllAndDestroy();
+        }
     }
 
     /**
@@ -678,6 +725,10 @@ public class TaskAnimationManager implements RecentsAnimationCallbacks.RecentsAn
             return;
         }
         ActiveGestureProtoLogProxy.logCleanUpRecentsAnimation();
+        // If the animation is canceled before the late start callback arrives, there is no Shell
+        // controller left to force-finish. Let the waiting command retry immediately.
+        boolean runLauncherDestroyedCallbacks =
+                mLauncherDestroyCallbackSet && !mLauncherDestroyForceFinishPending;
         if (mLiveTileCleanUpHandler != null) {
             mLiveTileCleanUpHandler.run();
             mLiveTileCleanUpHandler = null;
@@ -702,6 +753,9 @@ public class TaskAnimationManager implements RecentsAnimationCallbacks.RecentsAn
         mLastGestureState = null;
         mLastAppearedTaskTargets = null;
         mLastAppearedTaskIds = null;
+        if (runLauncherDestroyedCallbacks) {
+            runLauncherDestroyedCallbacks();
+        }
     }
 
     @Nullable

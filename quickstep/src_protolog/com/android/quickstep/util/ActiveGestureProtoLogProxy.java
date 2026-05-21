@@ -83,6 +83,15 @@ public class ActiveGestureProtoLogProxy {
         }
     }
 
+    public static void logOverviewCommandRecoveredAfterLauncherGone() {
+        ActiveGestureLog.INSTANCE.addLog("Recovered stuck overview command after Launcher was "
+                + "gone; this indicates a launcher relaunch race");
+        if (willProtoLog()) {
+            ProtoLog.d(PROTO_LOG_GROUP, "Recovered stuck overview command after Launcher was "
+                    + "gone; this indicates a launcher relaunch race");
+        }
+    }
+
     public static void logAbsSwipeUpHandlerOnRecentsAnimationStartTimedOut() {
         ActiveGestureLog.INSTANCE.addLog("AbsSwipeUpHandler.onRecentsAnimationStartTimedOut");
         if (willProtoLog()) {
