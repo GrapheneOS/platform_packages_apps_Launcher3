@@ -86,6 +86,7 @@ import com.android.launcher3.pm.PackageInstallInfo;
 import com.android.launcher3.pm.UserCache;
 import com.android.launcher3.pm.UserCache.CachedUserInfo;
 import com.android.launcher3.pm.UserManagerState;
+import com.android.launcher3.provider.GosLauncherDbMigrations;
 import com.android.launcher3.provider.LauncherDbUtils;
 import com.android.launcher3.shortcuts.ShortcutKey;
 import com.android.launcher3.shortcuts.ShortcutRequest;
@@ -446,6 +447,11 @@ public class LoaderTask implements Runnable {
 
         Log.d(TAG, "loadWorkspace: loading default favorites if necessary");
         dbController.loadDefaultFavoritesIfNecessary();
+        try {
+            GosLauncherDbMigrations.runIdempotentMigrations(mContext, dbController.getDb());
+        } catch (Exception e) {
+            FileLog.e(TAG, "Failed to run GrapheneOS launcher DB migrations", e);
+        }
 
         synchronized (mBgDataModel) {
             mBgDataModel.clear();
