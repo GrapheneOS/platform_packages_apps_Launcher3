@@ -14,8 +14,6 @@ import static com.android.launcher3.widget.picker.model.data.WidgetPickerDataUti
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.GosPackageState;
-import android.content.pm.GosPackageStateFlag;
 import android.content.pm.ShortcutInfo;
 import android.graphics.Rect;
 import android.os.Process;
@@ -25,14 +23,12 @@ import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.window.SplashScreen;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.AbstractFloatingViewHelper;
-import com.android.launcher3.BaseActivity;
 import com.android.launcher3.DropTargetHandler;
 import com.android.launcher3.Flags;
 import com.android.launcher3.LauncherSettings;
@@ -257,86 +253,6 @@ public abstract class SystemShortcut<T extends ActivityContext> extends ItemInfo
                 this.taskTitle = taskTitle;
                 this.nodeId = nodeId;
             }
-        }
-    }
-
-    abstract static class ScopesShortcut<T extends ActivityContext> extends SystemShortcut<T> {
-
-        protected String targetPackage;
-
-        private ScopesShortcut(int icon, int label, T target, ItemInfo itemInfo, View originalView) {
-            super(icon, label, target, itemInfo, originalView);
-            targetPackage = itemInfo.getTargetPackage();
-        }
-
-        protected static boolean hasGosPackageStateFlag(ItemInfo itemInfo, int flag) {
-            String pkg = itemInfo.getTargetPackage();
-            if (pkg == null) {
-                return false;
-            }
-            return GosPackageState.get(pkg, itemInfo.user).hasFlag(flag);
-        }
-
-        @Override
-        public void onClick(View v) {
-            dismissTaskMenuView();
-
-            Intent intent = getIntent(targetPackage);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            var opts = android.app.ActivityOptions.makeBasic()
-                    .setSplashScreenStyle(SplashScreen.SPLASH_SCREEN_STYLE_SOLID_COLOR)
-                    .toBundle();
-            v.getContext().startActivityAsUser(intent, opts, mItemInfo.user);
-        }
-
-        protected abstract Intent getIntent(String targetPkg);
-    }
-
-    public static final Factory<BaseActivity> STORAGE_SCOPES = StorageScopes::maybeGet;
-
-    public static class StorageScopes<T extends ActivityContext> extends ScopesShortcut<T> {
-
-        private StorageScopes(T target, ItemInfo itemInfo, View originalView) {
-            super(R.drawable.ic_sscopes_add_file, R.string.storage_scopes_drop_target_label, target,
-                    itemInfo, originalView);
-        }
-
-        @Nullable
-        public static <T extends ActivityContext> StorageScopes<T> maybeGet(T target, ItemInfo itemInfo, View originalView) {
-            if (hasGosPackageStateFlag(itemInfo, GosPackageStateFlag.STORAGE_SCOPES_ENABLED)) {
-                return new StorageScopes<>(target, itemInfo, originalView);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected Intent getIntent(String targetPkg) {
-            return android.app.StorageScope.createConfigActivityIntent(targetPkg);
-        }
-    }
-
-    public static final Factory<BaseActivity> CONTACT_SCOPES = ContactScopes::maybeGet;
-
-    public static class ContactScopes<T extends ActivityContext> extends ScopesShortcut<T> {
-
-        private ContactScopes(T target, ItemInfo itemInfo, View originalView) {
-            super(R.drawable.ic_cscopes, R.string.contact_scopes_label, target,
-                    itemInfo, originalView);
-        }
-
-        @Nullable
-        public static <T extends ActivityContext> ContactScopes<T> maybeGet(T target, ItemInfo itemInfo, View originalView) {
-            if (hasGosPackageStateFlag(itemInfo, GosPackageStateFlag.CONTACT_SCOPES_ENABLED)) {
-                return new ContactScopes<>(target, itemInfo, originalView);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected Intent getIntent(String targetPkg) {
-            return android.ext.cscopes.ContactScopesApi.createConfigActivityIntent(targetPackage);
         }
     }
 
