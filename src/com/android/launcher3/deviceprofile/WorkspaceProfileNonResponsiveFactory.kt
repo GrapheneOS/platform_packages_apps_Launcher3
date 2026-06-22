@@ -50,6 +50,11 @@ import kotlin.math.min
  */
 object WorkspaceProfileNonResponsiveFactory {
 
+    private fun shouldHideWorkspaceItemsLabel(deviceProperties: DeviceProperties): Boolean {
+        return deviceProperties.deviceConfiguration.isWorkspaceItemsLabelHidden &&
+                com.android.systemui.shared.Flags.workspaceItemsLabelHidden()
+    }
+
     fun createWorkspacePadding(
         isVerticalLayout: Boolean,
         isSeascape: Boolean,
@@ -166,6 +171,7 @@ object WorkspaceProfileNonResponsiveFactory {
         panelCount: Int,
         scale: Float,
     ): WorkspaceProfile {
+        val hideWorkspaceItemsLabel = shouldHideWorkspaceItemsLabel(deviceProperties)
         val cellLayoutBorderSpacePx = Point(0, 0)
         var cellSize =
             calculateCellSize(
@@ -182,15 +188,25 @@ object WorkspaceProfileNonResponsiveFactory {
                 isVerticalLayout -> 0
                 else -> res.getDimensionPixelSize(R.dimen.dynamic_grid_left_right_margin)
             }
-        var iconDrawablePaddingPx =
-            (getNormalizedIconDrawablePadding(iconSizePx, iconDrawablePaddingOriginalPx) *
-                    iconScale)
-                .toInt()
+        var iconDrawablePaddingPx = when {
+            hideWorkspaceItemsLabel -> 0
+            else -> {
+                (getNormalizedIconDrawablePadding(iconSizePx, iconDrawablePaddingOriginalPx) *
+                        iconScale)
+                    .toInt()
+            }
+        }
+
+        val iconTextSize = when {
+            hideWorkspaceItemsLabel -> 0
+            else -> iconTextSizePx
+        }
+
         val cellWidthPx = iconSizePx + iconDrawablePaddingPx
         var cellHeightPx =
             (getIconSizeWithOverlap(iconSizePx) +
                 iconDrawablePaddingPx +
-                Utilities.calculateTextHeight(iconTextSizePx.toFloat()))
+                Utilities.calculateTextHeight(iconTextSize.toFloat()))
         val cellPaddingY: Int = (cellSize.y - cellHeightPx) / 2
         if (
             iconDrawablePaddingPx > cellPaddingY &&
@@ -259,7 +275,7 @@ object WorkspaceProfileNonResponsiveFactory {
             // Workspace icons
             iconScale = iconScale,
             iconSizePx = iconSizePx,
-            iconTextSizePx = iconTextSizePx,
+            iconTextSizePx = iconTextSize,
             iconDrawablePaddingPx = iconDrawablePaddingPx,
             cellScaleToFit = cellScaleToFit,
             cellWidthPx = cellWidthPx,
@@ -267,7 +283,7 @@ object WorkspaceProfileNonResponsiveFactory {
             cellLayoutBorderSpacePx = cellLayoutBorderSpacePx,
             desiredWorkspaceHorizontalMarginPx = desiredWorkspaceHorizontalMarginPx,
             cellYPaddingPx = -1,
-            maxIconTextLineCount = 1,
+            maxIconTextLineCount = if (hideWorkspaceItemsLabel) 0 else 1,
             iconCenterVertically = false,
             gridVisualizationPaddingX =
                 res.getDimensionPixelSize(R.dimen.grid_visualization_horizontal_cell_spacing),
@@ -303,6 +319,7 @@ object WorkspaceProfileNonResponsiveFactory {
             panelCount = panelCount,
             cellSize = cellSize,
             scale = scale,
+            isItemsLabelHidden = deviceProperties.deviceConfiguration.isWorkspaceItemsLabelHidden,
             flingToDeleteThresholdVelocity =
                 res.getDimensionPixelSize(R.dimen.drag_flingToDeleteMinVelocity),
         )
@@ -326,6 +343,7 @@ object WorkspaceProfileNonResponsiveFactory {
         isSeascape: Boolean,
         hotseatProfile: HotseatProfileInitialValues,
     ): WorkspaceProfile {
+        val hideWorkspaceItemsLabel = shouldHideWorkspaceItemsLabel(deviceProperties)
         val cellLayoutBorderSpacePx =
             Point(
                 pxFromDp(inv.borderSpaces[typeIndex].x, metrics, scale),
@@ -337,12 +355,21 @@ object WorkspaceProfileNonResponsiveFactory {
                 isVerticalLayout -> 0
                 else -> pxFromDp(inv.horizontalMargin[typeIndex], metrics)
             }
-        var iconTextSizePx = iconTextSizePxParam
+        var iconTextSizePx = when {
+            hideWorkspaceItemsLabel -> 0
+            else -> iconTextSizePxParam
+        }
+
         var iconSizePx = iconSizePxParam
-        var iconDrawablePaddingPx =
-            (getNormalizedIconDrawablePadding(iconSizePx, iconDrawablePaddingOriginalPx) *
-                    iconScale)
-                .toInt()
+        var iconDrawablePaddingPx = when {
+            hideWorkspaceItemsLabel -> 0
+            else -> {
+                (getNormalizedIconDrawablePadding(iconSizePx, iconDrawablePaddingOriginalPx) *
+                        iconScale)
+                    .toInt()
+            }
+        }
+
         var cellWidthPx = pxFromDp(inv.minCellSize.get(typeIndex).x, metrics, scale)
         var cellHeightPx = pxFromDp(inv.minCellSize.get(typeIndex).y, metrics, scale)
 
@@ -463,7 +490,7 @@ object WorkspaceProfileNonResponsiveFactory {
             cellLayoutBorderSpacePx = cellLayoutBorderSpacePx,
             desiredWorkspaceHorizontalMarginPx = desiredWorkspaceHorizontalMarginPx,
             cellYPaddingPx = max(0, (cellHeightPx - cellContentHeight)) / 2,
-            maxIconTextLineCount = 1,
+            maxIconTextLineCount = if (hideWorkspaceItemsLabel) 0 else 1,
             iconCenterVertically = isVerticalLayout,
             gridVisualizationPaddingX =
                 res.getDimensionPixelSize(R.dimen.grid_visualization_horizontal_cell_spacing),
@@ -499,6 +526,7 @@ object WorkspaceProfileNonResponsiveFactory {
             panelCount = panelCount,
             cellSize = cellSize,
             scale = scale,
+            isItemsLabelHidden = deviceProperties.deviceConfiguration.isWorkspaceItemsLabelHidden,
             flingToDeleteThresholdVelocity =
                 res.getDimensionPixelSize(R.dimen.drag_flingToDeleteMinVelocity),
         )
