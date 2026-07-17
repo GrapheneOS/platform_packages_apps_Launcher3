@@ -81,7 +81,7 @@ class AllModulesForTest
 
 /** Sandbox WM proxy module that provides the base WindowManagerProxy for tests */
 @Module
-class SandboxWmProxyModule {
+object SandboxWmProxyModule {
     @Provides fun provideWindowManagerProxy(): WindowManagerProxy = WindowManagerProxy()
 }
 

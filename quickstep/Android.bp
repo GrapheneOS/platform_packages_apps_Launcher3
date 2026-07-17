@@ -57,6 +57,7 @@ android_test {
     srcs: [
         ":launcher3-quickstep-tests-src",
         ":launcher-tests-src",
+        ":launcher-tests-shared-utils",
     ],
     exclude_srcs: [
         // widget_picker_component is a static_lib of both the test APK and the instrumented
@@ -72,6 +73,7 @@ android_test {
         "com_android_wm_shell_flags_lib",
         "com_android_systemui_shared_flags_lib",
         "androidx.core_core-animation-testing",
+        "shark-android",
     ],
     // android_test defaults resource_dirs to ["res"] when a local res/ exists. In quickstep that
     // would package app quickstep/res into the test APK, recreating the com.android.launcher3.R
@@ -93,6 +95,14 @@ android_test {
     platform_apis: true,
     test_config: "tests/Launcher3QuickStepTests.xml",
     data: [":Launcher3QuickStepForTesting"],
-    plugins: ["dagger2-compiler"],
+    enable_ksp: true,
+    plugins: [
+        "mutable-dagger-compiler",
+        "dagger2-compiler",
+    ],
     test_suites: ["general-tests"],
+    kotlincflags: [
+        "-Xallow-no-source-files",
+        "-Xemit-jvm-type-parameters",
+    ],
 }
