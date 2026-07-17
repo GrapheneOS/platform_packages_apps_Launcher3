@@ -23,8 +23,6 @@ import android.graphics.Point
 import android.os.Process
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import com.android.launcher3.BuildConfig
-import com.android.launcher3.Flags
 import com.android.launcher3.InvariantDeviceProfile
 import com.android.launcher3.LauncherPrefs
 import com.android.launcher3.LauncherPrefs.Companion.WORKSPACE_SIZE
@@ -55,23 +53,6 @@ import org.junit.runner.RunWith
 class GridSizeMigrationTest {
 
     @get:Rule val context = SandboxApplication().withModelDependency()
-
-    // Row 0 of screen 0 can be reserved for a widget (QSB = Quick Search Bar, smartspace,
-    // etc.) by two mutually exclusive mechanisms in solveGridPlacement:
-    //
-    // 1. QSB_ON_FIRST_SCREEN (legacy): a build config constant that makes
-    //    qsbOnFirstScreen() return true, which sets the placement start point to row 1.
-    //    This is false in the QuickStep build config (BuildConfig.java:27).
-    //
-    // 2. injectable_model_items (new): an aconfig flag that enables Dagger-provided items
-    //    (via extraItemsProvider / FirstRowModule in this test) to be marked as occupied
-    //    cells, blocking row 0. This replaces the hardcoded QSB_ON_FIRST_SCREEN approach.
-    //
-    // qsbOnFirstScreen() = !injectableModelItems() && QSB_ON_FIRST_SCREEN, so exactly one
-    // mechanism can be active. When neither is active, row 0 is free and items start there.
-    // See GridSizeMigrationLogic.solveGridPlacement and Utilities.qsbOnFirstScreen.
-    private val firstScreenFirstAvailableRow =
-        if (Flags.injectableModelItems() || BuildConfig.QSB_ON_FIRST_SCREEN) 1 else 0
 
     private lateinit var idp: InvariantDeviceProfile
     private lateinit var dbHelper: DatabaseHelper
@@ -210,12 +191,11 @@ class GridSizeMigrationTest {
         // 9 _ _ _
         // _ _ _ _
         assertThat(locMap.size.toLong()).isEqualTo(5)
-        // Point is (cellX, cellY). See firstScreenFirstAvailableRow for why row 0 may be reserved.
-        assertThat(locMap[testPackage5]).isEqualTo(Point(0, firstScreenFirstAvailableRow))
-        assertThat(locMap[testPackage6]).isEqualTo(Point(1, firstScreenFirstAvailableRow))
-        assertThat(locMap[testPackage7]).isEqualTo(Point(2, firstScreenFirstAvailableRow))
-        assertThat(locMap[testPackage8]).isEqualTo(Point(3, firstScreenFirstAvailableRow))
-        assertThat(locMap[testPackage9]).isEqualTo(Point(0, firstScreenFirstAvailableRow + 1))
+        assertThat(locMap[testPackage5]).isEqualTo(Point(0, 1))
+        assertThat(locMap[testPackage6]).isEqualTo(Point(1, 1))
+        assertThat(locMap[testPackage7]).isEqualTo(Point(2, 1))
+        assertThat(locMap[testPackage8]).isEqualTo(Point(3, 1))
+        assertThat(locMap[testPackage9]).isEqualTo(Point(0, 2))
     }
 
     /** Old migration logic, should be modified once is not needed anymore */
@@ -302,11 +282,10 @@ class GridSizeMigrationTest {
         // _ _ _ _
         // _ _ _ _
         assertThat(locMap.size.toLong()).isEqualTo(4)
-        // Triple is (screen, cellX, cellY). See firstScreenFirstAvailableRow for why row 0 may be reserved.
-        assertThat(locMap[testPackage5]).isEqualTo(Triple(0, 0, firstScreenFirstAvailableRow))
-        assertThat(locMap[testPackage6]).isEqualTo(Triple(0, 1, firstScreenFirstAvailableRow))
-        assertThat(locMap[testPackage7]).isEqualTo(Triple(0, 2, firstScreenFirstAvailableRow))
-        assertThat(locMap[testPackage8]).isEqualTo(Triple(0, 3, firstScreenFirstAvailableRow))
+        assertThat(locMap[testPackage5]).isEqualTo(Triple(0, 0, 1))
+        assertThat(locMap[testPackage6]).isEqualTo(Triple(0, 1, 1))
+        assertThat(locMap[testPackage7]).isEqualTo(Triple(0, 2, 1))
+        assertThat(locMap[testPackage8]).isEqualTo(Triple(0, 3, 1))
 
         // add item in B
         addItem(ITEM_TYPE_APPLICATION, 0, CONTAINER_DESKTOP, 0, 2, testPackage9)
@@ -358,8 +337,8 @@ class GridSizeMigrationTest {
         assertThat(locMap[testPackage6]).isEqualTo(Triple(0, 2, 2))
         assertThat(locMap[testPackage7]).isEqualTo(Triple(0, 4, 2))
         assertThat(locMap[testPackage8]).isEqualTo(Triple(0, 2, 3))
-        // testPackage9 didn't exist in grid A, so it's placed by solveGridPlacement.
-        assertThat(locMap[testPackage9]).isEqualTo(Triple(0, 0, firstScreenFirstAvailableRow))
+        // Verify items that didn't exist in grid A are added in new screen
+        assertThat(locMap[testPackage9]).isEqualTo(Triple(0, 0, 1))
 
         // remove item from B
         db.delete(TMP_TABLE, "$_ID=7", null)
@@ -412,10 +391,9 @@ class GridSizeMigrationTest {
         // 9 _ _ _
         // _ _ _ _
         assertThat(locMap.size.toLong()).isEqualTo(4)
-        // testPackage5,6,8 keep their grid B positions from the first A->B migration above.
-        assertThat(locMap[testPackage5]).isEqualTo(Triple(0, 0, firstScreenFirstAvailableRow))
-        assertThat(locMap[testPackage6]).isEqualTo(Triple(0, 1, firstScreenFirstAvailableRow))
-        assertThat(locMap[testPackage8]).isEqualTo(Triple(0, 3, firstScreenFirstAvailableRow))
+        assertThat(locMap[testPackage5]).isEqualTo(Triple(0, 0, 1))
+        assertThat(locMap[testPackage6]).isEqualTo(Triple(0, 1, 1))
+        assertThat(locMap[testPackage8]).isEqualTo(Triple(0, 3, 1))
         assertThat(locMap[testPackage9]).isEqualTo(Triple(0, 0, 2))
     }
 
@@ -613,8 +591,7 @@ class GridSizeMigrationTest {
         // _ _ _ _
         // _ _ _ _
         assertThat(locMap.size.toLong()).isEqualTo(1)
-        // Triple is (screen, cellX, cellY). See firstScreenFirstAvailableRow.
-        assertThat(locMap[testPackage6]).isEqualTo(Triple(0, 0, firstScreenFirstAvailableRow))
+        assertThat(locMap[testPackage6]).isEqualTo(Triple(0, 0, 1))
     }
 
     private fun migrateGrid(
