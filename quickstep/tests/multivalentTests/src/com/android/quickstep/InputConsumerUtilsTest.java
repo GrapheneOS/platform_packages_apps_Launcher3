@@ -36,7 +36,9 @@ import android.annotation.NonNull;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Looper;
-import android.platform.test.annotations.EnableFlags;
+import android.platform.test.annotations.RequiresFlagsEnabled;
+import android.platform.test.flag.junit.CheckFlagsRule;
+import android.platform.test.flag.junit.DeviceFlagsValueProvider;
 import android.view.Choreographer;
 import android.view.Display;
 import android.view.InputDevice;
@@ -154,6 +156,9 @@ public class InputConsumerUtilsTest {
     public final MockitoRule mMockitoRule = MockitoJUnit.rule();
 
     @Rule public TestStabilityRule mTestStabilityRule = new TestStabilityRule();
+
+    @Rule public final CheckFlagsRule mCheckFlagsRule =
+            DeviceFlagsValueProvider.createCheckFlagsRule();
 
     @Before
     public void setupTaskAnimationManager() {
@@ -392,7 +397,7 @@ public class InputConsumerUtilsTest {
     }
 
     @Test
-    @EnableFlags(FLAG_ENABLE_MOUSE_INTERACTION_CHANGES)
+    @RequiresFlagsEnabled(FLAG_ENABLE_MOUSE_INTERACTION_CHANGES)
     public void testNewBaseConsumer_nonTrackpadMouseEvent_desktop_returnsDefaultInputConsumer() {
         Resources res = spy(mContext.getResources());
         doReturn(true).when(res).getBoolean(R.bool.desktop_form_factor);
@@ -427,7 +432,7 @@ public class InputConsumerUtilsTest {
     }
 
     @Test
-    @EnableFlags(FLAG_ENABLE_MOUSE_INTERACTION_CHANGES)
+    @RequiresFlagsEnabled(FLAG_ENABLE_MOUSE_INTERACTION_CHANGES)
     @DesktopStability(flavors = LOCAL, bug = 486280960)
     public void testNewBaseConsumer_nonTrackpadMouseEvent_nonDesktop_returnsDefaultInputConsumer() {
         when(mCurrentGestureState.isTrackpadGesture()).thenReturn(false);
