@@ -21,33 +21,46 @@ of `Launcher3QuickStep` that's debuggable and has `optimize` disabled).
 Some tests such as `NavHandleLongPressHandlerTest`, `NavHandleLongPressInputConsumerTest`, and 
 `ContextualSearchInvokerTest` are gated by `TestExtensions.overrideNavConfigFlag`
 (`quickstep/tests/multivalentTests/src/com/android/quickstep/util/TestExtensions.kt`),
-which calls `Assume.assumeTrue(BuildConfig.IS_DEBUG_DEVICE)`. To exercise them, set 
-`IS_DEBUG_DEVICE = true` in `src_build_config/com/android/launcher3/BuildConfig.java`
+which calls `Assume.assumeTrue(BuildConfig.IS_DEBUG_DEVICE)`. `IS_DEBUG_DEVICE` is enabled for the
+instrumentation test build via `Launcher3QuickStepLibForTesting` (the `launcher-build-config-testing`
+genrule in `Android.bp`), so these run without any manual change. `Launcher3QuickStep` keeps 
+`IS_DEBUG_DEVICE = false`.
 
 ### Known test failures (WIP)
 
-With bluejay (Pixel 6a) and `IS_DEBUG_DEVICE = true`, totals: 2392 passed, 494 assumption failed, 11 
-failed, 3 ignored. 
+Latest run on tokay: totals: 2915 passed, 788 assumption failed, 8 failed, 2 ignored.
 
-Some of these failures are due to hardcoded Google apps in expectations (e.g. 
-`com.android.launcher3.model.LoaderTaskTest#loadsDataProperly`), and other failures are due to flaky
-leak detection. Other failures are unknown
+The 8 failures were:
 
-The 11 failures can be run with
+- `com.android.launcher3.celllayout.IntegrationResizeWidgetsTest#invalidResize_noChange` -- resize
+  returned `-1`, expected `0`.
+- `com.android.launcher3.celllayout.IntegrationResizeWidgetsTest#resizeWithSibling_hasSpace_movesSiblings`
+  -- resize returned `1`, expected `0`.
+- `com.android.launcher3.model.gridmigration.ValidGridMigrationUnitTest#runExtensiveTestCases` --
+  `TestTimedOutException` after 300000 ms; the thread was stuck in protobuf `MessageLiteToString`
+  reflection from `ItemInfo.dumpProperties`.
+- `com.android.launcher3.taskbar.rules.TaskbarModeRuleTest#testTaskbarMode_transient_overridesTaskbarUtil`
+  -- expected `NO_BUTTON`, got `THREE_BUTTONS`.
+- `com.android.launcher3.taskbar.rules.TaskbarModeRuleTest#testTaskbarMode_threeButtons_overridesDeviceProfile`
+  -- expected `false`.
+- `com.android.launcher3.taskbar.rules.TaskbarModeRuleTest#testTaskbarMode_pinned_overridesTaskbarUtil`
+  -- expected `NO_BUTTON`, got `THREE_BUTTONS`.
+- `com.android.launcher3.util.LayoutImportExportHelperTest#exportWidgetFromWorkspace` --
+  `AssertionError` in the import/export round-trip
+- `com.android.quickstep.InputConsumerUtilsTest#testNewBaseConsumer_nonTrackpadMouseEvent_desktop_returnsDefaultInputConsumer`
+  -- expected a `ResetGestureInputConsumer`, got an `OtherActivityInputConsumer`.
+
+The 8 failures can be re-run with
 
 ```bash
 atest Launcher3QuickStepTests --test-filter \
-"com.android.launcher3.allapps.TaplAllAppsIconsWorkingTest#testAppIconLaunchFromAllAppsFromHome,"\
-"com.android.launcher3.dragging.TaplUninstallRemoveTest#testAddDeleteShortcutOnHotseat,"\
-"com.android.launcher3.model.LoaderTaskTest#loadsDataProperly,"\
+"com.android.launcher3.celllayout.IntegrationResizeWidgetsTest#invalidResize_noChange,"\
+"com.android.launcher3.celllayout.IntegrationResizeWidgetsTest#resizeWithSibling_hasSpace_movesSiblings,"\
 "com.android.launcher3.model.gridmigration.ValidGridMigrationUnitTest#runExtensiveTestCases,"\
+"com.android.launcher3.taskbar.rules.TaskbarModeRuleTest#testTaskbarMode_transient_overridesTaskbarUtil,"\
+"com.android.launcher3.taskbar.rules.TaskbarModeRuleTest#testTaskbarMode_threeButtons_overridesDeviceProfile,"\
+"com.android.launcher3.taskbar.rules.TaskbarModeRuleTest#testTaskbarMode_pinned_overridesTaskbarUtil,"\
 "com.android.launcher3.util.LayoutImportExportHelperTest#exportWidgetFromWorkspace,"\
-"com.android.launcher3.workspace.TaplWorkspaceTest#testAddAndDeletePageAndFling,"\
-"com.android.launcher3.workspace.TaplWorkspaceTest#testWorkspace,"\
-"com.android.quickstep.InputConsumerUtilsTest#testNewBaseConsumer_nonTrackpadMouseEvent_desktop_returnsDefaultInputConsumer,"\
-"com.android.quickstep.TaplOverviewIconTest#testSplitTaskTapBothIconMenus,"\
-"com.android.quickstep.TaplOverviewIconTest#testOverviewActionsMenu,"\
-"com.android.quickstep.TaplStartLauncherViaGestureTests#testStressPressOverview"
+"com.android.quickstep.InputConsumerUtilsTest#testNewBaseConsumer_nonTrackpadMouseEvent_desktop_returnsDefaultInputConsumer"
 ```
 
-See https://github.com/GrapheneOS/platform_packages_apps_Launcher3/pull/72 for stacktraces
