@@ -152,7 +152,11 @@ class TaskbarModeRule(private val context: TaskbarWindowSandboxContext) : TestRu
                             .whenever(wmProxy)
                             .showDesktopTaskbarForFreeformDisplay(any())
                     }
+                    // Refresh both DEFAULT_DISPLAY (read via DeviceProfile) and the sandbox's
+                    // virtual display (read by DisplayController.getNavigationMode(context)) so the
+                    // stubbed navigation mode is rebuilt on whichever display a test reads.
                     context.appComponent.displayController.notifyConfigChange(DEFAULT_DISPLAY)
+                    context.appComponent.displayController.notifyConfigChange(context.displayId)
                 }
 
                 base.evaluate()
