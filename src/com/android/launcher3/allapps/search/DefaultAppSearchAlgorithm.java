@@ -15,6 +15,7 @@
  */
 package com.android.launcher3.allapps.search;
 
+import static com.android.launcher3.allapps.AlphabeticalAppsList.PRIVATE_SPACE_PACKAGE;
 import static com.android.launcher3.allapps.BaseAllAppsAdapter.VIEW_TYPE_EMPTY_SEARCH;
 
 import android.content.Context;
@@ -25,6 +26,8 @@ import androidx.annotation.AnyThread;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.allapps.BaseAllAppsAdapter.AdapterItem;
 import com.android.launcher3.model.data.AppInfo;
+import com.android.launcher3.pm.UserCache;
+import com.android.launcher3.pm.UserCache.CachedUserInfo;
 import com.android.launcher3.search.SearchAlgorithm;
 import com.android.launcher3.search.SearchCallback;
 import com.android.launcher3.search.StringMatcherUtility;
@@ -41,6 +44,7 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
     private static final int MAX_RESULTS_COUNT = 5;
 
     private final LauncherAppState mAppState;
+    private final UserCache mUserCache;
     private final Handler mResultHandler;
     private final boolean mAddNoResultsMessage;
 
@@ -51,6 +55,7 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
     public DefaultAppSearchAlgorithm(
             Context context, LooperExecutor uiExecutor, boolean addNoResultsMessage) {
         mAppState = LauncherAppState.getInstance(context);
+        mUserCache = UserCache.INSTANCE.get(context);
         mResultHandler = new Handler(uiExecutor.getLooper());
         mAddNoResultsMessage = addNoResultsMessage;
     }
@@ -65,7 +70,8 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
     @Override
     public void doSearch(String query, SearchCallback<AdapterItem> callback) {
         mAppState.getModel().enqueueModelUpdateTask((taskController, dataModel, apps) ->  {
-            ArrayList<AdapterItem> result = getTitleMatchResult(apps.data, query);
+            ArrayList<AdapterItem> result = getTitleMatchResult(
+                    apps.data.stream().filter(this::isSearchableApp).toList(), query);
             if (mAddNoResultsMessage && result.isEmpty()) {
                 result.add(getEmptyMessageAdapterItem(query));
             }
@@ -104,5 +110,13 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
             }
         }
         return result;
+    }
+
+    private boolean isSearchableApp(AppInfo info) {
+        CachedUserInfo userInfo =
+                mUserCache.getUserManagerState().getCachedInfo(info.user);
+        return !PRIVATE_SPACE_PACKAGE.equals(info.getTargetPackage())
+                && (!userInfo.getIconInfo().isPrivate()
+                        || (userInfo.isUnlocked() && !userInfo.isQuietModeEnabled()));
     }
 }
