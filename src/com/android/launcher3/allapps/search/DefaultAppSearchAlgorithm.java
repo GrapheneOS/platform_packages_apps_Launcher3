@@ -17,6 +17,7 @@ package com.android.launcher3.allapps.search;
 
 import static com.android.launcher3.allapps.AlphabeticalAppsList.PRIVATE_SPACE_PACKAGE;
 import static com.android.launcher3.allapps.BaseAllAppsAdapter.VIEW_TYPE_EMPTY_SEARCH;
+import static com.android.launcher3.allapps.BaseAllAppsAdapter.VIEW_TYPE_PRIVATE_SPACE_RESULT;
 
 import android.content.Context;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import android.os.Handler;
 import androidx.annotation.AnyThread;
 
 import com.android.launcher3.LauncherAppState;
+import com.android.launcher3.R;
 import com.android.launcher3.allapps.BaseAllAppsAdapter.AdapterItem;
 import com.android.launcher3.model.data.AppInfo;
 import com.android.launcher3.pm.UserCache;
@@ -31,6 +33,7 @@ import com.android.launcher3.pm.UserCache.CachedUserInfo;
 import com.android.launcher3.search.SearchAlgorithm;
 import com.android.launcher3.search.SearchCallback;
 import com.android.launcher3.search.StringMatcherUtility;
+import com.android.launcher3.util.ApiWrapper;
 import com.android.launcher3.util.LooperExecutor;
 
 import java.util.ArrayList;
@@ -43,6 +46,7 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
 
     private static final int MAX_RESULTS_COUNT = 5;
 
+    private final Context mContext;
     private final LauncherAppState mAppState;
     private final UserCache mUserCache;
     private final Handler mResultHandler;
@@ -54,6 +58,7 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
 
     public DefaultAppSearchAlgorithm(
             Context context, LooperExecutor uiExecutor, boolean addNoResultsMessage) {
+        mContext = context.getApplicationContext();
         mAppState = LauncherAppState.getInstance(context);
         mUserCache = UserCache.INSTANCE.get(context);
         mResultHandler = new Handler(uiExecutor.getLooper());
@@ -72,6 +77,12 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
         mAppState.getModel().enqueueModelUpdateTask((taskController, dataModel, apps) ->  {
             ArrayList<AdapterItem> result = getTitleMatchResult(
                     apps.data.stream().filter(this::isSearchableApp).toList(), query);
+            if (isPrivateSpaceQuery(query) && isPrivateSpaceAvailable()) {
+                if (result.size() == MAX_RESULTS_COUNT) {
+                    result.remove(result.size() - 1);
+                }
+                result.add(0, new AdapterItem(VIEW_TYPE_PRIVATE_SPACE_RESULT));
+            }
             if (mAddNoResultsMessage && result.isEmpty()) {
                 result.add(getEmptyMessageAdapterItem(query));
             }
@@ -118,5 +129,16 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
         return !PRIVATE_SPACE_PACKAGE.equals(info.getTargetPackage())
                 && (!userInfo.getIconInfo().isPrivate()
                         || (userInfo.isUnlocked() && !userInfo.isQuietModeEnabled()));
+    }
+
+    private boolean isPrivateSpaceQuery(String query) {
+        return query.equalsIgnoreCase(mContext.getString(R.string.private_space_label));
+    }
+
+    private boolean isPrivateSpaceAvailable() {
+        // Cached user info is limited to the launcher context user's profile group.
+        return mUserCache.getUserManagerState().getAllCachedInfos().stream()
+                .anyMatch(userInfo -> userInfo.getIconInfo().isPrivate())
+                || ApiWrapper.INSTANCE.get(mContext).getPrivateSpaceSettingsIntent() != null;
     }
 }

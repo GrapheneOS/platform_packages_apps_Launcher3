@@ -67,7 +67,8 @@ public abstract class BaseAllAppsAdapter
     public static final int VIEW_TYPE_PRIVATE_SPACE_SYS_APPS_DIVIDER = 1 << 7;
     public static final int VIEW_TYPE_BOTTOM_VIEW_TO_SCROLL_TO = 1 << 8;
     public static final int VIEW_TYPE_PRIVATE_SPACE_APP_ICON = 1 << 9;
-    public static final int NEXT_ID = 10;
+    public static final int VIEW_TYPE_PRIVATE_SPACE_RESULT = 1 << 10;
+    public static final int NEXT_ID = 11;
 
     // Common view type masks
     public static final int VIEW_TYPE_MASK_DIVIDER = VIEW_TYPE_ALL_APPS_DIVIDER;

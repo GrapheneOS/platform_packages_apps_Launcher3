@@ -20,6 +20,7 @@ import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 
+import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_PRIVATESPACE;
 import static com.android.launcher3.allapps.ActivityAllAppsContainerView.AdapterHolder.MAIN;
 import static com.android.launcher3.allapps.BaseAllAppsAdapter.VIEW_TYPE_ICON;
 import static com.android.launcher3.allapps.BaseAllAppsAdapter.VIEW_TYPE_PRIVATE_SPACE_HEADER;
@@ -307,6 +308,32 @@ public class PrivateProfileManager extends UserProfileManager {
     public void setQuietMode(boolean enable) {
         setQuietMode(enable, mAllApps.mActivityContext);
         mReadyToAnimate = true;
+    }
+
+    public void openPrivateSpaceFromSearch(View view) {
+        UserHandle profileUser = getProfileUser();
+        if (profileUser != null) {
+            UserCache.CachedUserInfo userInfo =
+                    mUserCache.getUserManagerState().getCachedInfo(profileUser);
+            if (!userInfo.isUnlocked() || userInfo.isQuietModeEnabled()) {
+                setQuietMode(false);
+            } else {
+                mAllApps.resetAndScrollToPrivateSpaceHeader();
+            }
+            return;
+        }
+
+        Intent settingsIntent =
+                ApiWrapper.INSTANCE.get(mAllApps.getContext()).getPrivateSpaceSettingsIntent();
+        if (settingsIntent == null) {
+            return;
+        }
+        AppInfo itemInfo = new AppInfo();
+        itemInfo.id = CONTAINER_PRIVATESPACE;
+        itemInfo.componentName = settingsIntent.getComponent();
+        itemInfo.container = CONTAINER_PRIVATESPACE;
+        view.setTag(itemInfo);
+        mAllApps.mActivityContext.startActivitySafely(view, settingsIntent, itemInfo);
     }
 
     /**
