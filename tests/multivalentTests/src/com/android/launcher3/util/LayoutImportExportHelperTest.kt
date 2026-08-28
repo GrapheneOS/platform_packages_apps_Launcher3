@@ -140,9 +140,12 @@ class LayoutImportExportHelperTest {
             )
         }
 
+        // Place the 2x2 widget at cell (0,0) so it fits the smallest offered grid (2x2). At (0,1)
+        // it would span rows 1-2 and be dropped as out-of-bounds whenever the workspace is loaded
+        // against a 2-row grid.
         importVerifyExportClearReImportVerify(
             LauncherLayoutBuilder()
-                .atWorkspace(0, 1, 0)
+                .atWorkspace(0, 0, 0)
                 .putWidget(pendingAppPkg, "PlaceholderWidget", 2, 2)
         ) {
             1 == workspaceItems.size &&
