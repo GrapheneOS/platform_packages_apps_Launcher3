@@ -81,6 +81,6 @@ public class AllAppsSearchUiDelegate {
 
     /** Creates the adapter provider for the main section. */
     public SearchAdapterProvider<?> createMainAdapterProvider() {
-        return new DefaultSearchAdapterProvider(mActivityContext);
+        return new PrivateSpaceSearchAdapterProvider(mActivityContext);
     }
 }
