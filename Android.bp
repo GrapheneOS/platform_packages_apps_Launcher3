@@ -183,6 +183,16 @@ genrule {
     out: ["BuildConfig.java"],
 }
 
+// Build config for Launcher3 instrumentation testing (IS_DEBUG_DEVICE = true)
+genrule {
+    name: "launcher-build-config-testing",
+    tools: [
+        "launcher-build-config-tool",
+    ],
+    cmd: " $(location launcher-build-config-tool) -e IS_DEBUG_DEVICE > $(out)",
+    out: ["BuildConfig.java"],
+}
+
 // Proguard files for Launcher3
 filegroup {
     name: "launcher-proguard-rules",
@@ -492,13 +502,12 @@ android_library {
 }
 
 // Library with all the source code and dependencies for building Quickstep
-android_library {
-    name: "Launcher3QuickStepLib",
+java_defaults {
+    name: "launcher-quickstep-lib-defaults",
     srcs: [
         ":launcher-src",
         ":launcher-quickstep-src",
         ":launcher-quickstep-dagger",
-        ":launcher-build-config",
     ],
     resource_dirs: [],
     libs: [
@@ -526,6 +535,20 @@ android_library {
     lint: {
         baseline_filename: "lint-baseline.xml",
     },
+}
+
+// IS_DEBUG_DEVICE = false
+android_library {
+    name: "Launcher3QuickStepLib",
+    defaults: ["launcher-quickstep-lib-defaults"],
+    srcs: [":launcher-build-config"],
+}
+
+// IS_DEBUG_DEVICE = true
+android_library {
+    name: "Launcher3QuickStepLibForTesting",
+    defaults: ["launcher-quickstep-lib-defaults"],
+    srcs: [":launcher-build-config-testing"],
 }
 
 // Build rule for Quickstep app.
@@ -575,7 +598,7 @@ android_app {
 // methods).
 android_app {
     name: "Launcher3QuickStepForTesting",
-    static_libs: ["Launcher3QuickStepLib"],
+    static_libs: ["Launcher3QuickStepLibForTesting"],
     optimize: {
         enabled: false,
     },
