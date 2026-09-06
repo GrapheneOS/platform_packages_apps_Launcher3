@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.launcher3.ExtendedEditText;
 import com.android.launcher3.R;
 import com.android.launcher3.allapps.AllAppsGridAdapter;
 import com.android.launcher3.allapps.PrivateProfileManager;
@@ -37,6 +38,11 @@ public class PrivateSpaceSearchAdapterProvider extends DefaultSearchAdapterProvi
             View view = layoutInflater.inflate(R.layout.private_space_search_result, parent, false);
             view.setOnClickListener(
                     clickedView -> {
+                        ExtendedEditText editText =
+                                mLauncher.getAppsView().getSearchUiManager().getEditText();
+                        if (editText != null) {
+                            editText.hideKeyboard();
+                        }
                         PrivateProfileManager privateProfileManager =
                                 mLauncher.getAppsView().getPrivateProfileManager();
                         if (privateProfileManager != null) {
