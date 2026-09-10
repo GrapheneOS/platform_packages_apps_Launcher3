@@ -290,7 +290,7 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
     private final boolean mIsSafeModeEnabled;
     private final boolean mIsUserSetupComplete;
     private final boolean mIsNavBarKidsMode;
-    private final boolean mHideNavHandle;
+    private final boolean mIsHideNavHandle;
 
     private boolean mIsDestroyed = false;
 
@@ -354,7 +354,7 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
         SettingsCache settingsCache = SettingsCache.INSTANCE.get(this);
         mIsUserSetupComplete = settingsCache.getValue(URI_USER_SETUP_COMPLETE);
         mIsNavBarKidsMode = settingsCache.getValue(URI_NAV_BAR_KIDS_MODE);
-        mHideNavHandle = settingsCache.getValue(URI_HIDE_NAV_HANDLE);
+        mIsHideNavHandle = settingsCache.getValue(URI_HIDE_NAV_HANDLE);
         mBubbleFeatureConfig =
                 new BubbleFeatureConfigImpl(mWindowContext, getDesktopState(mWindowContext));
 
@@ -974,7 +974,7 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
     }
 
     public boolean isHideNavHandle() {
-        return mHideNavHandle;
+        return mIsHideNavHandle;
     }
 
     public boolean imeDrawsImeNavBar() {
