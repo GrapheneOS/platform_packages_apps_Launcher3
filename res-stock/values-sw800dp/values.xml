@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AllAppsStyle_4_Col_Fold" parent="@style/AllAppsStyleDefault">
+        <item name="horizontalPadding">32.0dp</item>
+    </style>
+    <style name="AllAppsStyle_5_Col_Fold" parent="@style/AllAppsStyleDefault">
+        <item name="horizontalPadding">33.0dp</item>
+    </style>
+    <style name="CellStyle_4_Col_Fold" parent="@style/CellStyleDefault">
+        <item name="iconDrawablePadding">12.0dp</item>
+    </style>
+</resources>

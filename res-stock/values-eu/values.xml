@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Aukeratu aplikazioen zerrendaren itxura eta portaerarekin lotutako balio lehenetsiak</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Erakutsi aplikazio-izen luzeak 2 lerrotan bilaketa-emaitzetan eta aplikazioen zerrendan</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Erakutsi aplikazio-izen luzeak</string>
+    <string name="app_list_pref_screen_title">Aplikazioen zerrendaren ezarpenak</string>
+    <string name="auto_add_shortcuts_description">Aplikazio berrien kasuan</string>
+    <string name="auto_add_shortcuts_label">Gehitu aplikazioen ikonoak orri nagusian</string>
+    <string name="landscape_mode_desc">Ezarri orri nagusia ikuspegi horizontalean</string>
+    <string name="landscape_mode_title">Ikuspegi horizontala</string>
+    <string name="large_grid">Handia</string>
+    <string name="medium_grid">Ertaina</string>
+    <string name="notification_dots_title">Jakinarazpen-biribiltxoak</string>
+    <string name="small_grid">Txikia</string>
+    <string name="xl_grid">Oso handia</string>
+</resources>

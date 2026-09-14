@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Alege setările prestabilite pentru aspectul și comportamentul listei de aplicații</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Afișează numele complete ale aplicațiilor pe două rânduri în rezultatele căutării și lista de aplicații</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Afișează numele complete ale aplicațiilor</string>
+    <string name="app_list_pref_screen_title">Setările listei de aplicații</string>
+    <string name="auto_add_shortcuts_description">Pentru aplicații noi</string>
+    <string name="auto_add_shortcuts_label">Adaugă pictograme de aplicații pe ecranul de pornire</string>
+    <string name="landscape_mode_desc">Setează ecranul de pornire în modul Peisaj</string>
+    <string name="landscape_mode_title">Modul Peisaj</string>
+    <string name="large_grid">Mare</string>
+    <string name="medium_grid">Mediu</string>
+    <string name="notification_dots_title">Puncte de notificare</string>
+    <string name="small_grid">Mic</string>
+    <string name="xl_grid">XL</string>
+</resources>

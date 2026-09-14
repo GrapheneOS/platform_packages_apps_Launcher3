@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Výběr výchozího vzhledu a chování seznamu aplikací</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Zobrazovat ve výsledcích vyhledávání a v seznamu aplikací dlouhé názvy aplikací na dvou řádcích</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Zobrazovat dlouhé názvy aplikací</string>
+    <string name="app_list_pref_screen_title">Nastavení seznamu aplikací</string>
+    <string name="auto_add_shortcuts_description">U nových aplikací</string>
+    <string name="auto_add_shortcuts_label">Přidávat na plochu ikony aplikací</string>
+    <string name="landscape_mode_desc">Nastavit plochu do režimu na šířku</string>
+    <string name="landscape_mode_title">Režim na šířku</string>
+    <string name="large_grid">Velká</string>
+    <string name="medium_grid">Střední</string>
+    <string name="notification_dots_title">Puntíky s oznámením</string>
+    <string name="small_grid">Malá</string>
+    <string name="xl_grid">XL</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">اختيار الإعدادات التلقائية لمظهر قائمة التطبيقات وسلوكها</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">عرض الأسماء الكاملة للتطبيقات في سطرَين ضمن نتائج البحث وقائمة التطبيقات</string>
+    <string name="app_list_pref_screen_enable_two_line_title">عرض الأسماء الكاملة للتطبيقات</string>
+    <string name="app_list_pref_screen_title">إعدادات قائمة التطبيقات</string>
+    <string name="auto_add_shortcuts_description">للتطبيقات الجديدة</string>
+    <string name="auto_add_shortcuts_label">إضافة رموز التطبيقات إلى الشاشة الرئيسية</string>
+    <string name="landscape_mode_desc">ضبط الشاشة الرئيسية على الوضع الأفقي</string>
+    <string name="landscape_mode_title">الوضع الأفقي</string>
+    <string name="large_grid">كبيرة</string>
+    <string name="medium_grid">شبكة متوسطة</string>
+    <string name="notification_dots_title">نقاط الإشعارات</string>
+    <string name="small_grid">صغيرة</string>
+    <string name="xl_grid">كبيرة جدًا</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">選擇應用程式清單的預設外觀與行為</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">如果應用程式名稱較長，搜尋結果和應用程式清單就會以兩行顯示</string>
+    <string name="app_list_pref_screen_enable_two_line_title">完整顯示應用程式名稱</string>
+    <string name="app_list_pref_screen_title">應用程式清單設定</string>
+    <string name="auto_add_shortcuts_description">適用於新安裝的應用程式</string>
+    <string name="auto_add_shortcuts_label">將應用程式圖示加到主畫面</string>
+    <string name="landscape_mode_desc">將主畫面設為橫向模式</string>
+    <string name="landscape_mode_title">橫向模式</string>
+    <string name="large_grid">大</string>
+    <string name="medium_grid">中</string>
+    <string name="notification_dots_title">通知圓點</string>
+    <string name="small_grid">小</string>
+    <string name="xl_grid">特大</string>
+</resources>

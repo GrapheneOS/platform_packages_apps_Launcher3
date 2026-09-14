@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Pilih tetapan lalai penampilan dan gelagat bagi senarai apl</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Paparkan nama penuh apl pada dua baris dalam hasil carian &amp; senarai apl</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Paparkan nama penuh apl</string>
+    <string name="app_list_pref_screen_title">Tetapan senarai apl</string>
+    <string name="auto_add_shortcuts_description">Untuk apl baharu</string>
+    <string name="auto_add_shortcuts_label">Tambahkan ikon apl pada skrin utama</string>
+    <string name="landscape_mode_desc">Tetapkan skrin utama kepada mod landskap</string>
+    <string name="landscape_mode_title">Mod landskap</string>
+    <string name="large_grid">Besar</string>
+    <string name="medium_grid">Sederhana</string>
+    <string name="notification_dots_title">Titik pemberitahuan</string>
+    <string name="small_grid">Kecil</string>
+    <string name="xl_grid">XL</string>
+</resources>

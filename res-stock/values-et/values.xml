@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Valige rakenduste loendi välimuse ja käitumise vaikeseaded</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Otsingutulemustes ja rakenduste loendis pikkade rakenduste nimede kuvamine kahel real</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Pikkade rakenduste nimede kuvamine</string>
+    <string name="app_list_pref_screen_title">Rakenduste loendi seaded</string>
+    <string name="auto_add_shortcuts_description">Uute rakenduste puhul</string>
+    <string name="auto_add_shortcuts_label">Lisa rakenduste ikoonid avakuvale</string>
+    <string name="landscape_mode_desc">Sea avakuva horisontaalrežiimi</string>
+    <string name="landscape_mode_title">Horisontaalrežiim</string>
+    <string name="large_grid">Suur</string>
+    <string name="medium_grid">Keskmine</string>
+    <string name="notification_dots_title">Märguandetäpid</string>
+    <string name="small_grid">Väike</string>
+    <string name="xl_grid">XL</string>
+</resources>

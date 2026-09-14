@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Қолданбалар тізімінің әдепкі көрінісі мен күйін таңдаңыз.</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Қолданбаның ұзақ атауларын іздеу нәтижелері мен қолданбалар тізімінде екі жолда көрсету</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Қолданбаның ұзақ атауларын көрсету</string>
+    <string name="app_list_pref_screen_title">Қолданбалар тізімінің параметрлері</string>
+    <string name="auto_add_shortcuts_description">Жаңа қолданбаларға арналған</string>
+    <string name="auto_add_shortcuts_label">Қолданба белгішелерін негізгі экранға қосу</string>
+    <string name="landscape_mode_desc">Негізгі экранды альбом режиміне орнату</string>
+    <string name="landscape_mode_title">Альбом режимі</string>
+    <string name="large_grid">Үлкен</string>
+    <string name="medium_grid">Орташа</string>
+    <string name="notification_dots_title">Хабарландыру белгілері</string>
+    <string name="small_grid">Кішi</string>
+    <string name="xl_grid">Өте үлкен</string>
+</resources>

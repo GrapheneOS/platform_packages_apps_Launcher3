@@ -290,7 +290,7 @@ java_library {
 android_library {
     name: "Launcher3ResLib",
     srcs: [],
-    resource_dirs: ["res"],
+    resource_dirs: ["res", "res-stock"],
     static_libs: [
         "dynamiccolors",
         "LauncherPluginLib",

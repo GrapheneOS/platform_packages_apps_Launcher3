@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">යෙදුම් ලැයිස්තුවේ පෙනුම සහ චර්යා පෙරනිමි තෝරාගන්න</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">සෙවුම් ප්‍රතිඵල හා යෙදුම් ලැයිස්තුවේ දෙපේළියට දිගු යෙදුම් නම් පෙන්වන්න</string>
+    <string name="app_list_pref_screen_enable_two_line_title">දිගු යෙදුම් නම් පෙන්වන්න</string>
+    <string name="app_list_pref_screen_title">යෙදුම් ලැයිස්තු සැකසීම්</string>
+    <string name="auto_add_shortcuts_description">නව යෙදුම් සඳහා</string>
+    <string name="auto_add_shortcuts_label">මුල් තිරයට යෙදුම් නිරූපක එක් කරන්න</string>
+    <string name="landscape_mode_desc">මුල් තිරය භූ දර්ශන ප්‍රකාරයට සකසන්න</string>
+    <string name="landscape_mode_title">භූ දර්ශන ආකාරය</string>
+    <string name="large_grid">විශාල</string>
+    <string name="medium_grid">මධ්‍යම</string>
+    <string name="notification_dots_title">දැනුම්දීම් තිත්</string>
+    <string name="small_grid">කුඩා</string>
+    <string name="xl_grid">XL</string>
+</resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device-paddings>
+    <device-padding
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:maxEmptySpace="78.0dp" >
+        <workspaceTopPadding
+            launcher:a="0.0"
+            launcher:b="10.0dp" />
+        <workspaceBottomPadding
+            launcher:a="1.0"
+            launcher:c="10.0dp" />
+        <hotseatBottomPadding
+            launcher:a="0.0"
+            launcher:b="0.0" />
+    </device-padding>
+    <device-padding
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:maxEmptySpace="136.0dp" >
+        <workspaceTopPadding
+            launcher:a="0.0"
+            launcher:b="84.0dp" />
+        <workspaceBottomPadding
+            launcher:a="1.0"
+            launcher:c="84.0dp" />
+        <hotseatBottomPadding
+            launcher:a="0.0"
+            launcher:b="0.0" />
+    </device-padding>
+    <device-padding
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:maxEmptySpace="167.0dp" >
+        <workspaceTopPadding
+            launcher:a="0.0"
+            launcher:b="101.0dp" />
+        <workspaceBottomPadding
+            launcher:a="1.0"
+            launcher:c="101.0dp" />
+        <hotseatBottomPadding
+            launcher:a="0.0"
+            launcher:b="0.0" />
+    </device-padding>
+    <device-padding
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:maxEmptySpace="9999.0dp" >
+        <workspaceTopPadding
+            launcher:a="0.4"
+            launcher:c="0.0" />
+        <workspaceBottomPadding
+            launcher:a="0.6"
+            launcher:c="0.0" />
+        <hotseatBottomPadding
+            launcher:a="0.0"
+            launcher:b="0.0" />
+    </device-padding>
+</device-paddings>

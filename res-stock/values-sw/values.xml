@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Chagua mipangilio chaguomsingi ya mwonekano na tabia ya orodha ya programu</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Onyesha majina marefu ya programu kwenye mistari miwili katika matokeo ya utafutaji na orodha ya programu</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Kuonyesha majina marefu ya programu</string>
+    <string name="app_list_pref_screen_title">Mipangilio ya orodha ya programu</string>
+    <string name="auto_add_shortcuts_description">Kwa programu mpya</string>
+    <string name="auto_add_shortcuts_label">Weka aikoni za programu kwenye skrini ya kwanza</string>
+    <string name="landscape_mode_desc">Weka skrini ya kwanza iwe katika mkao wa mlalo</string>
+    <string name="landscape_mode_title">Mkao wa mlalo</string>
+    <string name="large_grid">Kubwa</string>
+    <string name="medium_grid">Wastani</string>
+    <string name="notification_dots_title">Vitone vya arifa</string>
+    <string name="small_grid">Ndogo</string>
+    <string name="xl_grid">Kubwa Zaidi</string>
+</resources>

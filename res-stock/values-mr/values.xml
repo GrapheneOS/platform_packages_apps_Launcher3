@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">अ‍ॅप्स सूचीचे डीफॉल्ट स्वरूप आणि वर्तन निवडा</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">शोध परिणाम आणि ॲप सूची यांत अ‍ॅपची मोठी नावे दोन ओळींत दाखवा</string>
+    <string name="app_list_pref_screen_enable_two_line_title">अ‍ॅपची मोठी नावे दाखवा</string>
+    <string name="app_list_pref_screen_title">अ‍ॅप्स सूची सेटिंग्ज</string>
+    <string name="auto_add_shortcuts_description">नवीन अ‍ॅप्ससाठी</string>
+    <string name="auto_add_shortcuts_label">होम स्क्रीनवर ॲप आयकन जोडा</string>
+    <string name="landscape_mode_desc">होम स्क्रीन लँडस्केप मोडमध्ये सेट करा</string>
+    <string name="landscape_mode_title">लँडस्केप मोड</string>
+    <string name="large_grid">मोठे</string>
+    <string name="medium_grid">मध्यम</string>
+    <string name="notification_dots_title">नोटिफिकेशन बिंदू</string>
+    <string name="small_grid">लहान</string>
+    <string name="xl_grid">XL</string>
+</resources>

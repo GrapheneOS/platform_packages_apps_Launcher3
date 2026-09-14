@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Изберете стандарден изглед и однесување на списокот со апликации</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Приказ на долги имиња на апликации во два реда во резултатите од пребарувањето и списокот со апликации</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Приказ на долги имиња на апликациите</string>
+    <string name="app_list_pref_screen_title">Поставки за списокот со апликации</string>
+    <string name="auto_add_shortcuts_description">За нови апликации</string>
+    <string name="auto_add_shortcuts_label">Додавај икони за апликации на почетниот екран</string>
+    <string name="landscape_mode_desc">Поставете го почетниот екран во хоризонтален режим</string>
+    <string name="landscape_mode_title">Хоризонтален режим</string>
+    <string name="large_grid">Големо</string>
+    <string name="medium_grid">Средно</string>
+    <string name="notification_dots_title">Точки за известување</string>
+    <string name="small_grid">Мало</string>
+    <string name="xl_grid">XL</string>
+</resources>

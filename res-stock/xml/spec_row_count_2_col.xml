@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridSizeSpecs>
+    <GridSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:dbFile="launcher_2_by_2.db"
+        launcher:defaultLayoutId="@xml/default_workspace_2x2"
+        launcher:minDeviceHeightPx="0"
+        launcher:minDeviceWidthPx="0"
+        launcher:numGridColumns="2"
+        launcher:numGridRows="2" />
+</GridSizeSpecs>

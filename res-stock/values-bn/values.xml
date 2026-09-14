@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">অ্যাপ তালিকা ডিফল্ট হিসেবে কেমন দেখাবে ও কীভাবে কাজ করবে তা বেছে নিন</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">সার্চ ফলাফল ও অ্যাপ তালিকায় দুই লাইনে অ্যাপের পুরো নাম দেখান</string>
+    <string name="app_list_pref_screen_enable_two_line_title">অ্যাপের পুরো নাম দেখান</string>
+    <string name="app_list_pref_screen_title">অ্যাপ তালিকার সেটিংস</string>
+    <string name="auto_add_shortcuts_description">নতুন অ্যাপের জন্য</string>
+    <string name="auto_add_shortcuts_label">হোম স্ক্রিনে অ্যাপের আইকন যোগ করুন</string>
+    <string name="landscape_mode_desc">ল্যান্ডস্কেপ মোডে হোম স্ক্রিন সেট করুন</string>
+    <string name="landscape_mode_title">ভূদৃশ্য মোড</string>
+    <string name="large_grid">বড়</string>
+    <string name="medium_grid">মাঝারি</string>
+    <string name="notification_dots_title">বিজ্ঞপ্তি ডট</string>
+    <string name="small_grid">ছোট</string>
+    <string name="xl_grid">XL</string>
+</resources>

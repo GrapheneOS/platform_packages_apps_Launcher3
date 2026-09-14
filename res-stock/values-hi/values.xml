@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">यह चुना जा सकता है कि डिफ़ॉल्ट रूप से, ऐप्लिकेशन की सूची कैसी दिखे और किस तरह काम करे</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">खोज के नतीजों और ऐप लिस्ट में, ऐप के पूरे नाम दो लाइनों में दिखाएं</string>
+    <string name="app_list_pref_screen_enable_two_line_title">ऐप्लिकेशन के पूरे नाम दिखाएं</string>
+    <string name="app_list_pref_screen_title">ऐप्लिकेशन की सूची से जुड़ी सेटिंग</string>
+    <string name="auto_add_shortcuts_description">नए ऐप्लिकेशन के लिए</string>
+    <string name="auto_add_shortcuts_label">होम स्क्रीन पर ऐप्लिकेशन के आइकॉन जोड़ें</string>
+    <string name="landscape_mode_desc">होम स्क्रीन को लैंडस्केप मोड में सेट करें</string>
+    <string name="landscape_mode_title">लैंडस्केप मोड</string>
+    <string name="large_grid">बड़ा</string>
+    <string name="medium_grid">सामान्य</string>
+    <string name="notification_dots_title">सूचनाएं बताने वाला डॉट</string>
+    <string name="small_grid">छोटा</string>
+    <string name="xl_grid">बहुत बड़ा</string>
+</resources>

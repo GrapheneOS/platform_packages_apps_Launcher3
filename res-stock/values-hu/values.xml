@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Az alkalmazáslista megjelenésének és alapértelmezett viselkedésének megadása</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Hosszú appnevek megjelenítése két sorban a keresési találatokban és az applistában</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Hosszú alkalmazásnevek megjelenítése</string>
+    <string name="app_list_pref_screen_title">Alkalmazáslista beállításai</string>
+    <string name="auto_add_shortcuts_description">Új alkalmazásoknál</string>
+    <string name="auto_add_shortcuts_label">Alkalmazásikonok hozzáadása a kezdőképernyőhöz</string>
+    <string name="landscape_mode_desc">Állítsa a kezdőképernyőt fekvő tájolásúra</string>
+    <string name="landscape_mode_title">Fekvő tájolás</string>
+    <string name="large_grid">Nagy</string>
+    <string name="medium_grid">Közepes</string>
+    <string name="notification_dots_title">Értesítési pöttyök</string>
+    <string name="small_grid">Kicsi</string>
+    <string name="xl_grid">XL</string>
+</resources>

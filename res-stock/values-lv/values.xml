@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Izvēlieties lietotņu saraksta izskatu un darbību</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Meklēšanas rezultātā un lietotņu sarakstā rādīt garus lietotņu nosaukumus divās rindās</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Rādīt garus lietotņu nosaukumus</string>
+    <string name="app_list_pref_screen_title">Lietotņu saraksta iestatījumi</string>
+    <string name="auto_add_shortcuts_description">Jaunām lietotnēm</string>
+    <string name="auto_add_shortcuts_label">Pievienot lietotņu ikonas sākuma ekrānam</string>
+    <string name="landscape_mode_desc">Ainavas režīma iestatīšana sākuma ekrānā</string>
+    <string name="landscape_mode_title">Ainavas režīms</string>
+    <string name="large_grid">Liels</string>
+    <string name="medium_grid">Vidējs</string>
+    <string name="notification_dots_title">Paziņojumu punkti</string>
+    <string name="small_grid">Mazs</string>
+    <string name="xl_grid">Ļoti liels</string>
+</resources>

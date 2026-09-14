@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">ایپس کی فہرست کی ہئیت اور رویے کے ڈیفالٹس کا انتخاب کریں</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">تلاش کے نتائج اور ایپس کی فہرست میں دو لائنز پر طویل ایپ کے نام ڈسپلے کریں</string>
+    <string name="app_list_pref_screen_enable_two_line_title">طویل ایپ کے نام دکھائیں</string>
+    <string name="app_list_pref_screen_title">ایپس کی فہرست کی ترتیبات</string>
+    <string name="auto_add_shortcuts_description">نئی ایپس کیلئے</string>
+    <string name="auto_add_shortcuts_label">ہوم اسکرین میں ایپ آئیکنز شامل کریں</string>
+    <string name="landscape_mode_desc">ہوم اسکرین کو لینڈ اسکیپ وضع میں سیٹ کریں</string>
+    <string name="landscape_mode_title">لینڈ اسکیپ وضع</string>
+    <string name="large_grid">بڑا</string>
+    <string name="medium_grid">متوسط</string>
+    <string name="notification_dots_title">اطلاعاتی ڈاٹس</string>
+    <string name="small_grid">چھوٹا</string>
+    <string name="xl_grid">XL</string>
+</resources>

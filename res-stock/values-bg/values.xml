@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Изберете облика и поведение по подразбиране за списъка с приложения</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Дългите имена на приложения се показват на 2 реда</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Показване на дългите имена на приложения</string>
+    <string name="app_list_pref_screen_title">Настройки за списъка с приложения</string>
+    <string name="auto_add_shortcuts_description">За нови приложения</string>
+    <string name="auto_add_shortcuts_label">Добавяне на икони на приложения на началния екран</string>
+    <string name="landscape_mode_desc">Поставяне на началния екран в хоризонтален режим</string>
+    <string name="landscape_mode_title">Хоризонтален режим</string>
+    <string name="large_grid">Големи</string>
+    <string name="medium_grid">Средни</string>
+    <string name="notification_dots_title">Точки за известия</string>
+    <string name="small_grid">Малки</string>
+    <string name="xl_grid">XL</string>
+</resources>

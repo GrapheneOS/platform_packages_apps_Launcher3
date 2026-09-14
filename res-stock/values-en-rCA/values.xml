@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Choose appearance and behavior defaults of the apps list</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Display long app names on two lines in search results and apps list</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Show long app names</string>
+    <string name="app_list_pref_screen_title">Apps list settings</string>
+    <string name="auto_add_shortcuts_description">For new apps</string>
+    <string name="auto_add_shortcuts_label">Add app icons to home screen</string>
+    <string name="landscape_mode_desc">Set home screen into landscape mode</string>
+    <string name="landscape_mode_title">Landscape mode</string>
+    <string name="large_grid">Large</string>
+    <string name="medium_grid">Medium</string>
+    <string name="notification_dots_title">Notification dots</string>
+    <string name="small_grid">Small</string>
+    <string name="xl_grid">XL</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Standarddesign und -verhalten der App-Liste auswählen</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Lange App-Namen in Suchergebnissen &amp; App-Liste in 2 Zeilen anzeigen</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Lange App-Namen anzeigen</string>
+    <string name="app_list_pref_screen_title">Einstellungen der App-Liste</string>
+    <string name="auto_add_shortcuts_description">Bei neuen Apps</string>
+    <string name="auto_add_shortcuts_label">App-Symbole zum Startbildschirm hinzufügen</string>
+    <string name="landscape_mode_desc">Startbildschirm im Querformat anzeigen</string>
+    <string name="landscape_mode_title">Querformat</string>
+    <string name="large_grid">Groß</string>
+    <string name="medium_grid">Mittel</string>
+    <string name="notification_dots_title">App-Benachrichtigungspunkte</string>
+    <string name="small_grid">Klein</string>
+    <string name="xl_grid">XL</string>
+</resources>

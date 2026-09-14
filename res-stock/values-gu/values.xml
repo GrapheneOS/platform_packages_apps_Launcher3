@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">ઍપની સૂચિના દેખાવ અને વર્તણૂક માટે ડિફૉલ્ટ સેટિંગ પસંદ કરો</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">શોધ પરિણામો અને ઍપની સૂચિમાં ઍપના લાંબા નામો બે લીટીમાં બતાવો</string>
+    <string name="app_list_pref_screen_enable_two_line_title">ઍપના લાંબા નામો બતાવો</string>
+    <string name="app_list_pref_screen_title">ઍપની સૂચિના સેટિંગ</string>
+    <string name="auto_add_shortcuts_description">નવી ઍપ માટે</string>
+    <string name="auto_add_shortcuts_label">ઍપના આઇકન હોમ સ્ક્રીનમાં ઉમેરો</string>
+    <string name="landscape_mode_desc">હોમ સ્ક્રીનને લૅન્ડસ્કેપ મોડમાં સેટ કરો</string>
+    <string name="landscape_mode_title">લૅન્ડસ્કેપ મોડ</string>
+    <string name="large_grid">મોટી</string>
+    <string name="medium_grid">મધ્યમ</string>
+    <string name="notification_dots_title">નોટિફિકેશન ડૉટ</string>
+    <string name="small_grid">નાની</string>
+    <string name="xl_grid">XL</string>
+</resources>

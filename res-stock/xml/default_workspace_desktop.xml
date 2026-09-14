@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<favorites>
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:container="-101"
+        launcher:screen="1"
+        launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_BROWSER;end"
+        launcher:x="1"
+        launcher:y="0" />
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:className="com.android.documentsui.LauncherActivity"
+        launcher:container="-101"
+        launcher:packageName="com.android.documentsui"
+        launcher:screen="4"
+        launcher:x="4"
+        launcher:y="0" />
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:container="-101"
+        launcher:screen="6"
+        launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_GALLERY;end"
+        launcher:x="6"
+        launcher:y="0" />
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:container="-101"
+        launcher:screen="7"
+        launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_MARKET;end"
+        launcher:x="7"
+        launcher:y="0" />
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:screen="0"
+        launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_MARKET;end"
+        launcher:x="0"
+        launcher:y="4" />
+</favorites>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Pilih tampilan dan perilaku default daftar aplikasi</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Tampilkan nama panjang aplikasi di dua baris dalam hasil pencarian dan daftar aplikasi</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Tampilkan nama panjang aplikasi</string>
+    <string name="app_list_pref_screen_title">Setelan daftar aplikasi</string>
+    <string name="auto_add_shortcuts_description">Untuk aplikasi baru</string>
+    <string name="auto_add_shortcuts_label">Tambahkan ikon aplikasi ke layar utama</string>
+    <string name="landscape_mode_desc">Setel layar utama ke mode lanskap</string>
+    <string name="landscape_mode_title">Mode lanskap</string>
+    <string name="large_grid">Besar</string>
+    <string name="medium_grid">Sedang</string>
+    <string name="notification_dots_title">Titik notifikasi</string>
+    <string name="small_grid">Kecil</string>
+    <string name="xl_grid">Ekstra Besar</string>
+</resources>

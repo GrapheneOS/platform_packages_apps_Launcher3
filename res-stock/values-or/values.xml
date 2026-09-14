@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">ଆପ୍ସ ତାଲିକାର ଏପିଏରେନ୍ସ ଏବଂ ଆଚରଣ ଡିଫଲ୍ଟଗୁଡ଼ିକୁ ବାଛନ୍ତୁ</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">ସର୍ଚ୍ଚ ଫଳାଫଳ ଓ ଆପ୍ସ ତାଲିକାରେ ଦୁଇଟି ଧାଡ଼ିରେ ଲମ୍ବା ଆପ ନାମ ଡିସପ୍ଲେ କରନ୍ତୁ</string>
+    <string name="app_list_pref_screen_enable_two_line_title">ଲମ୍ବା ଆପ ନାମଗୁଡ଼ିକ ଦେଖାନ୍ତୁ</string>
+    <string name="app_list_pref_screen_title">ଆପ୍ସ ତାଲିକା ସେଟିଂସ</string>
+    <string name="auto_add_shortcuts_description">ନୂଆ ଆପ୍‌ ପାଇଁ</string>
+    <string name="auto_add_shortcuts_label">ହୋମ ସ୍କ୍ରିନରେ ଆପ ଆଇକନଗୁଡ଼ିକୁ ଯୋଗ କରନ୍ତୁ</string>
+    <string name="landscape_mode_desc">ଲେଣ୍ଡସ୍କେପ ମୋଡରେ ହୋମ ସ୍କ୍ରିନ ସେଟ କରନ୍ତୁ</string>
+    <string name="landscape_mode_title">ଲେଣ୍ଡସ୍କେପ ମୋଡ</string>
+    <string name="large_grid">ବଡ଼</string>
+    <string name="medium_grid">ମଧ୍ୟମ</string>
+    <string name="notification_dots_title">ବିଜ୍ଞପ୍ତି ଡଟ୍ସ</string>
+    <string name="small_grid">ଛୋଟ</string>
+    <string name="xl_grid">XL</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">ਐਪ ਸੂਚੀ ਦੀ ਪੂਰਵ-ਨਿਰਧਾਰਿਤ ਦਿੱਖ ਅਤੇ ਵਿਹਾਰ ਚੁਣੋ</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">ਖੋਜ ਨਤੀਜਿਆਂ ਅਤੇ ਐਪ ਸੂਚੀ ਵਿੱਚ ਲੰਬੇ ਨਾਮ ਵਾਲੀਆਂ ਐਪਾਂ ਦੇ ਨਾਮ ਦੋ ਲਾਈਨਾਂ ਵਿੱਚ ਦਿਖਾਓ</string>
+    <string name="app_list_pref_screen_enable_two_line_title">ਐਪ ਦਾ ਪੂਰਾ ਨਾਮ ਦਿਖਾਓ</string>
+    <string name="app_list_pref_screen_title">ਐਪ ਸੂਚੀ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ</string>
+    <string name="auto_add_shortcuts_description">ਨਵੀਆਂ ਐਪਾਂ ਲਈ</string>
+    <string name="auto_add_shortcuts_label">"ਹੋਮ ਸਕ੍ਰੀਨ 'ਤੇ ਐਪ ਪ੍ਰਤੀਕਾਂ ਨੂੰ ਸ਼ਾਮਲ ਕਰੋ"</string>
+    <string name="landscape_mode_desc">ਹੋਮ ਸਕ੍ਰੀਨ ਨੂੰ ਲੈਂਡਸਕੇਪ ਮੋਡ ਵਿੱਚ ਸੈੱਟ ਕਰੋ</string>
+    <string name="landscape_mode_title">ਲੈਂਡਸਕੇਪ ਮੋਡ</string>
+    <string name="large_grid">ਵੱਡਾ</string>
+    <string name="medium_grid">ਦਰਮਿਆਨਾ</string>
+    <string name="notification_dots_title">ਸੂਚਨਾ ਬਿੰਦੂ</string>
+    <string name="small_grid">ਛੋਟਾ</string>
+    <string name="xl_grid">XL</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Выбар стандартных налад, якія задаюць знешні выгляд і функцыянальныя магчымасці спіса праграм</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Разбіваць доўгія назвы на два радкі ў выніках пошуку і спісе праграм</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Паказваць поўныя назвы праграм</string>
+    <string name="app_list_pref_screen_title">Налады спіса праграм</string>
+    <string name="auto_add_shortcuts_description">Для новых праграм</string>
+    <string name="auto_add_shortcuts_label">Дадаваць значкі праграм на галоўны экран</string>
+    <string name="landscape_mode_desc">Паказваць галоўны экран у альбомнай арыентацыі</string>
+    <string name="landscape_mode_title">Альбомная арыентацыя</string>
+    <string name="large_grid">Вялікая</string>
+    <string name="medium_grid">Сярэдняя</string>
+    <string name="notification_dots_title">Значкі апавяшчэнняў</string>
+    <string name="small_grid">Малая</string>
+    <string name="xl_grid">XL</string>
+</resources>

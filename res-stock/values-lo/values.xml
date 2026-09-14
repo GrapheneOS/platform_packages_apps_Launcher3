@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">ເລືອກລັກສະນະ ແລະ ພຶດຕິກຳເລີ່ມຕົ້ນຂອງລາຍຊື່ແອັບ</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">ສະແດງຊື່ແອັບຍາວສອງແຖວໃນຜົນການຊອກຫາ ແລະ ລາຍຊື່ແອັບ</string>
+    <string name="app_list_pref_screen_enable_two_line_title">ສະແດງຊື່ແອັບຍາວ</string>
+    <string name="app_list_pref_screen_title">ການຕັ້ງຄ່າລາຍຊື່ແອັບ</string>
+    <string name="auto_add_shortcuts_description">ສຳລັບແອັບໃໝ່</string>
+    <string name="auto_add_shortcuts_label">ເພີ່ມໄອຄອນແອັບໄປໃສ່ໂຮມສະກຣີນ</string>
+    <string name="landscape_mode_desc">ຕັ້ງໂຮມສະກຣີນເປັນໂໝດແນວນອນ</string>
+    <string name="landscape_mode_title">ໂໝດແນວນອນ</string>
+    <string name="large_grid">ໃຫຍ່</string>
+    <string name="medium_grid">ປານກາງ</string>
+    <string name="notification_dots_title">ຈຸດການແຈ້ງເຕືອນ</string>
+    <string name="small_grid">ນ້ອຍ</string>
+    <string name="xl_grid">XL</string>
+</resources>

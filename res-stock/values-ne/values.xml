@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">एपहरूको सूचीको डिफल्ट रूप र व्यवहार छनौट गर्नुहोस्</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">खोज परिणामहरू र एपहरूको सूचीमा एपको लामो नाम दुई लाइनमा देखाउनुहोस्</string>
+    <string name="app_list_pref_screen_enable_two_line_title">एपको लामो नाम देखाउनुहोस्</string>
+    <string name="app_list_pref_screen_title">एपहरूको सूचीसम्बन्धी सेटिङ</string>
+    <string name="auto_add_shortcuts_description">नयाँ एपका लागि</string>
+    <string name="auto_add_shortcuts_label">एपका आइकनहरू होम स्क्रिनमा राख्नुहोस्</string>
+    <string name="landscape_mode_desc">होम स्क्रिनलाई ल्यान्डस्केप मोडमा सेट गर्नुहोस्</string>
+    <string name="landscape_mode_title">ल्यान्डस्केप मोड</string>
+    <string name="large_grid">ठुलो</string>
+    <string name="medium_grid">मध्यम</string>
+    <string name="notification_dots_title">नोटिफिकेसन डट</string>
+    <string name="small_grid">सानो</string>
+    <string name="xl_grid">धेरै ठुलो</string>
+</resources>

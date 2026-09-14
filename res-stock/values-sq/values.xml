@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Zgjidh parazgjedhjet për pamjen dhe sjelljen e listës së aplikacioneve</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Shfaq emrat e gjatë të aplikacioneve në rezultatet e kërkimit dhe në listën e aplikacioneve</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Shfaq emrat e gjatë të aplikacioneve</string>
+    <string name="app_list_pref_screen_title">Cilësimet e listës së aplikacioneve</string>
+    <string name="auto_add_shortcuts_description">Për aplikacionet e reja</string>
+    <string name="auto_add_shortcuts_label">Shto ikona aplikacionesh në ekranin bazë</string>
+    <string name="landscape_mode_desc">Cakto ekranin bazë në modalitetin horizontal</string>
+    <string name="landscape_mode_title">Modaliteti horizontal</string>
+    <string name="large_grid">E madhe</string>
+    <string name="medium_grid">Mesatare</string>
+    <string name="notification_dots_title">Pikat e njoftimeve</string>
+    <string name="small_grid">E vogël</string>
+    <string name="xl_grid">Shumë e madhe</string>
+</resources>

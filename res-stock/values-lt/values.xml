@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Pasirinkite programų sąrašo išvaizdos ir veikimo numatytuosius nustatymus</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Ilgus programų pavadinimus rodyti dviejose eilutėse paieškos rezultatuose ir programų sąraše</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Ilgų programų pavadinimų rodymas</string>
+    <string name="app_list_pref_screen_title">Programų sąrašo nustatymai</string>
+    <string name="auto_add_shortcuts_description">Skirta naujoms programoms</string>
+    <string name="auto_add_shortcuts_label">Pridėti programų piktogramas pagrindiniame ekrane</string>
+    <string name="landscape_mode_desc">Pagrindinį ekraną rodyti gulsčiojo ekrano režimu</string>
+    <string name="landscape_mode_title">Gulsčiojo ekrano režimas</string>
+    <string name="large_grid">Didelis</string>
+    <string name="medium_grid">Vidutinis</string>
+    <string name="notification_dots_title">Pranešimų taškai</string>
+    <string name="small_grid">Mažas</string>
+    <string name="xl_grid">XL</string>
+</resources>

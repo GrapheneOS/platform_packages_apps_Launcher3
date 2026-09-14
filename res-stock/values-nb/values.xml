@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Velg standardutseende og -funksjonalitet for applisten</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Vis lange appnavn på to linjer i søkeresultater og applisten</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Vis lange appnavn</string>
+    <string name="app_list_pref_screen_title">Innstillinger for applisten</string>
+    <string name="auto_add_shortcuts_description">For nye apper</string>
+    <string name="auto_add_shortcuts_label">Legg til appikoner på startskjermen</string>
+    <string name="landscape_mode_desc">Bruk liggende retning for startskjermen</string>
+    <string name="landscape_mode_title">Liggende retning</string>
+    <string name="large_grid">Stor</string>
+    <string name="medium_grid">Middels</string>
+    <string name="notification_dots_title">Varselsprikker</string>
+    <string name="small_grid">Liten</string>
+    <string name="xl_grid">XL</string>
+</resources>

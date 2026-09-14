@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<folderSpecs>
+    <specs
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:maxAspectRatio="@dimen/aspect_ratio_portrait_and_square" >
+        <folderSpec
+            launcher:dimensionType="width"
+            launcher:maxAvailableSize="9999.0dp" >
+            <startPadding launcher:fixedSize="16.0dp" />
+            <endPadding launcher:fixedSize="16.0dp" />
+            <gutter launcher:fixedSize="16.0dp" />
+            <cellSize
+                launcher:matchWorkspace="true"
+                launcher:maxSize="68.0dp" />
+        </folderSpec>
+        <folderSpec
+            launcher:dimensionType="height"
+            launcher:maxAvailableSize="9999.0dp" >
+            <startPadding launcher:fixedSize="24.0dp" />
+            <endPadding launcher:fixedSize="56.0dp" />
+            <gutter launcher:fixedSize="16.0dp" />
+            <cellSize
+                launcher:matchWorkspace="true"
+                launcher:maxSize="89.0dp" />
+        </folderSpec>
+    </specs>
+    <specs
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:maxAspectRatio="@dimen/aspect_ratio_landscape" >
+        <folderSpec
+            launcher:dimensionType="width"
+            launcher:maxAvailableSize="9999.0dp" >
+            <startPadding launcher:fixedSize="16.0dp" />
+            <endPadding launcher:fixedSize="16.0dp" />
+            <gutter launcher:fixedSize="16.0dp" />
+            <cellSize
+                launcher:matchWorkspace="true"
+                launcher:maxSize="84.0dp" />
+        </folderSpec>
+        <folderSpec
+            launcher:dimensionType="height"
+            launcher:maxAvailableSize="459.0dp" >
+            <startPadding launcher:fixedSize="24.0dp" />
+            <endPadding launcher:fixedSize="56.0dp" />
+            <gutter launcher:matchWorkspace="true" />
+            <cellSize
+                launcher:matchWorkspace="true"
+                launcher:maxSize="79.0dp" />
+        </folderSpec>
+        <folderSpec
+            launcher:dimensionType="height"
+            launcher:maxAvailableSize="9999.0dp" >
+            <startPadding launcher:fixedSize="24.0dp" />
+            <endPadding launcher:fixedSize="56.0dp" />
+            <gutter launcher:fixedSize="16.0dp" />
+            <cellSize
+                launcher:matchWorkspace="true"
+                launcher:maxSize="79.0dp" />
+        </folderSpec>
+    </specs>
+</folderSpecs>

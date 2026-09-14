@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridSizeSpecs>
+    <GridSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:dbFile="launcher.db"
+        launcher:defaultLayoutId="@xml/default_workspace_splitdisplay_5x5"
+        launcher:minDeviceHeightPx="0"
+        launcher:minDeviceWidthPx="0"
+        launcher:numGridColumns="5"
+        launcher:numGridRows="5" />
+    <GridSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:dbFile="launcher_5_by_6.db"
+        launcher:defaultLayoutId="@xml/default_workspace_splitdisplay_5x6"
+        launcher:minDeviceHeightPx="2093"
+        launcher:minDeviceWidthPx="0"
+        launcher:numGridColumns="5"
+        launcher:numGridRows="6" />
+</GridSizeSpecs>
