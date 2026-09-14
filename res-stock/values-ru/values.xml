@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Выберите настройки по умолчанию для списка приложений</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Разбивать названия на две строки в результатах поиска и списке приложений</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Показывать полные названия приложений</string>
+    <string name="app_list_pref_screen_title">Настройки списка приложений</string>
+    <string name="auto_add_shortcuts_description">Для новых приложений</string>
+    <string name="auto_add_shortcuts_label">Добавлять значки приложений на главный экран</string>
+    <string name="landscape_mode_desc">Показывать главный экран в горизонтальном режиме</string>
+    <string name="landscape_mode_title">Горизонтальный режим</string>
+    <string name="large_grid">Крупный</string>
+    <string name="medium_grid">Средний</string>
+    <string name="notification_dots_title">Значки уведомлений</string>
+    <string name="small_grid">Мелкий</string>
+    <string name="xl_grid">XL</string>
+</resources>

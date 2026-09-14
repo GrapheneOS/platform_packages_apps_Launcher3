@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">ആപ്പുകളുടെ ലിസ്‌റ്റിന്റെ രൂപവും പെരുമാറ്റവും ഡിഫോൾട്ടായി തിരഞ്ഞെടുക്കുക</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">നീണ്ട ആപ്പ് പേര് തിരയൽ ഫലത്തിലും ആപ്പ് ലിസ്റ്റിലും 2 വരികളിൽ കാണിക്കൂ</string>
+    <string name="app_list_pref_screen_enable_two_line_title">നീണ്ട ആപ്പ് പേരുകൾ കാണിക്കുക</string>
+    <string name="app_list_pref_screen_title">ആപ്പുകളുടെ ലിസ്റ്റ് ക്രമീകരണം</string>
+    <string name="auto_add_shortcuts_description">പുതിയ ആപ്പുകൾക്ക്</string>
+    <string name="auto_add_shortcuts_label">ഹോം സ്‌ക്രീനിലേക്ക് ആപ്പ് ഐക്കണുകൾ ചേർക്കുക</string>
+    <string name="landscape_mode_desc">ഹോം സ്‌ക്രീൻ ലാൻഡ്‌സ്‌കേപ്പ് മോഡിലേക്ക് സജ്ജീകരിക്കുക</string>
+    <string name="landscape_mode_title">ലാൻഡ്‌സ്‌കേപ്പ് മോഡ്</string>
+    <string name="large_grid">വലുത്</string>
+    <string name="medium_grid">ഇടത്തരം</string>
+    <string name="notification_dots_title">അറിയിപ്പ് ഡോട്ടുകൾ</string>
+    <string name="small_grid">ചെറുത്</string>
+    <string name="xl_grid">XL</string>
+</resources>

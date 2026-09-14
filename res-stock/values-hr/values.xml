@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Odaberite zadani izgled i ponašanje popisa aplikacija</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Prikaži pune nazive aplikacija u dva retka u rezultatima pretraživanja i na popisu aplikacija</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Prikazivanje punih naziva aplikacija</string>
+    <string name="app_list_pref_screen_title">Postavke popisa aplikacija</string>
+    <string name="auto_add_shortcuts_description">Za nove aplikacije</string>
+    <string name="auto_add_shortcuts_label">Dodaj ikone aplikacija na početni zaslon</string>
+    <string name="landscape_mode_desc">Postavite početni zaslon na pejzažni način</string>
+    <string name="landscape_mode_title">Pejzažni način</string>
+    <string name="large_grid">Velika</string>
+    <string name="medium_grid">Srednje</string>
+    <string name="notification_dots_title">Točke obavijesti</string>
+    <string name="small_grid">Malo</string>
+    <string name="xl_grid">XL</string>
+</resources>

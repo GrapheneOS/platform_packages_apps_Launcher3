@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="taskbar_button_margin_6_5">150.0dp</dimen>
+    <dimen name="taskbar_button_margin_desktop">150.0dp</dimen>
+    <dimen name="taskbar_button_margin_split">88.0dp</dimen>
+    <style name="AllAppsStyle5x8" parent="@style/AllAppsStyleDefault">
+        <item name="horizontalPadding">32.0dp</item>
+    </style>
+    <style name="AllAppsStyle6x5" parent="@style/AllAppsStyleDefault">
+        <item name="horizontalPadding">32.0dp</item>
+    </style>
+    <style name="CellStyle5x8" parent="@style/CellStyleDefault">
+        <item name="iconDrawablePadding">8.0dp</item>
+    </style>
+    <style name="CellStyle6x5" parent="@style/CellStyleDefault">
+        <item name="iconDrawablePadding">8.0dp</item>
+    </style>
+    <style name="CellStyleDefault">
+        <item name="iconDrawablePadding">4.0dp</item>
+    </style>
+    <style name="CellStyle_4_Col_Fold" parent="@style/CellStyleDefault">
+        <item name="iconDrawablePadding">4.0dp</item>
+    </style>
+    <style name="CellStyle_5_Col_Fold" parent="@style/CellStyleDefault">
+        <item name="iconDrawablePadding">4.0dp</item>
+    </style>
+    <style name="Folder5x8Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">74.0dp</item>
+        <item name="folderCellWidth">74.0dp</item>
+        <item name="folderFooterHeight">64.0dp</item>
+    </style>
+    <style name="Folder6x5Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">74.0dp</item>
+        <item name="folderCellWidth">74.0dp</item>
+        <item name="folderFooterHeight">64.0dp</item>
+    </style>
+    <style name="FolderStyleDefault">
+        <item name="folderBorderSpace">16.0dp</item>
+        <item name="folderCellHeight">94.0dp</item>
+        <item name="folderCellWidth">80.0dp</item>
+        <item name="folderFooterHeight">56.0dp</item>
+        <item name="folderTopPadding">20.0dp</item>
+    </style>
+</resources>

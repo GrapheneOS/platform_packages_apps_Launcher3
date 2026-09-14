@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">选择应用列表的默认外观与行为</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">在搜索结果和应用列表中以 2 行显示较长的应用名称</string>
+    <string name="app_list_pref_screen_enable_two_line_title">显示较长的应用名称</string>
+    <string name="app_list_pref_screen_title">应用列表设置</string>
+    <string name="auto_add_shortcuts_description">适用于新应用</string>
+    <string name="auto_add_shortcuts_label">将应用图标添加到主屏幕</string>
+    <string name="landscape_mode_desc">将主屏幕设为横屏模式</string>
+    <string name="landscape_mode_title">横屏模式</string>
+    <string name="large_grid">大</string>
+    <string name="medium_grid">中</string>
+    <string name="notification_dots_title">通知圆点</string>
+    <string name="small_grid">小</string>
+    <string name="xl_grid">特大</string>
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<workspaceSpecs>
+    <specs
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:maxAspectRatio="@dimen/aspect_ratio_landscape" >
+        <workspaceSpec
+            launcher:dimensionType="height"
+            launcher:maxAvailableSize="9999.0dp" >
+            <startPadding launcher:ofAvailableSpace="0.01" />
+            <endPadding launcher:ofAvailableSpace="0.055" />
+            <gutter launcher:ofAvailableSpace="0.02" />
+            <cellSize launcher:ofRemainderSpace="1.0" />
+        </workspaceSpec>
+        <workspaceSpec
+            launcher:dimensionType="width"
+            launcher:maxAvailableSize="9999.0dp" >
+            <startPadding launcher:ofAvailableSpace="0.06608676" />
+            <endPadding launcher:ofAvailableSpace="0.06608676" />
+            <gutter launcher:ofAvailableSpace="0.0125" />
+            <cellSize launcher:ofRemainderSpace="1.0" />
+        </workspaceSpec>
+    </specs>
+</workspaceSpecs>

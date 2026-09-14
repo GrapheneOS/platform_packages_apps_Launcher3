@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">የመተግበሪያዎች ዝርዝር ገጽታ እና ባህሪ ነባሪዎችን ይምረጡ</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">የፍለጋ ውጤቶች እና የመተግበሪያዎች ዝርዝር ውስጥ ረጅም የመተግበሪያ ስሞችን በሁለት መስመሮች ላይ አሳይ</string>
+    <string name="app_list_pref_screen_enable_two_line_title">ረጅም የመተግበሪያ ስሞችን አሳይ</string>
+    <string name="app_list_pref_screen_title">የመተግበሪያዎች ዝርዝር ቅንብሮች</string>
+    <string name="auto_add_shortcuts_description">ለአዲስ መተግበሪያዎች</string>
+    <string name="auto_add_shortcuts_label">የመተግበሪያ አዶዎችን ወደ መነሻ ገጹ ያክሉ</string>
+    <string name="landscape_mode_desc">መነሻ ማያ ገፅን ወደ የመሬት አቀማመጥ ሁኔታ ያቀናብሩ</string>
+    <string name="landscape_mode_title">የመሬት አቀማመጥ ሁኔታ</string>
+    <string name="large_grid">ትልቅ</string>
+    <string name="medium_grid">መካከለኛ</string>
+    <string name="notification_dots_title">የማሳወቂያ ነጥቦች</string>
+    <string name="small_grid">ትንሽ</string>
+    <string name="xl_grid">ኤክስ.ኤል</string>
+</resources>

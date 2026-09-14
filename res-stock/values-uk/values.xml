@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Виберіть стандартні налаштування вигляду й режиму роботи для списку додатків</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Відображати довгі назви додатків у двох рядках у результатах пошуку й списку додатків</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Показувати довгі назви додатків</string>
+    <string name="app_list_pref_screen_title">Налаштування списку додатків</string>
+    <string name="auto_add_shortcuts_description">Для нових додатків</string>
+    <string name="auto_add_shortcuts_label">Розміщати значки додатків на головному екрані</string>
+    <string name="landscape_mode_desc">Змінити орієнтацію головного екрана на альбомну</string>
+    <string name="landscape_mode_title">Альбомна орієнтація</string>
+    <string name="large_grid">Великий</string>
+    <string name="medium_grid">Середній</string>
+    <string name="notification_dots_title">Значки сповіщень</string>
+    <string name="small_grid">Малий</string>
+    <string name="xl_grid">XL</string>
+</resources>

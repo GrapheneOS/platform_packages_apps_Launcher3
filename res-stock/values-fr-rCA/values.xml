@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">"Choisissez l'apparence et le comportement par défaut de la liste des applis"</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Noms longs sur 2 lignes dans rés. rech./liste app.</string>
+    <string name="app_list_pref_screen_enable_two_line_title">"Afficher les noms d'applis longs"</string>
+    <string name="app_list_pref_screen_title">Paramètres de la liste des applis</string>
+    <string name="auto_add_shortcuts_description">Pour les nouvelles applis</string>
+    <string name="auto_add_shortcuts_label">"Ajouter les icônes des applis à l'écran d'accueil"</string>
+    <string name="landscape_mode_desc">"Réglez l'écran d'accueil en mode Paysage"</string>
+    <string name="landscape_mode_title">Mode Paysage</string>
+    <string name="large_grid">Grande</string>
+    <string name="medium_grid">Moyenne</string>
+    <string name="notification_dots_title">Pastilles de notification</string>
+    <string name="small_grid">Petite</string>
+    <string name="xl_grid">Très grande</string>
+</resources>

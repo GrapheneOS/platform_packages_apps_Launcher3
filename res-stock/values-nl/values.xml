@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Kies de standaardwaarden voor het uiterlijk en gedrag van de lijst met apps</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Toon lange app-namen op 2 regels in de zoekresultaten en app-lijst</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Lange app-namen tonen</string>
+    <string name="app_list_pref_screen_title">Instellingen voor lijst met apps</string>
+    <string name="auto_add_shortcuts_description">Voor nieuwe apps</string>
+    <string name="auto_add_shortcuts_label">App-iconen op startscherm</string>
+    <string name="landscape_mode_desc">Stel startscherm in op liggende modus</string>
+    <string name="landscape_mode_title">Liggende modus</string>
+    <string name="large_grid">Groot</string>
+    <string name="medium_grid">Gemiddeld</string>
+    <string name="notification_dots_title">Meldingsstipjes</string>
+    <string name="small_grid">Klein</string>
+    <string name="xl_grid">XL</string>
+</resources>

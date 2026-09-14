@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridSizeSpecs>
+    <GridSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:dbFile="launcher_10_by_5.db"
+        launcher:defaultLayoutId="@xml/default_workspace_desktop"
+        launcher:minDeviceHeightPx="0"
+        launcher:minDeviceWidthPx="0"
+        launcher:numGridColumns="10"
+        launcher:numGridRows="5" />
+    <GridSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:dbFile="launcher_11_by_5.db"
+        launcher:defaultLayoutId="@xml/default_workspace_desktop"
+        launcher:minDeviceHeightPx="768"
+        launcher:minDeviceWidthPx="1366"
+        launcher:numGridColumns="11"
+        launcher:numGridRows="5" />
+    <GridSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:dbFile="launcher_13_by_6.db"
+        launcher:defaultLayoutId="@xml/default_workspace_desktop"
+        launcher:minDeviceHeightPx="900"
+        launcher:minDeviceWidthPx="1600"
+        launcher:numGridColumns="13"
+        launcher:numGridRows="6" />
+    <GridSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:dbFile="launcher_16_by_8.db"
+        launcher:defaultLayoutId="@xml/default_workspace_desktop"
+        launcher:minDeviceHeightPx="1080"
+        launcher:minDeviceWidthPx="1920"
+        launcher:numGridColumns="16"
+        launcher:numGridRows="8" />
+</GridSizeSpecs>

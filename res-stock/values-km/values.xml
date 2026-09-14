@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">ជ្រើសរើសលំនាំដើមរូបរាង និងសកម្មភាពរបស់បញ្ជីកម្មវិធី</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">បង្ហាញឈ្មោះកម្មវិធីវែងជាពីរជួរនៅក្នុងលទ្ធផលស្វែងរក និងបញ្ជីកម្មវិធី</string>
+    <string name="app_list_pref_screen_enable_two_line_title">បង្ហាញឈ្មោះកម្មវិធីវែង</string>
+    <string name="app_list_pref_screen_title">ការកំណត់បញ្ជីកម្មវិធី</string>
+    <string name="auto_add_shortcuts_description">សម្រាប់កម្មវិធីថ្មី</string>
+    <string name="auto_add_shortcuts_label">បញ្ចូល​រូបកម្មវិធី​ទៅក្នុង​អេក្រង់ដើម</string>
+    <string name="landscape_mode_desc">កំណត់អេក្រង់ដើមទៅផ្ដេក</string>
+    <string name="landscape_mode_title">ផ្ដេក</string>
+    <string name="large_grid">ធំ</string>
+    <string name="medium_grid">មធ្យម</string>
+    <string name="notification_dots_title">ស្លាកជូនដំណឹង</string>
+    <string name="small_grid">តូច</string>
+    <string name="xl_grid">ធំ​ខ្លាំង</string>
+</resources>

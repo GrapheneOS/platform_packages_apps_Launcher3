@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">အက်ပ်စာရင်း၏ မူရင်း အပြင်အဆင်နှင့် အပြုအမူများ ရွေးပါ</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">ရှာဖွေမှုရလဒ်၊ အက်ပ်စာရင်းတို့၌ အက်ပ်အမည်ရှည်ကို စာနှစ်ကြောင်းဖြင့်ပြပါ</string>
+    <string name="app_list_pref_screen_enable_two_line_title">အက်ပ်အမည်ရှည်များ ပြပါ</string>
+    <string name="app_list_pref_screen_title">အက်ပ်စာရင်းဆက်တင်</string>
+    <string name="auto_add_shortcuts_description">အက်ပ်အသစ်များအတွက်</string>
+    <string name="auto_add_shortcuts_label">ပင်မစာမျက်နှာတွင် အက်ပ်သင်္ကေတထည့်ခြင်း</string>
+    <string name="landscape_mode_desc">ပင်မစာမျက်နှာကို အလျားလိုက်မုဒ်သို့ သတ်မှတ်နိုင်သည်</string>
+    <string name="landscape_mode_title">အလျားလိုက်</string>
+    <string name="large_grid">ကြီး</string>
+    <string name="medium_grid">အလယ်အလတ်</string>
+    <string name="notification_dots_title">သတိပေးချက် အစက်များ</string>
+    <string name="small_grid">သေး</string>
+    <string name="xl_grid">XL</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Veldu sjálfgefið útlit og virkni fyrir forritalistann</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Sýna löng heiti forrita í tveimur línum í leitarniðurstöðum og á forritalista</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Sýna löng heiti forrita</string>
+    <string name="app_list_pref_screen_title">Stillingar forritalista</string>
+    <string name="auto_add_shortcuts_description">Fyrir ný forrit</string>
+    <string name="auto_add_shortcuts_label">Bæta forritatáknum við heimaskjáinn</string>
+    <string name="landscape_mode_desc">Stilla heimaskjá á langsnið</string>
+    <string name="landscape_mode_title">Langsnið</string>
+    <string name="large_grid">Stórt</string>
+    <string name="medium_grid">Miðlungs</string>
+    <string name="notification_dots_title">Tilkynningapunktar</string>
+    <string name="small_grid">Lítið</string>
+    <string name="xl_grid">Mjög stórt</string>
+</resources>

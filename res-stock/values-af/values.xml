@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Kies die applys se voorkoms- en gedragverstekke</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Wys lang appname op twee reëls in soekresultate en applys</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Wys lang appname</string>
+    <string name="app_list_pref_screen_title">Applysinstellings</string>
+    <string name="auto_add_shortcuts_description">Vir nuwe apps</string>
+    <string name="auto_add_shortcuts_label">Voeg appikone by tuisskerm</string>
+    <string name="landscape_mode_desc">Stel tuisskerm na landskapmodus</string>
+    <string name="landscape_mode_title">Landskapmodus</string>
+    <string name="large_grid">Groot</string>
+    <string name="medium_grid">Medium</string>
+    <string name="notification_dots_title">Kennisgewingkolle</string>
+    <string name="small_grid">Klein</string>
+    <string name="xl_grid">XL</string>
+</resources>

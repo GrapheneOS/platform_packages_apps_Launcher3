@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">ஆப்ஸ் பட்டியல் தோற்றத்தையும் இயல்புச் செயல்களையும் தேர்வுசெய்யலாம்</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">தேடல் முடிவுகளிலும் ஆப்ஸ் விவரத்திலும் நீளமான ஆப்ஸ் பெயர்களை இரு வரிகளில் காட்டலாம்</string>
+    <string name="app_list_pref_screen_enable_two_line_title">நீளமான ஆப்ஸ் பெயர்களைக் காட்டுதல்</string>
+    <string name="app_list_pref_screen_title">ஆப்ஸ் பட்டியல் அமைப்புகள்</string>
+    <string name="auto_add_shortcuts_description">புதிய ஆப்ஸை நிறுவும்போது</string>
+    <string name="auto_add_shortcuts_label">முகப்புத் திரையில் ஆப்ஸ் ஐகான்களைச் சேர்த்தல்</string>
+    <string name="landscape_mode_desc">முகப்புத் திரையை லேண்ட்ஸ்கேப் மோடில் அமைக்கும்</string>
+    <string name="landscape_mode_title">லேண்ட்ஸ்கேப் மோட்</string>
+    <string name="large_grid">பெரியது</string>
+    <string name="medium_grid">நடுத்தரம்</string>
+    <string name="notification_dots_title">அறிவிப்புப் புள்ளிகள்</string>
+    <string name="small_grid">சிறியது</string>
+    <string name="xl_grid">மிகப் பெரியது</string>
+</resources>

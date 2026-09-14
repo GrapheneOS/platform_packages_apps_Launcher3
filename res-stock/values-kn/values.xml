@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">ಆ್ಯಪ್‌ಗಳ ಪಟ್ಟಿಯ ಗೋಚರತೆ ಮತ್ತು ವರ್ತನೆಯ ಡೀಫಾಲ್ಟ್‌ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">ಹುಡುಕಾಟ ಫಲಿತಾಂಶಗಳು ಮತ್ತು ಆ್ಯಪ್‌ಗಳ ಪಟ್ಟಿಯಲ್ಲಿ ಉದ್ದನೆಯ ಆ್ಯಪ್ ಹೆಸರುಗಳನ್ನು ಎರಡು ಸಾಲುಗಳಲ್ಲಿ ಪ್ರದರ್ಶಿಸಿ</string>
+    <string name="app_list_pref_screen_enable_two_line_title">ಉದ್ದನೆಯ ಆ್ಯಪ್ ಹೆಸರುಗಳನ್ನು ತೋರಿಸಿ</string>
+    <string name="app_list_pref_screen_title">ಆ್ಯಪ್‌ಗಳ ಪಟ್ಟಿಯ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
+    <string name="auto_add_shortcuts_description">ಹೊಸ ಆ್ಯಪ್‌ಗಳಿಗೆ</string>
+    <string name="auto_add_shortcuts_label">ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ಗೆ ಆ್ಯಪ್ ಐಕಾನ್‌ಗಳನ್ನು ಸೇರಿಸಿ</string>
+    <string name="landscape_mode_desc">ಹೋಮ್ ಸ್ಕ್ರೀನ್ ಅನ್ನು ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪ್ ಮೋಡ್‌ಗೆ ಸೆಟ್ ಮಾಡಿ</string>
+    <string name="landscape_mode_title">ಲ್ಯಾಂಡ್‌ಸ್ಕೇಪ್ ಮೋಡ್</string>
+    <string name="large_grid">ದೊಡ್ಡದು</string>
+    <string name="medium_grid">ಮಧ್ಯಮ</string>
+    <string name="notification_dots_title">ನೋಟಿಫಿಕೇಶನ್ ಡಾಟ್‌ಗಳು</string>
+    <string name="small_grid">ಚಿಕ್ಕದು</string>
+    <string name="xl_grid">XL</string>
+</resources>

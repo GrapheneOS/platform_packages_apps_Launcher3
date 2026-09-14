@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Колдонмолор тизмесинин демейки параметрлерин тандайсыз</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Аталышы узун колдонмолор табылган нерселерде жана колдонмолор тизмесинде эки сапта көрүнөт</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Аталышы узун колдонмолорду көрсөтүү</string>
+    <string name="app_list_pref_screen_title">Колдонмолор тизмесинин параметрлери</string>
+    <string name="auto_add_shortcuts_description">Жаңы колдонмолор үчүн</string>
+    <string name="auto_add_shortcuts_label">Колдонмонун сүрөтчөсүн башкы экранга кошуу</string>
+    <string name="landscape_mode_desc">Башкы экран туурасынан коюлат</string>
+    <string name="landscape_mode_title">Туурасынан</string>
+    <string name="large_grid">Чоң</string>
+    <string name="medium_grid">Орточо</string>
+    <string name="notification_dots_title">Билдирмелер белгилери</string>
+    <string name="small_grid">Кичине</string>
+    <string name="xl_grid">Өтө чоң</string>
+</resources>

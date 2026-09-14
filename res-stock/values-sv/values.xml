@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Välj applistans utseende och standardbeteende</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Visa långa appnamn på två rader i sökresultaten och applistan</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Visa långa appnamn</string>
+    <string name="app_list_pref_screen_title">Inställningar för applistan</string>
+    <string name="auto_add_shortcuts_description">För nya appar</string>
+    <string name="auto_add_shortcuts_label">Lägg till appikoner på startskärmen</string>
+    <string name="landscape_mode_desc">Ställ in liggande läge på startskärmen</string>
+    <string name="landscape_mode_title">Liggande</string>
+    <string name="large_grid">Stort</string>
+    <string name="medium_grid">Medelstor</string>
+    <string name="notification_dots_title">Aviseringsprickar</string>
+    <string name="small_grid">Liten</string>
+    <string name="xl_grid">Extra stort</string>
+</resources>

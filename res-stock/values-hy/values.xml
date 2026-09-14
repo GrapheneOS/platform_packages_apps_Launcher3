@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Ընտրեք հավելվածների ցուցակի տեսքը և կանխադրված գործողությունները</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Ցուցադրել հավելվածների երկար անվանումները երկու տողով՝ որոնման արդյունքներում և հավելվածների ցուցակում</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Ցույց տալ հավելվածների երկար անվանումները</string>
+    <string name="app_list_pref_screen_title">Հավելվածների ցուցակի կարգավորումներ</string>
+    <string name="auto_add_shortcuts_description">Նոր հավելվածների համար</string>
+    <string name="auto_add_shortcuts_label">Ավելացնել պատկերակները հիմնական էկրանին</string>
+    <string name="landscape_mode_desc">Հիմնական էկրանի համար սահմանեք հորիզոնական ռեժիմը</string>
+    <string name="landscape_mode_title">Հորիզոնական</string>
+    <string name="large_grid">Մեծ</string>
+    <string name="medium_grid">Միջին</string>
+    <string name="notification_dots_title">Ծանուցումների կետիկներ</string>
+    <string name="small_grid">Փոքր</string>
+    <string name="xl_grid">XL</string>
+</resources>

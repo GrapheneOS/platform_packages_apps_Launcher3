@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">เลือกค่าเริ่มต้นของลักษณะที่ปรากฏและลักษณะการทำงานของรายการแอป</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">แสดงชื่อเต็มของแอปเป็น 2 บรรทัดในผลการค้นหาและรายการแอป</string>
+    <string name="app_list_pref_screen_enable_two_line_title">แสดงชื่อเต็มของแอป</string>
+    <string name="app_list_pref_screen_title">การตั้งค่ารายการแอป</string>
+    <string name="auto_add_shortcuts_description">สำหรับแอปใหม่</string>
+    <string name="auto_add_shortcuts_label">เพิ่มไอคอนแอปในหน้าจอหลัก</string>
+    <string name="landscape_mode_desc">ตั้งหน้าจอหลักเป็นโหมดแนวนอน</string>
+    <string name="landscape_mode_title">โหมดแนวนอน</string>
+    <string name="large_grid">ใหญ่</string>
+    <string name="medium_grid">ปานกลาง</string>
+    <string name="notification_dots_title">เครื่องหมายจุดแสดงการแจ้งเตือน</string>
+    <string name="small_grid">เล็ก</string>
+    <string name="xl_grid">ใหญ่พิเศษ</string>
+</resources>

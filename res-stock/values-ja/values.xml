@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">アプリリストの外観と動作のデフォルトを選択します</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">検索結果とアプリリストで長いアプリ名を 2 行に表示します</string>
+    <string name="app_list_pref_screen_enable_two_line_title">長いアプリ名の表示</string>
+    <string name="app_list_pref_screen_title">アプリリストの設定</string>
+    <string name="auto_add_shortcuts_description">新しいアプリをダウンロードしたときに自動で追加します</string>
+    <string name="auto_add_shortcuts_label">ホーム画面にアプリのアイコンを追加</string>
+    <string name="landscape_mode_desc">ホーム画面を横向きにします</string>
+    <string name="landscape_mode_title">横表示</string>
+    <string name="large_grid">大</string>
+    <string name="medium_grid">中</string>
+    <string name="notification_dots_title">通知ドット</string>
+    <string name="small_grid">小</string>
+    <string name="xl_grid">特大</string>
+</resources>

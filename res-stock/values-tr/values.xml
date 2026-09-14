@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Uygulama listesinin görünüm ve davranış ile ilgili varsayılan ayarlarını seçin</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Arama sonuçları ve uygulama listesindeki uzun uygulama adlarını iki satırda göster</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Uzun uygulama adlarını göster</string>
+    <string name="app_list_pref_screen_title">Uygulama listesi ayarları</string>
+    <string name="auto_add_shortcuts_description">Yeni uygulamalar için</string>
+    <string name="auto_add_shortcuts_label">Uygulama simgelerini ana ekrana ekle</string>
+    <string name="landscape_mode_desc">Ana ekranı yatay moda ayarlayın</string>
+    <string name="landscape_mode_title">Yatay mod</string>
+    <string name="large_grid">Büyük</string>
+    <string name="medium_grid">Orta</string>
+    <string name="notification_dots_title">Bildirim noktaları</string>
+    <string name="small_grid">Küçük</string>
+    <string name="xl_grid">Çok büyük</string>
+</resources>

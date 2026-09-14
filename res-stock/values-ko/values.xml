@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">앱 목록의 모양과 동작 기본값 선택</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">이름이 긴 앱을 검색 결과와 앱 목록에서 두 줄로 표시합니다.</string>
+    <string name="app_list_pref_screen_enable_two_line_title">이름이 긴 앱 표시</string>
+    <string name="app_list_pref_screen_title">앱 목록 설정</string>
+    <string name="auto_add_shortcuts_description">새로 설치한 앱에 적용</string>
+    <string name="auto_add_shortcuts_label">홈 화면에 앱 아이콘 추가</string>
+    <string name="landscape_mode_desc">홈 화면을 가로 모드로 설정</string>
+    <string name="landscape_mode_title">가로 모드</string>
+    <string name="large_grid">크게</string>
+    <string name="medium_grid">보통</string>
+    <string name="notification_dots_title">알림 표시 점</string>
+    <string name="small_grid">작게</string>
+    <string name="xl_grid">더 크게</string>
+</resources>

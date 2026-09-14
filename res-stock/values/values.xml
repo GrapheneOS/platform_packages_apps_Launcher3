@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="folderBorderSpace" format="dimension" />
+    <attr name="folderCellHeight" format="dimension" />
+    <attr name="folderCellWidth" format="dimension" />
+    <attr name="folderFooterHeight" format="dimension" />
+    <attr name="folderTopPadding" format="dimension" />
+    <attr name="horizontalPadding" format="dimension" />
+    <attr name="iconDrawablePadding" format="dimension" />
+    <bool name="apps_list_pref_two_lines_toggle">false</bool>
+    <bool name="pref_add_icon_to_home_default">true</bool>
+    <color name="materialColorOnSurface">@android:color/system_on_surface_light</color>
+    <color name="materialColorOnSurfaceVariant">@android:color/system_on_surface_variant_light</color>
+    <dimen name="aspect_ratio_landscape">10.0</dimen>
+    <dimen name="aspect_ratio_portrait">1.0</dimen>
+    <dimen name="aspect_ratio_portrait_and_square">1.05</dimen>
+    <dimen name="iconSize110dp">121.0dp</dimen>
+    <dimen name="iconSize144dp">158.0dp</dimen>
+    <dimen name="iconSize48dp">52.0dp</dimen>
+    <dimen name="iconSize52dp">57.0dp</dimen>
+    <dimen name="iconSize58dp">63.0dp</dimen>
+    <dimen name="iconSize60dp">66.0dp</dimen>
+    <dimen name="iconSize82dp">90.0dp</dimen>
+    <dimen name="taskbar_button_margin_6_5">75.0dp</dimen>
+    <dimen name="taskbar_button_margin_desktop">75.0dp</dimen>
+    <dimen name="taskbar_button_margin_split">48.0dp</dimen>
+    <string name="app_list_pref_screen_desc">Choose appearance and behavior defaults of the apps list</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Display long app names on two lines in search results and apps list</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Show long app names</string>
+    <string name="app_list_pref_screen_title">Apps list settings</string>
+    <string name="auto_add_shortcuts_description">For new apps</string>
+    <string name="auto_add_shortcuts_label">Add app icons to home screen</string>
+    <string name="landscape_mode_desc">Set home screen into landscape mode</string>
+    <string name="landscape_mode_title">Landscape mode</string>
+    <string name="large_grid">Large</string>
+    <string name="medium_grid">Medium</string>
+    <string name="notification_dots_title">Notification dots</string>
+    <string name="small_grid">Small</string>
+    <string name="xl_grid">XL</string>
+    <style name="AllAppsStyle6x5" parent="@style/AllAppsStyleDefault">
+        <item name="horizontalPadding">32.0dp</item>
+    </style>
+    <style name="AllAppsStyleDefault">
+        <item name="horizontalPadding">16.0dp</item>
+    </style>
+    <style name="CellStyle5x8" parent="@style/CellStyleDefault">
+        <item name="iconDrawablePadding">14.0dp</item>
+    </style>
+    <style name="CellStyle6x5" parent="@style/CellStyleDefault">
+        <item name="iconDrawablePadding">14.0dp</item>
+    </style>
+    <style name="CellStyleDefault">
+        <item name="iconDrawablePadding">7.0dp</item>
+    </style>
+    <style name="CellStyle_4_Col_Fold" parent="@style/CellStyleDefault">
+        <item name="iconDrawablePadding">5.0dp</item>
+    </style>
+    <style name="CellStyle_5_Col_Fold" parent="@style/CellStyleDefault">
+        <item name="iconDrawablePadding">8.0dp</item>
+    </style>
+    <style name="Folder2x2Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">199.0dp</item>
+        <item name="folderCellWidth">176.0dp</item>
+    </style>
+    <style name="Folder3x3Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">128.0dp</item>
+        <item name="folderCellWidth">112.0dp</item>
+        <item name="folderFooterHeight">64.0dp</item>
+    </style>
+    <style name="Folder6x5Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">90.0dp</item>
+        <item name="folderCellWidth">77.0dp</item>
+        <item name="folderFooterHeight">64.0dp</item>
+    </style>
+    <style name="FolderStyleDefault">
+        <item name="folderBorderSpace">16.0dp</item>
+        <item name="folderCellHeight">94.0dp</item>
+        <item name="folderCellWidth">80.0dp</item>
+        <item name="folderFooterHeight">56.0dp</item>
+        <item name="folderTopPadding">24.0dp</item>
+    </style>
+    <style name="Folder_3_Row_Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">79.0dp</item>
+        <item name="folderCellWidth">61.0dp</item>
+    </style>
+    <style name="Folder_4_Col_FoldStyle" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">73.0dp</item>
+        <item name="folderCellWidth">65.0dp</item>
+    </style>
+    <style name="Folder_4_Col_Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">94.0dp</item>
+        <item name="folderCellWidth">80.0dp</item>
+    </style>
+    <style name="Folder_5_Col_FoldStyle" parent="@style/FolderStyleDefault">
+        <item name="folderBorderSpace">12.0dp</item>
+        <item name="folderCellHeight">72.0dp</item>
+        <item name="folderCellWidth">55.0dp</item>
+    </style>
+    <style name="Folder_5_Col_Style" parent="@style/FolderStyleDefault">
+        <item name="folderCellHeight">79.0dp</item>
+        <item name="folderCellWidth">61.0dp</item>
+    </style>
+</resources>

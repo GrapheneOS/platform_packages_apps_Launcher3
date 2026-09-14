@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">پیش‌فرض‌های مربوط به ظاهر و رفتار فهرست برنامه‌ها را انتخاب کنید</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">نمایش دوخطی نام‌های طولانی در نتایج جستجو و فهرست برنامه‌ها</string>
+    <string name="app_list_pref_screen_enable_two_line_title">نمایش نام‌های طولانی برنامه‌ها</string>
+    <string name="app_list_pref_screen_title">تنظیمات فهرست برنامه‌ها</string>
+    <string name="auto_add_shortcuts_description">برای برنامه‌های جدید</string>
+    <string name="auto_add_shortcuts_label">افزودن نماد برنامه‌ها به صفحه اصلی</string>
+    <string name="landscape_mode_desc">تنظیم صفحه اصلی روی حالت افقی</string>
+    <string name="landscape_mode_title">حالت افقی</string>
+    <string name="large_grid">بزرگ</string>
+    <string name="medium_grid">متوسط</string>
+    <string name="notification_dots_title">نقطه‌های اعلان</string>
+    <string name="small_grid">کوچک</string>
+    <string name="xl_grid">بسیار بزرگ</string>
+</resources>

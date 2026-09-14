@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="48.0dp"
+    android:viewportHeight="48.0"
+    android:viewportWidth="48.0"
+    android:width="48.0dp" >
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M5.5 9.5C7.433 9.5 9 7.933 9 6C9 4.067 7.433 2.5 5.5 2.5C3.567 2.5 2 4.067 2 6C2 7.933 3.567 9.5 5.5 9.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M14.7969 9.5C16.7299 9.5 18.2969 7.933 18.2969 6C18.2969 4.067 16.7299 2.5 14.7969 2.5C12.8639 2.5 11.2969 4.067 11.2969 6C11.2969 7.933 12.8639 9.5 14.7969 9.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M24 9.5C25.933 9.5 27.5 7.933 27.5 6C27.5 4.067 25.933 2.5 24 2.5C22.067 2.5 20.5 4.067 20.5 6C20.5 7.933 22.067 9.5 24 9.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M33.2031 9.5C35.1361 9.5 36.7031 7.933 36.7031 6C36.7031 4.067 35.1361 2.5 33.2031 2.5C31.2701 2.5 29.7031 4.067 29.7031 6C29.7031 7.933 31.2701 9.5 33.2031 9.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M42.5 9.5C44.433 9.5 46 7.933 46 6C46 4.067 44.433 2.5 42.5 2.5C40.567 2.5 39 4.067 39 6C39 7.933 40.567 9.5 42.5 9.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M5.5 18.5C7.433 18.5 9 16.933 9 15C9 13.067 7.433 11.5 5.5 11.5C3.567 11.5 2 13.067 2 15C2 16.933 3.567 18.5 5.5 18.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M14.7969 18.5C16.7299 18.5 18.2969 16.933 18.2969 15C18.2969 13.067 16.7299 11.5 14.7969 11.5C12.8639 11.5 11.2969 13.067 11.2969 15C11.2969 16.933 12.8639 18.5 14.7969 18.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M24 18.5C25.933 18.5 27.5 16.933 27.5 15C27.5 13.067 25.933 11.5 24 11.5C22.067 11.5 20.5 13.067 20.5 15C20.5 16.933 22.067 18.5 24 18.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M33.2031 18.5C35.1361 18.5 36.7031 16.933 36.7031 15C36.7031 13.067 35.1361 11.5 33.2031 11.5C31.2701 11.5 29.7031 13.067 29.7031 15C29.7031 16.933 31.2701 18.5 33.2031 18.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M42.5 18.5C44.433 18.5 46 16.933 46 15C46 13.067 44.433 11.5 42.5 11.5C40.567 11.5 39 13.067 39 15C39 16.933 40.567 18.5 42.5 18.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M5.5 27.5C7.433 27.5 9 25.933 9 24C9 22.067 7.433 20.5 5.5 20.5C3.567 20.5 2 22.067 2 24C2 25.933 3.567 27.5 5.5 27.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M14.7969 27.5C16.7299 27.5 18.2969 25.933 18.2969 24C18.2969 22.067 16.7299 20.5 14.7969 20.5C12.8639 20.5 11.2969 22.067 11.2969 24C11.2969 25.933 12.8639 27.5 14.7969 27.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M24 27.5C25.933 27.5 27.5 25.933 27.5 24C27.5 22.067 25.933 20.5 24 20.5C22.067 20.5 20.5 22.067 20.5 24C20.5 25.933 22.067 27.5 24 27.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M33.2031 27.5C35.1361 27.5 36.7031 25.933 36.7031 24C36.7031 22.067 35.1361 20.5 33.2031 20.5C31.2701 20.5 29.7031 22.067 29.7031 24C29.7031 25.933 31.2701 27.5 33.2031 27.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M42.5 27.5C44.433 27.5 46 25.933 46 24C46 22.067 44.433 20.5 42.5 20.5C40.567 20.5 39 22.067 39 24C39 25.933 40.567 27.5 42.5 27.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M5.5 36.5C7.433 36.5 9 34.933 9 33C9 31.067 7.433 29.5 5.5 29.5C3.567 29.5 2 31.067 2 33C2 34.933 3.567 36.5 5.5 36.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M14.7969 36.5C16.7299 36.5 18.2969 34.933 18.2969 33C18.2969 31.067 16.7299 29.5 14.7969 29.5C12.8639 29.5 11.2969 31.067 11.2969 33C11.2969 34.933 12.8639 36.5 14.7969 36.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M24 36.5C25.933 36.5 27.5 34.933 27.5 33C27.5 31.067 25.933 29.5 24 29.5C22.067 29.5 20.5 31.067 20.5 33C20.5 34.933 22.067 36.5 24 36.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M33.2031 36.5C35.1361 36.5 36.7031 34.933 36.7031 33C36.7031 31.067 35.1361 29.5 33.2031 29.5C31.2701 29.5 29.7031 31.067 29.7031 33C29.7031 34.933 31.2701 36.5 33.2031 36.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M42.5 36.5C44.433 36.5 46 34.933 46 33C46 31.067 44.433 29.5 42.5 29.5C40.567 29.5 39 31.067 39 33C39 34.933 40.567 36.5 42.5 36.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M5.5 45.5C7.433 45.5 9 43.933 9 42C9 40.067 7.433 38.5 5.5 38.5C3.567 38.5 2 40.067 2 42C2 43.933 3.567 45.5 5.5 45.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M14.7969 45.5C16.7299 45.5 18.2969 43.933 18.2969 42C18.2969 40.067 16.7299 38.5 14.7969 38.5C12.8639 38.5 11.2969 40.067 11.2969 42C11.2969 43.933 12.8639 45.5 14.7969 45.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M24 45.5C25.933 45.5 27.5 43.933 27.5 42C27.5 40.067 25.933 38.5 24 38.5C22.067 38.5 20.5 40.067 20.5 42C20.5 43.933 22.067 45.5 24 45.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M33.2031 45.5C35.1361 45.5 36.7031 43.933 36.7031 42C36.7031 40.067 35.1361 38.5 33.2031 38.5C31.2701 38.5 29.7031 40.067 29.7031 42C29.7031 43.933 31.2701 45.5 33.2031 45.5Z" />
+    <path
+        android:fillColor="@android:color/black"
+        android:pathData="M42.5 45.5C44.433 45.5 46 43.933 46 42C46 40.067 44.433 38.5 42.5 38.5C40.567 38.5 39 40.067 39 42C39 43.933 40.567 45.5 42.5 45.5Z" />
+</vector>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Одаберите подразумевани изглед и понашање листе апликација</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Приказујте дуге називе апликација у два реда у резултатима претраге и на листи апликација</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Приказуј дуге називе апликација</string>
+    <string name="app_list_pref_screen_title">Подешавања листе апликација</string>
+    <string name="auto_add_shortcuts_description">За нове апликације</string>
+    <string name="auto_add_shortcuts_label">Додај иконе апликација на почетни екран</string>
+    <string name="landscape_mode_desc">Подесите почетни екран на водоравни режим</string>
+    <string name="landscape_mode_title">Водоравни режим</string>
+    <string name="large_grid">Велико</string>
+    <string name="medium_grid">Средње</string>
+    <string name="notification_dots_title">Тачке за обавештења</string>
+    <string name="small_grid">Мало</string>
+    <string name="xl_grid">XL</string>
+</resources>

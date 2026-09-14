@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Elige la apariencia y el comportamiento predeterminados de la lista de apps</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Mostrar nombres largos de apps en dos líneas en los resultados y la lista de apps</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Mostrar nombres largos de apps</string>
+    <string name="app_list_pref_screen_title">Configuración de la lista de apps</string>
+    <string name="auto_add_shortcuts_description">Para nuevas apps</string>
+    <string name="auto_add_shortcuts_label">Agregar íconos de las apps a la pantalla principal</string>
+    <string name="landscape_mode_desc">Establece la pantalla principal en modo horizontal</string>
+    <string name="landscape_mode_title">Modo horizontal</string>
+    <string name="large_grid">Grande</string>
+    <string name="medium_grid">Mediana</string>
+    <string name="notification_dots_title">Puntos de notificación</string>
+    <string name="small_grid">Pequeña</string>
+    <string name="xl_grid">XL</string>
+</resources>

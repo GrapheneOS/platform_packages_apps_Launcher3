@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<favorites>
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:container="-101"
+        launcher:screen="0"
+        launcher:uri="#Intent;action=android.intent.action.DIAL;end"
+        launcher:x="0"
+        launcher:y="0" />
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:container="-101"
+        launcher:screen="1"
+        launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_MESSAGING;end"
+        launcher:x="1"
+        launcher:y="0" />
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:container="-101"
+        launcher:screen="2"
+        launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_BROWSER;end"
+        launcher:x="2"
+        launcher:y="0" />
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:container="-101"
+        launcher:screen="3"
+        launcher:uri="#Intent;action=android.media.action.STILL_IMAGE_CAMERA;end"
+        launcher:x="3"
+        launcher:y="0" />
+    <favorite
+        xmlns:launcher="http://schemas.android.com/apk/res-auto/com.android.launcher3"
+        launcher:screen="0"
+        launcher:uri="#Intent;action=android.intent.action.MAIN;category=android.intent.category.APP_MARKET;end"
+        launcher:x="3"
+        launcher:y="-1" />
+</favorites>

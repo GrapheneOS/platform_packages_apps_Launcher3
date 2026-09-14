@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">"Tria l'aparença i el comportament predeterminats de la llista d'aplicacions"</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">"Mostra els noms d'aplicacions llargs en dues línies als resultats de cerca i a la llista d'aplicacions"</string>
+    <string name="app_list_pref_screen_enable_two_line_title">"Mostra els noms d'aplicacions llargs"</string>
+    <string name="app_list_pref_screen_title">"Configuració de la llista d'aplicacions"</string>
+    <string name="auto_add_shortcuts_description">Per a les aplicacions noves</string>
+    <string name="auto_add_shortcuts_label">"Afegeix icones d'aplicacions a la pantalla d'inici"</string>
+    <string name="landscape_mode_desc">"Estableix la pantalla d'inici en mode horitzontal"</string>
+    <string name="landscape_mode_title">Mode horitzontal</string>
+    <string name="large_grid">Gran</string>
+    <string name="medium_grid">Mitjà</string>
+    <string name="notification_dots_title">Punts de notificació</string>
+    <string name="small_grid">Petit</string>
+    <string name="xl_grid">XL</string>
+</resources>

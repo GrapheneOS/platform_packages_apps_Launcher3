@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AllAppsSizeSpecs>
+    <AllAppsSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:alignWithWorkspaceRow="0"
+        launcher:minDeviceWidthDp="0.0" />
+    <AllAppsSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:alignWithWorkspaceRow="1"
+        launcher:minDeviceWidthDp="1600.0" />
+    <AllAppsSize
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:alignWithWorkspaceRow="4"
+        launcher:allAppsColumns="8"
+        launcher:minDeviceWidthDp="2400.0" />
+</AllAppsSizeSpecs>

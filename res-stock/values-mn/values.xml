@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Аппуудын жагсаалтын өгөгдмөл харагдац болон үйлдлийг сонгоно уу</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Хайлтын илэрц болон аппуудын жагсаалтын хоёр мөрд аппын урт нэрийг үзүүлнэ үү</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Аппын урт нэрийг харуулах</string>
+    <string name="app_list_pref_screen_title">Аппуудын жагсаалтын тохиргоо</string>
+    <string name="auto_add_shortcuts_description">Шинэ аппад зориулсан</string>
+    <string name="auto_add_shortcuts_label">Үндсэн нүүрэнд аппын дүрс тэмдэг нэмэх</string>
+    <string name="landscape_mode_desc">Үндсэн нүүрийг хэвтээ горим болгож тохируулна уу</string>
+    <string name="landscape_mode_title">Хэвтээ горим</string>
+    <string name="large_grid">Том</string>
+    <string name="medium_grid">Дунд зэрэг</string>
+    <string name="notification_dots_title">Мэдэгдлийн цэг</string>
+    <string name="small_grid">Жижиг</string>
+    <string name="xl_grid">Илүү том</string>
+</resources>

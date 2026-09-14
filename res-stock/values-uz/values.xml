@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Ilovalar roʻyxatining tashqi koʻrinishi va xatti-harakatlarining standart parametrlarini tanlang</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Qidiruv natijalari va ilovalar roʻyxatida uzun ilova nomlarini ikki qatorda chiqarish</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Uzun ilova nomlarini chiqarish</string>
+    <string name="app_list_pref_screen_title">Ilovalar roʻyxati sozlamalari</string>
+    <string name="auto_add_shortcuts_description">Yangi o‘rnatilgan ilovalar ikonkasini bosh ekranga chiqarish</string>
+    <string name="auto_add_shortcuts_label">Ilova ikonkalarini bosh ekranga chiqarish</string>
+    <string name="landscape_mode_desc">Bosh ekranni eniga sozlash</string>
+    <string name="landscape_mode_title">Yotiq rejim</string>
+    <string name="large_grid">Katta</string>
+    <string name="medium_grid">Oʻrtacha</string>
+    <string name="notification_dots_title">Bildirishnoma belgilari</string>
+    <string name="small_grid">Kichik</string>
+    <string name="xl_grid">XL</string>
+</resources>

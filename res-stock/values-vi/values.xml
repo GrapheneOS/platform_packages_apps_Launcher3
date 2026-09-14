@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Chọn giao diện và chế độ mặc định của danh sách ứng dụng</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Hiện tên ứng dụng dài trên 2 dòng trong kết quả tìm kiếm và danh sách ứng dụng</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Hiện tên ứng dụng dài</string>
+    <string name="app_list_pref_screen_title">Cài đặt danh sách ứng dụng</string>
+    <string name="auto_add_shortcuts_description">Cho ứng dụng mới</string>
+    <string name="auto_add_shortcuts_label">Thêm biểu tượng ứng dụng vào màn hình chính</string>
+    <string name="landscape_mode_desc">Đặt màn hình chính thành chế độ ngang</string>
+    <string name="landscape_mode_title">Chế độ ngang</string>
+    <string name="large_grid">Lớn</string>
+    <string name="medium_grid">Vừa</string>
+    <string name="notification_dots_title">Dấu chấm thông báo</string>
+    <string name="small_grid">Nhỏ</string>
+    <string name="xl_grid">Rất lớn</string>
+</resources>

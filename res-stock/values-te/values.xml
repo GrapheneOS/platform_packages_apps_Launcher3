@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">యాప్‌ల లిస్ట్ కనిపించే తీరును, పనితీరు ఆటోమేటిక్ సెట్టింగ్‌లను ఎంచుకోండి</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">సెర్చ్ ఫలితాలు, యాప్‌ల లిస్ట్‌లోని పొడవైన యాప్ పేర్లను రెండు లైన్‌లలో డిస్‌ప్లే చేయండి</string>
+    <string name="app_list_pref_screen_enable_two_line_title">పొడవైన యాప్ పేర్లను చూడండి</string>
+    <string name="app_list_pref_screen_title">యాప్‌ల లిస్ట్ సెట్టింగ్‌లు</string>
+    <string name="auto_add_shortcuts_description">కొత్త యాప్‌ల కోసం</string>
+    <string name="auto_add_shortcuts_label">యాప్ చిహ్నాలను మొదటి స్క్రీన్‌కు జోడించండి</string>
+    <string name="landscape_mode_desc">మొదటి స్క్రీన్‌ను ల్యాండ్‌స్కేప్ మోడ్‌లోకి సెట్ చేయండి</string>
+    <string name="landscape_mode_title">ల్యాండ్‌స్కేప్ మోడ్</string>
+    <string name="large_grid">పెద్దది</string>
+    <string name="medium_grid">మధ్యస్థం</string>
+    <string name="notification_dots_title">నోటిఫికేషన్ డాట్‌లు</string>
+    <string name="small_grid">చిన్నది</string>
+    <string name="xl_grid">XL</string>
+</resources>

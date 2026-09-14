@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Pumili ng mga default na hitsura at gawi ng listahan ng mga app.</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Ipakita ang mahahabang pangalan ng app sa dalawang linya sa mga resulta ng paghahanap at listahan ng mga app</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Ipakita ang mahahabang pangalan ng app</string>
+    <string name="app_list_pref_screen_title">Mga setting ng listahan ng mga app</string>
+    <string name="auto_add_shortcuts_description">Para sa mga bagong app</string>
+    <string name="auto_add_shortcuts_label">Magdagdag ng mga icon ng app sa home screen</string>
+    <string name="landscape_mode_desc">Gawing landscape mode ang home screen</string>
+    <string name="landscape_mode_title">Landscape mode</string>
+    <string name="large_grid">Malaki</string>
+    <string name="medium_grid">Katamtaman</string>
+    <string name="notification_dots_title">Mga notification dot</string>
+    <string name="small_grid">Maliit</string>
+    <string name="xl_grid">XL</string>
+</resources>

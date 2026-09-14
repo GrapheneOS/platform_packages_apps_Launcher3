@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">אפשר לבחור את המראה של רשימת האפליקציות ואת אופן הפעולה שלה שמוגדר כברירת מחדל</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">הצגת השם המלא של אפליקציות ב-2 שורות בתוצאות החיפוש וברשימת האפליקציות</string>
+    <string name="app_list_pref_screen_enable_two_line_title">הצגת השם המלא של אפליקציות</string>
+    <string name="app_list_pref_screen_title">ההגדרות של רשימת האפליקציות</string>
+    <string name="auto_add_shortcuts_description">לאפליקציות חדשות</string>
+    <string name="auto_add_shortcuts_label">הוספת סמלי אפליקציות למסך הבית</string>
+    <string name="landscape_mode_desc">הגדרת פריסה לרוחב במסך הבית</string>
+    <string name="landscape_mode_title">פריסה לרוחב</string>
+    <string name="large_grid">גדולה</string>
+    <string name="medium_grid">בינונית</string>
+    <string name="notification_dots_title">סימני ההתראות</string>
+    <string name="small_grid">קטנה</string>
+    <string name="xl_grid">גדולה מאוד</string>
+</resources>

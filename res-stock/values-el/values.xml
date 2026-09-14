@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_list_pref_screen_desc">Επιλογή προεπιλογών εμφάνισης και συμπεριφοράς της λίστας εφαρμογών</string>
+    <string name="app_list_pref_screen_enable_two_line_summary">Προβολή μεγάλων ονομάτων σε δύο γραμμές σε αποτελέσματα αναζήτησης και λίστα εφαρμογών</string>
+    <string name="app_list_pref_screen_enable_two_line_title">Εμφάνιση μεγάλων ονομάτων εφαρμογών</string>
+    <string name="app_list_pref_screen_title">Ρυθμίσεις λίστας εφαρμογών</string>
+    <string name="auto_add_shortcuts_description">Για νέες εφαρμογές</string>
+    <string name="auto_add_shortcuts_label">Προσθήκη εικονιδίων εφαρμογών στην αρχική οθόνη</string>
+    <string name="landscape_mode_desc">Ορισμός αρχικής οθόνης σε οριζόντιο προσανατολισμό</string>
+    <string name="landscape_mode_title">Οριζόντιος προσανατολισμός</string>
+    <string name="large_grid">Μεγάλο</string>
+    <string name="medium_grid">Μεσαίο</string>
+    <string name="notification_dots_title">Κουκκίδες ειδοποίησης</string>
+    <string name="small_grid">Μικρό</string>
+    <string name="xl_grid">Πολύ μεγάλο</string>
+</resources>

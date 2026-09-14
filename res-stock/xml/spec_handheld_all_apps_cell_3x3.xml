@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cellSpecs>
+    <specs
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+        launcher:maxAspectRatio="@dimen/aspect_ratio_landscape" >
+        <cellSpec
+            launcher:dimensionType="height"
+            launcher:maxAvailableSize="9999.0dp" >
+            <iconDrawablePadding launcher:fixedSize="8.0dp" />
+            <iconSize launcher:fixedSize="@dimen/iconSize60dp" />
+            <iconTextSize launcher:fixedSize="14.0sp" />
+        </cellSpec>
+    </specs>
+</cellSpecs>
