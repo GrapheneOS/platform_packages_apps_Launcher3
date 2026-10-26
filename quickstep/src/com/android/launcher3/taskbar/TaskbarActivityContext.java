@@ -233,6 +233,7 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
 
     private static final Uri URI_USER_SETUP_COMPLETE = Secure.getUriFor(Secure.USER_SETUP_COMPLETE);
     private static final Uri URI_NAV_BAR_KIDS_MODE = Secure.getUriFor(Secure.NAV_BAR_KIDS_MODE);
+    private static final Uri URI_HIDE_NAV_HANDLE = Secure.getUriFor(Secure.HIDE_NAVIGATION_HANDLE);
 
     private static final String TAG = "TaskbarActivityContext";
 
@@ -289,6 +290,7 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
     private final boolean mIsSafeModeEnabled;
     private final boolean mIsUserSetupComplete;
     private final boolean mIsNavBarKidsMode;
+    private final boolean mIsHideNavHandle;
 
     private boolean mIsDestroyed = false;
 
@@ -352,6 +354,7 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
         SettingsCache settingsCache = SettingsCache.INSTANCE.get(this);
         mIsUserSetupComplete = settingsCache.getValue(URI_USER_SETUP_COMPLETE);
         mIsNavBarKidsMode = settingsCache.getValue(URI_NAV_BAR_KIDS_MODE);
+        mIsHideNavHandle = settingsCache.getValue(URI_HIDE_NAV_HANDLE);
         mBubbleFeatureConfig =
                 new BubbleFeatureConfigImpl(mWindowContext, getDesktopState(mWindowContext));
 
@@ -968,6 +971,10 @@ public class TaskbarActivityContext extends BaseTaskbarContext {
 
     public boolean isGestureNav() {
         return mNavMode == NavigationMode.NO_BUTTON;
+    }
+
+    public boolean isHideNavHandle() {
+        return mIsHideNavHandle;
     }
 
     public boolean imeDrawsImeNavBar() {
