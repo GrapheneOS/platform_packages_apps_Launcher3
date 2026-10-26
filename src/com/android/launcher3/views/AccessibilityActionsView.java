@@ -66,7 +66,7 @@ public class AccessibilityActionsView extends View implements StateListener<Laun
     public AccessibilityNodeInfo createAccessibilityNodeInfo() {
         AccessibilityNodeInfo info = super.createAccessibilityNodeInfo();
         for (PopupData item : WorkspaceLongPressOptions.getAll(getContext())) {
-            info.addAction(new AccessibilityAction(item.getIconResId(),
+            info.addAction(new AccessibilityAction(item.getLabelResId(),
                     getContext().getString(item.getLabelResId())));
         }
         return info;
