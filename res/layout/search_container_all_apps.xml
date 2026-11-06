@@ -22,6 +22,7 @@
     android:layout_gravity="top|center_horizontal"
     android:background="@drawable/bg_all_apps_searchbox"
     android:focusableInTouchMode="true"
+    android:fontFamily="google-sans-flex"
     android:gravity="center"
     android:hint="@string/all_apps_search_bar_hint"
     android:imeOptions="actionSearch|flagNoExtractUi"
