@@ -135,7 +135,7 @@ public class DefaultAppSearchAlgorithm implements SearchAlgorithm<AdapterItem> {
         CachedUserInfo userInfo =
                 mUserCache.getUserManagerState().getCachedInfo(info.user);
         return !PRIVATE_SPACE_PACKAGE.equals(info.getTargetPackage())
-                && (!userInfo.getIconInfo().isPrivate()
+                && (!(userInfo.getIconInfo().isPrivate() || userInfo.getIconInfo().isWork())
                         || (userInfo.isUnlocked() && !userInfo.isQuietModeEnabled()));
     }
 
