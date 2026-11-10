@@ -90,6 +90,7 @@ class KeyboardQuickSwitchControllerTest {
     private val keyboardQuickSwitchController by
         taskbarUnitTestRule.delegate { it.keyboardQuickSwitchController }
     private val allAppsController by taskbarUnitTestRule.delegate { it.taskbarAllAppsController }
+    private val overlayController by taskbarUnitTestRule.delegate { it.taskbarOverlayController }
 
     private val isKqsShown: Boolean
         get() = getOnTaskbarUiThread { keyboardQuickSwitchController.isShown }
@@ -97,12 +98,40 @@ class KeyboardQuickSwitchControllerTest {
     private val shownTaskIds: List<Int>
         get() = getOnTaskbarUiThread { keyboardQuickSwitchController.shownTaskIds() }
 
+    private val kqsViewCountInOverlay: Int
+        get() = getOnTaskbarUiThread {
+            val dragLayer = overlayController.requestWindow().dragLayer
+            (0 until dragLayer.childCount).count {
+                dragLayer.getChildAt(it) is KeyboardQuickSwitchView
+            }
+        }
+
     @Test
     fun noRecentTasks_noShownTaskIds() {
         triggerAltTab()
 
         assertThat(isKqsShown).isTrue()
         assertThat(shownTaskIds).isEmpty()
+    }
+
+    @Test
+    fun closedBeforeTasksLoad_closesWithoutCrashing() {
+        runOnTaskbarUiThreadSync { keyboardQuickSwitchController.openQuickSwitchView() }
+
+        runOnTaskbarUiThreadSync { keyboardQuickSwitchController.closeQuickSwitchView(false) }
+
+        assertThat(isKqsShown).isFalse()
+    }
+
+    @Test
+    fun closedBeforeTasksLoad_staysClosedOnceTasksLoad() {
+        runOnTaskbarUiThreadSync { keyboardQuickSwitchController.openQuickSwitchView() }
+        runOnTaskbarUiThreadSync { keyboardQuickSwitchController.closeQuickSwitchView(false) }
+
+        runOnTaskbarUiThreadSync { mockRecentsModelHelper.resolvePendingTaskRequests() }
+
+        assertThat(isKqsShown).isFalse()
+        assertThat(kqsViewCountInOverlay).isEqualTo(0)
     }
 
     @Test

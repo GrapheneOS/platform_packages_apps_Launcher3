@@ -180,6 +180,10 @@ public final class KeyboardQuickSwitchController implements
                                         shouldShowDesktopTasks,
                                         tasks,
                                         taskIdsToExclude);
+                                // The view may have been closed while the tasks were loading.
+                                if (viewController != mQuickSwitchViewController) {
+                                    return;
+                                }
                                 viewController.updateQuickSwitchView(
                                         mTasks,
                                         wasOpenedFromTaskbar ? 0 : mNumHiddenTasks,
@@ -236,6 +240,10 @@ public final class KeyboardQuickSwitchController implements
                 (tasks) -> getTaskbarUiThread().execute(() -> {
                     processLoadedTasks(
                             wasOpenedFromTaskbar, shouldShowDesktopTasks, tasks, taskIdsToExclude);
+                    // The view may have been closed while the tasks were loading.
+                    if (viewController != mQuickSwitchViewController) {
+                        return;
+                    }
                     // Check if the first task is running after the recents model has updated so
                     // that we use the correct index.
                     viewController.openQuickSwitchView(

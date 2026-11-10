@@ -552,7 +552,11 @@ public class KeyboardQuickSwitchView extends ConstraintLayout {
         // Unregister the back invoked callback after the view is closed and before the
         // mViewCallbacks is reset.
         unregisterOnBackInvokedCallback();
-        SystemUiProxy.INSTANCE.get(getContext()).getFocusState().removeListener(mViewCallbacks);
+        // mViewCallbacks is only set once the recent tasks are loaded, so it is still null if the
+        // view is closed before that.
+        if (mViewCallbacks != null) {
+            SystemUiProxy.INSTANCE.get(getContext()).getFocusState().removeListener(mViewCallbacks);
+        }
 
         mViewCallbacks = null;
     }
