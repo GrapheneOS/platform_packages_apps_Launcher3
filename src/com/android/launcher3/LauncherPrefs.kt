@@ -324,6 +324,9 @@ constructor(@ApplicationContext private val encryptedContext: Context) {
         val WORKSPACE_ITEMS_LABEL_HIDDEN = backedUpItem("pref_workspace_items_label_hidden", false)
 
         @JvmField
+        val ALL_APPS_SHOW_KEYBOARD = backedUpItem("pref_all_apps_show_keyboard", false)
+
+        @JvmField
         val EXPANDED_POPUP_MENU_SECTION =
             backedUpItem("pref_expanded_popup_menu", ExpandedSection.SYSTEM)
 
