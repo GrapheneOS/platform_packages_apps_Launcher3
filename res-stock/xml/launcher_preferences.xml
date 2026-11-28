@@ -27,6 +27,12 @@
             android:persistent="true"
             android:summary="@string/app_list_pref_screen_enable_two_line_summary"
             android:title="@string/app_list_pref_screen_enable_two_line_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_all_apps_show_keyboard"
+            android:persistent="true"
+            android:summary="@string/all_apps_show_keyboard_description"
+            android:title="@string/all_apps_show_keyboard_label" />
     </PreferenceScreen>
     <PreferenceScreen
         android:key="pref_developer_options"

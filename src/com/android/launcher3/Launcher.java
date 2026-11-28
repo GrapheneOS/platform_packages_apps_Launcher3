@@ -50,6 +50,7 @@ import static com.android.launcher3.LauncherConstants.TraceEvents.ON_RESUME_EVT;
 import static com.android.launcher3.LauncherConstants.TraceEvents.ON_START_EVT;
 import static com.android.launcher3.LauncherConstants.TraceEvents.SINGLE_TRACE_COOKIE;
 import static com.android.launcher3.LauncherModel.useModelRepositoryBinding;
+import static com.android.launcher3.LauncherPrefs.ALL_APPS_SHOW_KEYBOARD;
 import static com.android.launcher3.LauncherPrefs.FIXED_LANDSCAPE_MODE;
 import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_ALL_APPS;
 import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_ALL_APPS_PREDICTION;
@@ -1089,6 +1090,14 @@ public class Launcher extends StatefulActivity<LauncherState>
             getAppsView().reset(false /* animate */, true /* clearScrim */);
             getAllAppsExitEvent().ifPresent(getStatsLogManager().logger()::log);
             mAllAppsSessionLogId = null;
+        }
+
+        if (ALL_APPS.equals(state) && !ALL_APPS.equals(mPrevLauncherState)
+                && LauncherPrefs.get(this).get(ALL_APPS_SHOW_KEYBOARD)) {
+            ExtendedEditText searchField = mAppsView.getSearchUiManager().getEditText();
+            if (searchField != null) {
+                searchField.showKeyboard();
+            }
         }
         setTitle(state);
     }

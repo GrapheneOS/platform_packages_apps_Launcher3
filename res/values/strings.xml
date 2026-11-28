@@ -441,6 +441,11 @@
     <!-- Text description of the setting that allows the automatic placement of launcher shortcuts for applications and games installed on the device [CHAR LIMIT=NONE] -->
     <string name="auto_add_shortcuts_description">For new apps</string>
 
+    <!-- Label for the setting that focuses the search field and shows the keyboard when the apps list is opened [CHAR LIMIT=60] -->
+    <string name="all_apps_show_keyboard_label">Show keyboard in apps list</string>
+    <!-- Text description of the setting that focuses the search field and shows the keyboard when the apps list is opened [CHAR LIMIT=NONE] -->
+    <string name="all_apps_show_keyboard_description">Start searching as soon as the apps list opens</string>
+
     <!-- Label on an icon that references an uninstalled package, for which we have no information about when it might be installed. [CHAR_LIMIT=15] -->
     <string name="package_state_unknown">Unknown</string>
 
